@@ -1,0 +1,18 @@
+Faire les diagrammes d'utilisation pour :
+- désinscription à un essai clinique (patient)
+
+- consultation historique (user)
+
+- plusieurs pour admin (ban, consulter les infos, accepter les demandes entreprises/médecins)
+
+- plusieurs pour entreprises (créer essai cliniques, voir et accepter médecin qui veulent rejoindre un essai clinique, consulter essais cliniques demandés puis voir modifier les infos d'un essai clinique et le finir)
+
+- plusieurs pour médecin (voir essai cliniques à sa charge + en attente d'acceptation entreprise + demandes que les entreprises ont fait au médecin, consulter les infos de ses propres essais cliniques + stats + graphs + consulter infos publiques sur un patient)
+
+
+Faire le tableau des fonctions et de leur output/input/utilité.
+
+Mettre à jour la BDD ? Et l'image dans le dossier BDD ensuite ? Mettre le lien d'accès au document BDD dans le document lien du dossier BDD.
+
+Mettre le lien d'accès pour le graphique d'utilisation connexion/inscription dans le document lien du dossier diagramme.
+

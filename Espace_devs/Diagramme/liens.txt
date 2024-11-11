@@ -1,0 +1,8 @@
+Entités associations et edit_infos :
+https://lucid.app/lucidchart/2507eb7c-c00c-4b37-b153-5ee7e3a15a25/edit?invitationId=inv_fd63b036-f087-41d0-9f41-bf3fed60e34e&page=0_0#
+
+Diagramme structurel :
+https://lucid.app/lucidchart/ab782820-fcc0-402a-ba74-6381e7bf0554/edit?invitationId=inv_1f168a7a-9a43-4428-b5cd-6877dea7fb22&page=HWEp-vi-RSFO#
+
+Diagramme connexion_inscription :
+Edmond j'ai pas le lien !
