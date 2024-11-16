@@ -2,4 +2,4 @@ Entités associations :
 https://lucid.app/lucidchart/2507eb7c-c00c-4b37-b153-5ee7e3a15a25/edit?invitationId=inv_fd63b036-f087-41d0-9f41-bf3fed60e34e&page=0_0#
 
 BDD :
-J'ai pas le lien Edmond !
+https://dbdiagram.io/d/BDD-site-web-6718f56897a66db9a30124aa
