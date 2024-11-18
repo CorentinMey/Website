@@ -9,128 +9,97 @@ body {
     font-family: 'JetBrains Mono', sans-serif;
 }
 
-#fond img {
+#fond {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
-    max-width: 300;
-    max-height: 300vh;
 }
 
-
-#fond_1er_plan img{
+#element_1er_plan {
+    display: flex;
+    background-color: #ffffff;
     position: relative;
-    z-index: 2;
-    width: 100%;
-    height: 100%;
-    padding-top: 5%; /* Ajustez cette valeur selon vos besoins */
-    padding-bottom: 5%; /* Ajustez cette valeur selon vos besoins */
-    padding-left: 5%; /* Ajustez cette valeur selon vos besoins */
-    padding-right: 5%; /* Ajustez cette valeur selon vos besoins */
-    box-sizing: border-box; /* Assure que le padding est inclus dans la taille totale */
-    max-width: 180;
-    max-height: 100vh;
+    margin-top: 3%;
+    left: 5%;
+    width: 90%;
+    height: 90%;
+    padding: 5% 5% 5% 5%;
+    border-radius: 1.5em;
+    box-sizing: border-box;
 }
-
 
 #logo {
-    position: absolute;
-    top: 25%; 
-    left: 15%; 
-    z-index: 3;
-}
-
-#logo img {
-    width: 100%;
-    height: auto;
-    max-width: 50vw;
-    max-height: 50vh;
+    width: 35%;
+    margin-top: 4%;
+    margin-bottom: 4%;
+    margin-left: 5%;
 }
 
 
 #interface_connexion {
-    position: absolute;
-    top: 35%;
-    left: 70%;
-    transform: translate(-50%, -25%);
-    width: 300px; /* Ajustez cette valeur selon vos besoins */
-    padding: 20px;
-    background-color: #ffffff; /* Couleur de fond */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Ombre pour un effet de profondeur */
-    z-index: 3;
-    border-radius: 10px;
+    margin-left: 20%;
+    margin-top: 5%;
+    width: 25%;
+    height: 100%;
+    padding: 1em;
+    border-radius: 1em;
+    box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
 }
 
 #title {
-    font-family: 'JetBrains Mono', sans-serif;
-    font-size: 120%;
-    font-weight: bold;
-    color: #000000;
     text-align: center;
-    margin-bottom: 10px;
+    font-size: 2.5em;
 }
 
-.champs {
-    margin-bottom: 3%; /* Espacement entre les champs */
+.input_info {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    margin-left: 2.5%;
+    margin-bottom: 2em;
 }
 
-.champs label {
-    display: block;
-    margin-bottom: 3%;
-    font-family: 'JetBrains Mono', sans-serif;
-}
-
-.champs input {
-    width: 100%;
-    padding: 5%;
-    box-sizing: border-box;
-    font-family: 'JetBrains Mono', sans-serif;
-    /*arrondi les angles*/
-    border-radius: 10px;
-    /*change la couleur de la boite pour du léger gris*/
+input {
+    margin-top: 0.5em;
+    border-radius: 0.5em;
     background-color: #f2f2f2e1;
+    font-size: 1.25em;
+    padding: 0.5em;
 }
 
 #forgot_password {
-    display: block;
-    margin-top: 3%; /* Ajustez cette valeur selon vos besoins */
-    font-family: 'JetBrains Mono', sans-serif;
-    font-size: 90%; /* Ajustez cette valeur selon vos besoins */
-    color: #8a8282; /* Couleur du lien */
-    text-align: left; /* Aligne le texte à droite */
-    text-decoration: none; /* Supprime le soulignement par défaut */
+    margin-top: 0.5em;
+    font-size: 0.8em;
+    color: #8a8282;
+    text-decoration: none;
 }
 
 #forgot_password:hover {
-    text-decoration: underline; /* Ajoute un soulignement au survol */
+    text-decoration: underline;
 }
 
-.button {
-    width: 30%;
-    height: auto; /* Ajuste automatiquement la hauteur en fonction du contenu */
-    height: auto; /* Ajuste automatiquement la hauteur en fonction du contenu */
-    padding: 3%; /* Ajustez cette valeur selon vos besoins */
-    box-sizing: border-box;
-    font-family: 'JetBrains Mono', sans-serif;
-    border-radius: 30px;
+.buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    color: #ffffff;
     background-color: #3a3030e1;
-    color: #FFFFFF;
+    border-radius: 3em;
+    font-size: 1em;
+    width: 30%;
+    min-width: 5em;
+    margin-left: 35%;
+    margin-bottom: 1em;
+    padding: 0.5em;
+    border: none;
+    cursor: pointer;
     transition: 0.3s;
-    text-align: center; /* Centre le texte à l'intérieur du bouton */
-    font-size: 100%;
-    margin: 0 auto; /* Centre le bouton horizontalement */
-    border: none; /* Supprime la bordure par défaut */
-    cursor: pointer; /* Change le curseur pour indiquer que c'est un bouton cliquable */
-    display: block; /* Assure que le bouton prend toute la largeur disponible */
-}
-
-.button:first-child {
-    margin-bottom: 5%; /* Ajoute un espace de 10px à droite du premier bouton */
 }
 
 .button:hover {
-    background-color: #2a2020e1; /* Change la couleur de fond au survol */
+    background-color: #251d1de1;
 }

@@ -4,7 +4,7 @@
 
     <title>Page de connexion</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="CSS/index.css">
+    <link rel="stylesheet" type="text/css" href="CSS/page_login.css">
 
 </head>
 
