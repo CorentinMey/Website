@@ -49,6 +49,12 @@ class Query {
         $delete->execute($args);
         $this->closeStatement($delete);
     }
+
+    public function UpdateLines($query, $args){
+        $update = $this->connection->prepare($query);
+        $update->execute($args);
+        $this->closeStatement($update);
+    }
 }
 
 
