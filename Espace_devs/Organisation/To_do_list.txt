@@ -5,7 +5,7 @@ Faire les diagrammes d'utilisation pour :
 
 - plusieurs pour admin (ban, consulter les infos, accepter les demandes entreprises/médecins) SIMON DE MONTARDY (normalement)
 
-- plusieurs pour entreprises (créer essai cliniques, voir et accepter médecin qui veulent rejoindre un essai clinique, consulter essais cliniques demandés puis voir modifier les infos d'un essai clinique et le finir)
+- plusieurs pour entreprises (créer essai cliniques, voir et accepter médecin qui veulent rejoindre un essai clinique, consulter essais cliniques demandés puis voir modifier les infos d'un essai clinique et le finir) Simon Rouget
 
 - plusieurs pour médecin (voir essai cliniques à sa charge + en attente d'acceptation entreprise + demandes que les entreprises ont fait au médecin, consulter les infos de ses propres essais cliniques + stats + graphs + consulter infos publiques sur un patient)
 
