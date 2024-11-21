@@ -1,32 +1,27 @@
 <!DOCTYPE html>
+<html lang="fr">
 
 <head>
-
     <title>Page d'inscription</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="CSS/global.css">
     <link rel="stylesheet" type="text/css" href="CSS/page_signin.css">
-
 </head>
 
 <body>
-
     <!-- division pour le fond de la page de connexion -->
     <img src="Ressources/Images/background_login_signin.png" alt="fond" id="fond">
 
     <!-- division pour le fond du 1er plan -->
-
-    <!-- division pour les élements du 1er plan (logo et formulaire) -->
+    <!-- division pour les éléments du 1er plan (logo et formulaire) -->
     <div id="element_1er_plan">
-        <!-- division pour le logo du 1er plan -->
-        <img src="Ressources/Images/logo_login_signin.png" alt="logo" id="logo">
 
         <!-- division pour le formulaire de connexion -->
-        <div id = "interface_connexion">
-            <h1 id="title">Login</h1>
+        <div id="interface_connexion">
+            <h1 id="title">Signin</h1>
 
             <!-- Division pour contenir les champs à remplir pour la connexion -->
             <form action="" method="post">
-
                 <div class="input_info">
                     <label for="Nom">Family name</label>
                     <input type="text" id="Nom" name="Nom" required/>
@@ -39,17 +34,16 @@
 
                 <div class="input_info">
                     <label for="genre">Gender</label>
-                    <select id="genre" name="genre" required>
+                    <select id="genre" name="genre" class="deroulant" required>
                         <option value="">Select your gender</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                     </select>
                 </div>
-                <!-- #TODO ajouter date de naissance, antécédents médicaux -->
 
                 <div class="input_info">
                     <label for="origin">Origins</label>
-                    <select id="origin" name="origin" required>
+                    <select id="origin" name="origin" class="deroulant" required>
                         <option value="">Select the account</option>
                         <option value="Europe">Europe</option>
                         <option value="North America">North America</option>
@@ -62,7 +56,7 @@
 
                 <div class="input_info">
                     <label for="account_type">Account</label>
-                    <select id="account_type" name="account_type" required>
+                    <select id="account_type" name="account_type" class="deroulant" required>
                         <option value="">Select the account</option>
                         <option value="Patient">Patient</option>
                         <option value="Doctor">Doctor</option>
@@ -85,11 +79,13 @@
                     <input type="password" id="mdp2" name="mdp2" required/>
                 </div>
 
+
+                <div class="buttons">
+                    <button type="submit">Connect</button>
+                    <button type="button">Back</button>
+                </div>
             </form>
-
         </div>
-
     </div>
-
 </body>
- 
+</html>

@@ -12,3 +12,8 @@
 | Page de l'admin             | Simon D     |
 | Page de l'entreprise        | Simon R     |
 | Fonctions pour graphiques / résultats | Edmond      |
+
+
+- Conseil CSS
+1. Interdiction d'utiliser l'unité px ou absolute sinon le site ne sera pas responsive
+2. Utiliser l'inspection de la page html depuis le navigateur (ctrl maj C) pour visualiser les div ou autre pour aider
