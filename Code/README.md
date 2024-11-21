@@ -1,7 +1,7 @@
 ### Attribution des rôles
 
-### Attribution des rôles
-
+#### Date butoire pour les pages simples : **Dimanche 1er décembre**
+#### Date butoire pour le rendu du site web : **Jeudi 12 décembre**
 | Page                        | Responsable |
 |-----------------------------|-------------|
 | Page d'accueil              |             |
