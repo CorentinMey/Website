@@ -6,8 +6,8 @@ CREATE TABLE `UTILISATEUR` (
   `genre` varchar(255),
   `mail` varchar(255),
   `antecedents` varchar(255),
-  `is_bannis` bool,
-  `is_admin` bool
+  `is_bannis` boolean,
+  `is_admin` boolean
 );
 
 CREATE TABLE `ENTREPRISE` (
@@ -18,8 +18,8 @@ CREATE TABLE `ENTREPRISE` (
 CREATE TABLE `RESULTAT` (
   `ID_essai` integer,
   `ID_patient` integer,
-  `is_accepte` bool,
-  `is_patient_exclus` bool,
+  `is_accepte` boolean,
+  `is_patient_exclus` boolean,
   `phase` integer,
   `traitement` varchar(255),
   `dose` float,
@@ -40,14 +40,14 @@ CREATE TABLE `ESSAI` (
   `molecule_ref` varchar(255),
   `dosage_ref` float,
   `placebo_nom` varchar(255),
-  `a_debute` bool
+  `a_debute` boolean
 );
 
 CREATE TABLE `ESSAI_MEDECIN` (
   `ID_medecin` integer,
   `ID_essai` integer,
-  `is_accepte` bool,
-  `est_de_company` bool,
+  `is_accepte` boolean,
+  `est_de_company` boolean,
   PRIMARY KEY (`ID_medecin`, `ID_essai`)
 );
 
