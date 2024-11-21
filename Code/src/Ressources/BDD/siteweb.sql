@@ -225,7 +225,7 @@ CREATE TABLE `utilisateur` (
 
 INSERT INTO `utilisateur` (`ID_User`, `date_naissance`, `prenom`, `nom`, `genre`, `mail`, `antecedents`, `is_bannis`, `is_admin`, `mdp`) VALUES
 (1, '1990-05-12', 'Alice', 'Dupont', 'F', 'alice.dupont@mail.com', 'Hypertension', 0, 1, '$2y$10$VjMpyS9Kbgj6ysnV2NSiQeUOUlXBvKfM0J.ylFq7xwpqP0oZ5w5jq'),
-(2, '1985-09-20', 'Bob', 'Martin', 'M', 'bob.martin@mail.com', 'Diabète type 2', 0, 0, '$2y$10$QxG.LwTZby7kYwPYm4m1r.DVY0PXT9u5eIfoeO9UB88nqXbtP3V8u'),
+(2, '1985-09-20', 'Bob', 'Martin', 'M', 'bob.martin@mail.com', 'Diabète type 2', 0, 0, '1234'),
 (3, '2000-11-15', 'Charlie', 'Lemoine', 'M', 'charlie.lemoine@mail.com', 'Asthme', 0, 0, '$2y$10$kt5RzkgZl7ykvZ0MCgop3O92HIfG61qLfR7IIMZlrYmjQEOO19Nei'),
 (4, '1975-03-30', 'Diane', 'Roux', 'F', 'diane.roux@mail.com', 'Allergies alimentaires', 0, 0, '$2y$10$PV2OZGV7y6tBmlA7mHDk7gK8G2Mv9yPbItZYzLEQxMy95wmT2yVtm'),
 (5, '1998-01-22', 'Eva', 'Garnier', 'F', 'eva.garnier@mail.com', 'Aucun', 0, 0, '$2y$10$Alje8E9Z9w.LFJlwB2SIdyODuB1ygt8xKq8Pv5FTT7Phhx0QZMnzi'),

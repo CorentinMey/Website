@@ -11,17 +11,22 @@ class Query {
         $this->host = "mysql:host=localhost;dbname=".$dbname.";charset=utf8";
         $this->username = $username;
         $this->password = $password;
-        $this->connection = $this->connect();
+        $this->connect();
     }
 
     private function connect(){
-        try{ 
-            $bdd = new PDO($this->host, $this->username, $this->password);
-            $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(PDOException $e){
+        try {
+            $this->connection = new PDO($this->host, $this->username, $this->password);
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch(PDOException $e) {
             die('Erreur : ' . $e->getMessage());
         }
-        return $bdd;
+    }
+    
+    
+    // Méthode pour obtenir la connexion PDO
+    public function getConnection() {
+        return $this->connection;
     }
     
     public function getResults($query, $args){

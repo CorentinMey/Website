@@ -30,8 +30,8 @@
             <form action="" method="post">
 
                 <div class="input_info">
-                    <label for="identifiant">Email</label>
-                    <input type="text" id="identifiant" name="identifiant" required/>
+                    <label for="mail">Email</label>
+                    <input type="text" id="mail" name="mail" required/>
                 </div>
 
                 <div class="input_info">
@@ -52,24 +52,29 @@
 
 </body>
  
-<!--<?php
+<?php
 session_start();
 
+echo "<pre>";
+var_dump($_POST);
+echo "</pre>";
+
 # Inclure la classe utilisateur pour pouvoir connecter un utilisateur
-include '/src/back_php/Utilisateur.php';
+require('back_php/Utilisateur.php');
 
 # Est-ce que l'utilisateur a remplie le formulaire ?
-if (isset($_POST["identifiant"]) && isset($_POST["mail"]) && isset($_POST["password"])) {
+if (isset($_POST["mail"]) && isset($_POST["mdp"])) {
 
     // Inclure le fichier de connexion à la base de données
     include("back_php/Query.php");
-    $bdd = new Query("php_td3");
+    $bdd = new Query("siteweb");
+    $bdd_connect = $bdd->getConnection();
 
-    $user = new Utilisateur(iduser:$_POST["identifiant"], mdp:$_POST["password"],email:$_POST["mail"],last_name:"temporary",is_banned:0,is_admin:0);
+    $user = new Utilisateur(iduser:"temporary", mdp:$_POST["mdp"],email:$_POST["mail"],last_name:"temporary",is_banned:0,is_admin:0);
 
     // Appeler la fonction connexion de la classe utilisateur
-    $user->Connexion($email, $password, $bdd);
+    $result = $user->Connexion($_POST["mail"], $_POST["mdp"], $bdd_connect);
     
 }
 session_abort();
-?> -->
+?>

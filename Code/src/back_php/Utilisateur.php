@@ -12,18 +12,17 @@ class Utilisateur {
     protected $is_banned;
     protected $is_admin;
 
-
-    public function __construct($iduser, $mdp, $birthdate = null, $first_name = null, $last_name, $gender = null, $email, $antecedent = null, $is_banned, $is_admin) {
+    public function __construct($iduser, $mdp, $email, $last_name, $is_banned, $is_admin, $first_name = null, $birthdate = null, $gender = null, $antecedent = null) {
         $this->iduser = $iduser;
         $this->mdp = $mdp;
         $this->birthdate = $birthdate;
-        $this->first_name = $first_name;
-        $this->last_name = $last_name;
-        $this->gender = $gender;
         $this->email = $email;
-        $this->antecedent = $antecedent;
+        $this->last_name = $last_name;
         $this->is_banned = $is_banned;
         $this->is_admin = $is_admin;
+        $this->first_name = $first_name;
+        $this->gender = $gender;
+        $this->antecedent = $antecedent;
     }
 
     # accesseurs et mutateurs de la classe
@@ -137,68 +136,57 @@ class Utilisateur {
         }
     }
 
-    protected function Connexion($email, $password, $bdd){
-
-        // Construire la requête d'insertion
-        $query = 'SELECT mdp FROM utilisateur WHERE mail=(:n1)';
-
+    public function Connexion($email, $password, $bdd) {
+        // Construire la requête pour récupérer le mot de passe
+        $query = 'SELECT mdp FROM utilisateur WHERE mail = :email';
+    
         try {
             // Préparer la requête
             $res = $bdd->prepare($query);
-
+    
             // Lier les paramètres pour la requête
-            $res->bindParam(':n1', $email);
-
-            // Exécuter la requête avec les valeurs
+            $res->bindParam(':email', $email, PDO::PARAM_STR);
+    
+            // Exécuter la requête
             $res->execute();
-
-            // Récupérer le mot de passe associé à l'identifiant
+    
+            // Récupérer le mot de passe haché associé à l'email
             $mdp = $res->fetch(PDO::FETCH_ASSOC);
+    
+            // Si aucun utilisateur trouvé
+            if (!$mdp) {
+                echo "Utilisateur non trouvé.";
+                return false;
+            }
+    
+            // Comparer le mot de passe
+            //if (password_verify($password, $mdp["mdp"])) {
+            if ($mdp["mdp"] == $password){
+                // Connexion réussie
 
-            $res-> closeCursor();
+                #Over-ride de cette fonction chez chaque utilisateur ensuite pour pouvoir les rediriger vers leur page d'accueil utilisateur respective
+                #Pour l'instant redirection vers une page test
+                #Rajouter un session start, récuperer toutes les infos de l'utilisateur en demandant à la BDD, puis transmettre ces infos à la page suivante avec un $_session["utilisateur"] (peut-être à faire dans la page login)
 
-
+                header("Location: page_test.php");
+                exit; // Assurez-vous d'arrêter le script après une redirection
+            } else {
+                // Mot de passe incorrect
+                echo "Mot de passe erroné, veuillez réessayer.";
+            }
+    
+            // Fermer la requête
+            $res->closeCursor();
         } catch (PDOException $e) {
             // Gérer les erreurs
-            echo "Erreur lors de l'inscription : " . $e->getMessage();
+            echo "Erreur lors de la connexion : " . $e->getMessage();
             return false;
         }
-
-        if ($mdp["mdp"] == $password){
-            return "Vous êtes bien connecté";
-            $acces=TRUE;
-        }
-        else
-        {
-            $acces=FALSE;
-        }
-
-        if($acces==TRUE){
-
-            #Over-ride de cette fonction chez chaque utilisateur ensuite pour pouvoir les rediriger vers leur page d'accueil utilisateur respective
-            #Pour l'instant redirection vers une page
-
-            ?>
-
-            <!DOCTYPE html>
-                <html>
-                <head>
-                <meta http-equiv="refresh" content="3; URL=/src/page_test.php">
-                </head>
-                </html>
-            
-            <?php
-
-        }
-        else{
-
-            echo "Mot de passe erroné, veuillez réessayer.";
-
-        }
-                }
     }
 
 
+            
+                }
 
 
 
