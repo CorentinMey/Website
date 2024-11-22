@@ -40,8 +40,8 @@
                     </div>
 
                     <div class="buttons">
-                        <button type="submit">Connect</button>
-                        <button type="button">Back</button>
+                        <button id = button type="submit">Connect</button>
+                        <button id = button type="button">Back</button>
                     </div>
 
                     <?php
