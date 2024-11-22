@@ -19,7 +19,9 @@ class Query {
             $this->connection = new PDO($this->host, $this->username, $this->password);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e) {
-            die('Erreur : ' . $e->getMessage());
+            include("../back_php/Affichage_gen.php");
+            afficherErreur("Erreur lors de la connexion à la base de données : " . $e->getMessage());
+            exit();
         }
     }
     

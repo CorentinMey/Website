@@ -155,7 +155,9 @@ class Utilisateur {
     
             // Si aucun utilisateur trouvé
             if (!$mdp) {
-                echo "Utilisateur non trouvé.";
+                include_once("../back_php/Affichage_gen.php");
+                afficherErreur("Aucun utilisateur trouvé pour l'email $email");
+                exit();
                 return false;
             }
     

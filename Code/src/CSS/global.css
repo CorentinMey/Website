@@ -8,3 +8,17 @@
 body {
     font-family: 'JetBrains Mono', sans-serif;
 }
+
+
+.error-message {
+    color: red;
+    background-color: #f5c6cb ;
+    height: 80%;
+    width: 80%;
+    display: flex;
+    position: relative;
+    margin-left: 5%;
+    border-radius: 1em;
+    border: 0.1em solid black;
+    padding: 1em;
+}

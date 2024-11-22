@@ -4,13 +4,13 @@
 <head>
     <title>Page d'inscription</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="CSS/global.css">
-    <link rel="stylesheet" type="text/css" href="CSS/page_signin.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/global.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/page_signin.css">
 </head>
 
 <body>
     <!-- division pour le fond de la page de connexion -->
-    <img src="Ressources/Images/background_login_signin.png" alt="fond" id="fond">
+    <img src="../Ressources/Images/background_login_signin.png" alt="fond" id="fond">
 
     <!-- division pour le fond du 1er plan -->
     <!-- division pour les éléments du 1er plan (logo et formulaire) -->
