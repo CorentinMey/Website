@@ -31,6 +31,8 @@
         </div>
     </div>
 
+    <img src = "../Ressources/Images/image_banderolle.webp" alt = "banderolle" id = "banderolle_img">
+
 
 
 
