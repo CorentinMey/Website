@@ -21,7 +21,19 @@
     </div>
 
     <div id="banderolle">
+        
+        <!-- div pour le log de l'historique et son bouton -->
+        <div id = "logo_container_hist">
+            <a href = "page_test.php">
+                <img id = "logo_historic" src = "../Ressources/Images/logo_historic.png" alt = "Historic button">
+                <div id = "tooltip_hist">Historic</div>
+            </a>
+        </div>
+
+        <!-- titre de la banderolle -->
         <h1 id="title">My account</h1>
+
+        <!-- div pour le logo de deconnexion et son bouton -->
         <div id="logo_container">
             <!-- mettre logo dans une balsie ref a pour rediriger -->
             <a href="page_test.php">

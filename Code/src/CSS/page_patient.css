@@ -39,8 +39,18 @@
     justify-content: space-between;
 }
 
-#banderolle h1 {
-    margin-left: 45%;
+#logo_container_hist {
+    position: relative; /* Nécessaire pour positionner la boîte de texte par rapport au conteneur */
+    display: inline-block;
+}
+
+#logo_historic{
+    width: 5em;
+    height: 4em;
+    margin-left : 2em;
+    cursor: pointer;
+    border : 0.3em solid black;
+    border-radius: 50%;
 }
 
 #logo_container {
@@ -84,6 +94,39 @@
 }
 
 #logo_container:hover #tooltip {
+    visibility: visible; /* Affiche la boîte de texte au survol */
+    opacity: 1; /* Rend la boîte de texte visible */
+}
+
+#tooltip_hist {
+    visibility: hidden; /* Cache la boîte de texte par défaut */
+    width: 10em; /* Utilisation d'une mesure relative */
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 0.5em;
+    padding: 0.5em 0;
+    position: absolute;
+    z-index: 1;
+    top: 110%; /* Positionne la boîte de texte en dessous du logo */
+    left: 50%;
+    transform: translateX(-40%);
+    opacity: 0; /* Cache la boîte de texte par défaut */
+    transition: opacity 0.3s; /* Transition pour l'effet de fondu */
+}
+
+#tooltip_hist::after {
+    content: "";
+    position: absolute;
+    top: -0.5em; /* En haut de la boîte de texte */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0.5em;
+    border-style: solid;
+    border-color: black transparent transparent transparent; /* Triangle pointant vers le logo */
+}
+
+#logo_container_hist:hover #tooltip_hist {
     visibility: visible; /* Affiche la boîte de texte au survol */
     opacity: 1; /* Rend la boîte de texte visible */
 }
