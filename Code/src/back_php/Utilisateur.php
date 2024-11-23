@@ -138,7 +138,7 @@ class Utilisateur {
 
     public function Connexion($email, $password, $bdd) {
         // Construire la requête pour récupérer le mot de passe
-        $query = 'SELECT mdp FROM utilisateur WHERE mail = :email';
+        $query = 'SELECT mdp, ID_User FROM utilisateur WHERE mail = :email';
     
         try {
             // Préparer la requête
@@ -151,10 +151,12 @@ class Utilisateur {
             $res->execute();
     
             // Récupérer le mot de passe haché associé à l'email
-            $mdp = $res->fetch(PDO::FETCH_ASSOC);
+            $query_res = $res->fetch(PDO::FETCH_ASSOC);
+            $this->setMdp($query_res["mdp"]);
+            $this->setIduser($query_res["ID_User"]);
     
             // Si aucun utilisateur trouvé
-            if (!$mdp) {
+            if (!$this->mdp) {
                 include_once("../back_php/Affichage_gen.php");
                 afficherErreur("Aucun utilisateur trouvé pour l'email $email");
                 exit();
@@ -163,7 +165,7 @@ class Utilisateur {
     
             // Comparer le mot de passe
             //if (password_verify($password, $mdp["mdp"])) {
-            if ($mdp["mdp"] == $password){
+            if ($this->mdp == $password){
                 // Connexion réussie
 
                 #Over-ride de cette fonction chez chaque utilisateur ensuite pour pouvoir les rediriger vers leur page d'accueil utilisateur respective

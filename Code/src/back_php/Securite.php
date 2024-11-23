@@ -12,20 +12,19 @@ include_once("Query.php");
  * @return string Le type de compte de l'utilisateur : "medecin", "entreprise" ou "patient".
  * @throws InvalidArgumentException Si les types des arguments ne sont pas corrects.
  */
-function VerifyAccountType($id_user, $bdd)
+function VerifyAccountType($mail_user, $bdd)
 {
-    if (!is_int($id_user)) 
-        throw new InvalidArgumentException('L\'identifiant de l\'utilisateur doit être un entier.');
+    if (!is_string($mail_user)) 
+        throw new InvalidArgumentException('Le mail de l\'utilisateur doit être une chaine de caractères.');
     if (!($bdd instanceof Query))
         throw new InvalidArgumentException('L\'objet de connexion doit être une instance de Query.');
 
-    $data = ["id_user" => $id_user];
-    $query_medecin = "SELECT numero_ordre FROM medecin 
-	                        WHERE numero_ordre = :id_user;";
-    $query_entreprise = "SELECT siret FROM entreprise 
-                            WHERE siret = :id_user;";
-    $query_admin = "SELECT ID_User FROM utilisateur 
-                        WHERE ID_User = :id_user AND is_admin = 1;";
+    $data = ["mail_user" => $mail_user];
+    $query_medecin = "SELECT numero_ordre FROM medecin JOIN utilisateur ON medecin.numero_ordre = utilisateur.ID_User
+	                        WHERE mail = :mail_user;";
+    $query_entreprise = "SELECT siret FROM entreprise JOIN utilisateur ON entreprise.siret = utilisateur.ID_User
+                            WHERE mail = :mail_user;";
+    $query_admin = "SELECT ID_User FROM utilisateur WHERE mail = :mail_user AND is_admin = 1;";
 
     $res_medecin = $bdd->getResults($query_medecin, $data);
     $res_entreprise = $bdd->getResults($query_entreprise, $data);

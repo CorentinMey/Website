@@ -48,17 +48,47 @@
                         session_start();
 
                         # Inclure la classe utilisateur pour pouvoir connecter un utilisateur
-                        require_once('../back_php/Utilisateur.php');
+                        require_once('../back_php/Patient.php');
                         include_once("../back_php/Query.php");
+                        include_once("../back_php/Securite.php");
                         
                         # Est-ce que l'utilisateur a remplie le formulaire ?
                         if (isset($_POST["mail"]) && isset($_POST["mdp"])) {
                             // Inclure le fichier de connexion à la base de données
                             $bdd = new Query("siteweb");
-                            $bdd_connect = $bdd->getConnection();
-                            $user = new Utilisateur(iduser:"temporary", mdp:$_POST["mdp"],email:$_POST["mail"],last_name:"temporary",is_banned:0,is_admin:0);
-                            // Appeler la fonction connexion de la classe utilisateur
-                            $result = $user->Connexion($_POST["mail"], $_POST["mdp"], $bdd_connect);
+                            $account_type = VerifyAccountType($_POST["mail"], $bdd);
+
+                            if ($account_type == "medecin") {
+                                header("Location: page_medecin.php");
+                                exit;
+                            } else if ($account_type == "entreprise") {
+                                header("Location: page_entreprise.php");
+                                exit;
+                            } else if ($account_type == "admin") {
+                                header("Location: page_admin.php");
+                                exit;
+                            } else if ($account_type == "patient") {
+                                $user = new Patient(
+                                    iduser: null,
+                                    mdp: $_POST["mdp"],
+                                    email: $_POST["mail"],
+                                    last_name: null,
+                                    is_banned: null,
+                                    is_admin: null,
+                                    first_name: null,
+                                    birthdate: null,
+                                    gender: null,
+                                    antecedent: null
+                                );
+                                $user->Connexion($_POST["mail"], $_POST["mdp"], $bdd);
+                                header("Location: page_patient.php");
+                                exit;
+                            } else
+                                echo "Erreur lors de la connexion : type de compte inconnu";
+                            // $bdd_connect = $bdd->getConnection();
+                            // $user = new Utilisateur(iduser:"temporary", mdp:$_POST["mdp"],email:$_POST["mail"],last_name:"temporary",is_banned:0,is_admin:0);
+                            // // Appeler la fonction connexion de la classe utilisateur
+                            // $result = $user->Connexion($_POST["mail"], $_POST["mdp"], $bdd_connect);
                         }
                         session_abort();
                     ?>

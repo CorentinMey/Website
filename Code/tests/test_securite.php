@@ -32,21 +32,21 @@ function testVerifyAccountType($id_user, $bdd, $expected) {
 echo "Test de la fonction VerifyAccountType<br><br>";
 
 // Test 1 : l'id donné est un médecin
-testVerifyAccountType(1, $bdd, "medecin");
+testVerifyAccountType("alice.dupont@mail.com", $bdd, "medecin");
 
 // Test 2 : l'id donné est un patient
-testVerifyAccountType(10, $bdd, "patient");
+testVerifyAccountType("jacques.perrin@mail.com", $bdd, "patient");
 
 // Test 3 : l'id donné est une entreprise
-testVerifyAccountType(12345678901234, $bdd, "entreprise");
+testVerifyAccountType("imean@imean.com", $bdd, "entreprise");
 
 // Test 4 : l'id donné est un admin
-testVerifyAccountType(25, $bdd, "admin");
+testVerifyAccountType("yasmine.berrier@mail.com", $bdd, "admin");
 
 // Test 5 : l'id donné n'est pas un entier
-testVerifyAccountType("test", $bdd, "Exception");
+testVerifyAccountType(2, $bdd, "Exception");
 
 //Test6 : la bdd n'est pas du type query
-testVerifyAccountType(1, "test", "Exception");
+testVerifyAccountType("tete", "test", "Exception");
 
 ?>
