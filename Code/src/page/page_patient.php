@@ -45,8 +45,46 @@
 
     <img src = "../Ressources/Images/image_banderolle.webp" alt = "banderolle" id = "banderolle_img">
 
+ 
+    <h2 id = "features-choice">Options</h2>
+ 
 
+    <div id = "redirect_buttons">
+        <button class = "button" id = "button_patient">My clinical trials</button>
+        <button class = "button" id = "button_patient">New studies</button>
+    </div>
 
+    <h2 id = "features-table">My clinical trials</h2>
+    
+    <div id = "personnal_data">
+        <!-- debut du tableau -->
+         <table class = "styled-table" id = "table_patient">
+            <thead>
+                <tr>
+                    <th>First name</th>
+                    <th>Family name</th>
+                    <th>Gender</th>
+                    <th>Origins</th>
+                    <th>Email</th>
+                    <th>Medical history</th>
+                </tr>
+            </thead>
 
-
+            <tbody>
+                <tr>
+                    <td>John</td>
+                    <td>Doe</td>
+                    <td>Hélicoptère</td>
+                    <td>France</td>
+                    <td>test@test.mail.com</td>
+                    <td>None</td>
+                </tr>
+            </tbody>
+         </table>
+         <a href="page_test.php" id = "edit_option">Edit</a>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
 </body>

@@ -27,9 +27,6 @@
     margin-left: 3%;
 }
 
-
-
-
 #banderolle {
     background-color: lightblue;
     height: 8%;
@@ -136,3 +133,51 @@
     width: 100%;
     height : 40em;
 }
+
+#features-choice{
+    margin-left : 47.5%;
+    margin-bottom: 0em;
+}
+
+#redirect_buttons{
+    display: flex;
+    flex-direction: column;
+    margin-left: 40%;
+}
+
+#button_patient{
+    font-size: 2em;
+    width : 35%;
+    height : 2em;
+    margin-top :0.71em;
+}
+
+
+
+#features-table{
+    margin-left : 43%;
+}
+
+#table_patient {
+    border-collapse: separate; /* Utilisez 'separate' pour permettre l'arrondissement des angles */
+    border-radius: 1em; /* Arrondit les angles du tableau */
+    overflow: hidden; /* Assure que les coins arrondis sont appliqués */
+}
+
+#table_patient thead tr{
+    font-size : 1.5em;
+}
+
+#table_patient tbody{
+    font-size : 1.2em;
+    text-align: center;
+}
+
+#edit_option{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 2em;
+}
+
+
