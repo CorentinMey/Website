@@ -1,6 +1,5 @@
 <?php
 include_once("Patient.php");
-// indique type de  $ patient
 
 function AffichageTableau($patient){
     echo '<h2 class = "title">My clinical trials</h2>';
@@ -27,7 +26,7 @@ function AffichageTableau($patient){
                 echo '</tr>';
             echo '</tbody>';
         echo '</table>';
-        echo '<a href="page_test.php" id = "edit_option">Edit</a>';
+        echo '<a href="page_signin.php" id = "edit_option">Edit my infos</a>';
     echo '</div>';
 }
 ?>

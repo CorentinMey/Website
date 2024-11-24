@@ -4,7 +4,7 @@ include_once("../back_php/Affichage_patient.php");
 include_once("../back_php/Patient.php");
 session_start();
 
-if (!isset($_SESSION["user"])) {
+if (!isset($_SESSION["patient"])) {
     header("Location: page_login.php");
     exit;
 }

@@ -84,7 +84,7 @@ session_start();
                                     origins: null
                                 );
                                 $user->Connexion($_POST["mail"], $_POST["mdp"], $bdd);
-                                $_SESSION["user"] = $user;
+                                $_SESSION["patient"] = $user;
                                 header("Location: page_patient.php");
                             } else
                                 echo "Erreur lors de la connexion : type de compte inconnu";

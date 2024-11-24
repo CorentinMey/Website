@@ -43,10 +43,32 @@ class Patient extends Utilisateur{
                 $this->is_admin = $res["is_admin"];
                 $this->gender = $res["genre"];
                 $this->antecedent = $res["antecedents"];
-                $this->origins = $res["origines"];
+                $this->origins = $res["origine"];
             }    
             $bdd->closeBD();
         }
+    }
+
+    public function ChangeInfo($bdd){
+        $query = "UPDATE utilisateur SET prenom = :first_name, 
+                                     nom = :last_name, 
+                                     mail = :email, 
+                                     genre = :gender, 
+                                     origine = :origins, 
+                                     antecedents = :antecedent, 
+                                     mdp = :mdp #TODO hasher le mot de passe avant
+                            WHERE ID_User = :iduser";
+        $params = [
+            ':first_name' => $this->first_name,
+            ':last_name' => $this->last_name,
+            ':email' => $this->email,
+            ':gender' => $this->gender,
+            ':origins' => $this->origins,
+            ':antecedent' => $this->antecedent,
+            ':iduser' => $this->iduser,
+            ':mdp' => $this->mdp,
+        ];
+        $bdd->updateLines($query, $params);
     }
 }
 

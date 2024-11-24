@@ -161,7 +161,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center; /* Centre la table horizontalement */
-    margin-top: 2em;
 }
 
 
@@ -183,9 +182,14 @@
 }
 
 #edit_option{
-    display: flex;
-    justify-content: center;
-    margin-top: 2em;
+    margin-top: 0.5em;
+    margin-left: 67%;
+    font-size: 1em;
+    text-decoration: none;
+    color : #223e69;
 }
 
+#edit_option:hover{
+    text-decoration: underline;
+}
 
