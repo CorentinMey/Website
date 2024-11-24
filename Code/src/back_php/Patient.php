@@ -2,9 +2,9 @@
 include_once("Utilisateur.php");
 class Patient extends Utilisateur{
 
-    public function __construct($iduser = null, 
-                                $mdp, 
-                                $email, 
+    public function __construct($mdp,
+                                $email,
+                                $iduser = null, 
                                 $last_name = null, 
                                 $is_banned = null, 
                                 $is_admin = null, 
@@ -28,19 +28,19 @@ class Patient extends Utilisateur{
     public function Connexion($email, $password, $bdd)
     {
         parent::Connexion($email, $password, $bdd); // reprend la fonction jusqu'à la création de l'objet utilisateur spécifique
+        
         if ($this->mdp == $password){ // this.mdp est défini dans la classe Utilisateur dans sa méthode Connexion
             $data = ["id_user" => $this->iduser];
-            $query = "SELECT * FROM patient WHERE ID_User = :id_user;";
+            $query = "SELECT * FROM utilisateur WHERE ID_User = :id_user;";
             $res = $bdd->getResults($query, $data);
-            if ($res->rowCount() > 0){
-                $row = $res->fetch();
-                $this->birthdate = $row["birthdate"];
-                $this->first_name = $row["prenom"];
-                $this->last_name = $row["nom"];
-                $this->is_banned = $row["id_bannis"];
-                $this->is_admin = $row["is_admin"];
-                $this->gender = $row["genre"];
-                $this->antecedent = $row["antecedent"];
+            if ($res != []){
+                $this->birthdate = $res["birthdate"];
+                $this->first_name = $res["prenom"];
+                $this->last_name = $res["nom"];
+                $this->is_banned = $res["id_bannis"];
+                $this->is_admin = $res["is_admin"];
+                $this->gender = $res["genre"];
+                $this->antecedent = $res["antecedent"];
             }    
         }
     }

@@ -134,31 +134,40 @@
     height : 40em;
 }
 
-#features-choice{
-    margin-left : 47.5%;
+.title{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around; /*Centre le texte*/
+    align-items: center;
     margin-bottom: 0em;
 }
 
 #redirect_buttons{
     display: flex;
     flex-direction: column;
-    margin-left: 40%;
+    align-items: center;
 }
 
 #button_patient{
     font-size: 2em;
-    width : 35%;
-    height : 2em;
+    width: auto; /* Ajuste automatiquement la largeur en fonction du contenu */
+    height: auto;
     margin-top :0.71em;
+    padding: 0.5em 1em;
 }
 
-
-
-#features-table{
-    margin-left : 43%;
+#personnal_data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centre la table horizontalement */
+    margin-top: 2em;
 }
+
 
 #table_patient {
+    margin-top : 2em;
+    width : 75%;   
     border-collapse: separate; /* Utilisez 'separate' pour permettre l'arrondissement des angles */
     border-radius: 1em; /* Arrondit les angles du tableau */
     overflow: hidden; /* Assure que les coins arrondis sont appliqués */
@@ -175,8 +184,7 @@
 
 #edit_option{
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     margin-top: 2em;
 }
 

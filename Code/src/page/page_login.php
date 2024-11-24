@@ -81,6 +81,7 @@
                                     antecedent: null
                                 );
                                 $user->Connexion($_POST["mail"], $_POST["mdp"], $bdd);
+                                $_SESSION["user"] = $user;
                                 header("Location: page_patient.php");
                                 exit;
                             } else

@@ -24,21 +24,21 @@ function VerifyAccountType($mail_user, $bdd)
 	                        WHERE mail = :mail_user;";
     $query_entreprise = "SELECT siret FROM entreprise JOIN utilisateur ON entreprise.siret = utilisateur.ID_User
                             WHERE mail = :mail_user;";
-    $query_admin = "SELECT ID_User FROM utilisateur WHERE mail = :mail_user AND is_admin = 1;";
+    $query_admin = "SELECT ID_User FROM utilisateur 
+                            WHERE mail = :mail_user AND is_admin = 1;";
 
     $res_medecin = $bdd->getResults($query_medecin, $data);
     $res_entreprise = $bdd->getResults($query_entreprise, $data);
+    $res_admin = $bdd->getResults($query_admin, $data);
 
-    if ($res_medecin->rowCount() > 0)
+    if ($res_medecin != [])
         $out = "medecin";
-    else if ($res_entreprise->rowCount() > 0) 
+    else if ($res_entreprise != []) 
         $out = "entreprise";
-    else if ($bdd->getResults($query_admin, $data)->rowCount() > 0)
+    else if ($res_admin != [])
         $out = "admin";
     else
         $out = "patient";
-    $bdd->closeStatement($res_medecin);
-    $bdd->closeStatement($res_entreprise);
     return $out;
 }
 

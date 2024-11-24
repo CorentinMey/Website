@@ -43,8 +43,6 @@ button:hover {
 
 .styled-table {
     border-collapse: collapse; 
-    width : 70%;
-    margin-left : 15%;
     font-size: 0.9em;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
