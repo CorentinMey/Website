@@ -1,5 +1,4 @@
 <?php
-
 class Query {
     private $host;
     private $username;
@@ -34,14 +33,24 @@ class Query {
     public function getResults($query, $args){
         $res = $this->connection->prepare($query);
         $res->execute($args);
-        return $res;
+        $rows = $res->fetch();
+        $this->closeStatement($res);
+        return $rows !== false ? $rows : []; // renvoie une liste vide plutot que false pour un aspect pratique
+    }
+
+    public function getResultsAll($query, $args){
+        $res = $this->connection->prepare($query);
+        $res->execute($args);
+        $rows = $res->fetchAll();
+        $this->closeStatement($res);
+        return $rows !== false ? $rows : [];
     }
     
     public function closeBD(){
         $this->connection = null;
     }
     
-    public function closeStatement($statement){
+    private function closeStatement($statement){
         $statement->closeCursor();
     }
     
