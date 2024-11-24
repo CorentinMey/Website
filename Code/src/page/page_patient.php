@@ -1,6 +1,16 @@
 <?php
+include_once("../back_php/Query.php");
+include_once("../back_php/Affichage_patient.php");
+include_once("../back_php/Patient.php");
 session_start();
+
+if (!isset($_SESSION["user"])) {
+    header("Location: page_login.php");
+    exit;
+}
+
 $patient = $_SESSION["user"];
+$bdd = new Query("siteweb");
 ?>
 
 <!DOCTYPE html>
@@ -59,33 +69,9 @@ $patient = $_SESSION["user"];
         <button class = "button" id = "button_patient">New studies</button>
     </div>
 
-    <h2 class = "title">My clinical trials</h2>
-    
-    <div id = "personnal_data">
-        <!-- debut du tableau -->
-         <table class = "styled-table" id = "table_patient">
-            <thead>
-                <tr>
-                    <th>First name</th>
-                    <th>Family name</th>
-                    <th>Gender</th>
-                    <th>Origins</th>
-                    <th>Email</th>
-                    <th>Medical history</th>
-                </tr>
-            </thead>
+    <?php
+        AffichageTableau($patient, $bdd);
+    ?>
 
-            <tbody>
-                <tr>
-                    <td>John</td>
-                    <td>Doe</td>
-                    <td>Hélicoptère</td>
-                    <td>France</td>
-                    <td>test@test.mail.com</td>
-                    <td>None</td>
-                </tr>
-            </tbody>
-         </table>
-         <a href="page_test.php" id = "edit_option">Edit</a>
-    </div>
+
 </body>

@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 
 <head>
@@ -45,12 +48,11 @@
                     </div>
 
                     <?php
-                        session_start();
+                    # Inclure la classe utilisateur pour pouvoir connecter un utilisateur
+                    require_once('../back_php/Patient.php');
+                    include_once("../back_php/Query.php");
+                    include_once("../back_php/Securite.php");
 
-                        # Inclure la classe utilisateur pour pouvoir connecter un utilisateur
-                        require_once('../back_php/Patient.php');
-                        include_once("../back_php/Query.php");
-                        include_once("../back_php/Securite.php");
                         
                         # Est-ce que l'utilisateur a remplie le formulaire ?
                         if (isset($_POST["mail"]) && isset($_POST["mdp"])) {
@@ -78,12 +80,12 @@
                                     first_name: null,
                                     birthdate: null,
                                     gender: null,
-                                    antecedent: null
+                                    antecedent: null,
+                                    origins: null
                                 );
                                 $user->Connexion($_POST["mail"], $_POST["mdp"], $bdd);
                                 $_SESSION["user"] = $user;
                                 header("Location: page_patient.php");
-                                exit;
                             } else
                                 echo "Erreur lors de la connexion : type de compte inconnu";
                             // $bdd_connect = $bdd->getConnection();
@@ -91,7 +93,6 @@
                             // // Appeler la fonction connexion de la classe utilisateur
                             // $result = $user->Connexion($_POST["mail"], $_POST["mdp"], $bdd_connect);
                         }
-                        session_abort();
                     ?>
 
                 </form>

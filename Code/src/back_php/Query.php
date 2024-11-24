@@ -1,5 +1,4 @@
 <?php
-
 class Query {
     private $host;
     private $username;

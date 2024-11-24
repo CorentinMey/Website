@@ -11,7 +11,8 @@ class Patient extends Utilisateur{
                                 $first_name = null, 
                                 $birthdate = null, 
                                 $gender = null, 
-                                $antecedent = null) 
+                                $antecedent = null,
+                                $origins = null) 
     {
         parent::__construct($iduser, 
                             $mdp, 
@@ -22,7 +23,8 @@ class Patient extends Utilisateur{
                             $first_name, 
                             $birthdate, 
                             $gender, 
-                            $antecedent);
+                            $antecedent,
+                            $origins);
     }
 
     public function Connexion($email, $password, $bdd)
@@ -34,14 +36,16 @@ class Patient extends Utilisateur{
             $query = "SELECT * FROM utilisateur WHERE ID_User = :id_user;";
             $res = $bdd->getResults($query, $data);
             if ($res != []){
-                $this->birthdate = $res["birthdate"];
+                $this->birthdate = $res["date_naissance"];
                 $this->first_name = $res["prenom"];
                 $this->last_name = $res["nom"];
-                $this->is_banned = $res["id_bannis"];
+                $this->is_banned = $res["is_bannis"];
                 $this->is_admin = $res["is_admin"];
                 $this->gender = $res["genre"];
-                $this->antecedent = $res["antecedent"];
+                $this->antecedent = $res["antecedents"];
+                $this->origins = $res["origines"];
             }    
+            $bdd->closeBD();
         }
     }
 }

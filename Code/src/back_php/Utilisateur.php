@@ -1,5 +1,4 @@
 <?php
-
 class Utilisateur {
     protected $iduser;
     protected $mdp;
@@ -11,8 +10,9 @@ class Utilisateur {
     protected $antecedent;
     protected $is_banned;
     protected $is_admin;
+    protected $origins;
 
-    public function __construct($iduser, $mdp, $email, $last_name, $is_banned, $is_admin, $first_name = null, $birthdate = null, $gender = null, $antecedent = null) {
+    public function __construct($iduser, $mdp, $email, $last_name, $is_banned, $is_admin, $first_name = null, $birthdate = null, $gender = null, $antecedent = null, $origins = null){
         $this->iduser = $iduser;
         $this->mdp = $mdp;
         $this->birthdate = $birthdate;
@@ -23,9 +23,18 @@ class Utilisateur {
         $this->first_name = $first_name;
         $this->gender = $gender;
         $this->antecedent = $antecedent;
+        $this->origins = $origins;
     }
 
     # accesseurs et mutateurs de la classe
+    public function getOrigins(){
+        return $this->origins;
+    }
+
+    public function setOrigins($origins){
+        $this->origins = $origins;
+    }
+
     public function getIduser(){
         return $this->iduser;
     }
