@@ -1,0 +1,95 @@
+INSERT INTO `UTILISATEUR` (`ID_User`, `date_naissance`, `prenom`, `nom`, `genre`, `mail`, `antecedents`, `is_bannis`, `is_admin`, `mdp`) VALUES
+(1, '1990-05-12', 'Alice', 'Dupont', 'F', 'alice.dupont@mail.com', 'Hypertension', 0, 1, '$2y$10$VjMpyS9Kbgj6ysnV2NSiQeUOUlXBvKfM0J.ylFq7xwpqP0oZ5w5jq'), -- "motdepasse1"
+(2, '1985-09-20', 'Bob', 'Martin', 'M', 'bob.martin@mail.com', 'Diabète type 2', 0, 0, '$2y$10$QxG.LwTZby7kYwPYm4m1r.DVY0PXT9u5eIfoeO9UB88nqXbtP3V8u'), -- "motdepasse2"
+(3, '2000-11-15', 'Charlie', 'Lemoine', 'M', 'charlie.lemoine@mail.com', 'Asthme', 0, 0, '$2y$10$kt5RzkgZl7ykvZ0MCgop3O92HIfG61qLfR7IIMZlrYmjQEOO19Nei'), -- "motdepasse3"
+(4, '1975-03-30', 'Diane', 'Roux', 'F', 'diane.roux@mail.com', 'Allergies alimentaires', 0, 0, '$2y$10$PV2OZGV7y6tBmlA7mHDk7gK8G2Mv9yPbItZYzLEQxMy95wmT2yVtm'), -- "motdepasse4"
+(5, '1998-01-22', 'Eva', 'Garnier', 'F', 'eva.garnier@mail.com', 'Aucun', 0, 0, '$2y$10$Alje8E9Z9w.LFJlwB2SIdyODuB1ygt8xKq8Pv5FTT7Phhx0QZMnzi'), -- "motdepasse5"
+(6, '1965-07-07', 'François', 'Durand', 'M', 'francois.durand@mail.com', 'Antécédent cardiaque', 0, 0, '$2y$10$YP6YfTkzZtLwYcv1bHgq7S7f6ylnmfKhka9EFbE2bg2Khld5cbB92'), -- "motdepasse6"
+(7, '1992-02-18', 'Gabrielle', 'Morel', 'F', 'gabrielle.morel@mail.com', 'Aucun', 0, 0, '$2y$10$34HgqxgsO0VgT2DqT6kpyQCOkXtAl.A9FhKLwPYuZ7F6zKHdF4FjC'), -- "motdepasse7"
+(8, '1980-12-01', 'Hugo', 'Bernard', 'M', 'hugo.bernard@mail.com', 'Hypertension', 0, 0, '$2y$10$HTaO8ps1xqM9m2YOx76OT8Dce9WpyyKBV6hr2tQlBzHOKeqxFzH5e'), -- "motdepasse8"
+(9, '1995-06-30', 'Isabelle', 'Fontaine', 'F', 'isabelle.fontaine@mail.com', 'Aucun', 0, 0, '$2y$10$8kNKtiVQay9.jmjXeU3CpwOxhxVVSpG5VA.k8UNNmY1.mHkz6IOnY'), -- "motdepasse9"
+(10, '1972-04-25', 'Jacques', 'Perrin', 'M', 'jacques.perrin@mail.com', 'Antécédent cardiaque', 0, 0, '$2y$10$FLMQrn.EG2XsZnT3OwLO3ehv4KxKPldzjw7IrM7k8ifmZftM12X8C'), -- "motdepasse10"
+(11, '1987-10-05', 'Katherine', 'Dupuis', 'F', 'katherine.dupuis@mail.com', 'Aucun', 0, 0, '$2y$10$RrC1sXhZEqCucN6lCwi1FmRrs14Y4U8M7o9Hqbh8XnDngyStcqzIS'), -- "motdepasse11"
+(12, '1993-12-22', 'Louis', 'Chavez', 'M', 'louis.chavez@mail.com', 'Asthme', 0, 0, '$2y$10$OgYH.Goy1D2nkLa7ubcuAOmTo7.HZQ1zm9c.jvOl8FuRP.gUM5tEy'), -- "motdepasse12"
+(13, '1997-01-10', 'Maya', 'Girod', 'F', 'maya.girod@mail.com', 'Aucun', 0, 0, '$2y$10$kGbqdcGF.CAcXOfSHWBORq4xz7cL0YlhfRmQJlNwI9wLXHfM0d5Vu'), -- "motdepasse13"
+(14, '1996-11-30', 'Nicolas', 'Lemoine', 'M', 'nicolas.lemoine@mail.com', 'Diabète type 1', 0, 0, '$2y$10$pdU95KYszrsykkV9Xh8z.y2sTpKnw7qSByvg.h6t67rPbK8rV1V2O'), -- "motdepasse14"
+(15, '1982-04-14', 'Olivier', 'Boucher', 'M', 'olivier.boucher@mail.com', 'Aucun', 0, 0, '$2y$10$Kb6wOxg9zfrVjIxmGVRJTOIBU0MzyVddBwI6GbPbN89BGXyQ9eLxe'), -- "motdepasse15"
+(16, '1999-03-25', 'Pauline', 'Simard', 'F', 'pauline.simard@mail.com', 'Allergies alimentaires', 0, 0, '$2y$10$L1rjIZtn5t6uE4gZzLE9aiK0dZltFjwMNNbgyEOZj8ojdbIzfRmNm'), -- "motdepasse16"
+(17, '1989-01-17', 'Quentin', 'Mercier', 'M', 'quentin.mercier@mail.com', 'Hypertension', 0, 0, '$2y$10$XrO8v5Fq8sAxU8h8u2G60MO1FJ63STz5.tgFwxPka8OqCvRh0muTS'), -- "motdepasse17"
+(18, '1994-07-08', 'Rachel', 'Vidal', 'F', 'rachel.vidal@mail.com', 'Aucun', 0, 0, '$2y$10$6AeEKrbPfCbJYihgS6i9a0n63H3y3v4ErXyB8DANy4kaDTnQZyVjC'), -- "motdepasse18"
+(19, '1981-12-30', 'Sébastien', 'Robert', 'M', 'sebastien.robert@mail.com', 'Antécédent cardiaque', 0, 0, '$2y$10$ULy8o9dUGVYySKrgQ0EdgPbYlJ60R6TmIKVrve9YWyWfxFje19km6'), -- "motdepasse19"
+(20, '1991-02-03', 'Thomas', 'Leclerc', 'M', 'thomas.leclerc@mail.com', 'Aucun', 0, 0, '$2y$10$BXQJr9YhFiPy0hRZbk6T/oGgVxTSJfvc0I7esZXlsU8gCrHgoZG7u'), -- "motdepasse20"
+(21, '2001-04-18', 'Ursula', 'Renard', 'F', 'ursula.renard@mail.com', 'Diabète type 2', 0, 0, '$2y$10$Fw5rBv5ObDPqjsXw8Hq/9F0p1PfuJXBzmWwsoR6R9Xy5lLV0F74dy'), -- "motdepasse21"
+(22, '1994-10-25', 'Victor', 'Chastel', 'M', 'victor.chastel@mail.com', 'Aucun', 0, 0, '$2y$10$lg0gBz67QAGZlToDlTh7a.pS5sSVNugjt4VOBGzPrBWrn0KMjbGxe'), -- "motdepasse22"
+(23, '1984-08-12', 'Wendy', 'Charrier', 'F', 'wendy.charrier@mail.com', 'Hypertension', 0, 0, '$2y$10$ejBhmxFhTQUtM9S2B1A0dWIuAfzm06ev5P8k1Yh7u8Rkw5vgw6BCi'), -- "motdepasse23"
+(24, '1992-02-06', 'Xavier', 'Fournier', 'M', 'xavier.fournier@mail.com', 'Aucun', 0, 0, '$2y$10$wfgFDCXg1Vmnx61u6K6FPG5jTdpB96F6vR9l0qDJUQdVAy5eHTBdu'), -- "motdepasse24"
+(25, '1986-11-10', 'Yasmine', 'Berrier', 'F', 'yasmine.berrier@mail.com', 'Asthme', 0, 0, '$2y$10$Z3gKvJ5gdyIObFnPflL5Re55UEmeCGYYaW1J2Q0rfm7mi0tJ9q7gK'), -- "motdepasse25"
+(26, '1993-03-14', 'Zacharie', 'Pires', 'M', 'zacharie.pires@mail.com', 'Aucun', 0, 0, '$2y$10$NwE5WzEBlC.kvRpvm0iHtVtbKhV2i9JxKvTe7X.lUzG2l5F0gq6Re'), -- "motdepasse26"
+(27, '1988-04-04', 'Alexis', 'Martinez', 'M', 'alexis.martinez@mail.com', 'Aucun', 0, 0, '$2y$10$ErbsQsyekttK.k3mKHwxtdFz2d1uJfiTz3V7ME0kG2cz2xfJ9BX7u'), -- "motdepasse27"
+(28, '1983-09-09', 'Barbara', 'Vermot', 'F', 'barbara.vermot@mail.com', 'Diabète type 2', 0, 0, '$2y$10$5PqjbJ6OYh8lZ84G6USbsJ75kd9SZmGe4H2bA1eLwfiSQZNS7YYgO'), -- "motdepasse28"
+(29, '1985-06-17', 'Catherine', 'Rossi', 'F', 'catherine.rossi@mail.com', 'Allergies alimentaires', 0, 0, '$2y$10$O.tgyE9mvb5OB0t6E5Szd6mm2ysjmy9C.oRZG4NLC0pqdC1FX5Qka'), -- "motdepasse29"
+(30, '1990-07-11', 'David', 'Lefevre', 'M', 'david.lefevre@mail.com', 'Aucun', 0, 0, '$2y$10$FyGo7H9heqvg8fjH1zFkFhrE9LDBmZPmmyUwQKbsw/oZn7b8yLaP6'); -- "motdepasse30"
+
+
+
+INSERT INTO `ENTREPRISE` (`siret`, `ville`) VALUES
+(12345678901234, 'Nice'),
+(23456789012345, 'Paris'),
+(34567890123456, 'Lyon'),
+(45678901234567, 'Marseille'),
+(56789012345678, 'Toulouse');
+
+INSERT INTO `ESSAI` (`ID_essai`, `ID_phase`, `ID_entreprise_ref`, `date_debut`, `date_fin`, `description`, `molecule_test`, `dosage_test`, `molecule_ref`, `dosage_ref`, `placebo_nom`, `a_debute`) VALUES
+(1, 1, 12345678901234, '2023-01-01', '2023-12-31', 'Essai sur un traitement anti-cancéreux.', 'Molécule_X', 100.0, 'Molécule_Y', 50.0, 'Placebo_A', 1),
+(2, 2, 23456789012345, '2022-06-01', '2024-05-30', 'Test de traitement pour le diabète.', 'Molécule_D', 75.0, 'Molécule_C', 30.0, 'Placebo_B', 1),
+(3, 3, 34567890123456, '2024-01-15', '2025-01-14', 'Étude sur les maladies respiratoires.', 'Molécule_R', 60.0, 'Molécule_T', 40.0, 'Placebo_C', 0),
+(4, 4, 45678901234567, '2021-09-01', '2023-08-31', 'Recherche sur la douleur chronique.', 'Molécule_P', 90.0, 'Molécule_O', 45.0, 'Placebo_D', 1),
+(5, 5, 56789012345678, '2023-03-01', '2024-02-29', 'Traitement expérimental pour la migraine.', 'Molécule_M', 50.0, 'Molécule_N', 25.0, 'Placebo_E', 0);
+
+INSERT INTO `RESULTAT` (`ID_essai`, `ID_patient`, `is_accepte`, `is_patient_exclus`, `phase`, `traitement`, `dose`, `effet_secondaire`, `evolution_symptome`) VALUES
+(1, 1, 1, 0, 1, 'Traitement_A', 50.0, 'Nausées', 'Amélioration'),
+(1, 2, 1, 0, 1, 'Traitement_A', 50.0, 'Fatigue', 'Stable'),
+(1, 3, 1, 0, 1, 'Traitement_A', 50.0, 'Maux de tête', 'Aucune évolution'),
+(1, 4, 1, 0, 1, 'Traitement_A', 50.0, 'Aucun', 'Amélioration significative'),
+(2, 5, 1, 0, 2, 'Traitement_B', 100.0, 'Aucun', 'Amélioration'),
+(2, 6, 1, 0, 2, 'Traitement_B', 100.0, 'Vertiges', 'Stable'),
+(2, 7, 1, 0, 2, 'Traitement_B', 100.0, 'Fatigue', 'Aucune évolution'),
+(2, 8, 1, 0, 2, 'Traitement_B', 100.0, 'Aucun', 'Dégradation'),
+(3, 9, 1, 0, 3, 'Traitement_C', 75.0, 'Fatigue', 'Stable'),
+(3, 10, 1, 0, 3, 'Traitement_C', 75.0, 'Aucun', 'Amélioration'),
+(3, 11, 1, 0, 3, 'Traitement_C', 75.0, 'Aucun', 'Aucune évolution'),
+(4, 12, 1, 0, 1, 'Traitement_D', 200.0, 'Fatigue', 'Amélioration significative'),
+(4, 13, 1, 0, 1, 'Traitement_D', 200.0, 'Vertiges', 'Stable'),
+(4, 14, 1, 0, 1, 'Traitement_D', 200.0, 'Aucun', 'Amélioration'),
+(4, 15, 1, 0, 1, 'Traitement_D', 200.0, 'Nausées', 'Stable'),
+(5, 16, 1, 0, 2, 'Traitement_E', 60.0, 'Aucun', 'Stable'),
+(5, 17, 1, 0, 2, 'Traitement_E', 60.0, 'Vertiges', 'Dégradation'),
+(5, 18, 1, 0, 2, 'Traitement_E', 60.0, 'Fatigue', 'Amélioration'),
+(5, 19, 1, 0, 2, 'Traitement_E', 60.0, 'Aucun', 'Stable');
+
+INSERT INTO `MEDECIN` (`ID_medecin`, `prenom`, `nom`, `specialite`, `mail`, `telephone`) VALUES
+(1, 'Jean', 'Moreau', 'Cardiologie', 'jean.moreau@hopital.com', '0601020304'),
+(2, 'Marie', 'Durand', 'Endocrinologie', 'marie.durand@hopital.com', '0612345678'),
+(3, 'Paul', 'Bernard', 'Pneumologie', 'paul.bernard@hopital.com', '0623456789'),
+(4, 'Sophie', 'Lemoine', 'Immunologie', 'sophie.lemoine@hopital.com', '0634567890'),
+(5, 'Luc', 'Garcia', 'Allergologie', 'luc.garcia@hopital.com', '0645678901');
+
+
+INSERT INTO `PHASE` (`ID_phase`, `description`, `objectif`, `duree_mois`) VALUES
+(1, 'Phase préclinique', 'Évaluer la sécurité du traitement.', 6),
+(2, 'Phase I', 'Tester la sécurité et les doses sur des volontaires sains.', 12),
+(3, 'Phase II', 'Évaluer l\'efficacité et identifier les effets secondaires.', 18),
+(4, 'Phase III', 'Confirmer l\'efficacité et surveiller les effets secondaires.', 24),
+(5, 'Phase IV', 'Surveillance post-commercialisation.', 36);
+
+INSERT INTO `ESSAIS_MEDECIN` (`ID_essai`, `ID_medecin`) VALUES
+(1, 1),
+(1, 2),
+(2, 2),
+(2, 3),
+(3, 3),
+(3, 4),
+(4, 4),
+(4, 5),
+(5, 5),
+(5, 1);
