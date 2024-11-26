@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <img src="Ressources/Images/background_admin2.jpg" alt="fond" id="fond">
+    <img src="../Ressources/Images/background_admin2.jpg" alt="fond" id="fond">
     <div id="bandeau_top">
         <h1>cheh</h1>
         <h1>Admin page</h1>
