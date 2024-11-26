@@ -1,5 +1,4 @@
 <?php
-
 class Utilisateur {
     protected $iduser;
     protected $mdp;
@@ -11,8 +10,9 @@ class Utilisateur {
     protected $antecedent;
     protected $is_banned;
     protected $is_admin;
+    protected $origins;
 
-    public function __construct($iduser, $mdp, $email, $last_name, $is_banned, $is_admin, $first_name = null, $birthdate = null, $gender = null, $antecedent = null) {
+    public function __construct($iduser, $mdp, $email, $last_name, $is_banned, $is_admin, $first_name = null, $birthdate = null, $gender = null, $antecedent = null, $origins = null){
         $this->iduser = $iduser;
         $this->mdp = $mdp;
         $this->birthdate = $birthdate;
@@ -23,9 +23,18 @@ class Utilisateur {
         $this->first_name = $first_name;
         $this->gender = $gender;
         $this->antecedent = $antecedent;
+        $this->origins = $origins;
     }
 
     # accesseurs et mutateurs de la classe
+    public function getOrigins(){
+        return $this->origins;
+    }
+
+    public function setOrigins($origins){
+        $this->origins = $origins;
+    }
+
     public function getIduser(){
         return $this->iduser;
     }
@@ -63,7 +72,7 @@ class Utilisateur {
     }
 
     public function setGender($gender){
-        $this->$gender = $gender;
+        $this->gender = $gender;
     }
 
     public function getEmail(){
@@ -108,7 +117,7 @@ class Utilisateur {
 
     # Méthodes de classe
 
-    protected function Inscription($dict_information, $bdd){
+    public function Inscription($dict_information, $bdd){
         // Extraire les colonnes et leurs valeurs
         $columns = array_keys($dict_information); // Récupère les noms des colonnes
         $values = array_values($dict_information); // Récupère les valeurs à insérer
@@ -138,57 +147,32 @@ class Utilisateur {
 
     public function Connexion($email, $password, $bdd) {
         // Construire la requête pour récupérer le mot de passe
-        $query = 'SELECT mdp FROM utilisateur WHERE mail = :email';
+        $query = 'SELECT mdp, ID_User FROM utilisateur WHERE mail = :email';
     
         try {
-            // Préparer la requête
-            $res = $bdd->prepare($query);
-    
-            // Lier les paramètres pour la requête
-            $res->bindParam(':email', $email, PDO::PARAM_STR);
-    
-            // Exécuter la requête
-            $res->execute();
-    
-            // Récupérer le mot de passe haché associé à l'email
-            $mdp = $res->fetch(PDO::FETCH_ASSOC);
-    
-            // Si aucun utilisateur trouvé
-            if (!$mdp) {
+            $query_res = $bdd->getResults($query, array("email" => $email)); // Récupérer le premier résultat et l'email est unique
+            
+            if (empty($query_res)) { // Si aucun utilisateur n'est trouvé
                 include_once("../back_php/Affichage_gen.php");
                 afficherErreur("Aucun utilisateur trouvé pour l'email $email");
                 exit();
                 return false;
+            } elseif ($query_res["mdp"] != $password) { // Si le mot de passe ne correspond pas
+                include_once("../back_php/Affichage_gen.php");
+                afficherErreur("Mot de passe incorrect pour l'email $email");
+                exit();
+                return false;
+            } else{ // définir les attributs de l'objet pour les classes filles
+                $this->setMdp($query_res["mdp"]);
+                $this->setIduser($query_res["ID_User"]);
             }
-    
-            // Comparer le mot de passe
-            //if (password_verify($password, $mdp["mdp"])) {
-            if ($mdp["mdp"] == $password){
-                // Connexion réussie
-
-                #Over-ride de cette fonction chez chaque utilisateur ensuite pour pouvoir les rediriger vers leur page d'accueil utilisateur respective
-                #Pour l'instant redirection vers une page test
-                #Rajouter un session start, récuperer toutes les infos de l'utilisateur en demandant à la BDD, puis transmettre ces infos à la page suivante avec un $_session["utilisateur"] (peut-être à faire dans la page login)
-
-                header("Location: page_test.php");
-                exit; // Assurez-vous d'arrêter le script après une redirection
-            } else {
-                // Mot de passe incorrect
-                echo "Mot de passe erroné, veuillez réessayer.";
-            }
-    
-            // Fermer la requête
-            $res->closeCursor();
         } catch (PDOException $e) {
             // Gérer les erreurs
             echo "Erreur lors de la connexion : " . $e->getMessage();
             return false;
         }
     }
-
-
-            
-                }
+}
 
 
 

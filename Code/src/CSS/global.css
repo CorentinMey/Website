@@ -7,6 +7,7 @@
 
 body {
     font-family: 'JetBrains Mono', sans-serif;
+    background-color: #f8f8f8;
 }
 
 
@@ -18,7 +19,54 @@ body {
     display: flex;
     position: relative;
     margin-left: 5%;
+    margin-top : 1em;
     border-radius: 1em;
     border: 0.1em solid black;
     padding: 1em;
+}
+
+
+button {
+    color: #ffffff;
+    background-color: #3a3030e1;
+    border-radius: 3em;
+    font-size: 1em;
+    padding: 0.5em;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #251d1de1;
+}
+
+
+.styled-table {
+    border-collapse: collapse; 
+    font-size: 0.9em;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.styled-table thead tr {
+    background-color: #009398;
+    color: #ffffff;
+    text-align: center;
+}
+
+
+.styled-table th,
+.styled-table td {
+    padding: 1em;
+}
+.styled-table tbody tr {
+    border-bottom: 1em solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) { /* Change la couleur une ligne sur 2 */
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 50em solid #009879;
 }
