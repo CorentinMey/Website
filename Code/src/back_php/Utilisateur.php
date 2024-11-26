@@ -72,7 +72,7 @@ class Utilisateur {
     }
 
     public function setGender($gender){
-        $this->$gender = $gender;
+        $this->gender = $gender;
     }
 
     public function getEmail(){

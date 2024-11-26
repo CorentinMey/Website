@@ -87,7 +87,7 @@ if (isset($_SESSION["patient"])) {
                     echo '<div class="input_info">';
                         echo '<label for="genre">Gender</label>';
                         echo '<select id="genre" name="genre" class="deroulant" >';
-                            echo '<option value="">'.$gender.'</option>';
+                            echo '<option value='.$gender.'>'.$gender.'</option>';
                             echo '<option value="male">Male</option>';
                             echo '<option value="female">Female</option>';
                         echo '</select>';
@@ -103,7 +103,7 @@ if (isset($_SESSION["patient"])) {
                         echo '<div class="input_info">';
                             echo '<label for="origin">Origins</label>';
                                 echo '<select id="origin" name="origin" class="deroulant" >';
-                                    echo '<option value="">'. $origins . '</option>';
+                                    echo '<option value='.$origins.'>'. $origins . '</option>';
                                     echo '<option value="Europe">Europe</option>';
                                     echo '<option value="North America">North America</option>';
                                     echo '<option value="South America">South America</option>';
@@ -117,7 +117,7 @@ if (isset($_SESSION["patient"])) {
                         echo '<div class="input_info">';
                             echo '<label for="medical">Medical History</label>';
                                 echo '<select id="medical" name="medical" class="deroulant" >';
-                                    echo '<option value="">'. $antecedent  .'</option>';
+                                    echo '<option value='.$antecedent.'>'. $antecedent  .'</option>';
                                     echo '<option value="None">None</option>';
                                     echo '<option value="Hypertension">Hypertension</option>';
                                     echo '<option value="Type 2 diabetes">Type 2 diabetes</option>';
@@ -193,6 +193,7 @@ if (isset($_SESSION["patient"])) {
                     <button type="submit" name="action" value="confirm">Confirm</button>
                     <button type="submit" name="action" value="back">Back</button>
                 </div>
+
                 <?php
                     include_once("../back_php/Securite.php");
                     include_once("../back_php/Affichage_gen.php");
@@ -201,24 +202,27 @@ if (isset($_SESSION["patient"])) {
                             $action = $_POST['action']; // pour savoir si on doit confirmer ou revenir en arrière
 
                             if ($action == 'confirm' && isset($_SESSION["patient"])) {
-                                $required_fields_edit_patient = ["Nom", "prénom", "identifiant", "genre", "origin", "antecedent", "mdp", "mdp2"];
-                                if (checkFormFields($required_fields_edit_patient)){
-                                    $bdd = new Query("siteweb");
-                                    // Mettre à jour les informations du patient
-                                    $patient->setFirst_name($_POST["Nom"]);
-                                    $patient->setLast_name($_POST["prénom"]);
-                                    $patient->setEmail($_POST["identifiant"]);
-                                    $patient->setGender($_POST["genre"]);
-                                    $patient->setOrigins($_POST["origin"]);
-                                    $patient->setAntecedent($_POST["antecedent"]);
-                                    $patient->setMdp($_POST["mdp"]);
-                                    // Mettre à jour la base de données
-                                    $patient->ChangeInfo($bdd);
-                                    // Mettre à jour l'objet en session
-                                    $_SESSION["patient"] = $patient;
-                                    // Rediriger vers la page du patient
-                                    header("Location: page_patient.php");
-                                    exit;
+                                $required_fields_edit_patient = ["Nom", "prénom", "identifiant", "genre", "origin", "medical", "mdp", "mdp2"];
+                                if (checkFormFields($required_fields_edit_patient)){ // Vérifie si tous les champs sont remplis
+                                    if (checkPassword($_POST["mdp"], $_POST["mdp2"])){ // Vérifie si les mots de passe correspondent
+                                        $bdd = new Query("siteweb");
+                                        // Mettre à jour les informations du patient
+                                        $patient->setFirst_name($_POST["Nom"]);
+                                        $patient->setLast_name($_POST["prénom"]);
+                                        $patient->setEmail($_POST["identifiant"]);
+                                        $patient->setGender($_POST["genre"]);
+                                        $patient->setOrigins($_POST["origin"]);
+                                        $patient->setAntecedent($_POST["medical"]);
+                                        $patient->setMdp($_POST["mdp"]);
+                                        // Mettre à jour la base de données
+                                        $patient->ChangeInfo($bdd);
+                                        // Mettre à jour l'objet en session
+                                        $_SESSION["patient"] = $patient;
+                                        // Rediriger vers la page du patient
+                                        header("Location: page_patient.php");
+                                        exit;
+                                    } else 
+                                        AfficherErreur("Passwords do not match");
                                 } else 
                                     AfficherErreur("Please fill all the fields");
 

@@ -42,7 +42,7 @@ function VerifyAccountType($mail_user, $bdd)
 }
 
 /**
- * Vérifie si un utilisateur est banni.
+ * Vérifie si un utilisateur est a rempli tous les formulaires d'inscription.
  *
  * @param array $user_data Les données du patient à vérifier avant d'envoyer les infos à la bdd
  * 
@@ -52,6 +52,15 @@ function checkFormFields($fields) {
         if (empty($_POST[$field]))
             return false;
     }
+    return true;
+}
+
+/** Vérifie si le mot de passe et sa confirmation sont identiques.
+ * 
+ */
+function checkPassword($password, $password_confirm) {
+    if ($password != $password_confirm)
+        return false;
     return true;
 }
 
