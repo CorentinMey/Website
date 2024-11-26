@@ -4,8 +4,8 @@
 
     <title>Page de connexion</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="CSS/page_admin.css">
-    <link rel="stylesheet" type="text/css" href="CSS/global.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/page_admin.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/global.css">
 
 </head>
 
