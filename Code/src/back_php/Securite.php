@@ -41,4 +41,18 @@ function VerifyAccountType($mail_user, $bdd)
     return $out;
 }
 
+/**
+ * Vérifie si un utilisateur est banni.
+ *
+ * @param array $user_data Les données du patient à vérifier avant d'envoyer les infos à la bdd
+ * 
+ */
+function checkFormFields($fields) {
+    foreach ($fields as $field) {
+        if (empty($_POST[$field]))
+            return false;
+    }
+    return true;
+}
+
 ?>

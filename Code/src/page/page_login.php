@@ -17,7 +17,6 @@ session_start();
         <!-- division pour le fond de la page de connexion -->
         <img src="../Ressources/Images/background_login_signin.png" alt="fond" id="fond">
 
-        <!-- division pour le fond du 1er plan -->
 
         <!-- division pour les élements du 1er plan (logo et formulaire) -->
         <div id="element_1er_plan">
