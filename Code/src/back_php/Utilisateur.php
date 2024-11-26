@@ -117,7 +117,7 @@ class Utilisateur {
 
     # Méthodes de classe
 
-    protected function Inscription($dict_information, $bdd){
+    public function Inscription($dict_information, $bdd){
         // Extraire les colonnes et leurs valeurs
         $columns = array_keys($dict_information); // Récupère les noms des colonnes
         $values = array_values($dict_information); // Récupère les valeurs à insérer
