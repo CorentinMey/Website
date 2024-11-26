@@ -10,6 +10,7 @@ if (isset($_SESSION["patient"])) { // vérifie si le patient souhaite changer se
     $gender = $patient->getGender();
     $origins = $patient->getOrigins();
     $antecedent = $patient->getAntecedent();
+    $date_naissance = $patient->getBirthdate();
     $bdd = new Query("siteweb");
     // Récupérez les autres informations nécessaires
 } else { // si l'utilisateur souhaite seulement s'inscrire
@@ -87,7 +88,7 @@ if (isset($_SESSION["patient"])) { // vérifie si le patient souhaite changer se
                     echo '<div class="input_info">';
                         echo '<label for="genre">Gender</label>';
                         echo '<select id="genre" name="genre" class="deroulant" >';
-                            echo '<option value='.$gender.'>'.$gender.'</option>';
+                            echo '<option value='.htmlspecialchars($gender).'>'.$gender.'</option>';
                             echo '<option value="male">Male</option>';
                             echo '<option value="female">Female</option>';
                         echo '</select>';
@@ -103,7 +104,7 @@ if (isset($_SESSION["patient"])) { // vérifie si le patient souhaite changer se
                         echo '<div class="input_info">';
                             echo '<label for="origin">Origins</label>';
                                 echo '<select id="origin" name="origin" class="deroulant" >';
-                                    echo '<option value='.$origins.'>'. $origins . '</option>';
+                                    echo '<option value='.htmlspecialchars($origins).'>'. $origins . '</option>';
                                     echo '<option value="Europe">Europe</option>';
                                     echo '<option value="North America">North America</option>';
                                     echo '<option value="South America">South America</option>';
@@ -117,7 +118,7 @@ if (isset($_SESSION["patient"])) { // vérifie si le patient souhaite changer se
                         echo '<div class="input_info">';
                             echo '<label for="medical">Medical History</label>';
                                 echo '<select id="medical" name="medical" class="deroulant" >';
-                                    echo '<option value='.$antecedent.'>'. $antecedent  .'</option>';
+                                    echo '<option value='.htmlspecialchars($antecedent).'>'. $antecedent  .'</option>';
                                     echo '<option value="None">None</option>';
                                     echo '<option value="Hypertension">Hypertension</option>';
                                     echo '<option value="Type 2 diabetes">Type 2 diabetes</option>';
@@ -152,7 +153,6 @@ if (isset($_SESSION["patient"])) { // vérifie si le patient souhaite changer se
                 ?>
 
                 <?php
-
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["account_type"]) && $_POST["account_type"] == "Company") {
                     // info du nom de l'entreprise, le siret et la ville
                     echo '<div class="input_info">';
@@ -170,18 +170,17 @@ if (isset($_SESSION["patient"])) { // vérifie si le patient souhaite changer se
                     echo '<input type="text" id="ville" name="ville" />';
                     echo '</div>';
                 }
-
                 ?>
 
                 <div class="input_info">
                     <label for="identifiant">Email</label>
-                    <input type="text" id="identifiant" name="identifiant" value= <?php echo $email?>/>
+                    <input type="text" id="identifiant" name="identifiant" value= "<?php echo $email?>"/>
 
                 </div>
 
                 <div class = "input_info">
                     <label for="date_naissance">Birthdate</label>
-                    <input type="date" id="date_naissance" name="date_naissance" />
+                    <input type="date" id="date_naissance" name="date_naissance" value = "<?php echo $date_naissance?>"/>
                 </div>
 
                 <div class="input_info">
@@ -200,6 +199,8 @@ if (isset($_SESSION["patient"])) { // vérifie si le patient souhaite changer se
                 </div>
 
                 <?php
+                // Code php pour vérifier les entrées de l'utilisateur
+
                     include_once("../back_php/Securite.php");
                     include_once("../back_php/Affichage_gen.php");
                     if ($_SERVER["REQUEST_METHOD"] == "POST") { // Si un bouton a été cliqué

@@ -3,7 +3,7 @@ include_once("Query.php");
 include_once("Affichage_gen.php");
 include_once("Patient.php");
 // include_once("Medecin.php");
-include_once("Entreprise.php");
+// include_once("Entreprise.php");
 
 
 
@@ -87,7 +87,7 @@ function registerNewPatient() {
                 "date_naissance" => $_POST["date_naissance"]
             ];
             // Inscrire le patient
-            $patient->Inscription($bdd_dict, $bdd);
+            $patient->Inscription($bdd, $bdd_dict);
             // Rediriger vers la page d'accueil
             header("Location: page_accueil.php");
             exit;
