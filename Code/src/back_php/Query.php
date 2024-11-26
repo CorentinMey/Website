@@ -1,5 +1,4 @@
 <?php
-
 class Query {
     private $host;
     private $username;
@@ -19,7 +18,9 @@ class Query {
             $this->connection = new PDO($this->host, $this->username, $this->password);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e) {
-            die('Erreur : ' . $e->getMessage());
+            include("../back_php/Affichage_gen.php");
+            afficherErreur("Erreur lors de la connexion à la base de données : " . $e->getMessage());
+            exit();
         }
     }
     
@@ -32,14 +33,24 @@ class Query {
     public function getResults($query, $args){
         $res = $this->connection->prepare($query);
         $res->execute($args);
-        return $res;
+        $rows = $res->fetch();
+        $this->closeStatement($res);
+        return $rows !== false ? $rows : []; // renvoie une liste vide plutot que false pour un aspect pratique
+    }
+
+    public function getResultsAll($query, $args){
+        $res = $this->connection->prepare($query);
+        $res->execute($args);
+        $rows = $res->fetchAll();
+        $this->closeStatement($res);
+        return $rows !== false ? $rows : [];
     }
     
     public function closeBD(){
         $this->connection = null;
     }
     
-    public function closeStatement($statement){
+    private function closeStatement($statement){
         $statement->closeCursor();
     }
     
