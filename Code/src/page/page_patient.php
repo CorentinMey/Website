@@ -9,7 +9,7 @@ if (!isset($_SESSION["patient"])) {
     exit;
 }
 
-$patient = $_SESSION["user"];
+$patient = $_SESSION["patient"];
 $bdd = new Query("siteweb");
 ?>
 

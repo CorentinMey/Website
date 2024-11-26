@@ -61,4 +61,7 @@ $bdd->insertLines($query4, ["nom" => "Dupont", "prenom" => "Alice", "mail" => "t
 
 
 
+$bdd->closeBD();
+
+
 ?>
