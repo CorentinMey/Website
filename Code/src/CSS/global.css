@@ -22,3 +22,14 @@ body {
     border: 0.1em solid black;
     padding: 1em;
 }
+
+.pastille {
+    position: absolute;
+    top: -0.8em;
+    right: -0.9em;
+    background-color: red;
+    color: white;
+    border-radius: 100%;
+    padding: 1em;
+    font-size: 0.6em;
+}
