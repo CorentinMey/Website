@@ -11,6 +11,7 @@ if (isset($_SESSION["patient"])) { // vérifie si le patient souhaite changer se
     $gender = $patient->getGender();
     $origins = $patient->getOrigins();
     $antecedent = $patient->getAntecedent();
+    $date_naissance = $patient->getBirthdate();
     $bdd = new Query("siteweb");
     // Récupérez les autres informations nécessaires
 } else { // si l'utilisateur souhaite seulement s'inscrire
@@ -21,7 +22,6 @@ if (isset($_SESSION["patient"])) { // vérifie si le patient souhaite changer se
     $origins = "Select your origins";
     $antecedent = "";
 }
-
 
 
 ?>
@@ -88,7 +88,7 @@ if (isset($_SESSION["patient"])) { // vérifie si le patient souhaite changer se
                     echo '<div class="input_info">';
                         echo '<label for="genre">Gender</label>';
                         echo '<select id="genre" name="genre" class="deroulant" >';
-                            echo '<option value='.$gender.'>'.$gender.'</option>';
+                            echo '<option value='.htmlspecialchars($gender).'>'.$gender.'</option>';
                             echo '<option value="male">Male</option>';
                             echo '<option value="female">Female</option>';
                         echo '</select>';
@@ -101,35 +101,36 @@ if (isset($_SESSION["patient"])) { // vérifie si le patient souhaite changer se
                 <?php
                     // vérifie si le compte est un patient
                     if (isset($_SESSION["patient"]) || (isset($_POST["account_type"]) && $_POST["account_type"] == "Patient")) {
+                        // Affiche le champ pour les origines
                         echo '<div class="input_info">';
-                            echo '<label for="origin">Origins</label>';
-                                echo '<select id="origin" name="origin" class="deroulant" >';
-                                    echo '<option value='.$origins.'>'. $origins . '</option>';
-                                    echo '<option value="Europe">Europe</option>';
-                                    echo '<option value="North America">North America</option>';
-                                    echo '<option value="South America">South America</option>';
-                                    echo '<option value="Africa">Africa</option>';
-                                    echo '<option value="Asia">Asia</option>';
-                                    echo '<option value="Oceania">Oceania</option>';
-                                echo '</select>';
+                        echo '<label for="origin">Origins</label>';
+                        echo '<select id="origin" name="origin" class="deroulant">';
+                            echo '<option value="">Select your origins</option>';
+                            echo '<option value="Europe"' . (($origins == "Europe") ? ' selected' : '') . '>Europe</option>';
+                            echo '<option value="North America"' . (($origins == "North America") ? ' selected' : '') . '>North America</option>';
+                            echo '<option value="South America"' . (($origins == "South America") ? ' selected' : '') . '>South America</option>';
+                            echo '<option value="Africa"' . (($origins == "Africa") ? ' selected' : '') . '>Africa</option>';
+                            echo '<option value="Asia"' . (($origins == "Asia") ? ' selected' : '') . '>Asia</option>';
+                            echo '<option value="Oceania"' . (($origins == "Oceania") ? ' selected' : '') . '>Oceania</option>';
+                        echo '</select>';
                         echo '</div>';
-    
-                        // Affiche le champ pour les antécédents
+                    
+                        // Affiche le champ pour les antécédents médicaux
                         echo '<div class="input_info">';
-                            echo '<label for="medical">Medical History</label>';
-                                echo '<select id="medical" name="medical" class="deroulant" >';
-                                    echo '<option value='.$antecedent.'>'. $antecedent  .'</option>';
-                                    echo '<option value="None">None</option>';
-                                    echo '<option value="Hypertension">Hypertension</option>';
-                                    echo '<option value="Type 2 diabetes">Type 2 diabetes</option>';
-                                    echo '<option value="Type 1 diabetes">Type 1 diabetes</option>';
-                                    echo '<option value="Asthma">Asthma</option>';
-                                    echo '<option value="Cardiac history">Cardiac history</option>';
-                                    echo '<option value="Food allergy">Food allergy</option>';
-                                echo '</select>';
+                        echo '<label for="medical">Medical History</label>';
+                        echo '<select id="medical" name="medical" class="deroulant">';
+                            echo '<option value="">Select your medical history</option>';
+                            echo '<option value="None"' . (($antecedent == "None") ? ' selected' : '') . '>None</option>';
+                            echo '<option value="Hypertension"' . (($antecedent == "Hypertension") ? ' selected' : '') . '>Hypertension</option>';
+                            echo '<option value="Type 2 diabetes"' . (($antecedent == "Type 2 diabetes") ? ' selected' : '') . '>Type 2 diabetes</option>';
+                            echo '<option value="Type 1 diabetes"' . (($antecedent == "Type 1 diabetes") ? ' selected' : '') . '>Type 1 diabetes</option>';
+                            echo '<option value="Asthma"' . (($antecedent == "Asthma") ? ' selected' : '') . '>Asthma</option>';
+                            echo '<option value="Cardiac history"' . (($antecedent == "Cardiac history") ? ' selected' : '') . '>Cardiac history</option>';
+                            echo '<option value="Food allergy"' . (($antecedent == "Food allergy") ? ' selected' : '') . '>Food allergy</option>';
+                        echo '</select>';
                         echo '</div>';
-                }?>
-
+                    }
+                ?>
                 <?php
 
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["account_type"]) && $_POST["account_type"] == "Doctor") {
@@ -153,7 +154,6 @@ if (isset($_SESSION["patient"])) { // vérifie si le patient souhaite changer se
                 ?>
 
                 <?php
-
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["account_type"]) && $_POST["account_type"] == "Company") {
                     // info du nom de l'entreprise, le siret et la ville
                     echo '<div class="input_info">';
@@ -171,18 +171,17 @@ if (isset($_SESSION["patient"])) { // vérifie si le patient souhaite changer se
                     echo '<input type="text" id="ville" name="ville" />';
                     echo '</div>';
                 }
-
                 ?>
 
                 <div class="input_info">
                     <label for="identifiant">Email</label>
-                    <input type="text" id="identifiant" name="identifiant" value= <?php echo $email?> />
+                    <input type="text" id="identifiant" name="identifiant" value= "<?php echo $email?>"/>
 
                 </div>
 
                 <div class = "input_info">
                     <label for="date_naissance">Birthdate</label>
-                    <input type="date" id="date_naissance" name="date_naissance" />
+                    <input type="date" id="date_naissance" name="date_naissance" value = "<?php echo $date_naissance?>"/>
                 </div>
 
                 <div class="input_info">
@@ -201,113 +200,44 @@ if (isset($_SESSION["patient"])) { // vérifie si le patient souhaite changer se
                 </div>
 
                 <?php
+                // Code php pour vérifier les entrées de l'utilisateur
+
                     include_once("../back_php/Securite.php");
                     include_once("../back_php/Affichage_gen.php");
-                    if ($_SERVER["REQUEST_METHOD"] == "POST") { // si on clique sur un bouton
+                    if ($_SERVER["REQUEST_METHOD"] == "POST") { // Si un bouton a été cliqué
                         if (isset($_POST['action'])) {
-                            $action = $_POST['action']; // pour savoir si on doit confirmer ou revenir en arrière
+                            $action = $_POST['action']; // Détermine l'action à effectuer
 
-                            if ($action == 'confirm' && isset($_SESSION["patient"])) { // si on appuie sur le bouton confirm
-                                $required_fields_edit_patient = ["Nom", "prénom", "identifiant", "genre", "origin", "medical", "mdp", "mdp2"];
-                                if (checkFormFields($required_fields_edit_patient)){ // Vérifie si tous les champs sont remplis
-                                    if (checkPassword($_POST["mdp"], $_POST["mdp2"])){ // Vérifie si les mots de passe correspondent
-                                        $bdd = new Query("siteweb");
-                                        // Mettre à jour les informations du patient
-                                        $patient->setFirst_name($_POST["Nom"]);
-                                        $patient->setLast_name($_POST["prénom"]);
-                                        $patient->setEmail($_POST["identifiant"]);
-                                        $patient->setGender($_POST["genre"]);
-                                        $patient->setOrigins($_POST["origin"]);
-                                        $patient->setAntecedent($_POST["medical"]);
-                                        $patient->setMdp($_POST["mdp"]);
-                                        // Mettre à jour la base de données
-                                        $patient->ChangeInfo($bdd);
-                                        // Mettre à jour l'objet en session
-                                        $_SESSION["patient"] = $patient;
-                                        // Rediriger vers la page du patient
-                                        header("Location: page_patient.php");
-                                        exit;
-                                    } else 
-                                        AfficherErreur("Passwords do not match");
-                                } else 
-                                    AfficherErreur("Please fill all the fields");
-
-                            } elseif ($action == 'back' && isset($_SESSION["patient"])) { // si on appuie sur le bouton back en editant ses informations
-                                // Rediriger vers la page du patient sans mettre à jour
-                                header("Location: page_patient.php");
-                                exit;
-                            } elseif ($action == "back" && !isset($_SESSION["patient"])){
-                                header("Location: page_accueil.php");
-                            } else {
-                                if (isset($_POST["account_type"]) && $_POST["account_type"] == "Patient") {
-                                    $required_fields_patient = ["Nom", "prénom", "identifiant", "genre", "origin", "medical", "mdp", "mdp2", "date_naissance"];
-                                    if (checkFormFields($required_fields_patient)){ // Vérifie si tous les champs sont remplis du patient lors de l'inscription
-                                        if (checkPassword($_POST["mdp"], $_POST["mdp2"])){ // Vérifie si les mots de passe correspondent
-                                            $bdd = new Query("siteweb");
-                                            // Créer un nouvel objet patient
-                                            $patient = new Patient($_POST["mdp"], $_POST["identifiant"]);
-                                            $bdd_dict = ["nom" => $_POST["Nom"],
-                                                        "prenom" => $_POST["prénom"],
-                                                        "genre" => $_POST["genre"],
-                                                        "origine" => $_POST["origin"],
-                                                        "antecedents" => $_POST["medical"],
-                                                        "mail" => $_POST["identifiant"],
-                                                        "mdp" => $_POST["mdp"],
-                                                        "date_naissance" => $_POST["date_naissance"]];
-                                            // Inscrire le patient
-                                            $patient->Inscription($bdd, $bdd_dict);
-                                            // Rediriger vers la page de connexion
-                                            header("Location: page_test.php");
-                                            exit;
-                                        } else 
-                                            AfficherErreur("Passwords do not match");
-                                    } else 
-                                        AfficherErreur("Please fill all the fields");
-                                } elseif (isset($_POST["account_type"]) && $_POST["account_type"] == "Doctor") {
-                                    $required_fields_doctor = ["identifiant", "mdp", "mdp2", "num_ordre", "hopital", "specialite"];
-                                    if (checkFormFields($required_fields_doctor)){ // Vérifie si tous les champs sont remplis
-                                        if (checkPassword($_POST["mdp"], $_POST["mdp2"])){ // Vérifie si les mots de passe correspondent
-                                            $bdd = new Query("siteweb");
-                                            // Créer un nouvel objet médecin
-                                            $doctor = new Medecin($_POST["mdp"], $_POST["identifiant"]);
-                                            $bdd_dict = ["mail" => $_POST["identifiant"],
-                                                        "mdp" => $_POST["mdp"],
-                                                        "numero_ordre" => $_POST["num_ordre"],
-                                                        "hopital" => $_POST["hopital"],
-                                                        "specialite" => $_POST["specialite"]];
-                                            // Inscrire le médecin
-                                            $doctor->Inscription($bdd, $bdd_dict);
-                                            // Rediriger vers la page de connexion
-                                            header("Location: page_accueil.php");
-                                            exit;
-                                            } else
-                                                AfficherErreur("Passwords do not match");
-                                        } else
-                                            AfficherErreur("Please fill all the fields");
-                                    } elseif (isset($_POST["account_type"]) && $_POST["account_type"] == "Company") {
-                                        $required_fields_company = ["identifiant", "mdp", "mdp2", "nom_entreprise", "siret", "ville"];
-                                        if (checkFormFields($required_fields_company)){ // Vérifie si tous les champs sont remplis
-                                            if (checkPassword($_POST["mdp"], $_POST["mdp2"])){ // Vérifie si les mots de passe correspondent
-                                                $bdd = new Query("siteweb");
-                                                // Créer un nouvel objet entreprise
-                                                $company = new Entreprise($_POST["mdp"], $_POST["identifiant"]);
-                                                $bdd_dict = ["mail" => $_POST["identifiant"],
-                                                            "mdp" => $_POST["mdp"],
-                                                            "siret" => $_POST["siret"],
-                                                            "nom_entreprise" => $_POST["nom_entreprise"],
-                                                            "ville" => $_POST["ville"]];
-                                                // Inscrire l'entreprise
-                                                $company->Inscription($bdd, $bdd_dict);
-                                                // Rediriger vers la page de connexion
-                                                header("Location: page_accueil.php");
-                                                exit;
-                                            } else
-                                                AfficherErreur("Passwords do not match");
-                                        } else
-                                            AfficherErreur("Please fill all the fields");
-
-                                    }
-                          }
+                        if ($action == 'confirm' && isset($_SESSION["patient"])) {
+                            // Mise à jour des informations du patient existant
+                            $patient->updatePatientInfo();
+                        } elseif ($action == 'back' && isset($_SESSION["patient"])) {
+                            // Retour à la page patient sans mise à jour
+                            header("Location: page_patient.php");
+                            exit;
+                        } elseif ($action == "back" && !isset($_SESSION["patient"])) {
+                            // Retour à la page d'accueil
+                            header("Location: page_accueil.php");
+                            exit;
+                        } else {
+                            // Inscription d'un nouvel utilisateur en fonction du type de compte
+                            if (isset($_POST["account_type"])) {
+                                switch ($_POST["account_type"]) {
+                                    case "Patient":
+                                        registerNewPatient();
+                                        break;
+                                    case "Doctor":
+                                        registerNewDoctor();
+                                        break;
+                                    case "Company":
+                                        registerNewCompany();
+                                        break;
+                                    default:
+                                        AfficherErreur("Invalid account type selected.");
+                                }
+                            } else
+                                AfficherErreur("Please select an account type.");
+                            }
                         }
                     }
                 ?>

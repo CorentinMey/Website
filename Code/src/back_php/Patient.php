@@ -54,8 +54,10 @@ class Patient extends Utilisateur{
             $bdd->closeBD();
         }
     }
-
-    public function ChangeInfo($bdd){
+    /**
+     * Méthode pour mettre à jour les informations du patient dans la base de données.
+     */
+    private function ChangeInfo($bdd){
         $query = "UPDATE utilisateur SET prenom = :first_name, 
                                      nom = :last_name, 
                                      mail = :email, 
@@ -76,6 +78,36 @@ class Patient extends Utilisateur{
         ];
         $bdd->updateLines($query, $params);
     }
+
+        // Fonction pour mettre à jour les informations du patient existant
+        public function updatePatientInfo() {
+        $required_fields = ["Nom", "prénom", "identifiant", "genre", "origin", "medical", "mdp", "mdp2"];
+        if (checkFormFields($required_fields)) { // Vérifie si tous les champs sont remplis
+            if (checkPassword($_POST["mdp"], $_POST["mdp2"])) { // Vérifie si les mots de passe correspondent
+                $bdd = new Query("siteweb");
+                // Mettre à jour les informations du patient
+                $this->setFirst_name($_POST["Nom"]);
+                $this->setLast_name($_POST["prénom"]);
+                $this->setEmail($_POST["identifiant"]);
+                $this->setGender($_POST["genre"]);
+                $this->setOrigins($_POST["origin"]);
+                $this->setAntecedent($_POST["medical"]);
+                $this->setMdp($_POST["mdp"]);
+                // Mettre à jour la base de données
+                $this->ChangeInfo($bdd);
+                // Mettre à jour l'objet en session
+                $_SESSION["patient"] = $this;
+                // Rediriger vers la page du patient
+                header("Location: page_patient.php");
+                exit;
+            } else {
+                AfficherErreur("Passwords do not match");
+            }
+        } else {
+            AfficherErreur("Please fill all the fields");
+        }
+    }
+    
 }
 
 ?>

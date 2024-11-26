@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 class Entreprise extends Utilisateur {
     protected $siret;
     protected $ville;

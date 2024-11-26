@@ -1,0 +1,195 @@
+#en-tete {
+    margin-left: 40%;
+    width:50%;
+    height : 10%;
+    display: flex;
+    flex-direction: row;
+}
+
+#logo_page{
+    width : 6em;
+    height : 4em;
+}
+
+#en-tete_text{
+    margin-left: 2%;
+    font-size: 1em;
+    width : 100%;
+}
+
+#en-tete_text h1,
+#en-tete_text h2 {
+    margin: 0; /* Supprime les marges par défaut */
+    padding: 0; /* Supprime les espacements internes par défaut */
+}
+
+#en-tete_text h2{
+    margin-left: 3%;
+}
+
+#banderolle {
+    background-color: lightblue;
+    height: 8%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#logo_container_hist {
+    position: relative; /* Nécessaire pour positionner la boîte de texte par rapport au conteneur */
+    display: inline-block;
+}
+
+#logo_historic{
+    width: 5em;
+    height: 4em;
+    margin-left : 2em;
+    cursor: pointer;
+    border : 0.3em solid black;
+    border-radius: 50%;
+}
+
+#logo_container {
+    position: relative; /* Nécessaire pour positionner la boîte de texte par rapport au conteneur */
+    display: inline-block;
+}
+
+#logo_account {
+    width: 4em;
+    height: 4em;
+    cursor: pointer; /* Change le curseur pour indiquer que c'est cliquable */
+    margin-left: -7em; /* Décale le logo vers la gauche */
+}
+
+#tooltip {
+    visibility: hidden; /* Cache la boîte de texte par défaut */
+    width: 10em; /* Utilisation d'une mesure relative */
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 0.5em;
+    padding: 0.5em 0;
+    position: absolute;
+    z-index: 1;
+    top: 110%; /* Positionne la boîte de texte en dessous du logo */
+    left: 50%;
+    transform: translateX(-100%);
+    opacity: 0; /* Cache la boîte de texte par défaut */
+    transition: opacity 0.3s; /* Transition pour l'effet de fondu */
+}
+
+#tooltip::after {
+    content: "";
+    position: absolute;
+    top: -0.5em; /* En haut de la boîte de texte */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0.5em;
+    border-style: solid;
+    border-color: black transparent transparent transparent; /* Triangle pointant vers le logo */
+}
+
+#logo_container:hover #tooltip {
+    visibility: visible; /* Affiche la boîte de texte au survol */
+    opacity: 1; /* Rend la boîte de texte visible */
+}
+
+#tooltip_hist {
+    visibility: hidden; /* Cache la boîte de texte par défaut */
+    width: 10em; /* Utilisation d'une mesure relative */
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 0.5em;
+    padding: 0.5em 0;
+    position: absolute;
+    z-index: 1;
+    top: 110%; /* Positionne la boîte de texte en dessous du logo */
+    left: 50%;
+    transform: translateX(-40%);
+    opacity: 0; /* Cache la boîte de texte par défaut */
+    transition: opacity 0.3s; /* Transition pour l'effet de fondu */
+}
+
+#tooltip_hist::after {
+    content: "";
+    position: absolute;
+    top: -0.5em; /* En haut de la boîte de texte */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0.5em;
+    border-style: solid;
+    border-color: black transparent transparent transparent; /* Triangle pointant vers le logo */
+}
+
+#logo_container_hist:hover #tooltip_hist {
+    visibility: visible; /* Affiche la boîte de texte au survol */
+    opacity: 1; /* Rend la boîte de texte visible */
+}
+
+
+#banderolle_img{
+    width: 100%;
+    height : 40em;
+}
+
+.title{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around; /*Centre le texte*/
+    align-items: center;
+    margin-bottom: 0em;
+}
+
+#redirect_buttons{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#button_patient{
+    font-size: 2em;
+    width: auto; /* Ajuste automatiquement la largeur en fonction du contenu */
+    height: auto;
+    margin-top :0.71em;
+    padding: 0.5em 1em;
+}
+
+#personnal_data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centre la table horizontalement */
+}
+
+
+#table_patient {
+    margin-top : 2em;
+    width : 75%;   
+    border-collapse: separate; /* Utilisez 'separate' pour permettre l'arrondissement des angles */
+    border-radius: 1em; /* Arrondit les angles du tableau */
+    overflow: hidden; /* Assure que les coins arrondis sont appliqués */
+}
+
+#table_patient thead tr{
+    font-size : 1.5em;
+}
+
+#table_patient tbody{
+    font-size : 1.2em;
+    text-align: center;
+}
+
+#edit_option{
+    margin-top: 0.5em;
+    margin-left: 67%;
+    font-size: 1em;
+    text-decoration: none;
+    color : #223e69;
+}
+
+#edit_option:hover{
+    text-decoration: underline;
+}
+
