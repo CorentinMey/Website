@@ -1,5 +1,4 @@
 <?php
-include_once("Utilisateur.php");
 
 class Entreprise extends Utilisateur {
 
