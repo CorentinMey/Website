@@ -216,44 +216,45 @@ CREATE TABLE `utilisateur` (
   `antecedents` varchar(255) DEFAULT NULL,
   `is_bannis` tinyint(1) DEFAULT NULL,
   `is_admin` tinyint(1) DEFAULT NULL,
-  `mdp` varchar(255) NOT NULL
+  `mdp` varchar(255) NOT NULL,
+  `origine` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `utilisateur`
 --
 
-INSERT INTO `utilisateur` (`ID_User`, `date_naissance`, `prenom`, `nom`, `genre`, `mail`, `antecedents`, `is_bannis`, `is_admin`, `mdp`) VALUES
-(1, '1990-05-12', 'Alice', 'Dupont', 'F', 'alice.dupont@mail.com', 'Hypertension', 0, 1, '$2y$10$F6SMeliyyZi2bdLgOC5XJem3lMxErdJmEWkGbcn3o1ohCQJmykpEK'),
-(2, '1985-09-20', 'Bob', 'Martin', 'M', 'bob.martin@mail.com', 'Diabète type 2', 0, 0, '1234'),
-(3, '2000-11-15', 'Charlie', 'Lemoine', 'M', 'charlie.lemoine@mail.com', 'Asthme', 0, 0, '$2y$10$ZmcThLvodtNibt8F.GaW8ut6l26aMe38bNiwX5ny595SIjkQ/.OxW'),
-(4, '1975-03-30', 'Diane', 'Roux', 'F', 'diane.roux@mail.com', 'Allergies alimentaires', 0, 0, '$2y$10$xwVM8UzJkn.kTuSoftD2TuYjrx8Jcgi/Y86Q6TQiZ1iSNNVBe2C4e'),
-(5, '1998-01-22', 'Eva', 'Garnier', 'F', 'eva.garnier@mail.com', 'Aucun', 0, 0, '$2y$10$wDr56/zHY5DznIDYTrGuAeK1wVfx8nYMNkKWoNDgFVXIazRHyyGwC'),
-(6, '1965-07-07', 'François', 'Durand', 'M', 'francois.durand@mail.com', 'Antécédent cardiaque', 0, 0, '$2y$10$Lr8iPHS.VvBfPWRvdHNkCe5yFu9MnFB240y4MPm8ch7ATTGiAb4Zu'),
-(7, '1992-02-18', 'Gabrielle', 'Morel', 'F', 'gabrielle.morel@mail.com', 'Aucun', 0, 0, '$2y$10$v0pYWhRqUBYsPsOXrtaxP.0bwxfUimbU0hhu77Gd0Jjzb3Qcnho4a'),
-(8, '1980-12-01', 'Hugo', 'Bernard', 'M', 'hugo.bernard@mail.com', 'Hypertension', 0, 0, '$2y$10$C1lJpqrx4FJ579YwA9uDP.BVySrDZc8odhCwm0FBXdC7K/8jvgRvC'),
-(9, '1995-06-30', 'Isabelle', 'Fontaine', 'F', 'isabelle.fontaine@mail.com', 'Aucun', 0, 0, '$2y$10$5R77UGEv3UJAZD7yEiawo.jK.9FSjESdFYMf6Dnb4FTSSiPbdpbHe'),
-(10, '1972-04-25', 'Jacques', 'Perrin', 'M', 'jacques.perrin@mail.com', 'Antécédent cardiaque', 0, 0, '$2y$10$Fb5WaT96AZ/ZPViRx4Y60eq/ETeUmZ4QKnZvnqSo3t.p6rkq/CR5W'),
-(11, '1987-10-05', 'Katherine', 'Dupuis', 'F', 'katherine.dupuis@mail.com', 'Aucun', 0, 0, '$2y$10$B/1Jcp3txzQ88OJqzUV2VOTWMclKXeSDWJe59Ax2fgcL20cJJTXWC'),
-(12, '1993-12-22', 'Louis', 'Chavez', 'M', 'louis.chavez@mail.com', 'Asthme', 0, 0, '$2y$10$Zd.wu3FUVtvMBYs8BsK0Wu1h2K5r5Rn0Q6P4WMuqD1x.rPOVVTAMi'),
-(13, '1997-01-10', 'Maya', 'Girod', 'F', 'maya.girod@mail.com', 'Aucun', 0, 0, '$2y$10$ofL7Z93RjCimDu7T8ZvXJOwKnPCfeJ6gnyqzmkXGMqYEsVy8B3dZ2'),
-(14, '1996-11-30', 'Nicolas', 'Lemoine', 'M', 'nicolas.lemoine@mail.com', 'Diabète type 1', 0, 0, '$2y$10$/uga/.3chXjQuoOLyIRdQupvssoUgfmbTQmJFvE7TVUyAgLgvHAam'),
-(15, '1982-04-14', 'Olivier', 'Boucher', 'M', 'olivier.boucher@mail.com', 'Aucun', 0, 0, '$2y$10$ozXhAeVlFd5.dhbcFL/q/OOSY4yi0P.PID5BiOqmEjBDx9Wn7rjRG'),
-(16, '1999-03-25', 'Pauline', 'Simard', 'F', 'pauline.simard@mail.com', 'Allergies alimentaires', 0, 0, '$2y$10$jGrP9aqWNRe6h6vosxbuqeHQnV1dE0y7fXU2pftv.hQ4C9sxEtqiO'),
-(17, '1989-01-17', 'Quentin', 'Mercier', 'M', 'quentin.mercier@mail.com', 'Hypertension', 0, 0, '$2y$10$Lqlku5WlduUJXHZRtjDBQOe0CypuYu2AkNEEWMWW.gVViDH1JWZve'),
-(18, '1994-07-08', 'Rachel', 'Vidal', 'F', 'rachel.vidal@mail.com', 'Aucun', 0, 0, '$2y$10$P.C0FfY5CQ4iZUkPYSi.QOBDRAVc5Z66TezQt0wWFEvo.dlRR7ZC6'),
-(19, '1981-12-30', 'Sébastien', 'Robert', 'M', 'sebastien.robert@mail.com', 'Antécédent cardiaque', 0, 0, '$2y$10$rpLUwgO6wBKMPVMkVxscnuPd401ooFKrY4vSfe1K6myUfZ0dzn26S'),
-(20, '1991-02-03', 'Thomas', 'Leclerc', 'M', 'thomas.leclerc@mail.com', 'Aucun', 0, 0, '$2y$10$yhbo7ueIsygDoh6QJ7zVx.bBvaC71syosZtkn3qRKC7nG5Xsg1//2'),
-(21, '2001-04-18', 'Ursula', 'Renard', 'F', 'ursula.renard@mail.com', 'Diabète type 2', 0, 0, '$2y$10$egTIOCOQ3QCgeE.82.AxeOt4yGXLFJXPakB0IpKyeXgSeFV55HT76'),
-(22, '1994-10-25', 'Victor', 'Chastel', 'M', 'victor.chastel@mail.com', 'Aucun', 0, 0, '$2y$10$JVtTxU0lgBQivFaqptfRju3IZ2rTA4HEaKIhjcOfJar3hUpzmEjLS'),
-(23, '1984-08-12', 'Wendy', 'Charrier', 'F', 'wendy.charrier@mail.com', 'Hypertension', 0, 0, '$2y$10$BWkmCq9WK7idJnIElyKV8Oh8gr7dDLl8Z81CvUe60rKZ192oGTc6G'),
-(24, '1992-02-06', 'Xavier', 'Fournier', 'M', 'xavier.fournier@mail.com', 'Aucun', 0, 0, '$2y$10$B1LJPoAgDwSTxTZlYWe.uOpymjzXwXcTNCaImnj5q8wmdKZS996o2'),
-(25, '1986-11-10', 'Yasmine', 'Berrier', 'F', 'yasmine.berrier@mail.com', 'Asthme', 0, 0, '$2y$10$FxDXjQoGyHC03w5I8AK57eDcwPUXp30KAPN5P4LH4firXZqAlOZAW'),
-(26, '1993-03-14', 'Zacharie', 'Pires', 'M', 'zacharie.pires@mail.com', 'Aucun', 0, 0, '$2y$10$RccfGRrWR27adJgZQgkya.3MXu4l6gGim9T1pFGpDHoxRAgNcpgme'),
-(27, '1988-04-04', 'Alexis', 'Martinez', 'M', 'alexis.martinez@mail.com', 'Aucun', 0, 0, '$2y$10$tq/7cChmbrmqoheubLIZTOssfEHxWCYHyd/5fsLXH1ShXmW3UCB7W'),
-(28, '1983-09-09', 'Barbara', 'Vermot', 'F', 'barbara.vermot@mail.com', 'Diabète type 2', 0, 0, '$2y$10$kkDbeuz9dwh6gecSrJoiEeZbuEJxAX1cc9k62SGHKIqoGSkFJmzFq'),
-(29, '1985-06-17', 'Catherine', 'Rossi', 'F', 'catherine.rossi@mail.com', 'Allergies alimentaires', 0, 0, '$2y$10$zJ3He6yMYLCgJxKc8EvtwumulgcpmrMBm0I2CBMooTFpgtJMgg1nW'),
-(30, '1990-07-11', 'David', 'Lefevre', 'M', 'david.lefevre@mail.com', 'Aucun', 0, 0, '$2y$10$1cghFxWcRLbPFnSjvvN.aOwju2X7pTrCHTdenyk1KLikdZk6s7.bK');
+INSERT INTO `utilisateur` (`ID_User`, `date_naissance`, `prenom`, `nom`, `genre`, `mail`, `antecedents`, `is_bannis`, `is_admin`, `mdp`, `origine`) VALUES
+(1, '1990-05-12', 'Alice', 'Dupont', 'F', 'alice.dupont@mail.com', 'Hypertension', 0, 1, '$2y$10$F6SMeliyyZi2bdLgOC5XJem3lMxErdJmEWkGbcn3o1ohCQJmykpEK', 'Europe'),
+(2, '1985-09-20', 'Bob', 'Martin', 'M', 'bob.martin@mail.com', 'Diabète type 2', 0, 0, '1234', 'North America'),
+(3, '2000-11-15', 'Charlie', 'Lemoine', 'M', 'charlie.lemoine@mail.com', 'Asthme', 0, 0, '$2y$10$ZmcThLvodtNibt8F.GaW8ut6l26aMe38bNiwX5ny595SIjkQ/.OxW', 'Europe'),
+(4, '1975-03-30', 'Diane', 'Roux', 'F', 'diane.roux@mail.com', 'Allergies alimentaires', 0, 0, '$2y$10$xwVM8UzJkn.kTuSoftD2TuYjrx8Jcgi/Y86Q6TQiZ1iSNNVBe2C4e', 'South America'),
+(5, '1998-01-22', 'Eva', 'Garnier', 'F', 'eva.garnier@mail.com', 'Aucun', 0, 0, '$2y$10$wDr56/zHY5DznIDYTrGuAeK1wVfx8nYMNkKWoNDgFVXIazRHyyGwC', 'Oceania'),
+(6, '1965-07-07', 'François', 'Durand', 'M', 'francois.durand@mail.com', 'Antécédent cardiaque', 0, 0, '$2y$10$Lr8iPHS.VvBfPWRvdHNkCe5yFu9MnFB240y4MPm8ch7ATTGiAb4Zu', 'Africa'),
+(7, '1992-02-18', 'Gabrielle', 'Morel', 'F', 'gabrielle.morel@mail.com', 'Aucun', 0, 0, '$2y$10$v0pYWhRqUBYsPsOXrtaxP.0bwxfUimbU0hhu77Gd0Jjzb3Qcnho4a', 'Asia'),
+(8, '1980-12-01', 'Hugo', 'Bernard', 'M', 'hugo.bernard@mail.com', 'Hypertension', 0, 0, '$2y$10$C1lJpqrx4FJ579YwA9uDP.BVySrDZc8odhCwm0FBXdC7K/8jvgRvC', 'Europe'),
+(9, '1995-06-30', 'Isabelle', 'Fontaine', 'F', 'isabelle.fontaine@mail.com', 'Aucun', 0, 0, '$2y$10$5R77UGEv3UJAZD7yEiawo.jK.9FSjESdFYMf6Dnb4FTSSiPbdpbHe', 'North America'),
+(10, '1972-04-25', 'Jacques', 'Perrin', 'M', 'jacques.perrin@mail.com', 'Antécédent cardiaque', 0, 0, '$2y$10$Fb5WaT96AZ/ZPViRx4Y60eq/ETeUmZ4QKnZvnqSo3t.p6rkq/CR5W', 'Africa'),
+(11, '1987-10-05', 'Katherine', 'Dupuis', 'F', 'katherine.dupuis@mail.com', 'Aucun', 0, 0, '$2y$10$B/1Jcp3txzQ88OJqzUV2VOTWMclKXeSDWJe59Ax2fgcL20cJJTXWC', 'Asia'),
+(12, '1993-12-22', 'Louis', 'Chavez', 'M', 'louis.chavez@mail.com', 'Asthme', 0, 0, '$2y$10$Zd.wu3FUVtvMBYs8BsK0Wu1h2K5r5Rn0Q6P4WMuqD1x.rPOVVTAMi', 'Asia'),
+(13, '1997-01-10', 'Maya', 'Girod', 'F', 'maya.girod@mail.com', 'Aucun', 0, 0, '$2y$10$ofL7Z93RjCimDu7T8ZvXJOwKnPCfeJ6gnyqzmkXGMqYEsVy8B3dZ2', 'Asia'),
+(14, '1996-11-30', 'Nicolas', 'Lemoine', 'M', 'nicolas.lemoine@mail.com', 'Diabète type 1', 0, 0, '$2y$10$/uga/.3chXjQuoOLyIRdQupvssoUgfmbTQmJFvE7TVUyAgLgvHAam', 'Asia'),
+(15, '1982-04-14', 'Olivier', 'Boucher', 'M', 'olivier.boucher@mail.com', 'Aucun', 0, 0, '$2y$10$ozXhAeVlFd5.dhbcFL/q/OOSY4yi0P.PID5BiOqmEjBDx9Wn7rjRG', 'Africa'),
+(16, '1999-03-25', 'Pauline', 'Simard', 'F', 'pauline.simard@mail.com', 'Allergies alimentaires', 0, 0, '$2y$10$jGrP9aqWNRe6h6vosxbuqeHQnV1dE0y7fXU2pftv.hQ4C9sxEtqiO', 'Africa'),
+(17, '1989-01-17', 'Quentin', 'Mercier', 'M', 'quentin.mercier@mail.com', 'Hypertension', 0, 0, '$2y$10$Lqlku5WlduUJXHZRtjDBQOe0CypuYu2AkNEEWMWW.gVViDH1JWZve', 'Africa'),
+(18, '1994-07-08', 'Rachel', 'Vidal', 'F', 'rachel.vidal@mail.com', 'Aucun', 0, 0, '$2y$10$P.C0FfY5CQ4iZUkPYSi.QOBDRAVc5Z66TezQt0wWFEvo.dlRR7ZC6', 'Africa'),
+(19, '1981-12-30', 'Sébastien', 'Robert', 'M', 'sebastien.robert@mail.com', 'Antécédent cardiaque', 0, 0, '$2y$10$rpLUwgO6wBKMPVMkVxscnuPd401ooFKrY4vSfe1K6myUfZ0dzn26S', 'Africa'),
+(20, '1991-02-03', 'Thomas', 'Leclerc', 'M', 'thomas.leclerc@mail.com', 'Aucun', 0, 0, '$2y$10$yhbo7ueIsygDoh6QJ7zVx.bBvaC71syosZtkn3qRKC7nG5Xsg1//2', 'Africa'),
+(21, '2001-04-18', 'Ursula', 'Renard', 'F', 'ursula.renard@mail.com', 'Diabète type 2', 0, 0, '$2y$10$egTIOCOQ3QCgeE.82.AxeOt4yGXLFJXPakB0IpKyeXgSeFV55HT76', 'Oceania'),
+(22, '1994-10-25', 'Victor', 'Chastel', 'M', 'victor.chastel@mail.com', 'Aucun', 0, 0, '$2y$10$JVtTxU0lgBQivFaqptfRju3IZ2rTA4HEaKIhjcOfJar3hUpzmEjLS', 'Oceania'),
+(23, '1984-08-12', 'Wendy', 'Charrier', 'F', 'wendy.charrier@mail.com', 'Hypertension', 0, 0, '$2y$10$BWkmCq9WK7idJnIElyKV8Oh8gr7dDLl8Z81CvUe60rKZ192oGTc6G', 'Oceania'),
+(24, '1992-02-06', 'Xavier', 'Fournier', 'M', 'xavier.fournier@mail.com', 'Aucun', 0, 0, '$2y$10$B1LJPoAgDwSTxTZlYWe.uOpymjzXwXcTNCaImnj5q8wmdKZS996o2', 'Europe'),
+(25, '1986-11-10', 'Yasmine', 'Berrier', 'F', 'yasmine.berrier@mail.com', 'Asthme', 0, 0, '$2y$10$FxDXjQoGyHC03w5I8AK57eDcwPUXp30KAPN5P4LH4firXZqAlOZAW', 'Europe'),
+(26, '1993-03-14', 'Zacharie', 'Pires', 'M', 'zacharie.pires@mail.com', 'Aucun', 0, 0, '$2y$10$RccfGRrWR27adJgZQgkya.3MXu4l6gGim9T1pFGpDHoxRAgNcpgme', 'Europe'),
+(27, '1988-04-04', 'Alexis', 'Martinez', 'M', 'alexis.martinez@mail.com', 'Aucun', 0, 0, '$2y$10$tq/7cChmbrmqoheubLIZTOssfEHxWCYHyd/5fsLXH1ShXmW3UCB7W', 'Europe'),
+(28, '1983-09-09', 'Barbara', 'Vermot', 'F', 'barbara.vermot@mail.com', 'Diabète type 2', 0, 0, '$2y$10$kkDbeuz9dwh6gecSrJoiEeZbuEJxAX1cc9k62SGHKIqoGSkFJmzFq', 'Europe'),
+(29, '1985-06-17', 'Catherine', 'Rossi', 'F', 'catherine.rossi@mail.com', 'Allergies alimentaires', 0, 0, '$2y$10$zJ3He6yMYLCgJxKc8EvtwumulgcpmrMBm0I2CBMooTFpgtJMgg1nW', 'Europe'),
+(30, '1990-07-11', 'David', 'Lefevre', 'M', 'david.lefevre@mail.com', 'Aucun', 0, 0, '$2y$10$1cghFxWcRLbPFnSjvvN.aOwju2X7pTrCHTdenyk1KLikdZk6s7.bK', 'Europe');
 
 --
 -- Index pour les tables déchargées

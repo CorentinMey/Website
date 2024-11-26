@@ -108,25 +108,35 @@ class Utilisateur {
 
     # Méthodes de classe
 
-    protected function Inscription($dict_information, $bdd){
+    public function Inscription($bdd, $dict_information) {
+        // Ajouter les clés is_bannis et is_admin avec valeur 0 au dictionnaire
+        $dict_information['is_bannis'] = 0;
+        $dict_information['is_admin'] = 0;
+    
+        // Vérifier si la clé "mdp" existe dans les informations
+        if (isset($dict_information['mdp'])) {
+            // Hacher le mot de passe avant l'insertion
+            $dict_information['mdp'] = password_hash($dict_information['mdp'], PASSWORD_DEFAULT);
+        }
+    
         // Extraire les colonnes et leurs valeurs
         $columns = array_keys($dict_information); // Récupère les noms des colonnes
         $values = array_values($dict_information); // Récupère les valeurs à insérer
-
+    
         // Générer la partie de la requête SQL
         $column_names = implode(", ", $columns); // Concatène les noms des colonnes avec des virgules
         $placeholders = implode(", ", array_fill(0, count($columns), "?")); // Génère un placeholder "?" pour chaque colonne
-
+    
         // Construire la requête d'insertion
         $query = "INSERT INTO utilisateur ($column_names) VALUES ($placeholders)";
-
+    
         try {
             // Préparer la requête
-            $res = $bdd->prepare($query);
-
+            $res = $bdd->getConnection()->prepare($query);
+    
             // Exécuter la requête avec les valeurs
             $res->execute($values);
-
+    
             // Retourner le résultat ou true pour indiquer que tout s'est bien passé
             return true;
         } catch (PDOException $e) {
@@ -135,6 +145,8 @@ class Utilisateur {
             return false;
         }
     }
+    
+    
 
     public function Connexion($email, $password, $bdd) {
         // Construire la requête pour récupérer le mot de passe
