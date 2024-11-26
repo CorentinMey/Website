@@ -156,14 +156,14 @@ class Utilisateur {
             // Si aucun utilisateur trouvé
             if (!$mdp) {
                 include_once("../back_php/Affichage_gen.php");
-                afficherErreur("Aucun utilisateur trouvé pour l'email $email");
+                afficherErreur("Identifiants incorrects.");
                 exit();
                 return false;
             }
     
             // Comparer le mot de passe
-            //if (password_verify($password, $mdp["mdp"])) {
-            if ($mdp["mdp"] == $password){
+            if (password_verify($password, $mdp["mdp"])) {
+            //if ($mdp["mdp"] == $password){
                 // Connexion réussie
 
                 #Over-ride de cette fonction chez chaque utilisateur ensuite pour pouvoir les rediriger vers leur page d'accueil utilisateur respective
@@ -172,7 +172,8 @@ class Utilisateur {
 
                 header("Location: page_test.php");
                 exit; // Assurez-vous d'arrêter le script après une redirection
-            } else {
+            } 
+            else {
                 // Mot de passe incorrect
                 echo "Mot de passe erroné, veuillez réessayer.";
             }
