@@ -2,7 +2,7 @@
 include_once("../back_php/Patient.php");
 include_once("../back_php/Query.php");
 session_start();
-if (isset($_SESSION["patient"])) {
+if (isset($_SESSION["patient"])) { // vérifie si le patient souhaite changer ses infos depuis la page d'inscription
     $patient = $_SESSION["patient"];
     $first_name = $patient->getFirst_name();
     $last_name = $patient->getLast_name();
@@ -12,7 +12,7 @@ if (isset($_SESSION["patient"])) {
     $antecedent = $patient->getAntecedent();
     $bdd = new Query("siteweb");
     // Récupérez les autres informations nécessaires
-} else {
+} else { // si l'utilisateur souhaite seulement s'inscrire
     $first_name = "";
     $last_name = "";
     $email = "";
@@ -179,6 +179,11 @@ if (isset($_SESSION["patient"])) {
 
                 </div>
 
+                <div class = "input_info">
+                    <label for="date_naissance">Birthdate</label>
+                    <input type="date" id="date_naissance" name="date_naissance" />
+                </div>
+
                 <div class="input_info">
                     <label for="mdp">Password</label>
                     <input type="password" id="mdp" name="mdp" />
@@ -197,11 +202,11 @@ if (isset($_SESSION["patient"])) {
                 <?php
                     include_once("../back_php/Securite.php");
                     include_once("../back_php/Affichage_gen.php");
-                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    if ($_SERVER["REQUEST_METHOD"] == "POST") { // si on clique sur un bouton
                         if (isset($_POST['action'])) {
                             $action = $_POST['action']; // pour savoir si on doit confirmer ou revenir en arrière
 
-                            if ($action == 'confirm' && isset($_SESSION["patient"])) {
+                            if ($action == 'confirm' && isset($_SESSION["patient"])) { // si on appuie sur le bouton confirm
                                 $required_fields_edit_patient = ["Nom", "prénom", "identifiant", "genre", "origin", "medical", "mdp", "mdp2"];
                                 if (checkFormFields($required_fields_edit_patient)){ // Vérifie si tous les champs sont remplis
                                     if (checkPassword($_POST["mdp"], $_POST["mdp2"])){ // Vérifie si les mots de passe correspondent
@@ -226,11 +231,82 @@ if (isset($_SESSION["patient"])) {
                                 } else 
                                     AfficherErreur("Please fill all the fields");
 
-                            } elseif ($action == 'back' && isset($_SESSION["patient"])) {
+                            } elseif ($action == 'back' && isset($_SESSION["patient"])) { // si on appuie sur le bouton back en editant ses informations
                                 // Rediriger vers la page du patient sans mettre à jour
                                 header("Location: page_patient.php");
                                 exit;
-                            }
+                            } elseif ($action == "back" && !isset($_SESSION["patient"])){
+                                header("Location: page_accueil.php");
+                            } else {
+                                if (isset($_POST["account_type"]) && $_POST["account_type"] == "Patient") {
+                                    $required_fields_patient = ["Nom", "prénom", "identifiant", "genre", "origin", "medical", "mdp", "mdp2", "date_naissance"];
+                                    if (checkFormFields($required_fields_patient)){ // Vérifie si tous les champs sont remplis du patient lors de l'inscription
+                                        if (checkPassword($_POST["mdp"], $_POST["mdp2"])){ // Vérifie si les mots de passe correspondent
+                                            $bdd = new Query("siteweb");
+                                            // Créer un nouvel objet patient
+                                            $patient = new Patient($_POST["mdp"], $_POST["identifiant"]);
+                                            $bdd_dict = ["nom" => $_POST["Nom"],
+                                                        "prenom" => $_POST["prénom"],
+                                                        "genre" => $_POST["genre"],
+                                                        "origine" => $_POST["origin"],
+                                                        "antecedents" => $_POST["medical"],
+                                                        "mail" => $_POST["identifiant"],
+                                                        "mdp" => $_POST["mdp"],
+                                                        "date_naissance" => $_POST["date_naissance"]];
+                                            // Inscrire le patient
+                                            $patient->Inscription($bdd, $bdd_dict);
+                                            // Rediriger vers la page de connexion
+                                            header("Location: page_acceuil.php");
+                                            exit;
+                                        } else 
+                                            AfficherErreur("Passwords do not match");
+                                    } else 
+                                        AfficherErreur("Please fill all the fields");
+                                } elseif (isset($_POST["account_type"]) && $_POST["account_type"] == "Doctor") {
+                                    $required_fields_doctor = ["identifiant", "mdp", "mdp2", "num_ordre", "hopital", "specialite"];
+                                    if (checkFormFields($required_fields_doctor)){ // Vérifie si tous les champs sont remplis
+                                        if (checkPassword($_POST["mdp"], $_POST["mdp2"])){ // Vérifie si les mots de passe correspondent
+                                            $bdd = new Query("siteweb");
+                                            // Créer un nouvel objet médecin
+                                            $doctor = new Medecin($_POST["mdp"], $_POST["identifiant"]);
+                                            $bdd_dict = ["mail" => $_POST["identifiant"],
+                                                        "mdp" => $_POST["mdp"],
+                                                        "numero_ordre" => $_POST["num_ordre"],
+                                                        "hopital" => $_POST["hopital"],
+                                                        "specialite" => $_POST["specialite"]];
+                                            // Inscrire le médecin
+                                            $doctor->Inscription($bdd, $bdd_dict);
+                                            // Rediriger vers la page de connexion
+                                            header("Location: page_accueil.php");
+                                            exit;
+                                            } else
+                                                AfficherErreur("Passwords do not match");
+                                        } else
+                                            AfficherErreur("Please fill all the fields");
+                                    } elseif (isset($_POST["account_type"]) && $_POST["account_type"] == "Company") {
+                                        $required_fields_company = ["identifiant", "mdp", "mdp2", "nom_entreprise", "siret", "ville"];
+                                        if (checkFormFields($required_fields_company)){ // Vérifie si tous les champs sont remplis
+                                            if (checkPassword($_POST["mdp"], $_POST["mdp2"])){ // Vérifie si les mots de passe correspondent
+                                                $bdd = new Query("siteweb");
+                                                // Créer un nouvel objet entreprise
+                                                $company = new Entreprise($_POST["mdp"], $_POST["identifiant"]);
+                                                $bdd_dict = ["mail" => $_POST["identifiant"],
+                                                            "mdp" => $_POST["mdp"],
+                                                            "siret" => $_POST["siret"],
+                                                            "nom_entreprise" => $_POST["nom_entreprise"],
+                                                            "ville" => $_POST["ville"]];
+                                                // Inscrire l'entreprise
+                                                $company->Inscription($bdd, $bdd_dict);
+                                                // Rediriger vers la page de connexion
+                                                header("Location: page_accueil.php");
+                                                exit;
+                                            } else
+                                                AfficherErreur("Passwords do not match");
+                                        } else
+                                            AfficherErreur("Please fill all the fields");
+
+                                    }
+                          }
                         }
                     }
                 ?>
