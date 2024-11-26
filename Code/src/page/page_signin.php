@@ -100,35 +100,36 @@ if (isset($_SESSION["patient"])) {
                 <?php
                     // vérifie si le compte est un patient
                     if (isset($_SESSION["patient"]) || (isset($_POST["account_type"]) && $_POST["account_type"] == "Patient")) {
+                        // Affiche le champ pour les origines
                         echo '<div class="input_info">';
-                            echo '<label for="origin">Origins</label>';
-                                echo '<select id="origin" name="origin" class="deroulant" >';
-                                    echo '<option value='.htmlspecialchars($origins).'>'. $origins . '</option>';
-                                    echo '<option value="Europe">Europe</option>';
-                                    echo '<option value="North America">North America</option>';
-                                    echo '<option value="South America">South America</option>';
-                                    echo '<option value="Africa">Africa</option>';
-                                    echo '<option value="Asia">Asia</option>';
-                                    echo '<option value="Oceania">Oceania</option>';
-                                echo '</select>';
+                        echo '<label for="origin">Origins</label>';
+                        echo '<select id="origin" name="origin" class="deroulant">';
+                            echo '<option value="">Select your origins</option>';
+                            echo '<option value="Europe"' . (($origins == "Europe") ? ' selected' : '') . '>Europe</option>';
+                            echo '<option value="North America"' . (($origins == "North America") ? ' selected' : '') . '>North America</option>';
+                            echo '<option value="South America"' . (($origins == "South America") ? ' selected' : '') . '>South America</option>';
+                            echo '<option value="Africa"' . (($origins == "Africa") ? ' selected' : '') . '>Africa</option>';
+                            echo '<option value="Asia"' . (($origins == "Asia") ? ' selected' : '') . '>Asia</option>';
+                            echo '<option value="Oceania"' . (($origins == "Oceania") ? ' selected' : '') . '>Oceania</option>';
+                        echo '</select>';
                         echo '</div>';
-    
-                        // Affiche le champ pour les antécédents
+                    
+                        // Affiche le champ pour les antécédents médicaux
                         echo '<div class="input_info">';
-                            echo '<label for="medical">Medical History</label>';
-                                echo '<select id="medical" name="medical" class="deroulant" >';
-                                    echo '<option value='.htmlspecialchars($antecedent).'>'. $antecedent  .'</option>';
-                                    echo '<option value="None">None</option>';
-                                    echo '<option value="Hypertension">Hypertension</option>';
-                                    echo '<option value="Type 2 diabetes">Type 2 diabetes</option>';
-                                    echo '<option value="Type 1 diabetes">Type 1 diabetes</option>';
-                                    echo '<option value="Asthma">Asthma</option>';
-                                    echo '<option value="Cardiac history">Cardiac history</option>';
-                                    echo '<option value="Food allergy">Food allergy</option>';
-                                echo '</select>';
+                        echo '<label for="medical">Medical History</label>';
+                        echo '<select id="medical" name="medical" class="deroulant">';
+                            echo '<option value="">Select your medical history</option>';
+                            echo '<option value="None"' . (($antecedent == "None") ? ' selected' : '') . '>None</option>';
+                            echo '<option value="Hypertension"' . (($antecedent == "Hypertension") ? ' selected' : '') . '>Hypertension</option>';
+                            echo '<option value="Type 2 diabetes"' . (($antecedent == "Type 2 diabetes") ? ' selected' : '') . '>Type 2 diabetes</option>';
+                            echo '<option value="Type 1 diabetes"' . (($antecedent == "Type 1 diabetes") ? ' selected' : '') . '>Type 1 diabetes</option>';
+                            echo '<option value="Asthma"' . (($antecedent == "Asthma") ? ' selected' : '') . '>Asthma</option>';
+                            echo '<option value="Cardiac history"' . (($antecedent == "Cardiac history") ? ' selected' : '') . '>Cardiac history</option>';
+                            echo '<option value="Food allergy"' . (($antecedent == "Food allergy") ? ' selected' : '') . '>Food allergy</option>';
+                        echo '</select>';
                         echo '</div>';
-                }?>
-
+                    }
+                ?>
                 <?php
 
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["account_type"]) && $_POST["account_type"] == "Doctor") {
