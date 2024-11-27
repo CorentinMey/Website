@@ -105,6 +105,18 @@ class Patient extends Utilisateur{
             AfficherErreur("Please fill all the fields");
         }
     }
+
+        public function AfficheEssais($bdd){
+            $query = "SELECT * FROM `resultat` JOIN utilisateur ON 
+	                    resultat.ID_patient = utilisateur.ID_User NATURAL JOIN essai
+                            WHERE ID.patient = :id;";
+
+            $res = $bdd->getResultsAll($query, ["id" => $this->getIduser()]);
+            foreach($res as $essai ){
+                echo $essai["description"];
+
+            }
+    }
     
 }
 
