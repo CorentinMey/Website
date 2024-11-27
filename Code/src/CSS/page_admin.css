@@ -8,6 +8,7 @@
     z-index: -1; /* Place le fond derrière tout le reste */
 }
 
+
 /* Style du conteneur */
 #bandeau_top {
     position: relative; /* Permet l'utilisation de z-index */
@@ -135,4 +136,12 @@ h1 {
     border-radius: 100%;
     padding: 1em;
     font-size: 0.6em;
+}
+
+.LALIST {
+    color: white; /* Définir la couleur du texte en blanc */
+    background-color: rgba(0, 0, 0, 0.5); /* Optionnel : fond semi-transparent pour améliorer la lisibilité */
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 18px;
 }
