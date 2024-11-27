@@ -25,6 +25,7 @@ body {
     padding: 1em;
 }
 
+<<<<<<< HEAD
 
 button {
     color: #ffffff;
@@ -70,3 +71,15 @@ button:hover {
 .styled-table tbody tr:last-of-type {
     border-bottom: 50em solid #009879;
 }
+=======
+.pastille {
+    position: absolute;
+    top: -0.8em;
+    right: -0.9em;
+    background-color: red;
+    color: white;
+    border-radius: 100%;
+    padding: 1em;
+    font-size: 0.6em;
+}
+>>>>>>> front_page_admin

@@ -8,6 +8,7 @@
     z-index: -1; /* Place le fond derrière tout le reste */
 }
 
+
 /* Style du conteneur */
 #bandeau_top {
     position: relative; /* Permet l'utilisation de z-index */
@@ -17,8 +18,8 @@
     justify-content: flex-end; /* Aligne les éléments à droite */
     height: 10vh; /* Hauteur du rectangle */
     width: 100%; /* Largeur complète */
-    padding: 1%; /* Espacement interne */
-    gap: 10rem;
+    /*padding: 1%; /* Espacement interne */
+    gap: 5rem;
     box-shadow: 0 2vh 4vh rgba(0, 0, 0, 0.2); /* Ombre pour un effet élégant */
     background-color: rgba(0, 0, 0, 0.5); /* Couleur de fond semi-transparente */
     z-index: 1; /* Place la box devant le fond */
@@ -26,9 +27,10 @@
 
 /* Style pour le texte */
 h1 {
-    margin: 10;
-    color: #f9f9f9; /* Texte blanc */
-    font-size: 5rem; /* Taille proportionnelle */
+    margin: 0; /* Réinitialise toutes les marges */
+    padding: 0; /* Réinitialise tous les padding */
+    color: #ffffff; /* Texte blanc */
+    font-size: 2rem; /* Taille proportionnelle */
 }
 
 /* Style pour l'image */
@@ -39,71 +41,107 @@ h1 {
     /*border: 0.2vh solid white; /* Bordure blanche autour de l'image */
     margin-right: 10rem;
 }
-/* Style du conteneur des boutons */
-#content_button {
-    display: flex;
-    flex-wrap: wrap; /* Permet aux éléments de se placer sur plusieurs lignes */
-    justify-content: center; /* Centre les éléments horizontalement */
-    gap: 2rem; /* Espacement entre les boutons */
-    padding: 2rem;
-    width: 60%; /* Limite la largeur du conteneur à 60% de la page */
-    margin-top: 30%;
-    height: 40vh; /* Hauteur de la page pour centrer verticalement */
-    align-items: center; /* Centre les éléments verticalement */
-}
-
-/* Style des boutons */
-/* Style du conteneur des boutons */
-#content_button {
-    position: relative; /* Positionnement relatif pour utiliser les pourcentages */
-    height: 100vh; /* Remplit la hauteur de la page */
-    width: 100%; /* Prend toute la largeur de la page */
-    display: block;
-    margin: 0 auto; /* Centre horizontalement */
-}
 
 /* Style des boutons */
 .btn {
-    padding: 3rem 4rem; /* Augmenter l'espacement interne des boutons */
+    padding: center; /* Augmenter l'espacement interne des boutons */
     font-size: 2rem; /* Augmenter la taille de la police */
     height: 10vh; /* Hauteur spécifique du bouton (par exemple, 10% de la hauteur de la fenêtre) */
     width: 20vw;
-    background-color: #132d49; /* Couleur de fond des boutons */
+    background-color: #131029; /* Couleur de fond des boutons */
     color: white; /* Couleur du texte */
     border: none;
-    border-radius: 5px; /* Bords arrondis des boutons */
+    border-radius: 10px; /* Bords arrondis des boutons */
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-family: 'JetBrains Mono', sans-serif;
+    position: absolute;
 }
 
 /* Placement des boutons à l'aide de pourcentages */
 #button1 {
-    left: 10%; /* Position horizontale à 10% de la largeur de la page */
-    top: 10%; /* Position verticale à 10% de la hauteur */
+    left: 25%; /* Position horizontale à 10% de la largeur de la page */
+    top: 30%; /* Position verticale à 10% de la hauteur */
 }
 
 #button2 {
-    left: 30%; /* Position horizontale à 30% de la largeur */
-    top: 10%; /* Position verticale à 10% de la hauteur */
+    left: 25%; /* Position horizontale à 30% de la largeur */
+    top: 50%; /* Position verticale à 10% de la hauteur */
 }
 
 #button3 {
-    left: 50%; /* Position horizontale à 50% de la largeur */
-    top: 10%; /* Position verticale à 10% de la hauteur */
-    transform: translateX(-50%); /* Centrer horizontalement par rapport à 50% */
+    left: 55%;
+    top: 30%;
 }
 
 #button4 {
-    left: 30%; /* Position horizontale à 30% de la largeur */
-    top: 30%; /* Position verticale à 30% de la hauteur */
+    left: 55%;
+    top: 50%;
 }
 
 #button5 {
-    left: 10%; /* Position horizontale à 10% de la largeur */
-    top: 70%; /* Position verticale à 30% de la hauteur */
+    top: 70%;
+    left: 30%;
 }
 
 /* Changement de couleur au survol */
 .btn:hover {
+    background-color: #d05a5a;
+}
+
+.confirmation {
+    padding: center; /* Augmenter l'espacement interne des boutons */
+    font-size: 2rem; /* Augmenter la taille de la police */
+    height: 7vh; /* Hauteur spécifique du bouton (par exemple, 10% de la hauteur de la fenêtre) */
+    width: 40vw;
+    background-color: #9c9aa9; /* Couleur de fond des boutons */
+    color: rgb(20, 15, 15); /* Couleur du texte */
+    border: none;
+    border-radius: 10px; /* Bords arrondis des boutons */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'JetBrains Mono', sans-serif;
+    position: absolute;
+}
+
+.confirmation:hover {
+    background-color: #4589c8;
+}
+
+.button-container2 {
+    position: relative;
+    margin: 50px;
+    display: inline-block;
+}
+.notification-btn {
+    background-color: #007BFF;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
+}
+.notification-btn:hover {
     background-color: #0056b3;
+}
+
+.pastille {
+    position: absolute;
+    top: -0.8em;
+    right: -0.9em;
+    background-color: red;
+    color: white;
+    border-radius: 100%;
+    padding: 1em;
+    font-size: 0.6em;
+}
+
+.LALIST {
+    color: white; /* Définir la couleur du texte en blanc */
+    background-color: rgba(0, 0, 0, 0.5); /* Optionnel : fond semi-transparent pour améliorer la lisibilité */
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 18px;
 }
