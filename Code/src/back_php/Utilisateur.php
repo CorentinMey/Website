@@ -125,7 +125,7 @@ class Utilisateur {
         // Vérifier si la clé "mdp" existe dans les informations
         if (isset($dict_information['mdp'])) {
             // Hacher le mot de passe avant l'insertion
-            $dict_information['mdp'] = password_hash($dict_information['mdp'], PASSWORD_DEFAULT);
+            $dict_information['mdp'] = password_hash($dict_information['mdp'], PASSWORD_BCRYPT);
         }
     
         // Extraire les colonnes et leurs valeurs
@@ -150,7 +150,8 @@ class Utilisateur {
             return true;
         } catch (PDOException $e) {
             // Gérer les erreurs
-            echo "Erreur lors de l'inscription : " . $e->getMessage();
+            include_once("../back_php/Affichage_gen.php");
+            afficherErreur("Erreur lors de l'inscription : " . $e->getMessage());
             return false;
         }
     }
@@ -169,35 +170,19 @@ class Utilisateur {
                 afficherErreur("Identifiants incorrects.");
                 exit();
                 return false;
-            } elseif ($query_res["mdp"] != $password) { // Si le mot de passe ne correspond pas
+            } elseif (!password_verify($password, $query_res["mdp"])) { // Si le mot de passe ne correspond pas
                 include_once("../back_php/Affichage_gen.php");
                 afficherErreur("Mot de passe incorrect pour l'email $email");
                 exit();
                 return false;
-            } else{ // définir les attributs de l'objet pour les classes filles
+            } else { // définir les attributs de l'objet pour les classes filles
                 $this->setMdp($query_res["mdp"]);
                 $this->setIduser($query_res["ID_User"]);
             }
-    
-            // Comparer le mot de passe
-            if (password_verify($password, $mdp["mdp"])) {
-            //if ($mdp["mdp"] == $password){
-                // Connexion réussie
+            //Over-ride de cette fonction chez chaque utilisateur ensuite pour pouvoir les rediriger vers leur page d'accueil utilisateur respective
+            //Pour l'instant redirection vers une page test
+            //Rajouter un session start, récuperer toutes les infos de l'utilisateur en demandant à la BDD, puis transmettre ces infos à la page suivante avec un $_session["utilisateur"] (peut-être à faire dans la page login)
 
-                #Over-ride de cette fonction chez chaque utilisateur ensuite pour pouvoir les rediriger vers leur page d'accueil utilisateur respective
-                #Pour l'instant redirection vers une page test
-                #Rajouter un session start, récuperer toutes les infos de l'utilisateur en demandant à la BDD, puis transmettre ces infos à la page suivante avec un $_session["utilisateur"] (peut-être à faire dans la page login)
-
-                header("Location: page_test.php");
-                exit; // Assurez-vous d'arrêter le script après une redirection
-            } 
-            else {
-                // Mot de passe incorrect
-                echo "Mot de passe erroné, veuillez réessayer.";
-            }
-    
-            // Fermer la requête
-            $res->closeCursor();
         } catch (PDOException $e) {
             // Gérer les erreurs
             echo "Erreur lors de la connexion : " . $e->getMessage();

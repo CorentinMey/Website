@@ -53,19 +53,25 @@ class Query {
     private function closeStatement($statement){
         $statement->closeCursor();
     }
-    
+    /**
+     * Insère des lignes dans la base de données.
+     */
     public function insertLines($query, $args){
         $insert = $this->connection->prepare($query);
         $insert->execute($args);
         $this->closeStatement($insert);
     }
-    
+    /**
+     * Supprime des lignes dans la base de données.
+     */
     public function deleteLines($query, $args){
         $delete = $this->connection->prepare($query);
         $delete->execute($args);
         $this->closeStatement($delete);
     }
-
+    /**
+     * Met à jour des lignes dans la base de données.
+     */
     public function UpdateLines($query, $args){
         $update = $this->connection->prepare($query);
         $update->execute($args);
