@@ -27,7 +27,7 @@
                 echo "<h2>User List</h2>";
 
             // Récupérer la liste des utilisateurs depuis la base de données
-            $users = $query->getResultsAll("SELECT prenom, nom, genre FROM utilisateur", []);  // Remplace 'users' par le nom de ta table
+            $users = $query->getResultsAll("SELECT ID_USER prenom, nom, genre FROM utilisateur", []);  // Remplace 'users' par le nom de ta table
 
             if (!empty($users)) {
                 echo "<ul>";
@@ -43,16 +43,30 @@
             echo "<h2>Doctor List</h2>";
             // Récupérer la liste des utilisateurs depuis la base de données
             $doctors = $query->getResultsAll(
-                "SELECT nom, prenom, genre FROM utilisateur INNER JOIN medecin WHERE ID_USER = numero_ordre",
+                "SELECT ID_USER, nom, prenom, genre FROM utilisateur INNER JOIN medecin WHERE ID_USER = numero_ordre",
                 []
             );
 
             if (!empty($doctors)) {
                 echo "<ul>";
                 foreach ($doctors as $doctor) {
-                    echo "<li><strong>prenom:</strong> " . htmlspecialchars($doctor['prenom']) . 
-                        " - <strong>Name:</strong> " . htmlspecialchars($doctor['nom']) . 
-                        " - <strong>gender:</strong> " . htmlspecialchars($doctor['genre']) . "</li>";
+                    echo '<div class="box_list">';
+                    echo '    <div class="user-info">';
+                    echo '        <p><strong>Nom:</strong> ' . htmlspecialchars($doctor['nom']) . '</p>';
+                    echo '        <p><strong>Prénom:</strong> ' . htmlspecialchars($doctor['prenom']) . '</p>';
+                    echo '        <p><strong>Genre:</strong> ' . htmlspecialchars($doctor['genre']) . '</p>';
+                    echo '    </div>';
+                    echo '    <div class="user-actions">';
+                    echo '        <h2>view profile</h2>';
+                    echo '    </div>';
+                    echo '    <div class="user-controls">';
+                    echo '        <form method="POST" action="manage_user.php" class="action-form">';
+                    echo '            <input type="hidden" name="idU" value="' . htmlspecialchars($doctor['ID_USER']) . '">';
+                    echo '            <button type="submit" name="action" value="ban" class="ban-btn">Ban</button>';
+                    echo '            <button type="submit" name="action" value="unban" class="unban-btn">Unban</button>';
+                    echo '        </form>';
+                    echo '    </div>';
+                    echo '</div>';
                 }
                 echo "</ul>";
         } else {
