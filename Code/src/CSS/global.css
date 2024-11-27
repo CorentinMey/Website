@@ -25,9 +25,8 @@ body {
     padding: 1em;
 }
 
-<<<<<<< HEAD
 
-button {
+.button {
     color: #ffffff;
     background-color: #3a3030e1;
     border-radius: 3em;
@@ -38,7 +37,7 @@ button {
     transition: 0.3s;
 }
 
-button:hover {
+.button:hover {
     background-color: #251d1de1;
 }
 
@@ -71,7 +70,6 @@ button:hover {
 .styled-table tbody tr:last-of-type {
     border-bottom: 50em solid #009879;
 }
-=======
 .pastille {
     position: absolute;
     top: -0.8em;
@@ -82,4 +80,3 @@ button:hover {
     padding: 1em;
     font-size: 0.6em;
 }
->>>>>>> front_page_admin

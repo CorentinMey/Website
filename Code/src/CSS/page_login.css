@@ -77,7 +77,7 @@ input {
     margin-top: 1em; /* Ajoute un espace au-dessus des boutons */
 }
 
-#button{
+#button_login{
     margin-top : 0.5em;
     width : 100%;
 }

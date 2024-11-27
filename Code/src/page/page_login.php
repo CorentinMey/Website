@@ -42,8 +42,8 @@ session_start();
                     </div>
 
                     <div class="buttons">
-                        <button id = button type="submit">Connect</button>
-                        <button id = button type="button">Back</button>
+                        <button class = button id = "button_login" type="submit">Connect</button>
+                        <button class = button id = "button_login" type="button">Back</button>
                     </div>
 
                     <?php
