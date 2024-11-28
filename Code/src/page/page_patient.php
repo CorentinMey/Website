@@ -65,7 +65,14 @@ $bdd = new Query("siteweb");
  
     <form action = "" method = "post" id = "redirect_buttons">
         <!-- <div id = "redirect_buttons"> -->
-            <button class = "button" id = "button_patient" name = "Action" value = "ViewMine">My clinical trials</button>
+            <button class = "button" id = "button_patient" name = "Action" value = "ViewMine">
+                My clinical trials
+                <?php  // si j'ai des notifications, j'affiche le rond de notification
+                $nb_notif = $patient->NombreNotif($bdd);
+                if ($nb_notif > 0)
+                echo "<span class='notification'>".htmlspecialchars($nb_notif)."</span>" // <!-- Ajoute le rond de notification -->
+                ?>
+            </button>
             <button class = "button" id = "button_patient" name = "Action" value = "ViewNew">New studies</button>
             <button class = "button" id = "button_patient" name = "Action" value = "ViewInfo">My information</button>
         <!-- </div> -->

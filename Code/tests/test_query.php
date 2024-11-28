@@ -60,6 +60,13 @@ echo "nom = Dupont, prenom = Alice, mail =test@test.com, mdp = test, genre = F<b
 $bdd->insertLines($query4, ["nom" => "Dupont", "prenom" => "Alice", "mail" => "test@test.com", "mdp" => "test", "genre" => "F"]);
 
 
+// test de récupérer un calcul de SQL (COUNT(*))
+$query5 = "SELECT COUNT(*) FROM resultat NATURAL JOIN essai
+             WHERE ID_patient = 10 AND a_debute = 2;";
+$res = $bdd->getResults($query5, []);
+echo "<br>Test de la fonction select (getResults) avec un calcul SQL : <br> ";
+echo "Requête : ".$query5."<br>";
+echo "Nombre de résultats : ".$res["COUNT(*)"]."<br>";
 
 $bdd->closeBD();
 

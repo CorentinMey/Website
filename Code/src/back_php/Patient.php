@@ -1,6 +1,7 @@
 <?php
 include_once("Utilisateur.php");
 include_once("Securite.php");
+include_once("Affichage_patient.php");
 class Patient extends Utilisateur{
 
     public function __construct($mdp,
@@ -53,6 +54,7 @@ class Patient extends Utilisateur{
         }    
         $bdd->closeBD();
     }
+
     /**
      * Méthode pour mettre à jour les informations du patient dans la base de données.
      */
@@ -78,41 +80,44 @@ class Patient extends Utilisateur{
         $bdd->updateLines($query, $params);
     }
 
-        // Fonction pour mettre à jour les informations du patient existant
-        public function updatePatientInfo() {
-        $required_fields = ["Nom", "prénom", "identifiant", "genre", "origin", "medical", "mdp", "mdp2"];
-        if (checkFormFields($required_fields)) { // Vérifie si tous les champs sont remplis
-            if (checkPassword($_POST["mdp"], $_POST["mdp2"])) { // Vérifie si les mots de passe correspondent
-                $bdd = new Query("siteweb");
-                // Mettre à jour les informations du patient
-                $this->setFirst_name($_POST["Nom"]);
-                $this->setLast_name($_POST["prénom"]);
-                $this->setEmail($_POST["identifiant"]);
-                $this->setGender($_POST["genre"]);
-                $this->setOrigins($_POST["origin"]);
-                $this->setAntecedent($_POST["medical"]);
-                $this->setMdp(password_hash($_POST["mdp"], PASSWORD_BCRYPT));
-                // Mettre à jour la base de données
-                $this->ChangeInfo($bdd);
-                // Mettre à jour l'objet en session
-                $_SESSION["patient"] = $this;
-                // Rediriger vers la page du patient
-                header("Location: page_patient.php");
-                exit;
-            } else {
-                AfficherErreur("Passwords do not match");
-            }
+    /**
+     * Méthode pour mettre à jour les informations du patient existant
+     */
+    public function updatePatientInfo() {
+        
+    $required_fields = ["Nom", "prénom", "identifiant", "genre", "origin", "medical", "mdp", "mdp2"];
+    if (checkFormFields($required_fields)) { // Vérifie si tous les champs sont remplis
+        if (checkPassword($_POST["mdp"], $_POST["mdp2"])) { // Vérifie si les mots de passe correspondent
+            $bdd = new Query("siteweb");
+            // Mettre à jour les informations du patient
+            $this->setFirst_name($_POST["Nom"]);
+            $this->setLast_name($_POST["prénom"]);
+            $this->setEmail($_POST["identifiant"]);
+            $this->setGender($_POST["genre"]);
+            $this->setOrigins($_POST["origin"]);
+            $this->setAntecedent($_POST["medical"]);
+            $this->setMdp(password_hash($_POST["mdp"], PASSWORD_BCRYPT));
+            // Mettre à jour la base de données
+            $this->ChangeInfo($bdd);
+            // Mettre à jour l'objet en session
+            $_SESSION["patient"] = $this;
+            // Rediriger vers la page du patient
+            header("Location: page_patient.php");
+            exit;
         } else {
-            AfficherErreur("Please fill all the fields");
+            AfficherErreur("Passwords do not match");
         }
+    } else {
+        AfficherErreur("Please fill all the fields");
     }
+}
 
     /**
      * Méthode pour afficher les informations du patient dans un tableau.
      * 
      */
     public function AffichageTableau(){
-        echo '<h2 class = "title">My clinical trials</h2>';
+        echo '<h2 class = "title">My Information</h2>';
         echo '<div id = "personnal_data">';
             echo '<table class = "styled-table" id = "table_patient">';
                 echo '<thead>';
@@ -150,34 +155,51 @@ class Patient extends Utilisateur{
                     resultat.ID_patient = utilisateur.ID_User NATURAL JOIN essai
                         WHERE ID_patient = :id;";
         // requete pour avoir le nom de l'entreprise
-        $query2 = "SELECT nom FROM utilisateur JOIN essai ON essai.ID_entreprise_ref = utilisateur.ID_User 
+        $query2 = "SELECT nom, a_debute FROM utilisateur JOIN essai ON essai.ID_entreprise_ref = utilisateur.ID_User 
                         WHERE ID_essai = :id;";
         // requete pour avoir le nom des medecins referents
         $query3 = "SELECT nom FROM utilisateur JOIN essai_medecin ON essai_medecin.ID_medecin = utilisateur.ID_User 
                         WHERE ID_essai = :id;";
-
+    
         $res = $bdd->getResultsAll($query, ["id" => $this->getIduser()]);
-        if ($res != [])
+        if ($res == []) {
             AfficherErreur("No clinical trials found yet. Please subscribe to some trials.");
-        
-        foreach($res as $essai){
+            return;
+        }
+        Affichage_entete_tableau_essai(); // affiche l'en-tête du tableau
+    
+        foreach($res as $essai){ // affiche les lignes du tableau
             $id_essai = $essai["ID_essai"];
             $entreprise = $bdd->getResults($query2, ["id" => $id_essai]);
             $medecins = $bdd->getResultsAll($query3, ["id" => $id_essai]);
-            echo '<div class = "essai">';
-                echo '<h2>'.$entreprise["nom"].'</h2>';
-                echo '<p>Phase '.$essai["phase_res"].'</p>';
-                echo '<p>'.$essai["description"].'</p>';
-                echo '<p>Start date: '.$essai["date_debut"].'</p>';
-                echo '<p>End date: '.$essai["date_fin"].'</p>';
-                echo '<p>Referent doctors: ';
-                foreach($medecins as $medecin){
-                    echo $medecin["nom"].', ';
-                }
-                echo '</p>';
-        }
+            Affichage_content_essai($entreprise, $essai, $medecins, $id_essai);
+        }         
+            echo '</tbody>'; // fermeture du tableau et de la div qui le contient
+            echo '</table>';
+            echo '</div>';
+}
+    /**
+     * Fonction qui renvoie le nombre de notifications à voir du patient
+     * Notif : Si un essai que le patient a rejoint a été terminé, il doit donner des résultats
+     *         Si un essai le patient a été exclus d'un essai
+     *         Si un essai le patient a été accepté dans un essai
+     * @param $bdd : base de données
+     * @return int : nombre de notifications
+     */
+    public function NombreNotif($bdd){
+        $query_notif1 = "SELECT COUNT(*) FROM resultat NATURAL JOIN essai
+                             WHERE ID_patient = :id AND a_debute = 2;";
+        $query_notif2 = "SELECT COUNT(*) FROM resultat WHERE ID_patient = :id AND is_patient_exclus = 1;";
+        $query_notif3 = "SELECT COUNT(*) FROM resultat WHERE ID_patient = :id AND is_accepte = 1;";
+
+        $res1 = $bdd->getResults($query_notif1, ["id" => $this->getIduser()])["COUNT(*)"];
+        $res2 = $bdd->getResults($query_notif2, ["id" => $this->getIduser()])["COUNT(*)"];
+        $res3 = $bdd->getResults($query_notif3, ["id" => $this->getIduser()])["COUNT(*)"];
+        $total = $res1 + $res2 + $res3;
+        return $total;
+
+
     }
 
 }
-
 ?>

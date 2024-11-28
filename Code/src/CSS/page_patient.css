@@ -150,6 +150,23 @@
     margin-bottom: 3em;
 }
 
+.button {
+    position: relative;
+    display: inline-block;
+}
+
+.notification {
+    position: absolute;
+    top: -0.2em;
+    right: -0.4em;
+    padding: 0.2em 0.4em;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+    font-size: 0.7em;
+    font-weight: bold;
+}
+
 #button_patient{
     font-size: 2em;
     width: auto; /* Ajuste automatiquement la largeur en fonction du contenu */
@@ -175,11 +192,35 @@
     overflow: hidden; /* Assure que les coins arrondis sont appliqués */
 }
 
+#essai_clinique {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centre la table horizontalement */
+}
+
+#table_essai {
+    margin-top : 2em;
+    width : 75%;   
+    border-collapse: separate; /* Utilisez 'separate' pour permettre l'arrondissement des angles */
+    border-radius: 1em; /* Arrondit les angles du tableau */
+    overflow: hidden; /* Assure que les coins arrondis sont appliqués */
+}
+
 #table_patient thead tr{
     font-size : 1.5em;
 }
 
 #table_patient tbody{
+    font-size : 1.2em;
+    text-align: center;
+}
+
+#table_essai thead tr{
+    font-size : 1.5em;
+}
+
+#table_essai tbody{
     font-size : 1.2em;
     text-align: center;
 }
@@ -194,5 +235,13 @@
 
 #edit_option:hover{
     text-decoration: underline;
+}
+
+#reponse_essai{
+    margin-top: 0.5em;
+    border-radius: 0.5em;
+    background-color: #f2f2f2e1;
+    font-size: 1em;
+    padding: 0.5em;
 }
 

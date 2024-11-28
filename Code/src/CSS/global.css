@@ -64,11 +64,11 @@ body {
 }
 
 .styled-table tbody tr:nth-of-type(even) { /* Change la couleur une ligne sur 2 */
-    background-color: #f3f3f3;
+    background-color: #a7e8f3;
 }
 
 .styled-table tbody tr:last-of-type {
-    border-bottom: 50em solid #009879;
+    border-bottom: 50em solid #000000;
 }
 .pastille {
     position: absolute;
