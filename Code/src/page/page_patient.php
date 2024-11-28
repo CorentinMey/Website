@@ -63,15 +63,29 @@ $bdd = new Query("siteweb");
  
     <h2 class = "title">Options</h2>
  
-
-    <div id = "redirect_buttons">
-        <button class = "button" id = "button_patient">My clinical trials</button>
-        <button class = "button" id = "button_patient">New studies</button>
-    </div>
+    <form action = "" method = "post" id = "redirect_buttons">
+        <!-- <div id = "redirect_buttons"> -->
+            <button class = "button" id = "button_patient" name = "Action" value = "ViewMine">My clinical trials</button>
+            <button class = "button" id = "button_patient" name = "Action" value = "ViewNew">New studies</button>
+            <button class = "button" id = "button_patient" name = "Action" value = "ViewInfo">My information</button>
+        <!-- </div> -->
+    </form>
 
     <?php
-        AffichageTableau($patient, $bdd);
+    if ($_SERVER["REQUEST_METHOD"] == "POST") { // Si un bouton a été cliqué
+        switch ($_POST['Action']) {
+            case "ViewMine":
+                $patient->AfficheEssais($bdd);
+                break;
+            case "ViewNew":
+                echo "test new";
+                break;
+            case "ViewInfo":
+                $patient->AffichageTableau($bdd);
+                break;
+        }
+    } else
+        $patient->AffichageTableau($bdd);
     ?>
-
 
 </body>

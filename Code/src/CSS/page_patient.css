@@ -131,7 +131,7 @@
 
 #banderolle_img{
     width: 100%;
-    height : 40em;
+    height : 50em;
 }
 
 .title{
@@ -140,12 +140,14 @@
     justify-content: space-around; /*Centre le texte*/
     align-items: center;
     margin-bottom: 0em;
+    margin-left : 1em;
 }
 
 #redirect_buttons{
-    display: flex;
-    flex-direction: column;
+    display : flex;
+    justify-content: space-around;
     align-items: center;
+    margin-bottom: 3em;
 }
 
 #button_patient{
@@ -153,6 +155,7 @@
     width: auto; /* Ajuste automatiquement la largeur en fonction du contenu */
     height: auto;
     margin-top :0.71em;
+    margin-left : 0.5em;
     padding: 0.5em 1em;
 }
 

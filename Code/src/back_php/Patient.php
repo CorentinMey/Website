@@ -1,5 +1,6 @@
 <?php
 include_once("Utilisateur.php");
+include_once("Securite.php");
 class Patient extends Utilisateur{
 
     public function __construct($mdp,
@@ -90,7 +91,7 @@ class Patient extends Utilisateur{
                 $this->setGender($_POST["genre"]);
                 $this->setOrigins($_POST["origin"]);
                 $this->setAntecedent($_POST["medical"]);
-                $this->setMdp($_POST["mdp"]);
+                $this->setMdp(password_hash($_POST["mdp"], PASSWORD_BCRYPT));
                 // Mettre à jour la base de données
                 $this->ChangeInfo($bdd);
                 // Mettre à jour l'objet en session
@@ -106,18 +107,77 @@ class Patient extends Utilisateur{
         }
     }
 
-        public function AfficheEssais($bdd){
-            $query = "SELECT * FROM `resultat` JOIN utilisateur ON 
-	                    resultat.ID_patient = utilisateur.ID_User NATURAL JOIN essai
-                            WHERE ID.patient = :id;";
-
-            $res = $bdd->getResultsAll($query, ["id" => $this->getIduser()]);
-            foreach($res as $essai ){
-                echo $essai["description"];
-
-            }
+    /**
+     * Méthode pour afficher les informations du patient dans un tableau.
+     * 
+     */
+    public function AffichageTableau(){
+        echo '<h2 class = "title">My clinical trials</h2>';
+        echo '<div id = "personnal_data">';
+            echo '<table class = "styled-table" id = "table_patient">';
+                echo '<thead>';
+                    echo '<tr>';
+                        echo '<th>First name</th>';
+                        echo '<th>Family name</th>';
+                        echo '<th>Birthday</th>';
+                        echo '<th>Gender</th>';
+                        echo '<th>Origins</th>';
+                        echo '<th>Email</th>';
+                        echo '<th>Medical history</th>';
+                    echo '</tr>';
+                echo '</thead>';
+                echo '<tbody>';
+                    echo '<tr>';
+                        echo '<td>'.$this->getFirst_name().'</td>';
+                        echo '<td>'.$this->getLast_name().'</td>';
+                        echo '<td>'.$this->getBirthdate().'</td>';
+                        echo '<td>'.$this->getGender()."</td>";
+                        echo '<td>'.$this->getOrigins().'</td>';
+                        echo '<td>'.$this->getEmail().'</td>';
+                        echo '<td>'.$this->getAntecedent().'</td>';
+                    echo '</tr>';
+                echo '</tbody>';
+            echo '</table>';
+            echo '<a href="page_signin.php" id = "edit_option">Edit my infos</a>';
+        echo '</div>';
     }
-    
+
+    /**
+     * Méthode qui affiche les essais cliniques auxquels le patient participe.
+     */
+    public function AfficheEssais($bdd){
+        $query = "SELECT ID_essai, date_debut, date_fin, description, phase_res FROM resultat JOIN utilisateur ON 
+                    resultat.ID_patient = utilisateur.ID_User NATURAL JOIN essai
+                        WHERE ID_patient = :id;";
+        // requete pour avoir le nom de l'entreprise
+        $query2 = "SELECT nom FROM utilisateur JOIN essai ON essai.ID_entreprise_ref = utilisateur.ID_User 
+                        WHERE ID_essai = :id;";
+        // requete pour avoir le nom des medecins referents
+        $query3 = "SELECT nom FROM utilisateur JOIN essai_medecin ON essai_medecin.ID_medecin = utilisateur.ID_User 
+                        WHERE ID_essai = :id;";
+
+        $res = $bdd->getResultsAll($query, ["id" => $this->getIduser()]);
+        if ($res != [])
+            AfficherErreur("No clinical trials found yet. Please subscribe to some trials.");
+        
+        foreach($res as $essai){
+            $id_essai = $essai["ID_essai"];
+            $entreprise = $bdd->getResults($query2, ["id" => $id_essai]);
+            $medecins = $bdd->getResultsAll($query3, ["id" => $id_essai]);
+            echo '<div class = "essai">';
+                echo '<h2>'.$entreprise["nom"].'</h2>';
+                echo '<p>Phase '.$essai["phase_res"].'</p>';
+                echo '<p>'.$essai["description"].'</p>';
+                echo '<p>Start date: '.$essai["date_debut"].'</p>';
+                echo '<p>End date: '.$essai["date_fin"].'</p>';
+                echo '<p>Referent doctors: ';
+                foreach($medecins as $medecin){
+                    echo $medecin["nom"].', ';
+                }
+                echo '</p>';
+        }
+    }
+
 }
 
 ?>
