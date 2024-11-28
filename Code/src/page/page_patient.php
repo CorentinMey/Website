@@ -79,7 +79,7 @@ $bdd = new Query("siteweb");
     </form>
 
     <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST") { // Si un bouton a été cliqué
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Action"])) { // Si un bouton a été cliqué
         switch ($_POST['Action']) {
             case "ViewMine":
                 if ($nb_notif > 0)
@@ -95,6 +95,77 @@ $bdd = new Query("siteweb");
         }
     } else
         $patient->AffichageTableau($bdd);
+    ?>
+
+    <?php // balsie php pour gérer les boutons de notifs
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST['id_essai']) && isset($_POST['Action'])) {
+            $id_essai = $_POST['id_essai'];
+            $action = $_POST['Action'];
+    
+            switch ($action) {
+                case "give_feedback":
+                    // Appeler la fonction pour donner des résultats
+                    // Exemple : $patient->GiveFeedback($bdd, $id_essai);
+                    break;
+                case "exclude":
+                    $patient->ReadNotifExclusion($bdd, $id_essai); // met à jour la BDD et recharge la page pour enlever la notification
+                    if ($nb_notif > 0)
+                        $patient->AfficheNotif($bdd); // affiche les notifications
+                    $patient->AfficheEssais($bdd);
+                    break;
+                case "accept":
+                    $patient->ReadNotifAcceptation($bdd, $id_essai); // idem
+                    if ($nb_notif > 0)
+                        $patient->AfficheNotif($bdd); // idem
+                    $patient->AfficheEssais($bdd);
+                    break;
+                case "submit_side_effects":
+                    AfficherConfirmation("Are you sure you want to submit these side effects?", 
+                                        $id_essai, 
+                                        ["yes", "no"]); // affiche une confirmation pour valider les effets secondaires
+                    $_SESSION["side-effects"] = $_POST["side_effects"]; // stocke les effets secondaires dans la session
+                    if ($nb_notif > 0)
+                        $patient->AfficheNotif($bdd); // idem
+                    $patient->AfficheEssais($bdd);
+                    break;
+                case "yes":
+                    $patient->FillSideEffects($bdd, $_SESSION["side-effects"], $id_essai); // met à jour la BDD avec les effets secondaires
+                    if ($nb_notif > 0)
+                        $patient->AfficheNotif($bdd); // idem
+                    $patient->AfficheEssais($bdd);
+                    break;
+                case "no":
+                    if ($nb_notif > 0)
+                        $patient->AfficheNotif($bdd); // idem
+                    $patient->AfficheEssais($bdd);
+                    break;
+                case "unsubscribe":
+                    AfficherConfirmation("Are you sure you want to unsubscribe from this trial?",
+                                         $id_essai, ["confirm_unsubscribe", "cancel_unsubscribe"]);
+                    if ($nb_notif > 0)
+                        $patient->AfficheNotif($bdd); // idem
+                    $patient->AfficheEssais($bdd);
+                    exit;
+
+                case "confirm_unsubscribe":
+                    // L'utilisateur a confirmé la désinscription
+                    // Appeler la fonction pour se désinscrire
+                    $patient->UnsubscribeFromTrial($bdd, $id_essai);
+                    $_SESSION['message'] = "You have successfully unsubscribed from the trial.";
+                    // Rediriger vers la même page pour éviter la resoumission du formulaire
+                    header("Location: " . $_SERVER['PHP_SELF']);
+                    exit;
+            
+                case "cancel_unsubscribe":
+                    if ($nb_notif > 0)
+                        $patient->AfficheNotif($bdd); // idem
+                    $patient->AfficheEssais($bdd);
+                    break;
+            }
+        }
+    }
+
     ?>
 
 </body>

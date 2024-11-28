@@ -49,10 +49,14 @@ function Affichage_content_essai($entreprise, $essai, $medecins, $id_essai){
             Affiche_medecin($medecins); // affiche les médecins référents
             echo '</td>';
             if ($entreprise["a_debute"] == 2){ // si la phase de l'essai est terminée et en attente des résultats
+                if (!empty($essai["effet_secondaire"]))
+                    echo '<td>Thanks for your feedback</td>';
                 // affiche un menu déroulant pour choisir les effets secondaires avec un bouton pour valider
-                echo '<td>';
+                else{
+                    echo '<td>';
                     echo '<form action= "" method="post">';
                         echo '<input type="hidden" name="id_essai" value="'.$id_essai.'">';
+                        echo '<input type="hidden" name="Action" value="submit_side_effects">'; // données cachées pour mettre à jour la BDD
                         echo '<select name="side_effects" id = "reponse_essai">'; // menu déroulant pour les effets secondaires
                             echo '<option value="None">None</option>';
                             echo '<option value="Fatigue">Fatigue</option>';
@@ -63,10 +67,17 @@ function Affichage_content_essai($entreprise, $essai, $medecins, $id_essai){
                         echo '<button type="submit" class="button">Submit</button>'; // bouton pour valider
                     echo '</form>';
                 echo '</td>';
+                }
             } else // si l'essai est en cours
                 echo '<td>Not yet over</td>';
-            
-            echo '<td><a href="desinscrire.php?id_essai='.$id_essai.'" class="button">Unsubscribe</a></td>'; // Lien pour se désinscrire
+            // ajout du bouton pour se désinscrire
+            echo '<td>';
+                echo '<form action="" method="post">';
+                    echo '<input type="hidden" name="id_essai" value="'.htmlspecialchars($id_essai).'">';
+                    echo '<input type="hidden" name="Action" value="unsubscribe">';
+                    echo '<button type="submit" class="button">Unsubscribe</button>';
+                echo '</form>';
+            echo '</td>';        
         echo '</tr>';
 }
     

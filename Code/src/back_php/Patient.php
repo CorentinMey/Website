@@ -151,9 +151,11 @@ class Patient extends Utilisateur{
      * Méthode qui affiche les essais cliniques auxquels le patient participe.
      */
     public function AfficheEssais($bdd){
-        $query = "SELECT ID_essai, date_debut, date_fin, description, phase_res FROM resultat JOIN utilisateur ON 
+        $query = "SELECT ID_essai, date_debut, date_fin, description, phase_res, effet_secondaire FROM resultat JOIN utilisateur ON 
                     resultat.ID_patient = utilisateur.ID_User NATURAL JOIN essai
-                        WHERE ID_patient = :id;";
+                        WHERE ID_patient = :id 
+                        AND is_patient_exclus = 0 AND
+                        is_accepte !=0;";
         // requete pour avoir le nom de l'entreprise
         $query2 = "SELECT nom, a_debute FROM utilisateur JOIN essai ON essai.ID_entreprise_ref = utilisateur.ID_User 
                         WHERE ID_essai = :id;";
@@ -193,6 +195,8 @@ class Patient extends Utilisateur{
         $query_notif1_cpt = "SELECT COUNT(*) FROM resultat NATURAL JOIN essai
                              WHERE ID_patient = :id 
                              AND a_debute = 2 
+                             AND is_patient_exclus = 0
+                             AND is_accepte != 0    
                              AND ID_phase = phase_res # Ce AND permet de ne demander au patient ses impressions que pour lors de la phase de cloture de sa phase d'expérimentation
                              AND effet_secondaire IS NULL;"; // vérifie si le patient n'a pas déjà donné ses résultats
         $query_notif2 = "SELECT COUNT(*) FROM resultat WHERE ID_patient = :id AND is_patient_exclus = 1;";
@@ -222,16 +226,57 @@ class Patient extends Utilisateur{
         $res3 = $bdd->getResultsAll($query_notif3, ["id" => $this->getIduser()]);
         //affichage des notifications
         foreach($res1 as $notif_essai_fini){
-            AfficherInfo("The trial number : ".htmlspecialchars($notif_essai_fini["ID_essai"])." has ended with the description : ".htmlspecialchars($notif_essai_fini["description"])." Please give your feedback.");
+            AfficherInfo("The trial number : ".htmlspecialchars($notif_essai_fini["ID_essai"])." has ended with the description : ".htmlspecialchars($notif_essai_fini["description"])." Please give your feedback.", 
+                        $notif_essai_fini["ID_essai"], 
+                        "give_feedback");
         }
         foreach($res2 as $notif_exclu){
-            AfficherInfo("You have been excluded from the trial number : ".htmlspecialchars($notif_exclu["ID_essai"])." with the description : ".htmlspecialchars($notif_exclu["description"]));
+            AfficherInfo("You have been excluded from the trial number : ".htmlspecialchars($notif_exclu["ID_essai"])." with the description : ".htmlspecialchars($notif_exclu["description"]), 
+                        $notif_exclu["ID_essai"],  
+                        "exclude");
         }
         foreach($res3 as $notif_accepte){
-            AfficherInfo("You have been accepted in the trial number : ".htmlspecialchars($notif_accepte["ID_essai"])." with the description : ".htmlspecialchars($notif_accepte["description"]));
+            AfficherInfo("You have been accepted in the trial number : ".htmlspecialchars($notif_accepte["ID_essai"])." with the description : ".htmlspecialchars($notif_accepte["description"]), 
+                        $notif_accepte["ID_essai"], 
+                        "accept");
         }
 
     }   
+    /**
+     * Méthode pour mettre à jour la BDD si un patient est exclus d'un essai (passe en statut "a vu l'exclusion")
+     * @param $bdd : base de données
+     * @param $id_essai : id de l'essai
+     */
+    public function ReadNotifExclusion($bdd, $id_essai){
+        $query = "UPDATE resultat SET is_patient_exclus = 2 WHERE ID_patient = :id AND ID_essai = :id_essai;";
+        $bdd->updateLines($query, ["id" => $this->getIduser(), "id_essai" => $id_essai]);
+    }
+
+    /**
+     * Méthode pour mettre à jour la BDD si un patient est accepté dans un essai (passe en statut "a vu l'acceptation")
+     * @param $bdd : base de données
+     * @param $id_essai : id de l'essai
+     */
+    public function ReadNotifAcceptation($bdd, $id_essai){
+        $query = "UPDATE resultat SET is_accepte = 2 WHERE ID_patient = :id AND ID_essai = :id_essai;";
+        $bdd->updateLines($query, ["id" => $this->getIduser(), "id_essai" => $id_essai]);  
+    }
+
+    /**
+     * Méthode pour mettre à jour la BDD si un patient donne ses résultats
+     * @param $bdd : base de données
+     * @param $id_essai : id de l'essai
+     * @param $value : valeur des effets secondaires
+     */
+    public function FillSideEffects($bdd, $value, $id_essai){
+        $query = "UPDATE resultat SET effet_secondaire = :side_effects WHERE ID_patient = :id AND ID_essai = :id_essai;";
+        $bdd->updateLines($query, ["side_effects" => $value, "id" => $this->getIduser(), "id_essai" => $id_essai]);
+    }
+
+    public function UnsubscribeFromTrial($bdd, $id_essai){
+        $query = "UPDATE resultat SET is_patient_exclus = 3 WHERE ID_patient = :id AND ID_essai = :id_essai;";
+        $bdd->updateLines($query, ["id" => $this->getIduser(), "id_essai" => $id_essai]);
+    }
 
 }
 ?>

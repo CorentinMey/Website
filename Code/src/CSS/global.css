@@ -39,6 +39,33 @@ body {
     padding: 1em;
 }
 
+.confirm-message {
+    color: #155724;
+    background-color: #d4edda;
+    height: 80%;
+    width: 80%;
+    display: flex;
+    position: relative;
+    margin-left: 5%;
+    margin-top : 1em;
+    border-radius: 1em;
+    border: 0.1em solid black;
+    padding: 1em;
+}
+
+#close_notif{
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    background-color: #f8d7da;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#close_notif:hover{
+    background-color: #dc3545;
+}
 
 .button {
     color: #ffffff;
