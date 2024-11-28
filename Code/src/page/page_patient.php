@@ -70,7 +70,7 @@ $bdd = new Query("siteweb");
                 <?php  // si j'ai des notifications, j'affiche le rond de notification
                 $nb_notif = $patient->NombreNotif($bdd);
                 if ($nb_notif > 0)
-                echo "<span class='notification'>".htmlspecialchars($nb_notif)."</span>" // <!-- Ajoute le rond de notification -->
+                    echo "<span class='notification'>".htmlspecialchars($nb_notif)."</span>" // <!-- Ajoute le rond de notification -->
                 ?>
             </button>
             <button class = "button" id = "button_patient" name = "Action" value = "ViewNew">New studies</button>
@@ -82,6 +82,8 @@ $bdd = new Query("siteweb");
     if ($_SERVER["REQUEST_METHOD"] == "POST") { // Si un bouton a été cliqué
         switch ($_POST['Action']) {
             case "ViewMine":
+                if ($nb_notif > 0)
+                    $patient->AfficheNotif($bdd); // affiche les notifications
                 $patient->AfficheEssais($bdd);
                 break;
             case "ViewNew":

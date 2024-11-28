@@ -178,6 +178,9 @@ class Patient extends Utilisateur{
             echo '</table>';
             echo '</div>';
 }
+
+
+
     /**
      * Fonction qui renvoie le nombre de notifications à voir du patient
      * Notif : Si un essai que le patient a rejoint a été terminé, il doit donner des résultats
@@ -187,19 +190,48 @@ class Patient extends Utilisateur{
      * @return int : nombre de notifications
      */
     public function NombreNotif($bdd){
-        $query_notif1 = "SELECT COUNT(*) FROM resultat NATURAL JOIN essai
-                             WHERE ID_patient = :id AND a_debute = 2;";
+        $query_notif1_cpt = "SELECT COUNT(*) FROM resultat NATURAL JOIN essai
+                             WHERE ID_patient = :id 
+                             AND a_debute = 2 
+                             AND ID_phase = phase_res # Ce AND permet de ne demander au patient ses impressions que pour lors de la phase de cloture de sa phase d'expérimentation
+                             AND effet_secondaire IS NULL;"; // vérifie si le patient n'a pas déjà donné ses résultats
         $query_notif2 = "SELECT COUNT(*) FROM resultat WHERE ID_patient = :id AND is_patient_exclus = 1;";
         $query_notif3 = "SELECT COUNT(*) FROM resultat WHERE ID_patient = :id AND is_accepte = 1;";
 
-        $res1 = $bdd->getResults($query_notif1, ["id" => $this->getIduser()])["COUNT(*)"];
+        $res1 = $bdd->getResults($query_notif1_cpt, ["id" => $this->getIduser()])["COUNT(*)"]; // compte le nombre d'essais terminés
         $res2 = $bdd->getResults($query_notif2, ["id" => $this->getIduser()])["COUNT(*)"];
         $res3 = $bdd->getResults($query_notif3, ["id" => $this->getIduser()])["COUNT(*)"];
         $total = $res1 + $res2 + $res3;
         return $total;
-
-
     }
+
+    public function AfficheNotif($bdd){
+        $query_notif1 = "SELECT ID_essai, description  FROM resultat NATURAL JOIN essai 
+                            WHERE ID_patient = :id 
+                            AND a_debute = 2
+                            AND ID_phase = phase_res
+                            AND effet_secondaire IS NULL;";
+
+        $query_notif2 = "SELECT ID_essai, description FROM resultat NATURAL JOIN essai
+                             WHERE ID_patient = :id AND is_patient_exclus = 1;";
+        $query_notif3 = "SELECT ID_essai, description FROM resultat NATURAL JOIN essai
+                             WHERE ID_patient = :id AND is_accepte = 1;";
+        // récupération des informations des essais
+        $res1 = $bdd->getResultsAll($query_notif1, ["id" => $this->getIduser()]);
+        $res2 = $bdd->getResultsAll($query_notif2, ["id" => $this->getIduser()]);
+        $res3 = $bdd->getResultsAll($query_notif3, ["id" => $this->getIduser()]);
+        //affichage des notifications
+        foreach($res1 as $notif_essai_fini){
+            AfficherInfo("The trial number : ".htmlspecialchars($notif_essai_fini["ID_essai"])." has ended with the description : ".htmlspecialchars($notif_essai_fini["description"])." Please give your feedback.");
+        }
+        foreach($res2 as $notif_exclu){
+            AfficherInfo("You have been excluded from the trial number : ".htmlspecialchars($notif_exclu["ID_essai"])." with the description : ".htmlspecialchars($notif_exclu["description"]));
+        }
+        foreach($res3 as $notif_accepte){
+            AfficherInfo("You have been accepted in the trial number : ".htmlspecialchars($notif_accepte["ID_essai"])." with the description : ".htmlspecialchars($notif_accepte["description"]));
+        }
+
+    }   
 
 }
 ?>
