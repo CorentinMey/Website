@@ -24,7 +24,9 @@
         // Affichage uniquement du contenu ciblé
         echo '<div class="LALIST">';
         if (isset($_POST['show_list_user'])) {
-                echo "<h2>User List</h2>";
+            echo '<div class="content-wrapper">';
+            echo "<h2>USER LIST</h2>";
+
 
             // Récupérer la liste des utilisateurs depuis la base de données
             $users = $query->getResultsAll("SELECT ID_USER prenom, nom, genre FROM utilisateur", []);  // Remplace 'users' par le nom de ta table
@@ -40,10 +42,11 @@
         } else {
             echo "<p>No users found.</p>";}
         } elseif (isset($_POST['show_list_doc'])) {
-            echo "<h2>Doctor List</h2>";
-            // Récupérer la liste des utilisateurs depuis la base de données
+            echo '<div class="content-wrapper">';
+            echo "<h2>DOCTOR LIST</h2>";
+            // Récupérer la liste des docteurs depuis la base de données
             $doctors = $query->getResultsAll(
-                "SELECT ID_USER, nom, prenom, genre FROM utilisateur INNER JOIN medecin WHERE ID_USER = numero_ordre",
+                "SELECT ID_USER, nom, prenom, genre, mail FROM utilisateur INNER JOIN medecin WHERE ID_USER = numero_ordre",
                 []
             );
 
@@ -55,9 +58,10 @@
                     echo '        <p><strong>Nom:</strong> ' . htmlspecialchars($doctor['nom']) . '</p>';
                     echo '        <p><strong>Prénom:</strong> ' . htmlspecialchars($doctor['prenom']) . '</p>';
                     echo '        <p><strong>Genre:</strong> ' . htmlspecialchars($doctor['genre']) . '</p>';
+                    echo '        <p><strong>mail:</strong>' . htmlspecialchars($doctor['mail']) . '</p>';
                     echo '    </div>';
                     echo '    <div class="user-actions">';
-                    echo '        <h2>view profile</h2>';
+                    echo '        <h3>view profile</h3>';
                     echo '    </div>';
                     echo '    <div class="user-controls">';
                     echo '        <form method="POST" action="manage_user.php" class="action-form">';
@@ -73,6 +77,10 @@
             echo "<p>No users found.</p>";}
         } elseif (isset($_POST['show_list_company'])) {
             echo "<h2>Company List</h2>";
+            $doctors = $query->getResultsAll(
+                "SELECT ID_USER, nom, prenom, genre, mail FROM utilisateur INNER JOIN medecin WHERE ID_USER = numero_ordre",
+                []
+            );
         } elseif (isset($_POST['show_list_clinical'])) {
             echo "<h2>Clinical Assay List</h2>";
         } elseif (isset($_POST['show_list_confirmation'])) {

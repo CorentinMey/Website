@@ -146,6 +146,21 @@ h1 {
     font-size: 18px;
 }
 
+.content-wrapper {
+    position: fixed; /* Toujours visible dans la fenêtre */
+    top: 50%; /* Centre verticalement */
+    left: 50%; /* Centre horizontalement */
+    transform: translate(-50%, -50%); /* Ajuste le centrage */
+    background-color: rgba(255, 255, 255, 0.1); /* Fond blanc semi-transparent */
+    padding: 2rem; /* Espacement interne */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.9); /* Ombre pour l'effet */
+    max-width: 6000px; /* Largeur maximale */
+    width: 100%; /* Adapte la largeur à l'écran */
+    overflow-y: auto; /* Ajoute un défilement si le contenu dépasse */
+    max-height: 100%; /* Empêche de dépasser l'écran verticalement */
+}
+
 .box_list {
     display: flex;
     justify-content: space-between;
@@ -210,4 +225,8 @@ h1 {
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-family: 'JetBrains Mono', sans-serif;
+}
+
+h2{
+    margin-left: 50%;
 }
