@@ -72,7 +72,7 @@ class Utilisateur {
     }
 
     public function setGender($gender){
-        $this->$gender = $gender;
+        $this->gender = $gender;
     }
 
     public function getEmail(){
@@ -117,33 +117,46 @@ class Utilisateur {
 
     # Méthodes de classe
 
-    protected function Inscription($dict_information, $bdd){
+    public function Inscription($bdd, $dict_information) {
+        // Ajouter les clés is_bannis et is_admin avec valeur 0 au dictionnaire
+        $dict_information['is_bannis'] = 0;
+        $dict_information['is_admin'] = 0;
+    
+        // Vérifier si la clé "mdp" existe dans les informations
+        if (isset($dict_information['mdp'])) {
+            // Hacher le mot de passe avant l'insertion
+            $dict_information['mdp'] = password_hash($dict_information['mdp'], PASSWORD_BCRYPT);
+        }
+    
         // Extraire les colonnes et leurs valeurs
         $columns = array_keys($dict_information); // Récupère les noms des colonnes
         $values = array_values($dict_information); // Récupère les valeurs à insérer
-
+    
         // Générer la partie de la requête SQL
         $column_names = implode(", ", $columns); // Concatène les noms des colonnes avec des virgules
         $placeholders = implode(", ", array_fill(0, count($columns), "?")); // Génère un placeholder "?" pour chaque colonne
-
+    
         // Construire la requête d'insertion
         $query = "INSERT INTO utilisateur ($column_names) VALUES ($placeholders)";
-
+    
         try {
             // Préparer la requête
-            $res = $bdd->prepare($query);
-
+            $res = $bdd->getConnection()->prepare($query);
+    
             // Exécuter la requête avec les valeurs
             $res->execute($values);
-
+    
             // Retourner le résultat ou true pour indiquer que tout s'est bien passé
             return true;
         } catch (PDOException $e) {
             // Gérer les erreurs
-            echo "Erreur lors de l'inscription : " . $e->getMessage();
+            include_once("../back_php/Affichage_gen.php");
+            afficherErreur("Erreur lors de l'inscription : " . $e->getMessage());
             return false;
         }
     }
+    
+    
 
     public function Connexion($email, $password, $bdd) {
         // Construire la requête pour récupérer le mot de passe
@@ -157,15 +170,16 @@ class Utilisateur {
                 afficherErreur("Identifiants incorrects.");
                 exit();
                 return false;
-            } elseif ($query_res["mdp"] != $password) { // Si le mot de passe ne correspond pas
+            } elseif (!password_verify($password, $query_res["mdp"])) { // Si le mot de passe ne correspond pas
                 include_once("../back_php/Affichage_gen.php");
                 afficherErreur("Mot de passe incorrect pour l'email $email");
                 exit();
                 return false;
-            } else{ // définir les attributs de l'objet pour les classes filles
+            } else { // définir les attributs de l'objet pour les classes filles
                 $this->setMdp($query_res["mdp"]);
                 $this->setIduser($query_res["ID_User"]);
             }
+<<<<<<< HEAD
 
     
             // Comparer le mot de passe
@@ -188,6 +202,12 @@ class Utilisateur {
             // Fermer la requête
             $res->closeCursor();
 
+=======
+            //Over-ride de cette fonction chez chaque utilisateur ensuite pour pouvoir les rediriger vers leur page d'accueil utilisateur respective
+            //Pour l'instant redirection vers une page test
+            //Rajouter un session start, récuperer toutes les infos de l'utilisateur en demandant à la BDD, puis transmettre ces infos à la page suivante avec un $_session["utilisateur"] (peut-être à faire dans la page login)
+
+>>>>>>> main
         } catch (PDOException $e) {
             // Gérer les erreurs
             echo "Erreur lors de la connexion : " . $e->getMessage();

@@ -1,8 +1,9 @@
 <?php
+ob_start(); // Active le tampon de sortie
 include_once("../back_php/Patient.php");
 include_once("../back_php/Query.php");
 session_start();
-if (isset($_SESSION["patient"])) {
+if (isset($_SESSION["patient"])) { // vérifie si le patient souhaite changer ses infos depuis la page d'inscription
     $patient = $_SESSION["patient"];
     $first_name = $patient->getFirst_name();
     $last_name = $patient->getLast_name();
@@ -10,9 +11,10 @@ if (isset($_SESSION["patient"])) {
     $gender = $patient->getGender();
     $origins = $patient->getOrigins();
     $antecedent = $patient->getAntecedent();
+    $date_naissance = $patient->getBirthdate();
     $bdd = new Query("siteweb");
     // Récupérez les autres informations nécessaires
-} else {
+} else { // si l'utilisateur souhaite seulement s'inscrire
     $first_name = "";
     $last_name = "";
     $email = "";
@@ -22,6 +24,7 @@ if (isset($_SESSION["patient"])) {
 }
 
 
+<<<<<<< HEAD
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['action'])) {
         $action = $_POST['action'];
@@ -56,6 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
+=======
+>>>>>>> main
 ?>
 
 <!DOCTYPE html>
@@ -91,7 +96,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="input_info">
                         <label for="account_type">Account</label>
                         <!-- Permet d'avoir un formulaire dynamique avec onchange -->
+<<<<<<< HEAD
                         <select id="account_type" name="account_type" class="deroulant" required onchange="this.form.submit()"> 
+=======
+>>>>>>> main
                         <select id="account_type" name="account_type" class="deroulant"  onchange="this.form.submit()"> 
                             <option value="">Select the account</option>
                             <option value="Patient" <?php echo (isset($_POST['account_type']) && $_POST['account_type'] == 'Patient') ? 'selected' : ''; ?>>Patient</option>
@@ -110,21 +118,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Affiche le champ pour le nom de famille, le prénom et le sexe
                     echo '<div class="input_info">';
                         echo '<label for="Nom">Family name</label>';
+<<<<<<< HEAD
                         echo '<input type="text" id="Nom" name="Nom" value="' . $last_name . '" required/>';
+=======
+>>>>>>> main
                         echo '<input type="text" id="Nom" name="Nom" value="' . $last_name . '"/>';
                     echo '</div>';
 
                     echo '<div class="input_info">';
                         echo '<label for="prénom">First name</label>';
+<<<<<<< HEAD
                         echo '<input type="text" id="prénom" name="prénom" value="' . $first_name . '" required/>';
+=======
+>>>>>>> main
                         echo '<input type="text" id="prénom" name="prénom" value="' . $first_name . '" />';
                     echo '</div>';
 
                     echo '<div class="input_info">';
                         echo '<label for="genre">Gender</label>';
+<<<<<<< HEAD
                         echo '<select id="genre" name="genre" class="deroulant" required>';
                         echo '<select id="genre" name="genre" class="deroulant" >';
                             echo '<option value="">'.$gender.'</option>';
+=======
+                        echo '<select id="genre" name="genre" class="deroulant" >';
+                            echo '<option value='.htmlspecialchars($gender).'>'.$gender.'</option>';
+>>>>>>> main
                             echo '<option value="male">Male</option>';
                             echo '<option value="female">Female</option>';
                         echo '</select>';
@@ -137,7 +156,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <?php
                     // vérifie si le compte est un patient
                     if (isset($_SESSION["patient"]) || (isset($_POST["account_type"]) && $_POST["account_type"] == "Patient")) {
+                        // Affiche le champ pour les origines
                         echo '<div class="input_info">';
+<<<<<<< HEAD
                             echo '<label for="origin">Origins</label>';
                                 echo '<select id="origin" name="origin" class="deroulant" required>';
                                 echo '<select id="origin" name="origin" class="deroulant" >';
@@ -149,10 +170,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     echo '<option value="Asia">Asia</option>';
                                     echo '<option value="Oceania">Oceania</option>';
                                 echo '</select>';
+=======
+                        echo '<label for="origin">Origins</label>';
+                        echo '<select id="origin" name="origin" class="deroulant">';
+                            echo '<option value="">Select your origins</option>';
+                            echo '<option value="Europe"' . (($origins == "Europe") ? ' selected' : '') . '>Europe</option>';
+                            echo '<option value="North America"' . (($origins == "North America") ? ' selected' : '') . '>North America</option>';
+                            echo '<option value="South America"' . (($origins == "South America") ? ' selected' : '') . '>South America</option>';
+                            echo '<option value="Africa"' . (($origins == "Africa") ? ' selected' : '') . '>Africa</option>';
+                            echo '<option value="Asia"' . (($origins == "Asia") ? ' selected' : '') . '>Asia</option>';
+                            echo '<option value="Oceania"' . (($origins == "Oceania") ? ' selected' : '') . '>Oceania</option>';
+                        echo '</select>';
+>>>>>>> main
                         echo '</div>';
-    
-                        // Affiche le champ pour les antécédents
+                    
+                        // Affiche le champ pour les antécédents médicaux
                         echo '<div class="input_info">';
+<<<<<<< HEAD
                             echo '<label for="medical">Medical History</label>';
                                 echo '<select id="medical" name="medical" class="deroulant" required>';
                                 echo '<select id="medical" name="medical" class="deroulant" >';
@@ -165,28 +199,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     echo '<option value="Cardiac history">Cardiac history</option>';
                                     echo '<option value="Food allergy">Food allergy</option>';
                                 echo '</select>';
+=======
+                        echo '<label for="medical">Medical History</label>';
+                        echo '<select id="medical" name="medical" class="deroulant">';
+                            echo '<option value="">Select your medical history</option>';
+                            echo '<option value="None"' . (($antecedent == "None") ? ' selected' : '') . '>None</option>';
+                            echo '<option value="Hypertension"' . (($antecedent == "Hypertension") ? ' selected' : '') . '>Hypertension</option>';
+                            echo '<option value="Type 2 diabetes"' . (($antecedent == "Type 2 diabetes") ? ' selected' : '') . '>Type 2 diabetes</option>';
+                            echo '<option value="Type 1 diabetes"' . (($antecedent == "Type 1 diabetes") ? ' selected' : '') . '>Type 1 diabetes</option>';
+                            echo '<option value="Asthma"' . (($antecedent == "Asthma") ? ' selected' : '') . '>Asthma</option>';
+                            echo '<option value="Cardiac history"' . (($antecedent == "Cardiac history") ? ' selected' : '') . '>Cardiac history</option>';
+                            echo '<option value="Food allergy"' . (($antecedent == "Food allergy") ? ' selected' : '') . '>Food allergy</option>';
+                        echo '</select>';
+>>>>>>> main
                         echo '</div>';
-                }?>
-
+                    }
+                ?>
                 <?php
 
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["account_type"]) && $_POST["account_type"] == "Doctor") {
                     // info du numéro d'ordre du médecin, de son hopital d'exercice, de sa spécialité
                     echo '<div class="input_info">';
                     echo '<label for="num_ordre">Order number</label>';
+<<<<<<< HEAD
                     echo '<input type="text" id="num_ordre" name="num_ordre" required/>';
+=======
+>>>>>>> main
                     echo '<input type="text" id="num_ordre" name="num_ordre" />';
                     echo '</div>';
 
                     echo '<div class="input_info">';
                     echo '<label for="hopital">Hospital</label>';
+<<<<<<< HEAD
                     echo '<input type="text" id="hopital" name="hopital" required/>';
+=======
+>>>>>>> main
                     echo '<input type="text" id="hopital" name="hopital" />';
                     echo '</div>';
 
                     echo '<div class="input_info">';
                     echo '<label for="specialite">Speciality</label>';
+<<<<<<< HEAD
                     echo '<input type="text" id="specialite" name="specialite" required/>';
+=======
+>>>>>>> main
                     echo '<input type="text" id="specialite" name="specialite" />';
                     echo '</div>';
                 }
@@ -194,35 +250,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ?>
 
                 <?php
-
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["account_type"]) && $_POST["account_type"] == "Company") {
                     // info du nom de l'entreprise, le siret et la ville
                     echo '<div class="input_info">';
                     echo '<label for="nom_entreprise">Company name</label>';
+<<<<<<< HEAD
                     echo '<input type="text" id="nom_entreprise" name="nom_entreprise" required/>';
+=======
+>>>>>>> main
                     echo '<input type="text" id="nom_entreprise" name="nom_entreprise" />';
                     echo '</div>';
 
                     echo '<div class="input_info">';
                     echo '<label for="siret">Siret</label>';
+<<<<<<< HEAD
                     echo '<input type="text" id="siret" name="siret" required/>';
+=======
+>>>>>>> main
                     echo '<input type="text" id="siret" name="siret" />';
                     echo '</div>';
 
                     echo '<div class="input_info">';
                     echo '<label for="ville">City</label>';
+<<<<<<< HEAD
                     echo '<input type="text" id="ville" name="ville" required/>';
+=======
+>>>>>>> main
                     echo '<input type="text" id="ville" name="ville" />';
                     echo '</div>';
                 }
-
                 ?>
 
                 <div class="input_info">
                     <label for="identifiant">Email</label>
+<<<<<<< HEAD
                     <input type="text" id="identifiant" name="identifiant" value= <?php echo $email?> required/>
                     <input type="text" id="identifiant" name="identifiant" value= <?php echo $email?> />
+=======
+                    <input type="text" id="identifiant" name="identifiant" value= "<?php echo $email?>"/>
+>>>>>>> main
 
+                </div>
+
+                <div class = "input_info">
+                    <label for="date_naissance">Birthdate</label>
+                    <input type="date" id="date_naissance" name="date_naissance" value = "<?php echo $date_naissance?>"/>
                 </div>
 
                 <div class="input_info">
@@ -239,39 +311,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <button type="submit" name="action" value="confirm">Confirm</button>
                     <button type="submit" name="action" value="back">Back</button>
                 </div>
+
                 <?php
+                // Code php pour vérifier les entrées de l'utilisateur
+
                     include_once("../back_php/Securite.php");
                     include_once("../back_php/Affichage_gen.php");
-                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    if ($_SERVER["REQUEST_METHOD"] == "POST") { // Si un bouton a été cliqué
                         if (isset($_POST['action'])) {
-                            $action = $_POST['action']; // pour savoir si on doit confirmer ou revenir en arrière
+                            $action = $_POST['action']; // Détermine l'action à effectuer
 
-                            if ($action == 'confirm' && isset($_SESSION["patient"])) {
-                                $required_fields_edit_patient = ["Nom", "prénom", "identifiant", "genre", "origin", "antecedent", "mdp", "mdp2"];
-                                if (checkFormFields($required_fields_edit_patient)){
-                                    $bdd = new Query("siteweb");
-                                    // Mettre à jour les informations du patient
-                                    $patient->setFirst_name($_POST["Nom"]);
-                                    $patient->setLast_name($_POST["prénom"]);
-                                    $patient->setEmail($_POST["identifiant"]);
-                                    $patient->setGender($_POST["genre"]);
-                                    $patient->setOrigins($_POST["origin"]);
-                                    $patient->setAntecedent($_POST["antecedent"]);
-                                    $patient->setMdp($_POST["mdp"]);
-                                    // Mettre à jour la base de données
-                                    $patient->ChangeInfo($bdd);
-                                    // Mettre à jour l'objet en session
-                                    $_SESSION["patient"] = $patient;
-                                    // Rediriger vers la page du patient
-                                    header("Location: page_patient.php");
-                                    exit;
-                                } else 
-                                    AfficherErreur("Please fill all the fields");
-
-                            } elseif ($action == 'back' && isset($_SESSION["patient"])) {
-                                // Rediriger vers la page du patient sans mettre à jour
-                                header("Location: page_patient.php");
-                                exit;
+                        if ($action == 'confirm' && isset($_SESSION["patient"])) {
+                            // Mise à jour des informations du patient existant
+                            $patient->updatePatientInfo();
+                        } elseif ($action == 'back' && isset($_SESSION["patient"])) {
+                            // Retour à la page patient sans mise à jour
+                            header("Location: page_patient.php");
+                            exit;
+                        } elseif ($action == "back" && !isset($_SESSION["patient"])) {
+                            // Retour à la page d'accueil
+                            header("Location: page_accueil.php");
+                            exit;
+                        } else {
+                            // Inscription d'un nouvel utilisateur en fonction du type de compte
+                            if (isset($_POST["account_type"])) {
+                                switch ($_POST["account_type"]) {
+                                    case "Patient":
+                                        registerNewPatient();
+                                        break;
+                                    case "Doctor":
+                                        registerNewDoctor();
+                                        break;
+                                    case "Company":
+                                        registerNewCompany();
+                                        break;
+                                    default:
+                                        AfficherErreur("Invalid account type selected.");
+                                }
+                            } else
+                                AfficherErreur("Please select an account type.");
                             }
                         }
                     }
@@ -281,3 +359,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </body>
 </html>
+<?php
+ob_end_flush(); // Envoie la sortie tamponnée
+?>
+
