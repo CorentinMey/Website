@@ -80,8 +80,8 @@ session_start();
                                     siret : null
                                     );
                                 $user->Connexion($_POST["mail"], $_POST["mdp"], $bdd);
-                                $_SESSION["patient"] = $user;
-                                header("Location: page_test.php");
+                                $_SESSION["entreprise"] = $user;
+                                header("Location: page_entreprise.php");
                                 exit;
                             } else if ($account_type == "admin") {
                                 header("Location: page_admin.php");
