@@ -16,20 +16,23 @@ class Entreprise extends Utilisateur {
         $birthdate = null,
         $gender = null,
         $antecedent = null,
-        $siret = null,
-        $ville = null
+        $origins = null,
+        $ville = null,
+        $siret = null
     ) {
         parent::__construct(
-            $iduser=null,
+            $iduser,
             $mdp,
             $email,
-            $last_name=null,
-            $is_banned=null,
-            $is_admin=null,
-            $first_name=null,
-            $birthdate=null,
-            $gender=null,
-            $antecedent=null
+            $last_name,
+            $is_banned,
+            $is_admin,
+            $first_name,
+            $birthdate,
+            $gender,
+            $antecedent,
+            $ville,
+            $siret
         );
         $this->siret = $siret;
         $this->ville = $ville;
@@ -55,30 +58,39 @@ class Entreprise extends Utilisateur {
         $this->ville = $ville;
     }
 
-    // Surcharge de la méthode Connexion
-    public function Connexion($email, $password, $bdd) {
-        parent::Connexion($email, $password, $bdd); // Appelle la méthode de la classe parent
-
-        if ($this->mdp == $password) { // Vérifie si le mot de passe est correct
-            $data = ["id_user" => $this->iduser];
-            $query = "SELECT * FROM utilisateur WHERE ID_User = :id_user;";
-            $res = $bdd->getResults($query, $data);
-
-            if ($res != []) {
-                $this->birthdate = $res["date_naissance"];
-                $this->first_name = $res["prenom"];
-                $this->last_name = $res["nom"];
-                $this->is_banned = $res["is_bannis"];
-                $this->is_admin = $res["is_admin"];
-                $this->gender = $res["genre"];
-                $this->antecedent = $res["antecedents"];
-                $this->siret = $res["siret"];
-                $this->ville = $res["ville"];
-            }
-            $bdd->closeBD();
+    public function Connexion($email, $password, $bdd)
+    {
+        parent::Connexion($email, $password, $bdd); // Appelle la méthode de la classe parent pour les bases
+    
+        // Récupérer les informations utilisateur et entreprise
+        $data = ["id_user" => $this->iduser];
+        $query = "
+            SELECT u.date_naissance, u.prenom, u.nom, u.genre, u.mail, u.antecedents, 
+                   u.is_bannis, u.is_admin, e.siret, e.ville
+            FROM utilisateur u
+            LEFT JOIN entreprise e ON u.ID_User = e.siret
+            WHERE u.ID_User = :id_user;
+        ";
+        $res = $bdd->getResults($query, $data);
+    
+        if ($res != []) {
+            // Attributs de la table utilisateur
+            $this->birthdate = $res["date_naissance"];
+            $this->first_name = $res["prenom"];
+            $this->last_name = $res["nom"];
+            $this->is_banned = $res["is_bannis"];
+            $this->is_admin = $res["is_admin"];
+            $this->gender = $res["genre"];
+            $this->antecedent = $res["antecedents"];
+            $this->email = $res["mail"];
+    
+            // Attributs spécifiques à la table entreprise
+            $this->siret = $res["siret"];
+            $this->ville = $res["ville"];
         }
+    
+        $bdd->closeBD();
     }
-
-   
+    
 }
 ?>

@@ -170,7 +170,7 @@ class Utilisateur {
                 afficherErreur("Identifiants incorrects.");
                 exit();
                 return false;
-            } elseif (!password_verify($password, $query_res["mdp"])) { // Si le mot de passe ne correspond pas
+            } elseif (!checkPassword($password, $query_res["mdp"])) { // Si le mot de passe ne correspond pas
                 include_once("../back_php/Affichage_gen.php");
                 afficherErreur("Mot de passe incorrect pour l'email $email");
                 exit();
@@ -179,35 +179,8 @@ class Utilisateur {
                 $this->setMdp($query_res["mdp"]);
                 $this->setIduser($query_res["ID_User"]);
             }
-<<<<<<< HEAD
 
-    
-            // Comparer le mot de passe
-            if (password_verify($password, $mdp["mdp"])) {
-            //if ($mdp["mdp"] == $password){
-                // Connexion réussie
-
-                #Over-ride de cette fonction chez chaque utilisateur ensuite pour pouvoir les rediriger vers leur page d'accueil utilisateur respective
-                #Pour l'instant redirection vers une page test
-                #Rajouter un session start, récuperer toutes les infos de l'utilisateur en demandant à la BDD, puis transmettre ces infos à la page suivante avec un $_session["utilisateur"] (peut-être à faire dans la page login)
-
-                header("Location: page_test.php");
-                exit; // Assurez-vous d'arrêter le script après une redirection
-            } 
-            else {
-                // Mot de passe incorrect
-                echo "Mot de passe erroné, veuillez réessayer.";
-            }
-    
-            // Fermer la requête
-            $res->closeCursor();
-
-=======
-            //Over-ride de cette fonction chez chaque utilisateur ensuite pour pouvoir les rediriger vers leur page d'accueil utilisateur respective
-            //Pour l'instant redirection vers une page test
-            //Rajouter un session start, récuperer toutes les infos de l'utilisateur en demandant à la BDD, puis transmettre ces infos à la page suivante avec un $_session["utilisateur"] (peut-être à faire dans la page login)
-
->>>>>>> main
+  
         } catch (PDOException $e) {
             // Gérer les erreurs
             echo "Erreur lors de la connexion : " . $e->getMessage();
