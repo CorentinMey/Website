@@ -20,16 +20,16 @@ class Entreprise extends Utilisateur {
         $ville = null
     ) {
         parent::__construct(
-            $iduser,
+            $iduser=null,
             $mdp,
             $email,
-            $last_name,
-            $is_banned,
-            $is_admin,
-            $first_name,
-            $birthdate,
-            $gender,
-            $antecedent
+            $last_name=null,
+            $is_banned=null,
+            $is_admin=null,
+            $first_name=null,
+            $birthdate=null,
+            $gender=null,
+            $antecedent=null
         );
         $this->siret = $siret;
         $this->ville = $ville;
