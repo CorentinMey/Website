@@ -25,6 +25,47 @@ body {
     padding: 1em;
 }
 
+.info-message {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    height: 80%;
+    width: 80%;
+    display: flex;
+    position: relative;
+    margin-left: 5%;
+    margin-top : 1em;
+    border-radius: 1em;
+    border: 0.1em solid black;
+    padding: 1em;
+}
+
+.confirm-message {
+    color: #155724;
+    background-color: #d4edda;
+    height: 80%;
+    width: 80%;
+    display: flex;
+    position: relative;
+    margin-left: 5%;
+    margin-top : 1em;
+    border-radius: 1em;
+    border: 0.1em solid black;
+    padding: 1em;
+}
+
+#close_notif{
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    background-color: #f8d7da;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#close_notif:hover{
+    background-color: #dc3545;
+}
 
 .button {
     color: #ffffff;
@@ -46,6 +87,7 @@ body {
     border-collapse: collapse; 
     font-size: 0.9em;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    margin-bottom: 5em;
 }
 
 .styled-table thead tr {
@@ -64,11 +106,11 @@ body {
 }
 
 .styled-table tbody tr:nth-of-type(even) { /* Change la couleur une ligne sur 2 */
-    background-color: #f3f3f3;
+    background-color: #a7e8f3;
 }
 
 .styled-table tbody tr:last-of-type {
-    border-bottom: 50em solid #009879;
+    border-bottom: 50em solid #000000;
 }
 .pastille {
     position: absolute;
