@@ -139,9 +139,16 @@ function registerNewDoctor() {
             ];
             // Inscrire le médecin
             $doctor->Inscription($bdd, $bdd_dict);
-            // Rediriger vers la page d'accueil
-            header("Location: page_accueil.php");
-            exit;
+
+            if ($_SESSION["result"] == 1) {
+                // Succès : redirection vers la page d'accueil
+                header("Location: page_accueil.php");
+                exit;
+            } else {
+                // Échec : afficher le message d'erreur
+                AfficherErreur($_SESSION["result"]);
+                exit;
+            }
         } else {
             AfficherErreur("Passwords do not match");
         }
@@ -167,9 +174,17 @@ function registerNewCompany() {
             ];
             // Inscrire l'entreprise
             $company->Inscription($bdd, $bdd_dict);
-            // Rediriger vers la page d'accueil
-            header("Location: page_accueil.php");
-            exit;
+            
+            if ($_SESSION["result"] == 1) {
+                // Succès : redirection vers la page d'accueil
+                header("Location: page_accueil.php");
+                exit;
+            } else {
+                // Échec : afficher le message d'erreur
+                AfficherErreur($_SESSION["result"]);
+                exit;
+            }
+            
         } else {
             AfficherErreur("Passwords do not match");
         }
