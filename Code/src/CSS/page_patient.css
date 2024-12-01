@@ -248,3 +248,13 @@
 #notif{
     margin-left : 9em;
 }
+
+#confirmation_side_effect{
+    margin-left : 9em;
+}
+
+#side_effect_buttons{
+    width : 5em;
+    margin-right : 0.5em;
+    margin-left : 0.5em;
+}

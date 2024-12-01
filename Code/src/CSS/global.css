@@ -29,7 +29,7 @@ body {
     color: #0c5460;
     background-color: #d1ecf1;
     height: 80%;
-    width: 80%;
+    width: 78%;
     display: flex;
     position: relative;
     margin-left: 5%;
@@ -37,6 +37,8 @@ body {
     border-radius: 1em;
     border: 0.1em solid black;
     padding: 1em;
+    padding-right: 3em; /*Empêche que le texte ne se superpose au bouton de fermeture*/
+
 }
 
 .confirm-message {

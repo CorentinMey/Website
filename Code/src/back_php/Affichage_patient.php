@@ -49,7 +49,7 @@ function Affichage_content_essai($entreprise, $essai, $medecins, $id_essai){
             Affiche_medecin($medecins); // affiche les médecins référents
             echo '</td>';
             if ($entreprise["a_debute"] == 2){ // si la phase de l'essai est terminée et en attente des résultats
-                if (!empty($essai["effet_secondaire"]))
+                if (!empty($essai["effet_secondaire"])) // si le patient a déjà donné ses résultats
                     echo '<td>Thanks for your feedback</td>';
                 // affiche un menu déroulant pour choisir les effets secondaires avec un bouton pour valider
                 else{
@@ -71,13 +71,17 @@ function Affichage_content_essai($entreprise, $essai, $medecins, $id_essai){
             } else // si l'essai est en cours
                 echo '<td>Not yet over</td>';
             // ajout du bouton pour se désinscrire
-            echo '<td>';
+            if (!empty($essai["effet_secondaire"])) // si le patient a déjà donné ses résultats
+                echo '<td>Thanks for your feedback</td>';
+            else{
+                echo '<td>';
                 echo '<form action="" method="post">';
-                    echo '<input type="hidden" name="id_essai" value="'.htmlspecialchars($id_essai).'">';
+                    echo '<input type="hidden" name="id_essai" value="'.$id_essai.'">';
                     echo '<input type="hidden" name="Action" value="unsubscribe">';
                     echo '<button type="submit" class="button">Unsubscribe</button>';
                 echo '</form>';
             echo '</td>';        
+        }
         echo '</tr>';
 }
     

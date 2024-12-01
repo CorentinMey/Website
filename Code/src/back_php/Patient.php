@@ -192,15 +192,15 @@ class Patient extends Utilisateur{
      * @return int : nombre de notifications
      */
     public function NombreNotif($bdd){
-        $query_notif1_cpt = "SELECT COUNT(*) FROM resultat NATURAL JOIN essai
+        $query_notif1_cpt = "SELECT COUNT(*) FROM resultat NATURAL JOIN essai # notif si on a des résultats à donner
                              WHERE ID_patient = :id 
                              AND a_debute = 2 
                              AND is_patient_exclus = 0
                              AND is_accepte != 0    
                              AND ID_phase = phase_res # Ce AND permet de ne demander au patient ses impressions que pour lors de la phase de cloture de sa phase d'expérimentation
                              AND effet_secondaire IS NULL;"; // vérifie si le patient n'a pas déjà donné ses résultats
-        $query_notif2 = "SELECT COUNT(*) FROM resultat WHERE ID_patient = :id AND is_patient_exclus = 1;";
-        $query_notif3 = "SELECT COUNT(*) FROM resultat WHERE ID_patient = :id AND is_accepte = 1;";
+        $query_notif2 = "SELECT COUNT(*) FROM resultat WHERE ID_patient = :id AND is_patient_exclus = 1;"; // notif si on a été exclus
+        $query_notif3 = "SELECT COUNT(*) FROM resultat WHERE ID_patient = :id AND is_accepte = 1;"; // notif si on a été accepté
 
         $res1 = $bdd->getResults($query_notif1_cpt, ["id" => $this->getIduser()])["COUNT(*)"]; // compte le nombre d'essais terminés
         $res2 = $bdd->getResults($query_notif2, ["id" => $this->getIduser()])["COUNT(*)"];
@@ -228,7 +228,8 @@ class Patient extends Utilisateur{
         foreach($res1 as $notif_essai_fini){
             AfficherInfo("The trial number : ".htmlspecialchars($notif_essai_fini["ID_essai"])." has ended with the description : ".htmlspecialchars($notif_essai_fini["description"])." Please give your feedback.", 
                         $notif_essai_fini["ID_essai"], 
-                        "give_feedback");
+                        "cross",
+                        false); // ici cette notification ne peut pas disparaitre tant que l'utilisateur n'a pas donné ses résultats
         }
         foreach($res2 as $notif_exclu){
             AfficherInfo("You have been excluded from the trial number : ".htmlspecialchars($notif_exclu["ID_essai"])." with the description : ".htmlspecialchars($notif_exclu["description"]), 
