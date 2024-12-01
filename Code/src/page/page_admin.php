@@ -102,7 +102,7 @@
             echo '<div class="content-wrapper">';
             echo "<h2>Company List</h2>";
             $companies = $query->getResultsAll(
-                "SELECT siret, ville, is_bannis FROM entreprise INNER JOIN utilisateur ON utilisateur.ID_USER = entreprise.siret ",[]
+                "SELECT ID_User, siret, ville, is_bannis FROM entreprise INNER JOIN utilisateur ON utilisateur.ID_User = entreprise.siret ",[]
             );
             if (!empty($companies)) {
                 echo "<ul>";
@@ -118,9 +118,10 @@
                     echo '        <h3>View details</h3>';
                     echo '    </div>';
                     echo '    <div class="company-controls">';
-                    echo '        <form method="POST" action="manage_company.php" class="action-form">';
-                    echo '            <input type="hidden" name="siret" value="' . htmlspecialchars($company['siret']) . '">';
-                    echo '            <button type="submit" name="action" value="delete" class="delete-btn">Delete</button>';
+                    echo '        <form method="POST" action="../back_php/manage_user.php" class="action-form">';
+                    echo '              <input type="hidden" name="LID" value="' . htmlspecialchars($company['ID_User']) . '">';
+                    echo '            <button type="submit" name="action" value="ban" class="ban-btn">Ban</button>';
+                    echo '            <button type="submit" name="action" value="unban" class="unban-btn">Unban</button>';
                     echo '        </form>';
                     echo '    </div>';
                     echo '</div>';
@@ -198,6 +199,14 @@
         echo '</div>';
     } else {
         // Affiche la page normale si aucun bouton n'a été cliqué
+
+    // Récupérer le nombre de demandes avec is_bannis = 2 
+    $newsql = "SELECT COUNT(*) AS count_waiting FROM utilisateur WHERE is_bannis = 2";
+    $result_compte = $query->getResults($newsql, []);
+
+    // Récupérer le nombre de demandes de confirmation
+    $count = $result_compte['count_waiting'];
+        
     ?>
         <div id="bandeau_top">
             <h1>Admin page</h1>
@@ -211,8 +220,13 @@
             <button type="submit" class="btn" name="show_list_company" value="1" id="button3">Company List</button>
             <button type="submit" class="btn" name="show_list_clinical" value="1" id="button4">Clinical Assay List</button>
             <button type="submit" class="confirmation" name="show_list_confirmation" value="1" id="button5">
+                <!-- Afficher la pastille seulement si count > 0 -->
+                <?php if ($count > 0): ?>
+                    <span class="pastille" id="notifCount"><?php echo $count; ?></span>
+                <?php else: ?>
+                    <span class="pastille" id="notifCount" style="display:none;">0</span>
+                <?php endif; ?>
                 Required Confirmation for Inscription
-                <span class="pastille" id="notifCount">0</span>
             </button>
         </form>
     <?php

@@ -129,8 +129,8 @@ h1 {
 
 .pastille {
     position: absolute;
-    top: -0.8em;
-    right: -0.9em;
+    top: -2em;
+    right: -2em;
     background-color: red;
     color: white;
     border-radius: 100%;
@@ -173,7 +173,7 @@ h1 {
 }
 
 .box_list.banned {
-    
+
     background-color: #dc0808; /* Couleur pour les bannis */
     border-color: #ff0000; /* Bordure rouge pour différencier */
 }
