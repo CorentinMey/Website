@@ -56,10 +56,14 @@ class Query {
     /**
      * Insère des lignes dans la base de données.
      */
-    public function insertLines($query, $args){
-        $insert = $this->connection->prepare($query);
-        $insert->execute($args);
-        $this->closeStatement($insert);
+    public function insertLine($query, $args){
+        try{
+            $insert = $this->connection->prepare($query);
+            $insert->execute($args);
+            $this->closeStatement($insert);
+        } catch (PDOException $e) {
+            exit(); // arret du script si l'utilisateur rafraichit la page alors qu'il s'est inscrit juste avant
+        }
     }
     /**
      * Supprime des lignes dans la base de données.

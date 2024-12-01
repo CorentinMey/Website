@@ -1,5 +1,6 @@
 <?php
 include_once("Patient.php");
+include_once("Affichage_gen.php"); // pour la fonction Affiche_medecin
 /**
  * Affiche l'en tête du tableau pour les essais cliniques du patients
  */
@@ -24,19 +25,7 @@ function Affichage_entete_tableau_essai(){
 
     }
 
-/**
- * FOnction pour afficher les médecins référents d'un essai clinique
- */
-function Affiche_medecin($medecins){
-    $cpt = 0;
-    foreach($medecins as $medecin){ // affiche les médecins référents
-        if ($cpt == 0){
-            echo $medecin["nom"];
-            $cpt++;
-        } else
-            echo ', '.$medecin["nom"];
-    }
-}
+
 
 function Affichage_content_essai($entreprise, $essai, $medecins, $id_essai){
         echo '<tr>';

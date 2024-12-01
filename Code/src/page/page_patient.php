@@ -76,7 +76,7 @@ $bdd = new Query("siteweb");
  
     <h2 class = "title">Options</h2>
 
-    <?php
+    <?php // code pour mettre à jour le numéro des notifications
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['id_essai']) && isset($_POST['Action'])) {
             switch ($_POST["Action"]){
@@ -121,7 +121,7 @@ $bdd = new Query("siteweb");
                 $patient->AfficheEssais($bdd);
                 break;
             case "ViewNew":
-                echo "test new";
+                AfficherEssaisPasDemarré($bdd, $patient);
                 break;
             case "ViewInfo":
                 $patient->AffichageTableau($bdd);
@@ -138,10 +138,15 @@ $bdd = new Query("siteweb");
             $action = $_POST['Action'];
     
             switch ($action) {
-                case "give_feedback":
-                    // Appeler la fonction pour donner des résultats
-                    // Exemple : $patient->GiveFeedback($bdd, $id_essai);
+                case "join_trial":
+                    $patient->Rejoindre($bdd, $id_essai); // met à jour la BDD pour rejoindre l'essai
+                    AfficherEssaisPasDemarré($bdd, $patient);
                     break;
+
+                case "cross_inscription":
+                    AfficherEssaisPasDemarré($bdd, $patient);
+                    break;
+                    
                 case "exclude":
                     if ($nb_notif > 0)
                         $patient->AfficheNotif($bdd); // affiche les notifications
@@ -183,7 +188,7 @@ $bdd = new Query("siteweb");
                 case "confirm_unsubscribe":
                     // L'utilisateur a confirmé la désinscription
                     // Appeler la fonction pour se désinscrire
-                    $patient->UnsubscribeFromTrial($bdd, $id_essai);
+                    $patient->QuitEssai($bdd, $id_essai);
                     AfficherInfo("You have successfully unsubscribed from this trial", $id_essai, "cross");
                     if ($nb_notif > 0)
                         $patient->AfficheNotif($bdd); // idem
@@ -201,6 +206,8 @@ $bdd = new Query("siteweb");
                         $patient->AfficheNotif($bdd); // idem
                     $patient->AfficheEssais($bdd);
                     break;
+
+            
             }
         }
     }
