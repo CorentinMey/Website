@@ -1,4 +1,5 @@
 <?php
+
 include_once("Query.php");
 include_once("Affichage_gen.php");
 include_once("Patient.php");
@@ -70,12 +71,18 @@ function checkPassword($password, $password_confirm) {
 
 // Fonction pour inscrire un nouveau patient
 function registerNewPatient() {
+
     $required_fields = ["Nom", "prénom", "identifiant", "genre", "origin", "medical", "mdp", "mdp2", "date_naissance"];
+    
+    // Vérifie que tous les champs requis sont remplis
     if (checkFormFields($required_fields)) {
+        
+        // Vérifie que les mots de passe correspondent
         if (checkPassword($_POST["mdp"], $_POST["mdp2"])) {
+            
             $bdd = new Query("siteweb");
-            // Créer un nouvel objet patient
-            $patient = new Patient($_POST["mdp"], $_POST["identifiant"]);
+
+            // Créer un tableau avec les informations du patient
             $bdd_dict = [
                 "nom" => $_POST["Nom"],
                 "prenom" => $_POST["prénom"],
@@ -86,18 +93,34 @@ function registerNewPatient() {
                 "mdp" => $_POST["mdp"],
                 "date_naissance" => $_POST["date_naissance"]
             ];
-            // Inscrire le patient
+            
+            // Appeler la fonction d'inscription
+            $patient = new Patient($_POST["mdp"], $_POST["identifiant"]);
             $patient->Inscription($bdd, $bdd_dict);
-            // Rediriger vers la page d'accueil
-            header("Location: page_accueil.php");
-            exit;
+
+            // Vérifier le résultat
+            if ($_SESSION["result"] == 1) {
+                // Succès : redirection vers la page d'accueil
+                header("Location: page_accueil.php");
+                exit;
+            } else {
+                // Échec : afficher le message d'erreur
+                AfficherErreur($_SESSION["result"]);
+                exit;
+            }
+
         } else {
-            AfficherErreur("Passwords do not match");
+            // Les mots de passe ne correspondent pas
+            AfficherErreur("Les mots de passe ne correspondent pas");
         }
+
     } else {
-        AfficherErreur("Please fill all the fields");
+        // Des champs obligatoires sont manquants
+        AfficherErreur("Veuillez remplir tous les champs");
     }
+    session_abort(); //Fermer la session après inscription
 }
+
 
 // Fonction pour inscrire un nouveau médecin
 function registerNewDoctor() {

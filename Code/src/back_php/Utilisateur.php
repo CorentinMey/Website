@@ -1,4 +1,7 @@
 <?php
+
+include_once("../back_php/Affichage_gen.php");
+
 class Utilisateur {
     protected $iduser;
     protected $mdp;
@@ -127,6 +130,43 @@ class Utilisateur {
             // Hacher le mot de passe avant l'insertion
             $dict_information['mdp'] = password_hash($dict_information['mdp'], PASSWORD_BCRYPT);
         }
+
+        // Vérifier si la clé "date_naissance" existe dans les informations
+        if (isset($dict_information['date_naissance'])) {
+            // Convertir la date de naissance en objet DateTime
+            $date_naissance = new DateTime($dict_information['date_naissance']);
+            $date_actuelle = new DateTime();
+            
+            // Calculer la différence en années
+            $age = $date_actuelle->diff($date_naissance)->y;
+        
+            if ($age < 18) {
+                $_SESSION["result"] = "Erreur lors de l'inscription. L'âge minimum requis est de 18 ans";
+                return;
+            }
+        }
+
+        // Vérifier si la clé "mail" existe dans les informations
+        if (isset($dict_information['mail'])) {
+            // Vérifier si le mail est déjà utilisé, sinon retourner une erreur
+            $new_mail = $dict_information['mail'];
+            // Construire la requête pour chercher le mail dans la bdd
+            $query = 'SELECT mail FROM utilisateur WHERE mail = :email';
+        
+            try {
+                $query_res = $bdd->getResults($query, array("email" => $new_mail)); // Récupérer le premier résultat et l'email est unique
+                
+                        // Si le résultat n'est pas vide, le mail est déjà utilisé
+                if (!empty($query_res)) {
+                    $_SESSION["result"] = "Erreur lors de l'inscription. Cette adresse mail est déjà utilisée";
+                    return;
+                }
+            } catch (PDOException $e) {
+                // Gérer une erreur éventuelle lors de la requête
+                $_SESSION["result"] = "Erreur lors de la vérification de l'adresse mail : " . $e->getMessage();
+                return;
+            }
+        }
     
         // Extraire les colonnes et leurs valeurs
         $columns = array_keys($dict_information); // Récupère les noms des colonnes
@@ -145,14 +185,14 @@ class Utilisateur {
     
             // Exécuter la requête avec les valeurs
             $res->execute($values);
-    
+            
             // Retourner le résultat ou true pour indiquer que tout s'est bien passé
-            return true;
+            $_SESSION["result"] = 1;
+            return;
         } catch (PDOException $e) {
             // Gérer les erreurs
-            include_once("../back_php/Affichage_gen.php");
-            afficherErreur("Erreur lors de l'inscription : " . $e->getMessage());
-            return false;
+            $_SESSION["result"] = "Erreur lors de l'inscription : " . $e->getMessage();
+            return;
         }
     }
     
@@ -189,8 +229,14 @@ class Utilisateur {
             return false;
         }
     }
-}
 
 
+    public function Deconnect(){
+        //Fonction pour se déconnecter du site
+        session_destroy ();
+        //header("Location: page_deco.php");
+    }
+
+}   
 
 ?>
