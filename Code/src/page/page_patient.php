@@ -12,14 +12,15 @@ if (!isset($_SESSION["patient"])) {
 $patient = $_SESSION["patient"];
 $bdd = new Query("siteweb");
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['id_essai']) && isset($_POST['Action'])) {
-    switch ("Action") {
-        case "yes":
-            $patient->FillSideEffects($bdd, $_SESSION["side-effects"], $id_essai); // met à jour la BDD avec les effets secondaires
-        }
-    }
-}
+// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//     if (isset($_POST['id_essai']) && isset($_POST['Action'])) {
+//     switch ("Action") {
+//         case "yes":
+//             $patient->FillSideEffects($bdd, $_SESSION["side-effects"], $id_essai); // met à jour la BDD avec les effets secondaires
+//             echo "test";
+//         }
+//     }
+// }
 
 
 
@@ -74,6 +75,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
  
     <h2 class = "title">Options</h2>
+
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST['id_essai']) && isset($_POST['Action'])) {
+            switch ($_POST["Action"]){
+                case "yes":
+                    $patient->FillSideEffects($bdd, $_SESSION["side-effects"], $_POST['id_essai']); // met à jour la BDD avec les effets secondaires
+                    break;
+                case "exclude":
+                    $patient->ReadNotifExclusion($bdd, $_POST['id_essai']); // met à jour la BDD et recharge la page pour enlever la notification
+                    break;
+                case "accept":
+                    $patient->ReadNotifAcceptation($bdd, $_POST['id_essai']); // met à jour la BDD et recharge la page pour enlever la notification
+                    break;
+            }
+
+        }
+
+    }
+
+    ?>
  
     <form action = "" method = "post" id = "redirect_buttons">
         <!-- <div id = "redirect_buttons"> -->
@@ -121,7 +143,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Exemple : $patient->GiveFeedback($bdd, $id_essai);
                     break;
                 case "exclude":
-                    $patient->ReadNotifExclusion($bdd, $id_essai); // met à jour la BDD et recharge la page pour enlever la notification
                     if ($nb_notif > 0)
                         $patient->AfficheNotif($bdd); // affiche les notifications
                     $patient->AfficheEssais($bdd);
@@ -142,7 +163,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $patient->AfficheEssais($bdd);
                     break;
                 case "yes":
-                    $patient->FillSideEffects($bdd, $_SESSION["side-effects"], $id_essai); // met à jour la BDD avec les effets secondaires
                     if ($nb_notif > 0)
                         $patient->AfficheNotif($bdd); // idem
                     $patient->AfficheEssais($bdd);
