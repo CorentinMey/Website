@@ -8,82 +8,65 @@
     <link rel="stylesheet" type="text/css" href="../CSS/global.css">
     <link rel="stylesheet" type="text/css" href="../CSS/page_admin.css">
 </head>
-<style>
-</style>
 <body>
     <!-- Image de fond -->
     <img src="../Ressources/Images/background_admin2.jpg" alt="fond" id="fond">
 
     <?php
     include_once("../back_php/Query.php");
+    include_once("../back_php/status.php");
+    include_once("../back_php/Affichage_admin.php");
 
     // Créer une instance de la classe Query pour se connecter à la base de données
     $query = new Query('siteweb');
+    
+    // Récupérer le nombre de demandes avec is_bannis = 2 
+    $newsql = "SELECT COUNT(*) AS count_waiting FROM utilisateur WHERE is_bannis = 2";
+    $result_compte = $query->getResults($newsql, []);
+    $count = $result_compte['count_waiting'];
+
     // Vérifie si un bouton a été cliqué
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Affichage uniquement du contenu ciblé
         echo '<div class="LALIST">';
+
         if (isset($_POST['show_list_user'])) {
-                echo "<h2>User List</h2>";
-
-            // Récupérer la liste des utilisateurs depuis la base de données
-            $users = $query->getResultsAll("SELECT prenom, nom, genre FROM utilisateur", []);  // Remplace 'users' par le nom de ta table
-
-            if (!empty($users)) {
-                echo "<ul>";
-                foreach ($users as $user) {
-                    echo "<li><strong>prenom:</strong> " . htmlspecialchars($user['prenom']) . 
-                        " - <strong>Name:</strong> " . htmlspecialchars($user['nom']) . 
-                        " - <strong>gender:</strong> " . htmlspecialchars($user['genre']) . "</li>";
-                }
-                echo "</ul>";
-        } else {
-            echo "<p>No users found.</p>";}
+            afficherListeUtilisateurs($query);
         } elseif (isset($_POST['show_list_doc'])) {
-            echo "<h2>Doctor List</h2>";
-            // Récupérer la liste des utilisateurs depuis la base de données
-            $doctors = $query->getResultsAll(
-                "SELECT nom, prenom, genre FROM utilisateur INNER JOIN medecin WHERE ID_USER = numero_ordre",
-                []
-            );
-
-            if (!empty($doctors)) {
-                echo "<ul>";
-                foreach ($doctors as $doctor) {
-                    echo "<li><strong>prenom:</strong> " . htmlspecialchars($doctor['prenom']) . 
-                        " - <strong>Name:</strong> " . htmlspecialchars($doctor['nom']) . 
-                        " - <strong>gender:</strong> " . htmlspecialchars($doctor['genre']) . "</li>";
-                }
-                echo "</ul>";
-        } else {
-            echo "<p>No users found.</p>";}
+            afficherListeMedecins($query);
         } elseif (isset($_POST['show_list_company'])) {
-            echo "<h2>Company List</h2>";
+            afficherListeEntreprises($query);
         } elseif (isset($_POST['show_list_clinical'])) {
-            echo "<h2>Clinical Assay List</h2>";
+            afficherListeEssaisCliniques($query);
         } elseif (isset($_POST['show_list_confirmation'])) {
-            echo "<h2>Pending Confirmations</h2>";
+            afficherConfirmationsEnAttente($query);
         }
+
         echo '</div>';
     } else {
-        // Affiche la page normale si aucun bouton n'a été cliqué
     ?>
-        <div id="bandeau_top">
-            <h1>Admin page</h1>
-            <img src="../Ressources/Images/profil.png" alt="profil" id="profil">
-        </div>
 
-        <!-- Formulaire contenant les boutons -->
-        <form method="POST" action="page_admin.php" class="button-container" id="content_button">
-            <button type="submit" class="btn" name="show_list_user" value="1" id="button1">User List</button>
-            <button type="submit" class="btn" name="show_list_doc" value="1" id="button2">Doc List</button>
-            <button type="submit" class="btn" name="show_list_company" value="1" id="button3">Company List</button>
-            <button type="submit" class="btn" name="show_list_clinical" value="1" id="button4">Clinical Assay List</button>
-            <button type="submit" class="confirmation" name="show_list_confirmation" value="1" id="button5">
-                Required Confirmation for Inscription
-                <span class="pastille" id="notifCount">0</span>
-            </button>
-        </form>
+    <div id="bandeau_top">
+        <h1>Admin Page</h1>
+        <img src="../Ressources/Images/profil.png" alt="profil" id="profil">
+    </div>
+
+    <!-- Formulaire contenant les boutons -->
+    <form method="POST" action="page_admin.php" class="button-container" id="content_button">
+        <button type="submit" class="btn" name="show_list_user" value="1" id="button1">User List</button>
+        <button type="submit" class="btn" name="show_list_doc" value="1" id="button2">Doc List</button>
+        <button type="submit" class="btn" name="show_list_company" value="1" id="button3">Company List</button>
+        <button type="submit" class="btn" name="show_list_clinical" value="1" id="button4">Clinical Assay List</button>
+        <button type="submit" class="confirmation" name="show_list_confirmation" value="1" id="button5">
+            <!-- Afficher la pastille seulement si count > 0 -->
+            <?php if ($count > 0): ?>
+                <span class="pastille" id="notifCount"><?php echo $count; ?></span>
+            <?php else: ?>
+                <span class="pastille" id="notifCount" style="display:none;">0</span>
+            <?php endif; ?>
+            Required Confirmation for Inscription
+        </button>
+    </form>
+
     <?php
     }
     ?>
