@@ -4,7 +4,7 @@ include_once("Query.php");
 
 // Fonction pour afficher la liste des utilisateurs
 function afficherListeUtilisateurs($query) {
-    $users = $query->getResultsAll("SELECT ID_User, prenom, nom, genre, is_bannis FROM utilisateur", []);
+    $users = $query->getResultsAll("SELECT ID_User, prenom, mail, nom, genre, is_bannis FROM utilisateur", []);
     echo '<div class="content-wrapper">';
     echo "<h2>USER LIST</h2>";
     if (!empty($users)) {
@@ -16,10 +16,11 @@ function afficherListeUtilisateurs($query) {
             echo '        <p><strong>Nom:</strong> ' . htmlspecialchars($user['nom']) . '</p>';
             echo '        <p><strong>Prénom:</strong> ' . htmlspecialchars($user['prenom']) . '</p>';
             echo '        <p><strong>Genre:</strong> ' . htmlspecialchars($user['genre']) . '</p>';
+            echo '        <p><strong>e-mail:</strong> ' . htmlspecialchars($user['mail']) . '</p>';
             echo '    </div>';
-            echo '    <div class="user-actions">';
+            /*echo '    <div class="user-actions">';
             echo '        <h3>View Profile</h3>';
-            echo '    </div>';
+            echo '    </div>';*/
             echo '    <div class="user-controls">';
             echo '        <form method="POST" action="../back_php/manage_user.php" class="action-form">';
             echo '              <input type="hidden" name="LID" value="' . htmlspecialchars($user['ID_User']) . '">';
@@ -39,10 +40,13 @@ function afficherListeUtilisateurs($query) {
 function afficherListeMedecins($query) {
     echo '<div class="content-wrapper">';
     echo "<h2>DOCTOR LIST</h2>";
+
+    // Affichage de la liste des médecins
     $doctors = $query->getResultsAll(
-        "SELECT ID_User, nom, prenom, genre, mail, is_bannis FROM utilisateur INNER JOIN medecin WHERE ID_USER = numero_ordre",
+        "SELECT ID_User, nom, prenom, genre, mail, is_bannis, hopital, domaine FROM utilisateur INNER JOIN medecin WHERE ID_USER = numero_ordre",
         []
     );
+    
     if (!empty($doctors)) {
         echo "<ul>";
         foreach ($doctors as $doctor) {
@@ -55,11 +59,12 @@ function afficherListeMedecins($query) {
             echo '        <p><strong>Email:</strong> ' . htmlspecialchars($doctor['mail']) . '</p>';
             echo '    </div>';
             echo '    <div class="user-actions">';
-            echo '        <h3>View Profile</h3>';
+            // Lien pour voir le profil
+            echo '        <a href="../page/page_profil_doc.php?id=' . htmlspecialchars($doctor['ID_User']) . '" class="view-details">View Profile</a>';
             echo '    </div>';
             echo '    <div class="user-controls">';
             echo '        <form method="POST" action="../back_php/manage_user.php" class="action-form">';
-            echo '              <input type="hidden" name="LID" value="' . htmlspecialchars($doctor['ID_User']) . '">';
+            echo '            <input type="hidden" name="LID" value="' . htmlspecialchars($doctor['ID_User']) . '">';
             echo '            <button type="submit" name="action" value="ban" class="ban-btn">Ban</button>';
             echo '            <button type="submit" name="action" value="unban" class="unban-btn">Unban</button>';
             echo '        </form>';
@@ -69,6 +74,11 @@ function afficherListeMedecins($query) {
         echo "</ul>";
     } else {
         echo "<p>No doctors found.</p>";
+    }
+
+    // Si un ID est passé dans l'URL, afficher le profil du médecin
+    if (isset($_GET['id'])) {
+        afficherProfilMedecin($query, $_GET['id']);
     }
 }
 
@@ -89,7 +99,7 @@ function afficherListeEntreprises($query) {
             echo '        <p><strong>Ville:</strong> ' . htmlspecialchars($company['ville']) . '</p>';
             echo '    </div>';
             echo '    <div class="company-actions">';
-            echo '        <h3>View details</h3>';
+            echo '        <a href="../page/page_profil_ent.php?id=' . htmlspecialchars($company['ID_User']) . '" class="view-details">View details</a>';
             echo '    </div>';
             echo '    <div class="company-controls">';
             echo '        <form method="POST" action="../back_php/manage_user.php" class="action-form">';
@@ -124,13 +134,13 @@ function afficherListeEssaisCliniques($query) {
             echo '    <div class="assay-actions">';
             echo '        <h3>View Details</h3>';
             echo '    </div>';
-            echo '    <div class="assay-controls">';
-            echo '        <form method="POST" action="manage_assay.php" class="action-form">';
+            /*echo '    <div class="assay-controls">';
+            echo '        <form method="POST" action="../back_php/manage_user.php" class="action-form">';
             echo '            <input type="hidden" name="description" value="' . htmlspecialchars($assay['description']) . '">';
             echo '            <button type="submit" name="action" value="edit" class="edit-btn">Edit</button>';
             echo '            <button type="submit" name="action" value="delete" class="delete-btn">Delete</button>';
             echo '        </form>';
-            echo '    </div>';
+            echo '    </div>';*/
             echo '</div>';
         }
         echo "</ul>";
