@@ -129,8 +129,8 @@ h1 {
 
 .pastille {
     position: absolute;
-    top: -0.8em;
-    right: -0.9em;
+    top: -2em;
+    right: -2em;
     background-color: red;
     color: white;
     border-radius: 100%;
@@ -144,4 +144,95 @@ h1 {
     padding: 20px;
     border-radius: 10px;
     font-size: 18px;
+}
+
+.content-wrapper {
+    position: fixed; /* Toujours visible dans la fenêtre */
+    top: 50%; /* Centre verticalement */
+    left: 50%; /* Centre horizontalement */
+    transform: translate(-50%, -50%); /* Ajuste le centrage */
+    background-color: rgba(255, 255, 255, 0.1); /* Fond blanc semi-transparent */
+    padding: 2rem; /* Espacement interne */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.9); /* Ombre pour l'effet */
+    max-width: 6000px; /* Largeur maximale */
+    width: 100%; /* Adapte la largeur à l'écran */
+    overflow-y: auto; /* Ajoute un défilement si le contenu dépasse */
+    max-height: 100%; /* Empêche de dépasser l'écran verticalement */
+}
+
+.box_list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #e7dcdc;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.box_list.banned {
+
+    background-color: #dc0808; /* Couleur pour les bannis */
+    border-color: #ff0000; /* Bordure rouge pour différencier */
+}
+
+.user-info {
+    flex: 2;
+}
+.user-actions {
+    flex: 1;
+    text-align: center;
+}
+
+.user-controls {
+    padding: 2rem; /* Espacement interne réduit, mais toujours généreux */
+    background-color: rgba(57, 35, 35, 0.5); /* Couleur de fond des boutons */
+    border: none;
+    border-radius: 10px; /* Bords arrondis */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'JetBrains Mono', sans-serif;
+    width: 100%; /* Prend toute la largeur de son conteneur */
+    height: 100%;
+    max-width: 400px; /* Limite la largeur maximale à 400px pour une meilleure lisibilité */
+    box-sizing: border-box; /* Assure que le padding ne dépasse pas la largeur définie */
+}
+
+.user-controls button {
+    margin: 0.5rem; /* Espace autour de chaque bouton */
+}
+
+.unban-btn {
+    padding: center; /* Augmenter l'espacement interne des boutons */
+    font-size: 2rem; /* Augmenter la taille de la police */
+    height: 4vh; /* Hauteur spécifique du bouton (par exemple, 10% de la hauteur de la fenêtre) */
+    width: 10vw;
+    background-color: #26642e; /* Couleur de fond des boutons */
+    color: white; /* Couleur du texte */
+    border: none;
+    border-radius: 10px; /* Bords arrondis des boutons */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'JetBrains Mono', sans-serif;
+
+}
+
+.ban-btn {
+    padding: center; /* Augmenter l'espacement interne des boutons */
+    font-size: 2rem; /* Augmenter la taille de la police */
+    height: 4vh; /* Hauteur spécifique du bouton (par exemple, 10% de la hauteur de la fenêtre) */
+    width: 10vw;
+    background-color: #bd2940; /* Couleur de fond des boutons */
+    color: white; /* Couleur du texte */
+    border: none;
+    border-radius: 10px; /* Bords arrondis des boutons */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'JetBrains Mono', sans-serif;
+}
+
+h2{
+    margin-left: 50%;
 }

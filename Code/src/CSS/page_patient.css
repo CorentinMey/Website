@@ -248,3 +248,24 @@
 #notif{
     margin-left : 9em;
 }
+
+#confirmation_side_effect{
+    margin-left : 9em;
+}
+
+#side_effect_buttons{
+    width : 5em;
+    margin-right : 0.5em;
+    margin-left : 0.5em;
+}
+
+#tableau_inscription_essai{
+    display : flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centre la table horizontalement */
+}
+
+.error-message{
+    margin-left : 9em;
+}

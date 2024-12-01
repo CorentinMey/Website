@@ -167,7 +167,7 @@ class Patient extends Utilisateur{
                         WHERE ID_essai = :id;";
         // requete pour avoir le nom des medecins referents
         $query3 = "SELECT nom FROM utilisateur JOIN essai_medecin ON essai_medecin.ID_medecin = utilisateur.ID_User 
-                        WHERE ID_essai = :id;";
+                        WHERE ID_essai = :id;"; // pas besoin de vérifier si le médecin a accepté car on ne peut pas être accepté dans un essai sans médecin et qu'un médecin ne peut pas se rajouter après le début de l'essai
     
         $res = $bdd->getResultsAll($query, ["id" => $this->getIduser()]);
         if ($res == []) {
@@ -198,15 +198,15 @@ class Patient extends Utilisateur{
      * @return int : nombre de notifications
      */
     public function NombreNotif($bdd){
-        $query_notif1_cpt = "SELECT COUNT(*) FROM resultat NATURAL JOIN essai
+        $query_notif1_cpt = "SELECT COUNT(*) FROM resultat NATURAL JOIN essai # notif si on a des résultats à donner
                              WHERE ID_patient = :id 
                              AND a_debute = 2 
                              AND is_patient_exclus = 0
                              AND is_accepte != 0    
                              AND ID_phase = phase_res # Ce AND permet de ne demander au patient ses impressions que pour lors de la phase de cloture de sa phase d'expérimentation
                              AND effet_secondaire IS NULL;"; // vérifie si le patient n'a pas déjà donné ses résultats
-        $query_notif2 = "SELECT COUNT(*) FROM resultat WHERE ID_patient = :id AND is_patient_exclus = 1;";
-        $query_notif3 = "SELECT COUNT(*) FROM resultat WHERE ID_patient = :id AND is_accepte = 1;";
+        $query_notif2 = "SELECT COUNT(*) FROM resultat WHERE ID_patient = :id AND is_patient_exclus = 1;"; // notif si on a été exclus
+        $query_notif3 = "SELECT COUNT(*) FROM resultat WHERE ID_patient = :id AND is_accepte = 1;"; // notif si on a été accepté
 
         $res1 = $bdd->getResults($query_notif1_cpt, ["id" => $this->getIduser()])["COUNT(*)"]; // compte le nombre d'essais terminés
         $res2 = $bdd->getResults($query_notif2, ["id" => $this->getIduser()])["COUNT(*)"];
@@ -234,7 +234,8 @@ class Patient extends Utilisateur{
         foreach($res1 as $notif_essai_fini){
             AfficherInfo("The trial number : ".htmlspecialchars($notif_essai_fini["ID_essai"])." has ended with the description : ".htmlspecialchars($notif_essai_fini["description"])." Please give your feedback.", 
                         $notif_essai_fini["ID_essai"], 
-                        "give_feedback");
+                        "cross",
+                        false); // ici cette notification ne peut pas disparaitre tant que l'utilisateur n'a pas donné ses résultats
         }
         foreach($res2 as $notif_exclu){
             AfficherInfo("You have been excluded from the trial number : ".htmlspecialchars($notif_exclu["ID_essai"])." with the description : ".htmlspecialchars($notif_exclu["description"]), 
@@ -279,9 +280,24 @@ class Patient extends Utilisateur{
         $bdd->updateLines($query, ["side_effects" => $value, "id" => $this->getIduser(), "id_essai" => $id_essai]);
     }
 
-    public function UnsubscribeFromTrial($bdd, $id_essai){
+    public function QuitEssai($bdd, $id_essai){
         $query = "UPDATE resultat SET is_patient_exclus = 3 WHERE ID_patient = :id AND ID_essai = :id_essai;";
         $bdd->updateLines($query, ["id" => $this->getIduser(), "id_essai" => $id_essai]);
+    }
+
+    /**
+     * Méthode pour rejoindre un essai clinique pour un patient
+     * @param $bdd : base de données
+     * @param $id_essai : id de l'essai
+     */
+    public function Rejoindre($bdd, $id_essai){
+        $query_phase = "SELECT ID_phase FROM essai WHERE ID_essai = :id_essai;";
+        $query = "INSERT INTO resultat (ID_patient, ID_essai, is_accepte, is_patient_exclus, phase_res) 
+                  VALUES (:id, :id_essai, 0, 0, :phase_res);";
+
+        $res = $bdd->getResults($query_phase, ["id_essai" => $id_essai]);
+        $bdd->insertLine($query, ["id" => $this->getIduser(), "id_essai" => $id_essai, "phase_res" => $res["ID_phase"]]);
+        AfficherInfo("You have successfully joined the trial", $id_essai, "cross_inscription"); // affiche une notification pour confirmer l'inscription
     }
 
 }
