@@ -172,6 +172,12 @@ h1 {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+.box_list.banned {
+    
+    background-color: #dc0808; /* Couleur pour les bannis */
+    border-color: #ff0000; /* Bordure rouge pour différencier */
+}
+
 .user-info {
     flex: 2;
 }
