@@ -3,6 +3,9 @@
 include_once("Query.php");
 
 // Fonction pour afficher la liste des utilisateurs
+/**
+ * @param Query $query
+ */
 function afficherListeUtilisateurs($query) {
     $users = $query->getResultsAll("SELECT ID_User, prenom, nom, genre, is_bannis FROM utilisateur", []);
     echo '<div class="content-wrapper">';

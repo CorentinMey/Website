@@ -11,19 +11,6 @@ if (!isset($_SESSION["patient"])) {
 
 $patient = $_SESSION["patient"];
 $bdd = new Query("siteweb");
-
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//     if (isset($_POST['id_essai']) && isset($_POST['Action'])) {
-//     switch ("Action") {
-//         case "yes":
-//             $patient->FillSideEffects($bdd, $_SESSION["side-effects"], $id_essai); // met à jour la BDD avec les effets secondaires
-//             echo "test";
-//         }
-//     }
-// }
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -139,7 +126,17 @@ $bdd = new Query("siteweb");
     
             switch ($action) {
                 case "join_trial":
+                    AfficherConfirmation("Are you sure you want to join this trial?", 
+                                        $id_essai, ["confirm_join", "cancel_join"]);
+                    AfficherEssaisPasDemarré($bdd, $patient);
+                    break;
+
+                case "confirm_join":
                     $patient->Rejoindre($bdd, $id_essai); // met à jour la BDD pour rejoindre l'essai
+                    AfficherEssaisPasDemarré($bdd, $patient);
+                    break;
+                
+                case "cancel_join":
                     AfficherEssaisPasDemarré($bdd, $patient);
                     break;
 
