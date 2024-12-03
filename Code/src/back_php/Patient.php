@@ -35,6 +35,12 @@ class Patient extends Utilisateur{
             
     }
     
+    /**
+     * Méthode pour se connecter à un compte patient depuis la page de connexion
+     * @param $email : email du patient
+     * @param $password : mot de passe du patient
+     * @param $bdd : base de données
+     */
     public function Connexion($email, $password, $bdd)
     {
         parent::Connexion($email, $password, $bdd); // reprend la fonction jusqu'à la création de l'objet utilisateur spécifique
@@ -63,6 +69,7 @@ class Patient extends Utilisateur{
 
     /**
      * Méthode pour mettre à jour les informations du patient dans la base de données.
+     * @param $bdd : base de données
      */
     private function ChangeInfo($bdd){
         $query = "UPDATE utilisateur SET prenom = :first_name, 
@@ -122,7 +129,7 @@ class Patient extends Utilisateur{
      * Méthode pour afficher les informations du patient dans un tableau.
      * 
      */
-    public function AffichageTableau(){
+    public function AffichageTableauInfoPerso(){
         echo '<h2 class = "title">My Information</h2>';
         echo '<div id = "personnal_data">';
             echo '<table class = "styled-table" id = "table_patient">';
@@ -154,28 +161,38 @@ class Patient extends Utilisateur{
     }
 
     /**
+     * Méthode pour récupérer les informations des essais cliniques auxquels le patient participe. pour bien diciser les tâches
+     * @param $bdd : base de données
+     */
+    private function GetInfoEssai($bdd){
+        $query = "SELECT ID_essai, date_debut, date_fin, description, phase_res, effet_secondaire FROM resultat JOIN utilisateur ON 
+        resultat.ID_patient = utilisateur.ID_User NATURAL JOIN essai
+            WHERE ID_patient = :id 
+            AND is_patient_exclus = 0 AND
+            is_accepte !=0;";
+   
+        $res = $bdd->getResultsAll($query, ["id" => $this->getIduser()]);
+        return $res;
+    }
+
+    /**
      * Méthode qui affiche les essais cliniques auxquels le patient participe.
+     * @param $bdd : base de données
      */
     public function AfficheEssais($bdd){
-        $query = "SELECT ID_essai, date_debut, date_fin, description, phase_res, effet_secondaire FROM resultat JOIN utilisateur ON 
-                    resultat.ID_patient = utilisateur.ID_User NATURAL JOIN essai
-                        WHERE ID_patient = :id 
-                        AND is_patient_exclus = 0 AND
-                        is_accepte !=0;";
         // requete pour avoir le nom de l'entreprise
         $query2 = "SELECT nom, a_debute FROM utilisateur JOIN essai ON essai.ID_entreprise_ref = utilisateur.ID_User 
-                        WHERE ID_essai = :id;";
+        WHERE ID_essai = :id;";
         // requete pour avoir le nom des medecins referents
         $query3 = "SELECT nom FROM utilisateur JOIN essai_medecin ON essai_medecin.ID_medecin = utilisateur.ID_User 
-                        WHERE ID_essai = :id;"; // pas besoin de vérifier si le médecin a accepté car on ne peut pas être accepté dans un essai sans médecin et qu'un médecin ne peut pas se rajouter après le début de l'essai
-    
-        $res = $bdd->getResultsAll($query, ["id" => $this->getIduser()]);
+                    WHERE ID_essai = :id;"; // pas besoin de vérifier si le médecin a accepté car on ne peut pas être accepté dans un essai sans médecin et qu'un médecin ne peut pas se rajouter après le début de l'essai
+
+        $res = $this->GetInfoEssai($bdd); // récupère les informations des essais
         if ($res == []) {
             AfficherErreur("No clinical trials found yet. Please subscribe to some trials.");
             return;
         }
         Affichage_entete_tableau_essai(); // affiche l'en-tête du tableau
-    
         foreach($res as $essai){ // affiche les lignes du tableau
             $id_essai = $essai["ID_essai"];
             $entreprise = $bdd->getResults($query2, ["id" => $id_essai]);
@@ -215,6 +232,11 @@ class Patient extends Utilisateur{
         return $total;
     }
 
+
+    /**
+     * Méthode poir afficher les notifications du patient en fonction de leurs types
+     * @param $bdd : base de données
+     */
     public function AfficheNotif($bdd){
         $query_notif1 = "SELECT ID_essai, description  FROM resultat NATURAL JOIN essai 
                             WHERE ID_patient = :id 
@@ -249,6 +271,7 @@ class Patient extends Utilisateur{
         }
 
     }   
+
     /**
      * Méthode pour mettre à jour la BDD si un patient est exclus d'un essai (passe en statut "a vu l'exclusion")
      * @param $bdd : base de données
@@ -280,6 +303,9 @@ class Patient extends Utilisateur{
         $bdd->updateLines($query, ["side_effects" => $value, "id" => $this->getIduser(), "id_essai" => $id_essai]);
     }
 
+    /**
+     * Méthode pour quitter un essai clinique pour un patient
+     */
     public function QuitEssai($bdd, $id_essai){
         $query = "UPDATE resultat SET is_patient_exclus = 3 WHERE ID_patient = :id AND ID_essai = :id_essai;";
         $bdd->updateLines($query, ["id" => $this->getIduser(), "id_essai" => $id_essai]);
@@ -299,6 +325,5 @@ class Patient extends Utilisateur{
         $bdd->insertLine($query, ["id" => $this->getIduser(), "id_essai" => $id_essai, "phase_res" => $res["ID_phase"]]);
         AfficherInfo("You have successfully joined the trial", $id_essai, "cross_inscription"); // affiche une notification pour confirmer l'inscription
     }
-
 }
 ?>

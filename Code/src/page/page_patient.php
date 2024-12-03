@@ -4,7 +4,7 @@ include_once("../back_php/Affichage_patient.php");
 include_once("../back_php/Patient.php");
 session_start();
 
-if (!isset($_SESSION["patient"])) {
+if (!isset($_SESSION["patient"])) { // si quelqu'un essaie d'accéder à la page sans être connecté on le redirige vers la page de connexion
     header("Location: page_login.php");
     exit;
 }
@@ -16,13 +16,10 @@ $bdd = new Query("siteweb");
 <!DOCTYPE html>
 
 <head>
-
     <title>Page du patient</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../CSS/page_patient.css">
     <link rel="stylesheet" type="text/css" href="../CSS/global.css">
-
-
 </head>
 
 
@@ -63,7 +60,7 @@ $bdd = new Query("siteweb");
  
     <h2 class = "title">Options</h2>
 
-    <?php // code pour mettre à jour le numéro des notifications
+    <?php // code pour mettre à jour le numéro des notifications, doit être placé avant l'affichage des boutons
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['id_essai']) && isset($_POST['Action'])) {
             switch ($_POST["Action"]){
@@ -77,13 +74,11 @@ $bdd = new Query("siteweb");
                     $patient->ReadNotifAcceptation($bdd, $_POST['id_essai']); // met à jour la BDD et recharge la page pour enlever la notification
                     break;
             }
-
         }
-
     }
-    ?>
+    ?> 
+    <!-- Code dédié au placement des boutons pour gérer les menus de la page -->
     <form action = "" method = "post" id = "redirect_buttons">
-        <!-- <div id = "redirect_buttons"> -->
             <button class = "button" id = "button_patient" name = "Action" value = "ViewMine">
                 My clinical trials
                 <?php  // si j'ai des notifications, j'affiche le rond de notification
@@ -94,24 +89,23 @@ $bdd = new Query("siteweb");
             </button>
             <button class = "button" id = "button_patient" name = "Action" value = "ViewNew">New studies</button>
             <button class = "button" id = "button_patient" name = "Action" value = "ViewInfo">My information</button>
-        <!-- </div> -->
     </form>
 
-    <?php
+    <?php // balise php pour gérer les différentes menus de la page patient
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Action"])) { // Si un bouton a été cliqué
         switch ($_POST['Action']) {
-            case "ViewMine":
+            case "ViewMine": // si on clique sur le bouton pour voir les essais cliniques en cours du patient
                 UpdateNotification($bdd, $patient, $nb_notif);
                 break;
-            case "ViewNew":
+            case "ViewNew": // si on clique sur le bouton pour voir les nouveaux essais cliniques disponibles
                 AfficherEssaisPasDemarré($bdd, $patient);
                 break;
-            case "ViewInfo":
-                $patient->AffichageTableau($bdd);
+            case "ViewInfo": // si on clique sur le bouton pour voir les informations personnelles
+                $patient->AffichageTableauInfoPerso($bdd);
                 break;
         }
     } else
-        $patient->AffichageTableau($bdd);
+        $patient->AffichageTableauInfoPerso($bdd); // affiche le tableau des information personnelles par défaut
     ?>
 
     <?php // balise php pour gérer les boutons de notifs
@@ -148,10 +142,8 @@ $bdd = new Query("siteweb");
                 case "cross": // cas où on ferme une notification qui n'interagit pas avec la BDD
                     UpdateNotification($bdd, $patient, $nb_notif);
                     break;
+                }
             }
         }
-    }
-
     ?>
-
 </body>

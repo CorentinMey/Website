@@ -1,6 +1,8 @@
 <?php
 include_once("Patient.php");
 include_once("Affichage_gen.php"); // pour la fonction Affiche_medecin
+
+
 /**
  * Affiche l'en tête du tableau pour les essais cliniques du patients
  */
@@ -26,7 +28,14 @@ function Affichage_entete_tableau_essai(){
     }
 
 
-
+/**
+ * Fonction qui affiche les lignes du tableau contenant les informations des essais cliniques auxquels le patient participe
+ * N'affiche pas la ligne d'en tête
+ * @param Array $entreprise : informations sur l'entreprise
+ * @param Array $essai : informations sur l'essai
+ * @param Array $medecins : informations sur les médecins référents
+ * @param Int $id_essai : id de l'essai
+ */
 function Affichage_content_essai($entreprise, $essai, $medecins, $id_essai){
         echo '<tr>';
             echo '<td>'.$entreprise["nom"].'</td>'; // affiche le contenu des colonnes simples
