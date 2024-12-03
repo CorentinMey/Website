@@ -101,9 +101,7 @@ $bdd = new Query("siteweb");
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Action"])) { // Si un bouton a été cliqué
         switch ($_POST['Action']) {
             case "ViewMine":
-                if ($nb_notif > 0)
-                    $patient->AfficheNotif($bdd); // affiche les notifications
-                $patient->AfficheEssais($bdd);
+                UpdateNotification($bdd, $patient, $nb_notif);
                 break;
             case "ViewNew":
                 AfficherEssaisPasDemarré($bdd, $patient);
@@ -123,83 +121,32 @@ $bdd = new Query("siteweb");
             $action = $_POST['Action'];
     
             switch ($action) {
-                case "join_trial":
-                    AfficherConfirmation("Are you sure you want to join this trial?", 
-                                        $id_essai, ["confirm_join", "cancel_join"]);
-                    AfficherEssaisPasDemarré($bdd, $patient);
+                case "join_trial": // si on appuie sur le bouton pour rejoindre une essai clinique
+                    handleJoinTrial($bdd, $patient, $id_essai);
                     break;
-
-                case "confirm_join":
-                    $patient->Rejoindre($bdd, $id_essai); // met à jour la BDD pour rejoindre l'essai
-                    AfficherEssaisPasDemarré($bdd, $patient);
+                case "confirm_join": // si on appuie sur le bouton pour confirmer la participation à un essai clinique
+                    handleConfirmJoin($bdd, $patient, $id_essai);
                     break;
-                
-                case "cancel_join":
-                    AfficherEssaisPasDemarré($bdd, $patient);
+                case "cancel_join": // si on appuie sur le bouton pour annuler la participation à un essai clinique
+                    handleCancelJoin($bdd, $patient);
                     break;
-
-                // case "cross_inscription":
-                //     AfficherEssaisPasDemarré($bdd, $patient);
-                //     break;
-                    
-                case "exclude":
-                    if ($nb_notif > 0)
-                        $patient->AfficheNotif($bdd); // affiche les notifications
-                    $patient->AfficheEssais($bdd);
+                case "submit_side_effects": // si on appuie sur le bouton pour soumettre les effets secondaires à la fin d'un essai clinique
+                    handleSubmitSideEffects($bdd, $patient, $id_essai, $nb_notif);
                     break;
-                case "accept":
-                    $patient->ReadNotifAcceptation($bdd, $id_essai); // idem
-                    if ($nb_notif > 0)
-                        $patient->AfficheNotif($bdd); // idem
-                    $patient->AfficheEssais($bdd);
+                case "unsubscribe": // si on appuie sur le bouton pour quitter un essai clinique
+                    handleUnsubscribe($bdd, $patient, $id_essai, $nb_notif);
                     break;
-                case "submit_side_effects":
-                    $_SESSION["side-effects"] = $_POST["side_effects"]; // stocke les effets secondaires dans la session
-                    AfficherConfirmation("Are you sure you want to submit these side effects : ".htmlspecialchars($_POST["side_effects"]). " ?", 
-                                        $id_essai, 
-                                        ["yes", "no"]); // affiche une confirmation pour valider les effets secondaires
-                    if ($nb_notif > 0)
-                        $patient->AfficheNotif($bdd); // idem
-                    $patient->AfficheEssais($bdd);
-                    break;
-                case "yes":
-                    if ($nb_notif > 0)
-                        $patient->AfficheNotif($bdd); // idem
-                    $patient->AfficheEssais($bdd);
-                    break;
-                case "no":
-                    if ($nb_notif > 0)
-                        $patient->AfficheNotif($bdd); // idem
-                    $patient->AfficheEssais($bdd);
-                    break;
-                case "unsubscribe":
-                    AfficherConfirmation("Are you sure you want to unsubscribe from this trial?",
-                                         $id_essai, ["confirm_unsubscribe", "cancel_unsubscribe"]);
-                    if ($nb_notif > 0)
-                        $patient->AfficheNotif($bdd); // idem
-                    $patient->AfficheEssais($bdd);
-                    break;
-
                 case "confirm_unsubscribe":
-                    // L'utilisateur a confirmé la désinscription
-                    // Appeler la fonction pour se désinscrire
-                    $patient->QuitEssai($bdd, $id_essai);
-                    AfficherInfo("You have successfully unsubscribed from this trial", $id_essai, "cross");
-                    if ($nb_notif > 0)
-                        $patient->AfficheNotif($bdd); // idem
-                    $patient->AfficheEssais($bdd);
-                    break;
-            
-                case "cancel_unsubscribe":
-                    if ($nb_notif > 0)
-                        $patient->AfficheNotif($bdd); // idem
-                    $patient->AfficheEssais($bdd);
+                    handleConfirmUnsubscribe($bdd, $patient, $id_essai, $nb_notif);
                     break;
 
-                case "cross": // cas ou on ferme une notif qui n'interragit pas avec la BDD
-                    if ($nb_notif > 0)
-                        $patient->AfficheNotif($bdd); // idem
-                    $patient->AfficheEssais($bdd);
+                case "exclude": // cas où l'on ferme une notification d'exclusion
+                case "accept": // cas où l'on ferme une notification d'acceptation de participation à un essai clinique
+                case "yes": // si on appuie sur le bouton pour confirmer les effets secondaires
+                case "no": // si on appuie sur le bouton pour annuler la soumission des effets secondaires
+                case "cancel_unsubscribe": // si on appuie sur le bouton pour annuler la désinscription
+                case "cross": // cas où on ferme une notification qui n'interagit pas avec la BDD
+                    UpdateNotification($bdd, $patient, $nb_notif);
                     break;
             }
         }
