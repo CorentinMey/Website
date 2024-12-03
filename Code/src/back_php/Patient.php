@@ -29,9 +29,9 @@ class Patient extends Utilisateur{
                             $origins);
     }
 
-    public function Inscription($dict_information, $bdd)
+    public function Inscription($bdd, $dict_information)
     {
-        parent::Inscription($dict_information, $bdd); // reprend la fonction jusqu'à la création de l'objet utilisateur spécifique
+        parent::Inscription($bdd, $dict_information); // reprend la fonction jusqu'à la création de l'objet utilisateur spécifique
             
     }
     
@@ -53,6 +53,12 @@ class Patient extends Utilisateur{
             $this->origins = $res["origine"];
         }    
         $bdd->closeBD();
+    }
+
+    public function Deconnect()
+    {
+        parent::Deconnect(); // reprend la fonction jusqu'à la création de l'objet utilisateur spécifique
+            
     }
 
     /**
