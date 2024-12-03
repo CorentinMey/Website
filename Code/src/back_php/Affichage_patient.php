@@ -73,6 +73,99 @@ function Affichage_content_essai($entreprise, $essai, $medecins, $id_essai){
         }
         echo '</tr>';
 }
-    
+
+// ========================================================================================================
+// Fonctions qui gère les actions des patients sur sa page et affiche le contenu adéquat
+// ========================================================================================================
+
+/**
+ * Fonction générique pour gérer la fermture des notification sur l'onglet "My clinicals trials" du patient
+ * @param Query $bdd  : objet de connexion à la base de données
+ * @param Patient $patient : objet patient
+ * @param Int $nb_notif : nombre de notifications en attente
+ */
+function UpdateNotification($bdd, $patient, $nb_notif){
+    if ($nb_notif > 0) 
+        $patient->AfficheNotif($bdd); // Affiche les notifications restantes
+    $patient->AfficheEssais($bdd);
+}
+
+/**
+ * Fonction qui gère l'affichage après avoir appuyer sur un bouton Join trial
+ * @param Query $bdd  : objet de connexion à la base de données
+ * @param Patient $patient : objet patient
+ * @param Int $id_essai : id de l'essai
+ */
+function handleJoinTrial($bdd, $patient, $id_essai) {
+    AfficherConfirmation("Are you sure you want to join this trial?", $id_essai, ["confirm_join", "cancel_join"]);
+    AfficherEssaisPasDemarré($bdd, $patient);
+}
+
+/**
+ * Fonction qui gère l'affichage après avoir appuyer sur un bouton Confirm après avoir appuyer sur le bouton join trial
+ * @param Query $bdd  : objet de connexion à la base de données
+ * @param Patient $patient : objet patient
+ * @param Int $id_essai : id de l'essai
+ */
+function handleConfirmJoin($bdd, $patient, $id_essai) {
+    $patient->Rejoindre($bdd, $id_essai); // Met à jour la BDD pour rejoindre l'essai
+    AfficherEssaisPasDemarré($bdd, $patient);
+}
+
+/**
+ * Fonction qui gère l'affichage après avoir appuyer sur un bouton Cancel après avoir appuyer sur le bouton join trial
+ * @param Query $bdd  : objet de connexion à la base de données
+ * @param Patient $patient : objet patient
+ */
+function handleCancelJoin($bdd, $patient) {
+    AfficherEssaisPasDemarré($bdd, $patient);
+}
+
+
+/**
+ * Fonction qui gère l'affichage après avoir appuyer sur un bouton Submit pour donner les effets secondaires
+ * @param Query $bdd  : objet de connexion à la base de données
+ * @param Patient $patient : objet patient
+ * @param Int $id_essai : id de l'essai
+ * @param Int $nb_notif : nombre de notifications en attente
+ */
+function handleSubmitSideEffects($bdd, $patient, $id_essai, $nb_notif) {
+    $_SESSION["side-effects"] = $_POST["side_effects"]; // Stocke les effets secondaires dans la session
+    AfficherConfirmation(
+        "Are you sure you want to submit these side effects: " . htmlspecialchars($_POST["side_effects"]) . " ?",
+        $id_essai,
+        ["yes", "no"]
+    ); // Affiche une confirmation pour valider les effets secondaires
+    UpdateNotification($bdd, $patient, $nb_notif); // Réaffiche les notifications et les essais
+}
+
+/**
+ * Fonction qui gère l'affichage après avoir cliquer sur le bouton de désistement d'un essai
+ * @param Query $bdd  : objet de connexion à la base de données
+ * @param Patient $patient : objet patient
+ * @param Int $id_essai : id de l'essai
+ * @param Int $nb_notif : nombre de notifications en attente
+ */
+function handleUnsubscribe($bdd, $patient, $id_essai, $nb_notif) {
+    AfficherConfirmation(
+        "Are you sure you want to unsubscribe from this trial?",
+        $id_essai,
+        ["confirm_unsubscribe", "cancel_unsubscribe"]
+    );
+    UpdateNotification($bdd, $patient, $nb_notif);
+}
+
+/**
+ * Fonction qui gère l'affichage après avoir appuyer sur un bouton Confirm après avoir appuyer sur le bouton unsubscribe
+ * @param Query $bdd  : objet de connexion à la base de données
+ * @param Patient $patient : objet patient
+ * @param Int $id_essai : id de l'essai
+ * @param Int $nb_notif : nombre de notifications en attente
+ */
+function handleConfirmUnsubscribe($bdd, $patient, $id_essai, $nb_notif) {
+    $patient->QuitEssai($bdd, $id_essai); // Désinscrire le patient
+    AfficherInfo("You have successfully unsubscribed from this trial", $id_essai, "cross");
+    UpdateNotification($bdd, $patient, $nb_notif);
+}
 
 ?>

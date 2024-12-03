@@ -39,7 +39,7 @@ $bdd = new Query("siteweb");
         
         <!-- div pour le log de l'historique et son bouton -->
         <div id = "logo_container_hist">
-            <a href = "page_test.php">
+            <a href = "page_deco.php">
                 <img id = "logo_historic" src = "../Ressources/Images/logo_historic.png" alt = "Historic button">
                 <div id = "tooltip_hist">Historic</div>
             </a>
@@ -51,7 +51,7 @@ $bdd = new Query("siteweb");
         <!-- div pour le logo de deconnexion et son bouton -->
         <div id="logo_container">
             <!-- mettre logo dans une balsie ref a pour rediriger -->
-            <a href="page_test.php">
+            <a href="page_deco.php">
                 <img id="logo_account" src="../Ressources/Images/account.png" alt="Account Logo">
                 <div id="tooltip">Disconnect</div>
             </a>
@@ -67,13 +67,13 @@ $bdd = new Query("siteweb");
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['id_essai']) && isset($_POST['Action'])) {
             switch ($_POST["Action"]){
-                case "yes":
+                case "yes": // cas ou on valide les effets secondaires
                     $patient->FillSideEffects($bdd, $_SESSION["side-effects"], $_POST['id_essai']); // met à jour la BDD avec les effets secondaires
                     break;
-                case "exclude":
+                case "exclude": // cas où l'on ferme une notification d'exclusion
                     $patient->ReadNotifExclusion($bdd, $_POST['id_essai']); // met à jour la BDD et recharge la page pour enlever la notification
                     break;
-                case "accept":
+                case "accept": // cas où l'on ferme une notification d'acceptation de participation à un essai clinique
                     $patient->ReadNotifAcceptation($bdd, $_POST['id_essai']); // met à jour la BDD et recharge la page pour enlever la notification
                     break;
             }
@@ -81,9 +81,7 @@ $bdd = new Query("siteweb");
         }
 
     }
-
     ?>
- 
     <form action = "" method = "post" id = "redirect_buttons">
         <!-- <div id = "redirect_buttons"> -->
             <button class = "button" id = "button_patient" name = "Action" value = "ViewMine">
@@ -140,9 +138,9 @@ $bdd = new Query("siteweb");
                     AfficherEssaisPasDemarré($bdd, $patient);
                     break;
 
-                case "cross_inscription":
-                    AfficherEssaisPasDemarré($bdd, $patient);
-                    break;
+                // case "cross_inscription":
+                //     AfficherEssaisPasDemarré($bdd, $patient);
+                //     break;
                     
                 case "exclude":
                     if ($nb_notif > 0)
