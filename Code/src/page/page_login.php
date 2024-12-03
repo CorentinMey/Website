@@ -1,4 +1,8 @@
 <?php
+# Inclure la classe utilisateur pour pouvoir connecter un utilisateur
+require_once('../back_php/Patient.php');
+include_once("../back_php/Query.php");
+include_once("../back_php/Securite.php");
 session_start();
 ?>
 <!DOCTYPE html>
@@ -38,7 +42,7 @@ session_start();
                     <div class="input_info">
                         <label for="mdp">Password</label>
                         <input type="password" id="mdp" name="mdp" required/>
-                        <a href="#" id="forgot_password">Forgot your password?</a>
+                        <a href="https://youtu.be/dQw4w9WgXcQ?si=AQVw_SuShPwkfGUW" id="forgot_password">Forgot your password?</a>
                     </div>
 
                     <div class="buttons">
@@ -47,10 +51,7 @@ session_start();
                     </div>
 
                     <?php
-                    # Inclure la classe utilisateur pour pouvoir connecter un utilisateur
-                    require_once('../back_php/Patient.php');
-                    include_once("../back_php/Query.php");
-                    include_once("../back_php/Securite.php");
+
 
                         
                         # Est-ce que l'utilisateur a remplie le formulaire ?

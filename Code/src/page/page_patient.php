@@ -51,7 +51,7 @@ $bdd = new Query("siteweb");
         <!-- div pour le logo de deconnexion et son bouton -->
         <div id="logo_container">
             <!-- mettre logo dans une balsie ref a pour rediriger -->
-            <a href="page_deco.php">
+            <a href="page_test.php">
                 <img id="logo_account" src="../Ressources/Images/account.png" alt="Account Logo">
                 <div id="tooltip">Disconnect</div>
             </a>
@@ -203,8 +203,6 @@ $bdd = new Query("siteweb");
                         $patient->AfficheNotif($bdd); // idem
                     $patient->AfficheEssais($bdd);
                     break;
-
-            
             }
         }
     }
