@@ -15,26 +15,31 @@
 
 
 #bandeau_top {
-    position: relative; /* Permet l'utilisation de z-index */
-    display: flex; /* Active Flexbox */
-    flex-direction: row; /* Les éléments seront alignés horizontalement (en ligne) */
-    align-items: flex-end; /* Aligne les éléments au bas de la box */
-    justify-content: flex-end; /* Aligne les éléments à droite */
-    height: 10vh; /* Hauteur du rectangle */
-    width: 100%; /* Largeur complète */
-    /*padding: 1%; /* Espacement interne */
-    gap: 16em;
-    box-shadow: 0 2vh 4vh rgba(0, 0, 0, 0.2); /* Ombre pour un effet élégant */
-    background-color: rgba(34, 209, 228, 0.5); /* Couleur de fond semi-transparente */
-    z-index: 1; /* Place la box devant le fond */
+    background-color: lightblue; /* Couleur de fond bleue */
+    padding: 1em; /* Espacement interne pour éviter que les boutons touchent les bords */
+    display: flex;
+    justify-content: center; /* Aligne le contenu horizontalement au centre */
+    align-items: center; /* Aligne le contenu verticalement au centre */
+    width : 100%;
+}
+
+#bande_welcome {
+    display: flex;
+    gap: 1em; /* Espacement entre les boutons */
+    margin-left : 60%;
 }
 
 #fond {
-    top: 0;
-    left: 0;
+    /* image de fond */
+    background-image: url("../Ressources/Images/background_accueil.png");
+    background-repeat: no-repeat; /* Empêche la répétition de l'image */
+    background-size: cover; /* Redimensionne l'image pour couvrir toute la div */
+    background-position: center; /* Centre l'image dans la div */
     width: 100%;
-    height: 100%;
-    z-index: -1; /* Place le fond derrière tout le reste */
+    height: 70em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 #en-tete {
@@ -48,52 +53,49 @@
     gap: 3em
 }
 
-#band_welcome {
-    gap: 10em;
-}
 
 #logo_page{
     height : 8em;
 }
 
 /* Style des boutons */
-.button { /* Augmenter l'espacement interne des boutons */
-    font-size: 2rem; /* Augmenter la taille de la police */
-    height: 2em; /* Hauteur spécifique du bouton (par exemple, 10% de la hauteur de la fenêtre) */
-    width: 8em; /* Couleur de fond des boutons */
+.button { 
+    font-size: 1rem; /* Ajuster la taille de la police pour mieux s'adapter */
+    height: 2.5em; /* Hauteur du bouton */
+    width: 10em; /* Largeur du bouton */
     color: white; /* Couleur du texte */
     border: none;
-    border-radius: 50px; /* Bords arrondis des boutons */
+    border-radius: 25px; /* Bords arrondis */
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-family: 'JetBrains Mono', sans-serif;
-    margin-bottom: 0.5em;
-    margin-right: 0.5em;
+    padding: 0.5em 1em; /* Espacement interne */
+    margin: 0; /* Supprimer les marges existantes */
 }
 
-
-#ma_div {
-    padding-top: 5%;
-    background-image: url("../Ressources/Images/background_accueil.png"); /* Lien vers l'image */
-    background-size: cover; /* L'image couvre toute la div sans déformation */
-    background-position: center; /* Centre l'image dans la div */
-    background-repeat: no-repeat; /* Empêche la répétition de l'image */
-    width: 100%;
-    height: 78em;
+#texte_fond {
+    text-align: center; /* Centrer le texte */
 }
 
 #ready{
-    margin-top: 7em;
-    margin-left: 9em;
+    margin-top: 5vh;
+    margin-left: 7em;
     font-family: "Italiana" , sans-serif;
-    font-size: 3rem;
+    font-size: 3em;
 }
 
 #bienvenue{
-    
-    margin-left: 2em;
+    margin-left: 2vw;
     font-family: "Italiana" , sans-serif;
-    font-size: 7rem;
+    font-size: 7em;
+}
+
+#conteneur_tableau{
+    display : flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 5em;
+    width: 100%;
 }
 
 /* Conteneur des box */
@@ -101,15 +103,72 @@
     display: grid; /* Active Grid Layout */
     grid-template-columns: repeat(2, 1fr); /* 2 colonnes de tailles égales */
     gap: 1rem; /* Espacement entre les box */
-    margin-left: 20%;
-    width: 50%; /* Largeur totale du conteneur */
-    border: 2px solid black; /* Ajout d'une bordure visible */
+    width: 70%; /* Largeur totale du conteneur */
+    max-width: 1200px; /* Limite la largeur maximale */
+    margin: 0 auto; /* Centre le conteneur horizontalement */
     padding: 1rem; /* Espacement interne autour des box */
     background-color: white; /* Fond pour le conteneur */
+    border: none; /* Supprimer les bordures visibles */
+}
 
+#why {
+    position: relative; /* Nécessaire pour positionner les traits */
+    display: flex;
+    align-items: center; /* Centre verticalement le contenu */
+    font-family: "Italiana", sans-serif;
+    font-size: 3em;
+    margin-bottom: 1em; /* Espacement en dessous du titre */
+}
+
+/* Ajouter les traits horizontaux avant et après le texte */
+#why::before,
+#why::after {
+    content: "";
+    flex: 1; /* Les traits prennent tout l'espace restant */
+    height: 2px; /* Épaisseur des traits */
+    background-color: black; /* Couleur des traits */
+    margin: 0 10px; /* Espacement entre le texte et les traits */
 }
 
 .box {
-    border: 2px solid black;
+    border: 0.2em solid black;
+    border-left: hidden; /* Cache la bordure de gauche */
+    border-right: hidden; /* Cache la bordure de droite */
+    border-bottom: hidden; /* Cache la bordure du haut */
     font-size: 2em;
+}
+
+.box:nth-child(odd) {
+    margin-right: 1.5em;
+}
+
+#logo_bas{
+    display: flex;
+    justify-content: center;
+    margin-top : 5em;
+}
+
+
+#logo_page_bas{
+    height : 20em;
+}
+
+#text_bas{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top : 5em;
+    font-family: "Italiana" , sans-serif;
+
+}
+
+
+#text_bas h1{
+    font-size : 4em;
+}
+
+#text_bas h2{
+    margin-left : 2em;
+    margin-top :1em;
+    font-size : 2em;
 }
