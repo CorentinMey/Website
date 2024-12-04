@@ -1,0 +1,34 @@
+#bandeau_top {
+    position: relative; /* Permet l'utilisation de z-index */
+    display: flex; /* Active Flexbox */
+    flex-direction: row; /* Les éléments seront alignés horizontalement (en ligne) */
+    align-items: flex-end; /* Aligne les éléments au bas de la box */
+    justify-content: flex-end; /* Aligne les éléments à droite */
+    height: 10vh; /* Hauteur du rectangle */
+    width: 100%; /* Largeur complète */
+    /*padding: 1%; /* Espacement interne */
+    gap: 16em;
+    box-shadow: 0 2vh 4vh rgba(0, 0, 0, 0.2); /* Ombre pour un effet élégant */
+    background-color: rgba(34, 209, 228, 0.5); /* Couleur de fond semi-transparente */
+    z-index: 1; /* Place la box devant le fond */
+}
+
+#en-tete {
+    margin-left: 10%;
+    width:50%;
+    height : 5%;
+    display: flex;
+    flex-direction: row;
+    /* Haut, Droite, Bas, Gauche */
+    padding: 0.5em 2 em 2em 0.3em;
+    gap: 3em
+}
+
+#band_welcome {
+    gap: 10em;
+}
+
+#logo_page{
+    height : 8em;
+
+}
