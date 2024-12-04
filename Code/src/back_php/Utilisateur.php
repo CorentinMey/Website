@@ -1,6 +1,6 @@
 <?php
 
-include_once("../back_php/Affichage_gen.php");
+include_once("Affichage_gen.php");
 
 class Utilisateur {
     protected $iduser;

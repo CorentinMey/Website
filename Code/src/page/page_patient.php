@@ -55,7 +55,7 @@ $bdd = new Query("siteweb");
         </div>
     </div>
 
-    <img src = "../Ressources/Images/image_banderolle.webp" alt = "banderolle" id = "banderolle_img">
+    <img src = "../Ressources/Images/image2.png" alt = "banderolle" id = "banderolle_img">
 
  
     <h2 class = "title">Options</h2>
