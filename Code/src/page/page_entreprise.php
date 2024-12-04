@@ -11,6 +11,7 @@ if (!isset($_SESSION["entreprise"])) {
 }
 
 $entreprise = $_SESSION["entreprise"];
+$name = $entreprise->getFirst_name();
 $bdd = new Query("siteweb");
 ?>
 
@@ -47,7 +48,7 @@ $bdd = new Query("siteweb");
         </div>
 
         <!-- titre de la banderolle -->
-        <h1 id="title">My account</h1>
+        <h1 id="title"><?="Welcome ". $name;?></h1>
 
         <!-- div pour le logo de deconnexion et son bouton -->
         <div id="logo_container">
@@ -65,18 +66,8 @@ $bdd = new Query("siteweb");
     <h2 class = "title">Options</h2>
  
     <form action = "" method = "post" id = "redirect_buttons">
-        <!-- <div id = "redirect_buttons"> -->
-            <button class = "button" id = "button_patient" name = "Action" value = "ViewMine">
-                My clinical trials
-                <?php  // si j'ai des notifications, j'affiche le rond de notification
-                $nb_notif = $entreprise->NombreNotif($bdd);
-                if ($nb_notif > 0)
-                    echo "<span class='notification'>".htmlspecialchars($nb_notif)."</span>" // <!-- Ajoute le rond de notification -->
-                ?>
-            </button>
-            <button class = "button" id = "button_patient" name = "Action" value = "ViewNew">New studies</button>
-            <button class = "button" id = "button_patient" name = "Action" value = "ViewInfo">My information</button>
-        <!-- </div> -->
+            <button class = "button" id = "button_enterprise" name = "Action" value = "ViewNew">My studies</button>
+            <button class = "button" id = "button_enterprise" name = "Action" value = "ViewInfo">Create a new study</button>
     </form>
 
 
