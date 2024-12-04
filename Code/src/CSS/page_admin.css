@@ -147,6 +147,7 @@ h1 {
 }
 
 .content-wrapper {
+    color: white;
     position: fixed; /* Toujours visible dans la fenêtre */
     top: 50%; /* Centre verticalement */
     left: 50%; /* Centre horizontalement */

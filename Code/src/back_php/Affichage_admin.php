@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <link rel="stylesheet" type="text/css" href="../CSS/global.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/page_admin.css">
+</head>
+<body>
+<img src="../Ressources/Images/background_admin2.jpg" alt="fond" id="fond">
 <?php
 // Inclure la classe Query
 include_once("Query.php");
@@ -5,6 +16,8 @@ include_once("Query.php");
 // Fonction pour afficher la liste des utilisateurs
 function afficherListeUtilisateurs($query) {
     $users = $query->getResultsAll("SELECT ID_User, prenom, mail, nom, genre, is_bannis FROM utilisateur", []);
+    
+    
     echo '<div class="content-wrapper">';
     echo "<h2>USER LIST</h2>";
     if (!empty($users)) {
@@ -23,7 +36,8 @@ function afficherListeUtilisateurs($query) {
             echo '    </div>';*/
             echo '    <div class="user-controls">';
             echo '        <form method="POST" action="../back_php/manage_user.php" class="action-form">';
-            echo '              <input type="hidden" name="LID" value="' . htmlspecialchars($user['ID_User']) . '">';
+            echo '            <input type="hidden" name="LID" value="' . htmlspecialchars($user['ID_User']) . '">';
+            echo '            <input type="hidden" name="context" value="users_mode">';
             echo '            <button type="submit" name="action" value="ban" class="ban-btn">Ban</button>';
             echo '            <button type="submit" name="action" value="unban" class="unban-btn">Unban</button>';
             echo '        </form>';
@@ -65,6 +79,7 @@ function afficherListeMedecins($query) {
             echo '    <div class="user-controls">';
             echo '        <form method="POST" action="../back_php/manage_user.php" class="action-form">';
             echo '            <input type="hidden" name="LID" value="' . htmlspecialchars($doctor['ID_User']) . '">';
+            echo '            <input type="hidden" name="context" value="doctor_mode">';
             echo '            <button type="submit" name="action" value="ban" class="ban-btn">Ban</button>';
             echo '            <button type="submit" name="action" value="unban" class="unban-btn">Unban</button>';
             echo '        </form>';
@@ -103,7 +118,8 @@ function afficherListeEntreprises($query) {
             echo '    </div>';
             echo '    <div class="company-controls">';
             echo '        <form method="POST" action="../back_php/manage_user.php" class="action-form">';
-            echo '              <input type="hidden" name="LID" value="' . htmlspecialchars($company['ID_User']) . '">';
+            echo '            <input type="hidden" name="LID" value="' . htmlspecialchars($company['ID_User']) . '">';
+            echo '            <input type="hidden" name="context" value="company_mode">';
             echo '            <button type="submit" name="action" value="ban" class="ban-btn">Ban</button>';
             echo '            <button type="submit" name="action" value="unban" class="unban-btn">Unban</button>';
             echo '        </form>';
@@ -182,3 +198,5 @@ function afficherConfirmationsEnAttente($query) {
     echo '</div>';
 }
 ?>
+</body>
+</html>
