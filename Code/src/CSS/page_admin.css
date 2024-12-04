@@ -46,8 +46,8 @@ h1 {
 .btn {
     padding: center; /* Augmenter l'espacement interne des boutons */
     font-size: 2rem; /* Augmenter la taille de la police */
-    height: 10vh; /* Hauteur spécifique du bouton (par exemple, 10% de la hauteur de la fenêtre) */
-    width: 20vw;
+    height: 3em; /* Hauteur spécifique du bouton (par exemple, 10% de la hauteur de la fenêtre) */
+    width: 10em;
     background-color: #131029; /* Couleur de fond des boutons */
     color: white; /* Couleur du texte */
     border: none;
@@ -81,7 +81,7 @@ h1 {
 
 #button5 {
     top: 70%;
-    left: 30%;
+    left: 27%;
 }
 
 /* Changement de couleur au survol */
@@ -92,8 +92,8 @@ h1 {
 .confirmation {
     padding: center; /* Augmenter l'espacement interne des boutons */
     font-size: 2rem; /* Augmenter la taille de la police */
-    height: 7vh; /* Hauteur spécifique du bouton (par exemple, 10% de la hauteur de la fenêtre) */
-    width: 40vw;
+    height: 3em; /* Hauteur spécifique du bouton (par exemple, 10% de la hauteur de la fenêtre) */
+    width: 25em;
     background-color: #9c9aa9; /* Couleur de fond des boutons */
     color: rgb(20, 15, 15); /* Couleur du texte */
     border: none;
@@ -147,6 +147,7 @@ h1 {
 }
 
 .content-wrapper {
+    color: white;
     position: fixed; /* Toujours visible dans la fenêtre */
     top: 50%; /* Centre verticalement */
     left: 50%; /* Centre horizontalement */
@@ -160,6 +161,21 @@ h1 {
     overflow-y: auto; /* Ajoute un défilement si le contenu dépasse */
     max-height: 100%; /* Empêche de dépasser l'écran verticalement */
 }
+.content-wrapper2 {
+    position: fixed; /* Toujours visible dans la fenêtre */
+    top: 50%; /* Centre verticalement */
+    left: 50%; /* Centre horizontalement */
+    transform: translate(-50%, -50%); /* Ajuste le centrage */
+    background-color: rgba(255, 255, 255, 0.7); /* Fond blanc semi-transparent */
+    padding: 2rem; /* Espacement interne */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.9); /* Ombre pour l'effet */
+    max-width: 6000px; /* Largeur maximale */
+    width: 100%; /* Adapte la largeur à l'écran */
+    overflow-y: auto; /* Ajoute un défilement si le contenu dépasse */
+    max-height: 100%; /* Empêche de dépasser l'écran verticalement */
+}
+
 
 .box_list {
     display: flex;
