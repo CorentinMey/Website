@@ -110,7 +110,7 @@ $bdd = new Query("siteweb");
             }
     } 
     // Gère la barre de recherche
-    if ($current_view == "ViewNew" || $current_view == "default") {
+    if ($current_view == "ViewNew" || $current_view == "default" && $_POST['Action'] != "join_trial") {
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search_query"])) {
             $search_query = $_POST["search_query"];
             // Convertit les caractères spéciaux pour éviter les problèmes de sécurité

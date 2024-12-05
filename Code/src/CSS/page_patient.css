@@ -196,6 +196,14 @@ body {
     justify-content: center; /* Centre la table horizontalement */
 }
 
+#table_patient {
+    margin-top : 2em;
+    width : 75%;   
+    border-collapse: separate; /* Utilisez 'separate' pour permettre l'arrondissement des angles */
+    border-radius: 1em; /* Arrondit les angles du tableau */
+    overflow: hidden; /* Assure que les coins arrondis sont appliqués */
+}
+
 #essai_clinique {
     display: flex;
     flex-direction: column;
