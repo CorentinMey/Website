@@ -16,8 +16,6 @@ function Affichage_entete_tableau_essai(){
                         echo '<th>Company</th>';
                         echo '<th>Phase</th>';
                         echo '<th>Description</th>';
-                        echo '<th>Start Date</th>';
-                        echo '<th>End Date</th>';
                         echo '<th>Referent Doctors</th>';
                         echo "<th>Give results</th>";
                         echo '<th>Action</th>'; // Colonne pour se désinscrire
@@ -40,9 +38,7 @@ function Affichage_content_essai($entreprise, $essai, $medecins, $id_essai){
         echo '<tr>';
             echo '<td>'.$entreprise["nom"].'</td>'; // affiche le contenu des colonnes simples
             echo '<td>Phase '.$essai["phase_res"].'</td>';
-            echo '<td>'.$essai["description"].'</td>';
-            echo '<td>'.$essai["date_debut"].'</td>';
-            echo '<td>'.$essai["date_fin"].'</td>';
+            echo '<td style="text-align :left;">'.$essai["description"].'</td>';
             echo '<td>';
             Affiche_medecin($medecins); // affiche les médecins référents
             echo '</td>';
@@ -70,7 +66,7 @@ function Affichage_content_essai($entreprise, $essai, $medecins, $id_essai){
                 echo '<td>Not yet over</td>';
             // ajout du bouton pour se désinscrire
             if (!empty($essai["effet_secondaire"])) // si le patient a déjà donné ses résultats
-                echo '<td>Thanks for your feedback</td>';
+                echo '<td>Thanks for your feedback' . $essai["effet_secondaire"] .'</td>';
             else{
                 echo '<td>';
                 echo '<form action="" method="post">';

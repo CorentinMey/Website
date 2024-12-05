@@ -59,6 +59,18 @@ function Affiche_medecin($medecins){
     }
 }
 
+function AfficherBarreRecherche() {
+    echo '<div class="search-container">';
+        echo '<form action="" method="post">'; // Formulaire qui soumet à la même page
+            echo '<div class="search">';
+                echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">';
+                echo '<input class="search__input" type="text" name="search_query" placeholder="Search">';
+                echo '<button type="submit" id="search__button" class="fa fa-search"></button>';
+            echo '</div>';
+        echo '</form>';
+    echo '</div>';   
+}
+
 /**
  * Fonction pour afficher les essais cliniques qui ne sont pas encore démarrés (1 essai = 1 ligne)
  * @param $essai : dictionnaire contenant les informations sur l'essai
@@ -66,24 +78,25 @@ function Affiche_medecin($medecins){
  * @param $id_essai : id de l'essai
  */
 function Affichage_content_essai_pas_demarre($essai, $medecins, $id_essai) {
-    echo '<tr>';
-        echo '<td>' . htmlspecialchars($essai["nom"]) . '</td>'; // Affiche le nom de l'entreprise
-        echo '<td>Phase ' . htmlspecialchars($essai["ID_phase"]) . '</td>'; // Affiche la phase de l'essai
-        echo '<td>' . htmlspecialchars($essai["description"]) . '</td>'; // Affiche la description de l'essai
-        echo '<td>' . htmlspecialchars($essai["date_debut"]) . '</td>'; // Affiche la date de début de l'essai
-        echo '<td>';
+    echo "<div class='box_essai'>";
+        echo "<div class='essai_title'>".htmlspecialchars($essai["titre"])."</div>"; // Affiche le titre de l'essai
+            echo "<p id='essai_description'><b>Description :</b> <br>".htmlspecialchars($essai["description"])."</p>"; // Affiche la description de l'essai
+            echo "<p><b>Expected start date : </b>".htmlspecialchars($essai["date_debut"])."</p>"; // Affiche la date de début de l'essai
+            echo "<p><b>Referent doctors : </b>";
             Affiche_medecin($medecins); // Affiche les médecins référents
-        echo '</td>';
-        // Colonne pour le bouton "Join"
-        echo '<td>';
-            echo '<form action="" method="post">';
-                echo '<input type="hidden" name="id_essai" value="' . htmlspecialchars($id_essai) . '">';
-                echo '<input type="hidden" name="Action" value="join_trial">';
-                echo '<button type="submit" class="button">Join</button>'; // Bouton pour s'inscrire à l'essai
-            echo '</form>';
-        echo '</td>';
-    echo '</tr>';
+            echo "</p>";
+            echo "<p><b>Company: </b>".htmlspecialchars($essai["nom"])."</p>"; // Affiche le nom de l'entreprise
+            echo "<p>Phase ".htmlspecialchars($essai["ID_phase"])."</p>"; // Affiche la phase de l'essai
+            // Colonne pour le bouton "Join"
+            echo "<form action='' method='post'>";
+            echo "<input type='hidden' name='id_essai' value='".htmlspecialchars($id_essai)."'>";
+            echo "<input type='hidden' name='Action' value='join_trial'>";
+            echo "<button type='submit' class='button' id='button_join'>Join</button>"; // Bouton pour s'inscrire
+            echo "</form>";
+    echo "</div>";
 }
+
+
 
 
 /**
@@ -95,7 +108,7 @@ function Affichage_content_essai_pas_demarre($essai, $medecins, $id_essai) {
 function AfficherEssaisPasDemarré($bdd, $user){
     if ($user instanceof Patient) {
         // Requête pour obtenir les essais qui n'ont pas encore démarré et auxquels le patient n'a pas postulé
-        $query_essai = "SELECT  ID_essai, nom, description, date_debut, ID_phase
+        $query_essai = "SELECT  ID_essai, nom, description, titre, date_debut, ID_phase
                         FROM essai
                         JOIN utilisateur ON essai.ID_entreprise_ref = utilisateur.ID_User
                         WHERE a_debute = 0 AND ID_essai #// On récupère les essais qui n'ont pas encore démarré
@@ -107,35 +120,77 @@ function AfficherEssaisPasDemarré($bdd, $user){
     }
     // Requête pour obtenir les médecins référents pour chaque essai
     $query_medecins = "SELECT nom
-                       FROM utilisateur
-                       JOIN essai_medecin ON essai_medecin.ID_medecin = utilisateur.ID_User
-                       WHERE ID_essai = :id AND (is_accepte = 1 OR est_de_company = 1);";
+                        FROM utilisateur
+                        JOIN essai_medecin ON essai_medecin.ID_medecin = utilisateur.ID_User
+                        WHERE ID_essai = :id AND (is_accepte = 1 OR est_de_company = 1);";
 
     $essais = $bdd->getResultsAll($query_essai, ["id_patient" => $user->getIduser()]); // On récupère les essais
 
     if (empty($essais)){
         AfficherErreur("No clinical trials available, please come back later.");
     } else {
-        echo "<div id ='tableau_inscription_essai'>";
-        echo '<h2 class="title">New studies</h2>';
-        echo '<table class="styled-table" id="table_essai" >';
-        echo '<thead>';
-            echo '<th>Company</th>';
-            echo '<th>Phase</th>';
-            echo '<th>Description</th>';
-            echo '<th>Start Date</th>';
-            echo '<th>Doctors</th>';
-            echo '<th>Action</th>'; // Colonne pour le bouton "Join"
-        echo '</thead>';
-
+        echo "<div id='new_essais_container'>";
+            echo "<div id='title_essai_part'>"; // div pour manipuler le titre plus facilement
+                echo "<h2 class = 'title'>New clinical trials</h2>";
+            echo "</div>";
+        AfficherBarreRecherche(); // Affiche la barre de recherche
+        echo "<div id='new_essais'>"; // cadre bleu pour les essais
         foreach ($essais as $essai) {
             $id_essai = $essai['ID_essai'];
             $medecins = $bdd->getResultsAll($query_medecins, array(":id" => $id_essai)); // On récupère les médecins
+                    Affichage_content_essai_pas_demarre($essai, $medecins, $id_essai); // Affiche les essais
+        }
+        echo "</div>";
+        echo "</div>";
+                
+    }
+}
+
+function AfficherEssaisRecherche($bdd, $user, $search_query) {
+    // Requête pour rechercher dans le titre, la phase, la description ou les médecins associés
+    $query = "SELECT DISTINCT e.ID_essai, u.nom, e.description, e.titre, e.date_debut, e.ID_phase
+                FROM essai e
+                JOIN utilisateur u ON e.ID_entreprise_ref = u.ID_User
+                LEFT JOIN essai_medecin em ON e.ID_essai = em.ID_essai
+                LEFT JOIN utilisateur m ON em.ID_medecin = m.ID_User
+                WHERE 
+                    (u.nom LIKE :search OR
+                    e.titre LIKE :search OR
+                    e.description LIKE :search OR
+                    e.ID_phase LIKE :search OR
+                    m.nom LIKE :search)
+                    AND e.a_debute = 0
+                    AND e.ID_essai NOT IN (SELECT ID_essai FROM resultat WHERE ID_patient = :id_patient)
+    ";
+
+    $params = [
+        ':search' => '%' . $search_query . '%',
+        ':id_patient' => $user->getIduser()
+    ];
+
+    $essais = $bdd->getResultsAll($query, $params);
+
+    if (empty($essais)) {
+        AfficherErreur("Error none of clinical trials correponds.");
+        AfficherEssaisPasDemarré($bdd, $user);
+    } else {
+        echo "<div id='new_essais_container'>";
+        echo "<div id='title_essai_part'>"; // div pour manipuler le titre plus facilement
+            echo "<h2 class = 'title'>New clinical trials</h2>";
+            echo "</div>";
+        AfficherBarreRecherche(); // Affiche la barre de recherche
+        echo "<div id='new_essais'>"; // cadre bleu pour les essais
+        foreach ($essais as $essai) {
+            $id_essai = $essai['ID_essai'];
+            // Récupérer les médecins référents pour chaque essai
+            $query_medecins = "SELECT nom FROM utilisateur 
+                                JOIN essai_medecin ON essai_medecin.ID_medecin = utilisateur.ID_User 
+                                WHERE ID_essai = :id AND (is_accepte = 1 OR est_de_company = 1);";
+            $medecins = $bdd->getResultsAll($query_medecins, array(":id" => $id_essai));
             Affichage_content_essai_pas_demarre($essai, $medecins, $id_essai);
         }
-
-        echo '</table>';
-        echo '</div>';
+        echo "</div>";
+        echo "</div>";
     }
 }
 

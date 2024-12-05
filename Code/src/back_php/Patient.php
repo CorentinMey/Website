@@ -190,6 +190,10 @@ class Patient extends Utilisateur{
         $res = $this->GetInfoEssai($bdd); // récupère les informations des essais
         if ($res == []) {
             AfficherErreur("No clinical trials found yet. Please subscribe to some trials.");
+            echo "<br>";
+            echo "<br>";
+            echo "<br>";
+            echo "<br>";
             return;
         }
         Affichage_entete_tableau_essai(); // affiche l'en-tête du tableau

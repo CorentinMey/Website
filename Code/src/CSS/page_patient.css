@@ -1,3 +1,15 @@
+/* insérer une image de fond sur toutes la page */
+body {
+    background-image: url(../Ressources/Images/background_patient.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    margin: 0; /* Supprime les marges par défaut */
+    padding: 0; /* Supprime les espacements internes par défaut */
+    overflow-x: auto; /* Permet le défilement horizontal si nécessaire */
+}
+
 #en-tete {
     margin-left: 40%;
     width:50%;
@@ -28,9 +40,10 @@
 }
 
 #banderolle {
-    background-color: lightblue;
+    background-color: #f5eded;
     height: 8%;
     width: 100%;
+    border : solid 0.1em black;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -131,7 +144,7 @@
 
 #banderolle_img{
     width: 100%;
-    height : 50em;
+    height : 30em;
 }
 
 .title{
@@ -183,6 +196,53 @@
     justify-content: center; /* Centre la table horizontalement */
 }
 
+.search-container {
+    display: flex;
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    width: 100%; /* Prend toute la largeur disponible */
+    margin-top: 2em; /* Ajoute un espacement au-dessus */
+    margin-bottom: 1em; /* Ajoute un espacement en dessous */;
+}
+
+.search {
+    box-shadow: 0 20px 10px -10px rgba(200, 200, 200, .5);
+    display: flex; /* Utiliser Flexbox pour aligner les éléments */
+    align-items: center; /* Aligner les éléments horizontalement au centre */
+    justify-content: center; /* Centrer les éléments horizontalement */
+    width: 100%;
+    height: 3em; 
+}
+
+
+.search__input {
+    border: 0;
+    outline: 0;
+    height: 100%;
+    width : 80%;
+    font-size: 1em;
+    border-bottom-left-radius: 3em ;
+    border-top-left-radius: 3em ;
+}
+
+#search__button {
+    box-shadow: -10px 0 10px -5px rgba(90, 238, 209, .5);
+    color: #FFF;
+    background-color: #5AEED1;
+    width: 20%;
+    height: 100%;
+    text-align: center;
+    border: 0;
+    cursor: pointer;
+    transition: box-shadow .3s ease-out;
+    border-bottom-right-radius: 3em;
+    border-top-right-radius: 3em;
+}
+
+#search__button:hover {
+    background-color: #45d1b5;
+}
+
 
 #table_patient {
     margin-top : 2em;
@@ -192,35 +252,12 @@
     overflow: hidden; /* Assure que les coins arrondis sont appliqués */
 }
 
-#essai_clinique {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; /* Centre la table horizontalement */
-}
-
-#table_essai {
-    margin-top : 2em;
-    width : 75%;   
-    border-collapse: separate; /* Utilisez 'separate' pour permettre l'arrondissement des angles */
-    border-radius: 1em; /* Arrondit les angles du tableau */
-    overflow: hidden; /* Assure que les coins arrondis sont appliqués */
-}
 
 #table_patient thead tr{
     font-size : 1.5em;
 }
 
 #table_patient tbody{
-    font-size : 1.2em;
-    text-align: center;
-}
-
-#table_essai thead tr{
-    font-size : 1.5em;
-}
-
-#table_essai tbody{
     font-size : 1.2em;
     text-align: center;
 }
@@ -259,13 +296,126 @@
     margin-left : 0.5em;
 }
 
-#tableau_inscription_essai{
-    display : flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; /* Centre la table horizontalement */
-}
-
 .error-message{
     margin-left : 9em;
 }
+
+
+#new_essais_container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centre la table horizontalement */   
+    margin-bottom: 5em;
+    overflow-x: auto; /* Permet le défilement horizontal si nécessaire */
+}
+
+#title_essai_part{
+    position: relative;
+    width : 60%;
+    text-align: center;
+}
+
+
+
+#title_essai_part ::before,
+#title_essai_part ::after {
+    content: "";
+    top: 50%;
+    width: 40%;
+    height: 0.01em;
+    background-color: #969494;
+}
+
+#title_essai_part ::before {
+    left: 0;
+}
+
+#title_essai_part h2 ::after {
+    right: 0;
+}
+
+
+#titre_bouton_principal::before,
+#titre_bouton_principal::after {
+    content: "";
+    top: 50%;
+    width: 40%;
+    height: 0.01em;
+    background-color: #969494;
+}
+
+#titre_bouton_principal::before {
+    left: 0;
+}
+
+#titre_bouton_principal h2::after {
+    right: 0;
+}
+
+#new_essais{
+    border-radius: 0.5em;
+    width : 80em;
+    height : 65em;
+    overflow-y: scroll;
+}
+
+/* Style de la barre de défilement */
+#new_essais::-webkit-scrollbar {
+    width: 12px; /* Largeur de la barre de défilement */
+}
+
+/* Style de la piste de la barre de défilement */
+#new_essais::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Couleur de la piste */
+    border-radius: 10px;
+}
+
+/* Style du pouce de la barre de défilement */
+#new_essais::-webkit-scrollbar-thumb {
+    background: #888; /* Couleur du pouce */
+    border-radius: 10px;
+}
+
+/* Style du pouce de la barre de défilement au survol */
+#new_essais::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Couleur du pouce au survol */
+}
+
+.box_essai {
+    background-color: #f5eded;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* / efeft de survol */
+.box_essai:hover { 
+    box-shadow: 0 0.5em 0.8em rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.box_essai p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #333;
+}
+
+#button_join{
+    margin-bottom: 0.5em;
+    width : 10em;
+    margin-left : 85%;
+}
+
+.essai_title{
+    display : flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top : 0.5em;
+    
+}
+
