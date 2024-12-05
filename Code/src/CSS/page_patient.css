@@ -196,6 +196,84 @@ body {
     justify-content: center; /* Centre la table horizontalement */
 }
 
+#essai_clinique {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centre la table horizontalement */
+}
+
+#table_essai {
+    margin-top : 2em;
+    width : 75%;   
+    border-collapse: separate; /* Utilisez 'separate' pour permettre l'arrondissement des angles */
+    border-radius: 1em; /* Arrondit les angles du tableau */
+    overflow: hidden; /* Assure que les coins arrondis sont appliqués */
+}
+
+#table_patient thead tr{
+    font-size : 1.5em;
+}
+
+#table_patient tbody{
+    font-size : 1.2em;
+    text-align: center;
+}
+
+#table_essai thead tr{
+    font-size : 1.5em;
+}
+
+#table_essai tbody{
+    font-size : 1.2em;
+    text-align: center;
+}
+
+#edit_option{
+    margin-top: 0.5em;
+    margin-left: 67%;
+    font-size: 1em;
+    text-decoration: none;
+    color : #223e69;
+}
+
+#edit_option:hover{
+    text-decoration: underline;
+}
+
+#reponse_essai{
+    margin-top: 0.5em;
+    border-radius: 0.5em;
+    background-color: #f2f2f2e1;
+    font-size: 1em;
+    padding: 0.5em;
+}
+
+#notif{
+    margin-left : 9em;
+}
+
+#confirmation_side_effect{
+    margin-left : 9em;
+}
+
+#side_effect_buttons{
+    width : 5em;
+    margin-right : 0.5em;
+    margin-left : 0.5em;
+}
+
+#tableau_inscription_essai{
+    display : flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Centre la table horizontalement */
+}
+
+.error-message{
+    margin-left : 9em;
+}
+
 .search-container {
     display: flex;
     justify-content: center; /* Centre horizontalement */
@@ -244,61 +322,6 @@ body {
 }
 
 
-#table_patient {
-    margin-top : 2em;
-    width : 75%;   
-    border-collapse: separate; /* Utilisez 'separate' pour permettre l'arrondissement des angles */
-    border-radius: 1em; /* Arrondit les angles du tableau */
-    overflow: hidden; /* Assure que les coins arrondis sont appliqués */
-}
-
-
-#table_patient thead tr{
-    font-size : 1.5em;
-}
-
-#table_patient tbody{
-    font-size : 1.2em;
-    text-align: center;
-}
-
-#edit_option{
-    margin-top: 0.5em;
-    margin-left: 67%;
-    font-size: 1em;
-    text-decoration: none;
-    color : #223e69;
-}
-
-#edit_option:hover{
-    text-decoration: underline;
-}
-
-#reponse_essai{
-    margin-top: 0.5em;
-    border-radius: 0.5em;
-    background-color: #f2f2f2e1;
-    font-size: 1em;
-    padding: 0.5em;
-}
-
-#notif{
-    margin-left : 9em;
-}
-
-#confirmation_side_effect{
-    margin-left : 9em;
-}
-
-#side_effect_buttons{
-    width : 5em;
-    margin-right : 0.5em;
-    margin-left : 0.5em;
-}
-
-.error-message{
-    margin-left : 9em;
-}
 
 
 #new_essais_container{
