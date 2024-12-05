@@ -3,12 +3,12 @@ include_once("../src/back_php/Query.php");
 include_once("../src/back_php/graph.php");
 include_once("../src/back_php/Query.php");
 
-$bdd = new Query("siteweb");
+$bdd = new Query("siteweb2");
 
 //Test de la fonction histogramme
 
-// $data = getDataHistogram($bdd, 1, 1);
-// Histogramme($data, "Age histogram", "Age slices", "Number of people", "skyblue", 10);
+$data = getDataHistogram($bdd, 1, 2);
+Histogramme($data, "Age histogram", "Age slices", "Number of people", "skyblue", 10);
 
 // test si toutes les données sont bien définies
 // $ages = array(10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60);
@@ -36,19 +36,19 @@ $bdd = new Query("siteweb");
 
 
 // Identifiants de l'essai clinique et de la phase
-$id_essai = 1;
-$nb_phase = 1;
+// $id_essai = 1;
+// $nb_phase = 2;
 
-// Récupérer les données pour le barplot groupé
-$barplotData = getDataBarplot($bdd, $id_essai, $nb_phase);
+// // Récupérer les données pour le barplot groupé
+// $barplotData = getDataBarplot($bdd, $id_essai, $nb_phase);
 
-// Extraire les catégories et les données
-$categories = $barplotData['categories'];
-$groups = $barplotData['traitements'];
-$data = $barplotData['data'];
+// // Extraire les catégories et les données
+// $categories = $barplotData['categories'];
+// $groups = $barplotData['traitements'];
+// $data = $barplotData['data'];
 
-// Générer le barplot groupé
-echo barplot($data, $categories, "Evolution des Symptomes par Groupe", "Symptomes", "Nombre de Personnes");
+// // Générer le barplot groupé
+// echo barplot($data, $categories, "Evolution des Symptomes par Groupe", "Symptomes", "Nombre de Personnes");
 
 
 

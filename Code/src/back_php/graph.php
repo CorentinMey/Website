@@ -20,7 +20,7 @@ function barplot($data, $categories, $title = "Bar Plot Groupé", $xlabel = "Cat
     // $categoryCount = count($categories);
 
     // Création du graphique
-    $graph = new Graph(800, 500, 'auto');    
+    $graph = new Graph(800, 600, 'auto');    
     $graph->SetScale("textlin");
     $graph->SetShadow();
     $graph->img->SetMargin(40, 150, 20, 40); // Augmenter la marge droite pour la légende
@@ -28,7 +28,7 @@ function barplot($data, $categories, $title = "Bar Plot Groupé", $xlabel = "Cat
     $graph->xaxis->SetTitle($xlabel, "center");
     $graph->xaxis->SetTitleMargin(50);
     $graph->xaxis->title->SetFont(FF_FONT1, FS_NORMAL);
-    $graph->xaxis->SetLabelAngle(45);
+    // $graph->xaxis->SetLabelAngle(45);
     $graph->yaxis->SetTitle($ylabel, 'middle');
     $graph->yaxis->title->SetFont(FF_FONT1, FS_NORMAL);
     $graph->title->Set($title);

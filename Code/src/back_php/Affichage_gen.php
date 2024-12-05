@@ -59,6 +59,16 @@ function Affiche_medecin($medecins){
     }
 }
 
+function AfficherBarreRecherche() {
+    echo '<div class="search-container">';
+    echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">';
+        echo '<div class="search">';
+            echo '<input class="search__input" type="text" placeholder="Search">';
+            echo '<button id="search__button" class="fa fa-search"></button>';
+        echo '</div>';
+    echo '</div>';   
+}
+
 /**
  * Fonction pour afficher les essais cliniques qui ne sont pas encore démarrés (1 essai = 1 ligne)
  * @param $essai : dictionnaire contenant les informations sur l'essai
@@ -116,6 +126,7 @@ function AfficherEssaisPasDemarré($bdd, $user){
     if (empty($essais)){
         AfficherErreur("No clinical trials available, please come back later.");
     } else {
+        AfficherBarreRecherche(); // Affiche la barre de recherche
         echo "<div id ='tableau_inscription_essai'>";
         echo '<h2 class="title">New studies</h2>';
         echo '<table class="styled-table" id="table_essai" >';

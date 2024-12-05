@@ -183,6 +183,55 @@
     justify-content: center; /* Centre la table horizontalement */
 }
 
+#search-container {
+    display: flex;
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    width: 100%; /* Prend toute la largeur disponible */
+    margin-top: 2em; /* Ajoute un espacement au-dessus */
+}
+
+.search {
+    box-shadow: 0 20px 10px -10px rgba(200, 200, 200, .5);
+    display: flex; /* Utiliser Flexbox pour aligner les éléments */
+    align-items: center; /* Aligner les éléments verticalement au centre */
+    justify-content: center; /* Centrer les éléments horizontalement */
+    box-shadow: 0 20px 10px -10px rgba(200, 200, 200, .5);
+    width: 15%;
+    height: 3em; 
+
+}
+
+
+.search__input {
+    border: 0;
+    outline: 0;
+    height: 100%;
+    width : 80%;
+    font-size: 1em;
+    border-bottom-left-radius: 3em ;
+    border-top-left-radius: 3em ;
+}
+
+#search__button {
+    box-shadow: -10px 0 10px -5px rgba(90, 238, 209, .5);
+    color: #FFF;
+    background-color: #5AEED1;
+    width: 20%;
+    height: 100%;
+    text-align: center;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    outline: 0;
+    transition: box-shadow .3s ease-out;
+    display: flex; /* Utiliser Flexbox pour centrer l'icône */
+    align-items: center; /* Centrer l'icône verticalement */
+    justify-content: center; /* Centrer l'icône horizontalement */
+    border-bottom-right-radius: 3em;
+    border-top-right-radius: 3em;
+}
+
 
 #table_patient {
     margin-top : 2em;
