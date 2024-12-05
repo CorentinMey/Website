@@ -1,0 +1,174 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Italiana';
+    src: url('../Ressources/Font/Italiana-Regular.woff2') format('woff2'),
+         url('../Ressources/Font/Italiana-Regular.woff') format('woff'),
+         url('../Ressources/Font/Italiana-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+#bandeau_top {
+    background-color: lightblue; /* Couleur de fond bleue */
+    padding: 1em; /* Espacement interne pour éviter que les boutons touchent les bords */
+    display: flex;
+    justify-content: center; /* Aligne le contenu horizontalement au centre */
+    align-items: center; /* Aligne le contenu verticalement au centre */
+    width : 100%;
+}
+
+#bande_welcome {
+    display: flex;
+    gap: 1em; /* Espacement entre les boutons */
+    margin-left : 60%;
+}
+
+#fond {
+    /* image de fond */
+    background-image: url("../Ressources/Images/background_accueil.png");
+    background-repeat: no-repeat; /* Empêche la répétition de l'image */
+    background-size: cover; /* Redimensionne l'image pour couvrir toute la div */
+    background-position: center; /* Centre l'image dans la div */
+    width: 100%;
+    height: 70em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#en-tete {
+    margin-left: 10%;
+    width:50%;
+    height : 5%;
+    display: flex;
+    flex-direction: row;
+    /* Haut, Droite, Bas, Gauche */
+    padding: 0.5em 2 em 2em 0.3em;
+    gap: 3em
+}
+
+
+#logo_page{
+    height : 8em;
+}
+
+/* Style des boutons */
+.button { 
+    font-size: 1rem; /* Ajuster la taille de la police pour mieux s'adapter */
+    height: 2.5em; /* Hauteur du bouton */
+    width: 10em; /* Largeur du bouton */
+    color: white; /* Couleur du texte */
+    border: none;
+    border-radius: 25px; /* Bords arrondis */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'JetBrains Mono', sans-serif;
+    padding: 0.5em 1em; /* Espacement interne */
+    margin: 0; /* Supprimer les marges existantes */
+}
+
+#texte_fond {
+    text-align: center; /* Centrer le texte */
+}
+
+#ready{
+    margin-top: 5vh;
+    margin-left: 7em;
+    font-family: "Italiana" , sans-serif;
+    font-size: 3em;
+}
+
+#bienvenue{
+    margin-left: 2vw;
+    font-family: "Italiana" , sans-serif;
+    font-size: 7em;
+}
+
+#conteneur_tableau{
+    display : flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 5em;
+    width: 100%;
+}
+
+/* Conteneur des box */
+#grid_container {
+    display: grid; /* Active Grid Layout */
+    grid-template-columns: repeat(2, 1fr); /* 2 colonnes de tailles égales */
+    gap: 1rem; /* Espacement entre les box */
+    width: 70%; /* Largeur totale du conteneur */
+    max-width: 1200px; /* Limite la largeur maximale */
+    margin: 0 auto; /* Centre le conteneur horizontalement */
+    padding: 1rem; /* Espacement interne autour des box */
+    background-color: white; /* Fond pour le conteneur */
+    border: none; /* Supprimer les bordures visibles */
+}
+
+#why {
+    position: relative; /* Nécessaire pour positionner les traits */
+    display: flex;
+    align-items: center; /* Centre verticalement le contenu */
+    font-family: "Italiana", sans-serif;
+    font-size: 3em;
+    margin-bottom: 1em; /* Espacement en dessous du titre */
+}
+
+/* Ajouter les traits horizontaux avant et après le texte */
+#why::before,
+#why::after {
+    content: "";
+    flex: 1; /* Les traits prennent tout l'espace restant */
+    height: 2px; /* Épaisseur des traits */
+    background-color: black; /* Couleur des traits */
+    margin: 0 10px; /* Espacement entre le texte et les traits */
+}
+
+.box {
+    border: 0.2em solid black;
+    border-left: hidden; /* Cache la bordure de gauche */
+    border-right: hidden; /* Cache la bordure de droite */
+    border-bottom: hidden; /* Cache la bordure du haut */
+    font-size: 2em;
+}
+
+.box:nth-child(odd) {
+    margin-right: 1.5em;
+}
+
+#logo_bas{
+    display: flex;
+    justify-content: center;
+    margin-top : 5em;
+}
+
+
+#logo_page_bas{
+    height : 20em;
+}
+
+#text_bas{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top : 5em;
+    font-family: "Italiana" , sans-serif;
+
+}
+
+
+#text_bas h1{
+    font-size : 4em;
+}
+
+#text_bas h2{
+    margin-left : 2em;
+    margin-top :1em;
+    font-size : 2em;
+}
