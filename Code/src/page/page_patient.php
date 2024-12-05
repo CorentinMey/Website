@@ -55,10 +55,10 @@ $bdd = new Query("siteweb");
         </div>
     </div>
 
-    <img src = "../Ressources/Images/image2.png" alt = "banderolle" id = "banderolle_img">
+    <img src = "../Ressources/Images/test_banderolle.webp" alt = "banderolle" id = "banderolle_img">
 
  
-    <h2 class = "title">Options</h2>
+    <h2 class = "title" id ="titre_bouton_principal">Options</h2>
 
     <?php // code pour mettre à jour le numéro des notifications, doit être placé avant l'affichage des boutons
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -91,21 +91,37 @@ $bdd = new Query("siteweb");
             <button class = "button" id = "button_patient" name = "Action" value = "ViewInfo">My information</button>
     </form>
 
+
     <?php // balise php pour gérer les différentes menus de la page patient
+    $current_view = "default"; // variable pour savoir quelle vue afficher
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Action"])) { // Si un bouton a été cliqué
         switch ($_POST['Action']) {
             case "ViewMine": // si on clique sur le bouton pour voir les essais cliniques en cours du patient
+                $current_view = "ViewMine";
                 UpdateNotification($bdd, $patient, $nb_notif);
                 break;
             case "ViewNew": // si on clique sur le bouton pour voir les nouveaux essais cliniques disponibles
-                AfficherEssaisPasDemarré($bdd, $patient);
+                $current_view = "ViewNew";
                 break;
             case "ViewInfo": // si on clique sur le bouton pour voir les informations personnelles
+                $current_view = "ViewInfo";
                 $patient->AffichageTableauInfoPerso($bdd);
-                break;
-        }
-    } else
-        $patient->AffichageTableauInfoPerso($bdd); // affiche le tableau des information personnelles par défaut
+            break;
+            }
+    } 
+    // Gère la barre de recherche
+    if ($current_view == "ViewNew" || $current_view == "default") {
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search_query"])) {
+            $search_query = $_POST["search_query"];
+            // Convertit les caractères spéciaux pour éviter les problèmes de sécurité
+            $search_query = htmlspecialchars($search_query);
+            // Appeler la fonction pour afficher les essais correspondant à la recherche
+            AfficherEssaisRecherche($bdd, $patient, $search_query);
+        } else 
+            // Affichage par défaut si aucune recherche n'est effectuée
+            AfficherEssaisPasDemarré($bdd, $patient); // Affiche les essais cliniques non démarrés sans distinction
+        
+    }
     ?>
 
     <?php // balise php pour gérer les boutons de notifs
