@@ -198,6 +198,7 @@ body {
 
 #table_patient {
     margin-top : 2em;
+    margin-bottom : 0em;
     width : 75%;   
     border-collapse: separate; /* Utilisez 'separate' pour permettre l'arrondissement des angles */
     border-radius: 1em; /* Arrondit les angles du tableau */
@@ -238,7 +239,8 @@ body {
 }
 
 #edit_option{
-    margin-top: 0.5em;
+    margin-top: 1em;
+    margin-bottom: 3em;
     margin-left: 67%;
     font-size: 1em;
     text-decoration: none;
@@ -281,6 +283,8 @@ body {
 .error-message{
     margin-left : 9em;
 }
+
+
 
 .search-container {
     display: flex;
@@ -347,6 +351,30 @@ body {
 }
 
 
+#titre_container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around; /*Centre le texte*/
+    align-items: center;
+    width : 100%;
+}
+
+#titre_my_information{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around; /*Centre le texte*/
+    align-items: center;
+    width : 60%;
+    text-align: center;
+}
+
+#titre_my_information h2{
+    display : inline-block;
+    margin: 0;
+    padding: 0 1em;
+}
+
+
 
 #title_essai_part ::before,
 #title_essai_part ::after {
@@ -365,6 +393,26 @@ body {
     right: 0;
 }
 
+
+#titre_my_information::before,
+#titre_my_information::after {
+    content: "";
+    top: 50%;
+    width: 40%;
+    height: 0.01em;
+    background-color: #969494;
+
+}
+
+#titre_my_information::before {
+    left: 0;
+    margin-right : 1em;
+}
+
+#titre_my_information h2::after {
+    right: 0;
+    margin-left : 1em;
+}
 
 #titre_bouton_principal::before,
 #titre_bouton_principal::after {

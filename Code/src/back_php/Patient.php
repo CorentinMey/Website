@@ -130,7 +130,11 @@ class Patient extends Utilisateur{
      * 
      */
     public function AffichageTableauInfoPerso(){
-        echo '<h2 class = "title">My Information</h2>';
+        echo "<div id = 'titre_container'>";
+            echo "<div id = 'titre_my_information'>";
+                echo '<h2 class = "title">My Information</h2>';
+            echo '</div>';
+        echo '</div>';
         echo '<div id = "personnal_data">';
             echo '<table class = "styled-table" id = "table_patient">';
                 echo '<thead>';
@@ -190,7 +194,7 @@ class Patient extends Utilisateur{
         $res = $this->GetInfoEssai($bdd); // récupère les informations des essais
         if ($res == []) {
             AfficherErreur("No clinical trials found yet. Please subscribe to some trials.");
-            echo "<br>";
+            echo "<br>"; // met un peu d'espace pour la lisibilité
             echo "<br>";
             echo "<br>";
             echo "<br>";
@@ -327,7 +331,7 @@ class Patient extends Utilisateur{
 
         $res = $bdd->getResults($query_phase, ["id_essai" => $id_essai]);
         $bdd->insertLine($query, ["id" => $this->getIduser(), "id_essai" => $id_essai, "phase_res" => $res["ID_phase"]]);
-        AfficherInfo("You have successfully joined the trial", $id_essai, "cross_inscription"); // affiche une notification pour confirmer l'inscription
+        AfficherInfo("You have successfully joined the trial. Please now wait for the doctor confirmation.", $id_essai, "cross_inscription"); // affiche une notification pour confirmer l'inscription
     }
 }
 ?>

@@ -91,7 +91,6 @@ $bdd = new Query("siteweb");
             <button class = "button" id = "button_patient" name = "Action" value = "ViewInfo">My information</button>
     </form>
 
-
     <!-- ===================================================================================================================== -->
                         <!-- Suite de balises php pour gérer les entrées de l'utilisateur -->
     <!-- ===================================================================================================================== -->
