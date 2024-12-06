@@ -59,12 +59,18 @@ function Affiche_medecin($medecins){
     }
 }
 
-function AfficherBarreRecherche() {
+/**
+ * Fonction pour afficher la barre de recherche
+ * @param $search_query : chaîne de caractères à afficher dans la barre de recherche
+ */
+function AfficherBarreRecherche($search_query) {
+    $search_query = $search_query ? htmlspecialchars($search_query) : ""; // si la recherche est vide, on met une chaîne vide
     echo '<div class="search-container">';
         echo '<form action="" method="post">'; // Formulaire qui soumet à la même page
             echo '<div class="search">';
                 echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">';
-                echo '<input class="search__input" type="text" name="search_query" placeholder="Search">';
+                echo '<input type="hidden" name="form_type" value="search_form">'; // utile pour savoir quel formulaire a été soumis
+                echo '<input class="search__input" type="text" name="search_query" placeholder="Search" value = "'.$search_query.'">';
                 echo '<button type="submit" id="search__button" class="fa fa-search"></button>';
             echo '</div>';
         echo '</form>';
@@ -105,7 +111,7 @@ function Affichage_content_essai_pas_demarre($essai, $medecins, $id_essai) {
  * @param $bdd : objet de connexion à la base de données
  * @param $user : objet utilisateur (patient ou médecin)
  */
-function AfficherEssaisPasDemarré($bdd, $user){
+function AfficherEssaisPasDemarré($bdd, $user, $search_query = "") {
     if ($user instanceof Patient) {
         // Requête pour obtenir les essais qui n'ont pas encore démarré et auxquels le patient n'a pas postulé
         $query_essai = "SELECT  ID_essai, nom, description, titre, date_debut, ID_phase
@@ -133,7 +139,7 @@ function AfficherEssaisPasDemarré($bdd, $user){
             echo "<div id='title_essai_part'>"; // div pour manipuler le titre plus facilement
                 echo "<h2 class = 'title'>New clinical trials</h2>";
             echo "</div>";
-        AfficherBarreRecherche(); // Affiche la barre de recherche
+        AfficherBarreRecherche($search_query); // Affiche la barre de recherche
         echo "<div id='new_essais'>"; // cadre bleu pour les essais
         foreach ($essais as $essai) {
             $id_essai = $essai['ID_essai'];
@@ -178,7 +184,7 @@ function AfficherEssaisRecherche($bdd, $user, $search_query) {
         echo "<div id='title_essai_part'>"; // div pour manipuler le titre plus facilement
             echo "<h2 class = 'title'>New clinical trials</h2>";
             echo "</div>";
-        AfficherBarreRecherche(); // Affiche la barre de recherche
+        AfficherBarreRecherche($search_query); // Affiche la barre de recherche
         echo "<div id='new_essais'>"; // cadre bleu pour les essais
         foreach ($essais as $essai) {
             $id_essai = $essai['ID_essai'];

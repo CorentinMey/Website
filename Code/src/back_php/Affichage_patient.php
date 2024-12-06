@@ -96,34 +96,52 @@ function UpdateNotification($bdd, $patient, $nb_notif){
 }
 
 /**
- * Fonction qui gère l'affichage après avoir appuyer sur un bouton Join trial
+ * Fonction qui gère l'affichage après avoir appuyé sur le bouton Join trial
  * @param Query $bdd  : objet de connexion à la base de données
  * @param Patient $patient : objet patient
  * @param Int $id_essai : id de l'essai
  */
 function handleJoinTrial($bdd, $patient, $id_essai) {
     AfficherConfirmation("Are you sure you want to join this trial?", $id_essai, ["confirm_join", "cancel_join"]);
-    AfficherEssaisPasDemarré($bdd, $patient);
+    // Récupère la recherche depuis la session
+    $search_query = isset($_SESSION['search_query']) ? $_SESSION['search_query'] : "";
+    if ($search_query !== "") {
+        AfficherEssaisRecherche($bdd, $patient, $search_query);
+    } else {
+        AfficherEssaisPasDemarré($bdd, $patient);
+    }
 }
 
 /**
- * Fonction qui gère l'affichage après avoir appuyer sur un bouton Confirm après avoir appuyer sur le bouton join trial
+ * Fonction qui gère l'affichage après avoir confirmé la participation
  * @param Query $bdd  : objet de connexion à la base de données
  * @param Patient $patient : objet patient
  * @param Int $id_essai : id de l'essai
  */
 function handleConfirmJoin($bdd, $patient, $id_essai) {
     $patient->Rejoindre($bdd, $id_essai); // Met à jour la BDD pour rejoindre l'essai
-    AfficherEssaisPasDemarré($bdd, $patient);
+    // Récupère la recherche depuis la session
+    $search_query = isset($_SESSION['search_query']) ? $_SESSION['search_query'] : "";
+    if ($search_query !== "") {
+        AfficherEssaisRecherche($bdd, $patient, $search_query);
+    } else {
+        AfficherEssaisPasDemarré($bdd, $patient);
+    }
 }
 
 /**
- * Fonction qui gère l'affichage après avoir appuyer sur un bouton Cancel après avoir appuyer sur le bouton join trial
+ * Fonction qui gère l'affichage après avoir annulé la participation
  * @param Query $bdd  : objet de connexion à la base de données
  * @param Patient $patient : objet patient
  */
 function handleCancelJoin($bdd, $patient) {
-    AfficherEssaisPasDemarré($bdd, $patient);
+    // Récupère la recherche depuis la session
+    $search_query = isset($_SESSION['search_query']) ? $_SESSION['search_query'] : "";
+    if ($search_query !== "") {
+        AfficherEssaisRecherche($bdd, $patient, $search_query);
+    } else {
+        AfficherEssaisPasDemarré($bdd, $patient);
+    }
 }
 
 

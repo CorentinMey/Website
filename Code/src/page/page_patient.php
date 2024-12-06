@@ -92,8 +92,14 @@ $bdd = new Query("siteweb");
     </form>
 
 
+    <!-- ===================================================================================================================== -->
+                        <!-- Suite de balises php pour gérer les entrées de l'utilisateur -->
+    <!-- ===================================================================================================================== -->
+
     <?php // balise php pour gérer les différentes menus de la page patient
     $current_view = "default"; // variable pour savoir quelle vue afficher
+    $action_handled = false; // variable pour savoir si une action a été effectuée
+
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Action"])) { // Si un bouton a été cliqué
         switch ($_POST['Action']) {
             case "ViewMine": // si on clique sur le bouton pour voir les essais cliniques en cours du patient
@@ -107,24 +113,10 @@ $bdd = new Query("siteweb");
                 $current_view = "ViewInfo";
                 $patient->AffichageTableauInfoPerso($bdd);
             break;
-            }
+        }
     } 
-    // Gère la barre de recherche
-    if ($current_view == "ViewNew" || $current_view == "default" && $_POST['Action'] != "join_trial") {
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search_query"])) {
-            $search_query = $_POST["search_query"];
-            // Convertit les caractères spéciaux pour éviter les problèmes de sécurité
-            $search_query = htmlspecialchars($search_query);
-            // Appeler la fonction pour afficher les essais correspondant à la recherche
-            AfficherEssaisRecherche($bdd, $patient, $search_query);
-        } else 
-            // Affichage par défaut si aucune recherche n'est effectuée
-            AfficherEssaisPasDemarré($bdd, $patient); // Affiche les essais cliniques non démarrés sans distinction
-        
-    }
     ?>
-
-    <?php // balise php pour gérer les boutons de notifs
+    <?php // code pour gérer les actions des boutons de la page patient
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['id_essai']) && isset($_POST['Action'])) {
             $id_essai = $_POST['id_essai'];
@@ -133,21 +125,27 @@ $bdd = new Query("siteweb");
             switch ($action) {
                 case "join_trial": // si on appuie sur le bouton pour rejoindre une essai clinique
                     handleJoinTrial($bdd, $patient, $id_essai);
+                    $action_handled = true; // empĉhe la balise php suivante de s'éxécuter pour éviter d'afficher en doublon
                     break;
                 case "confirm_join": // si on appuie sur le bouton pour confirmer la participation à un essai clinique
                     handleConfirmJoin($bdd, $patient, $id_essai);
+                    $action_handled = true;
                     break;
                 case "cancel_join": // si on appuie sur le bouton pour annuler la participation à un essai clinique
                     handleCancelJoin($bdd, $patient);
+                    $action_handled = true;
                     break;
                 case "submit_side_effects": // si on appuie sur le bouton pour soumettre les effets secondaires à la fin d'un essai clinique
                     handleSubmitSideEffects($bdd, $patient, $id_essai, $nb_notif);
+                    $action_handled = true;
                     break;
                 case "unsubscribe": // si on appuie sur le bouton pour quitter un essai clinique
                     handleUnsubscribe($bdd, $patient, $id_essai, $nb_notif);
+                    $action_handled = true;
                     break;
                 case "confirm_unsubscribe":
                     handleConfirmUnsubscribe($bdd, $patient, $id_essai, $nb_notif);
+                    $action_handled = true;
                     break;
 
                 case "exclude": // cas où l'on ferme une notification d'exclusion
@@ -157,9 +155,31 @@ $bdd = new Query("siteweb");
                 case "cancel_unsubscribe": // si on appuie sur le bouton pour annuler la désinscription
                 case "cross": // cas où on ferme une notification qui n'interagit pas avec la BDD
                     UpdateNotification($bdd, $patient, $nb_notif);
+                    $action_handled = true;
                     break;
                 }
             }
         }
     ?>
+    <?php 
+        // Gère la barre de recherche seulement si aucune autre action n'a été traitée
+        if (!$action_handled) {
+            if ($current_view == "ViewNew" || $current_view == "default") {
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search_query"])) { // Si une recherche a été effectuée
+                    $search_query = $_POST["search_query"];
+                    $_SESSION["search_query"] = $search_query; // Stocke la recherche en session
+                    $search_query = htmlspecialchars($search_query);
+                    AfficherEssaisRecherche($bdd, $patient, $search_query);
+                } else {
+                    // Vérifie si une recherche est stockée en session
+                    if (isset($_SESSION["search_query"]) && $_SESSION["search_query"] !== "") {
+                        $search_query = htmlspecialchars($_SESSION["search_query"]);
+                        AfficherEssaisRecherche($bdd, $patient, $search_query);
+                    } else
+                        AfficherEssaisPasDemarré($bdd, $patient);
+                }
+            }
+        }
+    ?>
+
 </body>
