@@ -7,8 +7,11 @@ include_once("Affichage_gen.php"); // pour la fonction Affiche_medecin
  * Affiche l'en tête du tableau pour les essais cliniques du patients
  */
 function Affichage_entete_tableau_essai(){
-
-    echo '<h2 class="title">My Clinical Trials</h2>';
+    echo "<div id = 'titre_container'>";
+        echo "<div id ='titre_my_information'>";
+            echo '<h2 class="title">My Clinical Trials</h2>';
+        echo '</div>';
+    echo '</div>';
         echo '<div id="essai_clinique">';
             echo '<table class="styled-table" id="table_essai">';
                 echo '<thead>';
