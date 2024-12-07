@@ -1,0 +1,323 @@
+/* Règles générales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Empêche le scroll horizontal */
+body {
+    overflow-x: hidden; /* Empêche le scroll horizontal */
+}
+
+/* Style du fond */
+#fond {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Place le fond derrière tout le reste */
+}
+/* #################################### style du bandeau au top ######################################## */
+/* Style du conteneur */
+#bandeau_top {
+    box-shadow: 0 2vh 4vh rgba(0, 0, 0, 0.2); /* Ombre pour un effet élégant */
+    background-color: rgba(0, 0, 0, 0.5); /* Couleur de fond semi-transparente */
+    padding: 1em; /* Espacement interne pour éviter que les boutons touchent les bords */
+    display: flex;
+    justify-content: space-between; /* Aligne horizontalement les éléments */
+    align-items: center; /* Aligne l'image et le texte verticalement au centre */
+    width: 100%;
+    position: relative; /* Nécessaire pour positionner le profil de manière absolue */
+}
+
+/* Style pour le texte */
+h1 {
+    color: #ffffff; /* Texte blanc */
+    font-size: 3em; /* Taille proportionnelle */
+    margin-left: 10%; /* Réinitialise toutes les marges */
+}
+
+/* Style pour l'image */
+#profil {
+    width: 8em; /* Taille adaptative de l'image, ne dépasse pas 10% de la largeur de la fenêtre */
+    height: auto; /* Garde les proportions */
+    border-radius: 50%; /* Cercle pour le style */
+    object-fit: cover; /* Assure que l'image garde son ratio sans déformation */
+}
+
+/* ############################# conteneur des 5 bouttons au centre ########################## */
+
+/* conteneur */
+#content_button {
+    margin-left: 15%;
+    width: 70%; /* Largeur à 50% de la page */
+    top: 50%; /* Place au milieu de l'écran en hauteur */
+ /* Place au milieu de l'écran en largeur */
+    padding: 1rem; /* Ajout d'espace interne */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Optionnel : pour un style moderne */
+    border-radius: 8px; /* Coins arrondis */
+    box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur/hauteur */
+    word-wrap: break-word; /* Empêche le texte de dépasser */
+    display: flex;
+    flex-wrap: wrap; /* Permet aux éléments de se réorganiser en plusieurs lignes */
+    gap: 20px; /* Espacement entre les boutons */
+}
+
+/* Style pour chaque bouton */
+#content_button .btn, #content_button .confirmation {
+    width: calc(50% - 10px); /* Chaque bouton prend 50% de la largeur, avec un petit espace */
+    box-sizing: border-box; /* Assure que les marges sont prises en compte dans la largeur totale */
+    flex-grow: 1; /* Permet aux boutons de s'étirer sans dépasser */
+    word-wrap: break-word; /* Permet de faire passer le texte à la ligne si nécessaire */
+    
+}
+
+/* Style pour le dernier bouton */
+#confirmation {
+    width: 80%; /* Le dernier bouton prend 80% de la largeur */
+    margin: 10px auto; 
+    position: relative;
+}
+
+/* Style des boutons */
+.btn {
+    padding: 0.5rem; /* Ajuste l'espace autour du texte */
+    font-size: 2vw; /* Utilise des unités relatives à la largeur de la fenêtre pour un zoom fluide */
+    height: auto; /* Laisse la hauteur s'ajuster dynamiquement */
+    min-width: 10em; /* Largeur minimale pour garantir que le texte soit visible */
+    max-width: 100%; /* Ne dépasse pas la largeur de l'élément parent */
+    background-color: #131029; /* Couleur de fond des boutons */
+    color: white; /* Couleur du texte */
+    border: none;
+    border-radius: 10px; /* Bords arrondis des boutons */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'JetBrains Mono', sans-serif;
+    box-sizing: border-box; /* Inclut les bordures et les marges dans la taille du bouton */
+    text-align: center; /* Centre le texte horizontalement */
+    line-height: 1.5; /* Ajuste la hauteur de ligne pour que le texte soit centré verticalement */
+    white-space: normal; /* Permet le retour à la ligne si le texte est trop long */
+}
+
+/* Changement de couleur au survol */
+.btn:hover {
+    background-color: #d05a5a;
+}
+
+/* ##################### boutton confirmation ############### */
+
+
+#confirmation {
+    padding: center; /* Augmenter l'espacement interne des boutons */
+    background-color: #9c9aa9; /* Couleur de fond des boutons */
+    color: rgb(20, 15, 15); /* Couleur du texte */
+    border: none;
+    border-radius: 10px; /* Bords arrondis des boutons */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'JetBrains Mono', sans-serif;
+}
+
+#confirmation:hover {
+    background-color: #4589c8;
+}
+
+.pastille {
+    top: -2em;
+    right: -2em;
+    background-color: red;
+    color: white;
+    border-radius: 100%;
+    padding: 1em;
+    font-size: 0.6em;
+}
+
+/* ########################## affichage des listes ######################## */
+
+
+h2{
+    margin-left: 40%;
+}
+
+.LALIST {
+    color: white; /* Définir la couleur du texte en blanc */
+    background-color: rgba(0, 0, 0, 0.5); /* Optionnel : fond semi-transparent pour améliorer la lisibilité */
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+.content-wrapper {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    color: white;
+    position: fixed; /* Toujours visible dans la fenêtre */
+    top: 0; /* Aligne la boîte en haut de la page */
+    left: 50%; /* Centre horizontalement */
+    transform: translateX(-50%); /* Ajuste le centrage horizontal */
+    background-color: rgba(255, 255, 255, 0.1); /* Fond semi-transparent */
+    padding: 2rem; /* Espacement interne */
+    padding-bottom: 3rem; /* Ajoute de l'espace en bas de la boîte pour ne pas toucher le bord */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.9); /* Ombre pour l'effet */
+    width: 100%; /* Adapte la largeur à l'écran */
+    height: 90vh; /* Hauteur fixe de la box (90% de la fenêtre) */
+    overflow-y: auto; /* Permet le défilement si le contenu dépasse */
+}
+
+#bandeau_top {
+    box-shadow: 0 2vh 4vh rgba(0, 0, 0, 0.2); /* Ombre pour un effet élégant */
+    background-color: rgba(0, 0, 0, 0.5); /* Couleur de fond semi-transparente */
+    padding: 1em; /* Espacement interne pour éviter que les boutons touchent les bords */
+    display: flex;
+    justify-content: space-between; /* Aligne horizontalement les éléments */
+    align-items: center; /* Aligne l'image et le texte verticalement au centre */
+    width: 100%;
+    position: relative; /* Nécessaire pour positionner le profil de manière absolue */
+}
+
+.box_list {
+    display: flex;
+    justify-content: space-between; /* Aligne les éléments en haut de la boîte */
+    align-items: stretch; /* Étend les éléments pour remplir la largeur */
+    padding: 1em;
+    margin: 10px 0;
+    border: 1px solid #e7dcdc;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    max-width: 100%; /* Assure que la largeur ne dépasse pas son conteneur */
+    overflow-y: auto; /* Ajoute un défilement vertical si nécessaire */
+    max-height: 200px; /* Ajuste la hauteur maximale de la boîte */
+    flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si nécessaire */
+}
+
+.box_list > * {
+    width: 100%; /* Les éléments enfants prennent toute la largeur disponible */
+    box-sizing: border-box; /* Assure que les bordures et paddings sont inclus dans la largeur */
+}
+
+.box_list .user-info,
+.box_list .user-actions,
+.box_list .user-controls{
+    padding: 5px 0; /* Un peu d'espace entre les éléments */
+    width: 100%; /* Assure que les éléments prennent toute la largeur de la boîte */
+    white-space: normal; /* Permet au texte de passer à la ligne si nécessaire */
+    word-wrap: break-word; /* Permet de couper les mots longs pour éviter le débordement */ /* Empêche les sauts de ligne à l'intérieur des éléments */
+}
+
+.box_list.banned {
+
+    background-color: #dc0808; /* Couleur pour les bannis */
+    border-color: #ff0000; /* Bordure rouge pour différencier */
+}
+
+.user-info {
+    flex: 2;
+}
+.user-actions {
+    flex: 1;
+    text-align: center;
+}
+
+.user-controls {
+    padding: 2rem; /* Espacement interne réduit, mais toujours généreux */
+    background-color: rgba(57, 35, 35, 0.5); /* Couleur de fond des boutons */
+    border: none;
+    border-radius: 10px; /* Bords arrondis */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'JetBrains Mono', sans-serif;
+    width: 100%; /* Prend toute la largeur de son conteneur */
+    max-width: 400px; /* Limite la largeur maximale à 400px pour une meilleure lisibilité */
+    box-sizing: border-box; /* Assure que le padding ne dépasse pas la largeur définie */
+    display: flex; /* Utilise flexbox pour gérer le contenu à l'intérieur */
+    flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si nécessaire */
+    align-items: center; /* Centrer verticalement les éléments */
+}
+
+.user-controls button {
+    margin: 0.5rem; /* Espace autour de chaque bouton */
+}
+
+
+.unban-btn {
+    padding: 0.5rem 1rem; /* Espacement interne */
+    font-size: 1.5rem; /* Taille du texte */
+    height: auto; /* Hauteur s'adapte au texte */
+    min-height: 4vh; /* Hauteur minimale */
+    min-width: 8vw; /* Largeur minimale */
+    background-color: #26642e; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    border: none;
+    border-radius: 10px; /* Coins arrondis */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'JetBrains Mono', sans-serif;
+    box-sizing: border-box; /* Inclut les bordures et marges dans les dimensions */
+    text-align: center; /* Texte centré horizontalement */
+    line-height: 1.5; /* Centre verticalement le texte */
+    white-space: normal; /* Permet au texte de se déplier */
+    display: inline-block; /* Garde le bouton en ligne */
+}
+
+.approve-btn {
+    padding: 0.5rem 1rem; /* Espacement interne */
+    font-size: 1.5rem; /* Taille du texte */
+    height: auto; /* Hauteur s'adapte au texte */
+    min-height: 4vh; /* Hauteur minimale */
+    min-width: 8vw; /* Largeur minimale */
+    background-color: #26642e; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    border: none;
+    border-radius: 10px; /* Coins arrondis */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'JetBrains Mono', sans-serif;
+    box-sizing: border-box; /* Inclut les bordures et marges dans les dimensions */
+    text-align: center; /* Texte centré horizontalement */
+    line-height: 1.5; /* Centre verticalement le texte */
+    white-space: normal; /* Permet au texte de se déplier */
+    display: inline-block; /* Garde le bouton en ligne */
+}
+
+.ban-btn {
+    padding: 0.5rem 1rem; /* Espacement interne */
+    font-size: 1.5rem; /* Taille du texte */
+    height: auto; /* Hauteur s'adapte au texte */
+    min-height: 4vh; /* Hauteur minimale */
+    min-width: 10vw; /* Largeur minimale */
+    background-color: #bd2940; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    border: none;
+    border-radius: 10px; /* Coins arrondis */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'JetBrains Mono', sans-serif;
+    box-sizing: border-box; /* Inclut les bordures et marges dans les dimensions */
+    text-align: center; /* Texte centré horizontalement */
+    line-height: 1.5; /* Centre verticalement le texte */
+    white-space: normal; /* Permet au texte de se déplier */
+    display: inline-block; /* Garde le bouton en ligne */
+}
+
+.reject-btn {
+    padding: 0.5rem 1rem; /* Espacement interne */
+    font-size: 1.5rem; /* Taille du texte */
+    height: auto; /* Hauteur s'adapte au texte */
+    min-height: 4vh; /* Hauteur minimale */
+    min-width: 10vw; /* Largeur minimale */
+    background-color: #bd2940; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    border: none;
+    border-radius: 10px; /* Coins arrondis */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'JetBrains Mono', sans-serif;
+    box-sizing: border-box; /* Inclut les bordures et marges dans les dimensions */
+    text-align: center; /* Texte centré horizontalement */
+    line-height: 1.5; /* Centre verticalement le texte */
+    white-space: normal; /* Permet au texte de se déplier */
+    display: inline-block; /* Garde le bouton en ligne */
+}

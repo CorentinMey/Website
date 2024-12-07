@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Page</title>
     <link rel="stylesheet" type="text/css" href="../CSS/global.css">
-    <link rel="stylesheet" type="text/css" href="../CSS/page_admin.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/page_admin_responsive.css">
 </head>
 <body>
     <!-- Image de fond -->
@@ -57,12 +57,12 @@
     </div>
 
     <!-- Formulaire contenant les boutons -->
-    <form method="POST" action="page_admin.php" class="button-container" id="content_button">
+    <form method="POST" action="page_admin.php" id="content_button">
         <button type="submit" class="btn" name="show_list_user" value="1" id="button1">User List</button>
         <button type="submit" class="btn" name="show_list_doc" value="1" id="button2">Doc List</button>
         <button type="submit" class="btn" name="show_list_company" value="1" id="button3">Company List</button>
         <button type="submit" class="btn" name="show_list_clinical" value="1" id="button4">Clinical Assay List</button>
-        <button type="submit" class="confirmation" name="show_list_confirmation" value="1" id="button5">
+        <button type="submit" class="btn" name="show_list_confirmation" value="1" id="confirmation">
             <!-- Afficher la pastille seulement si count > 0 -->
             <?php if ($count > 0): ?>
                 <span class="pastille" id="notifCount"><?php echo $count; ?></span>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Page</title>
     <link rel="stylesheet" type="text/css" href="../CSS/global.css">
-    <link rel="stylesheet" type="text/css" href="../CSS/page_admin.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/page_admin_responsive.css">
 </head>
 <body>
 <img src="../Ressources/Images/background_admin2.jpg" alt="fond" id="fond">
