@@ -107,7 +107,7 @@
     max-width: 1200px; /* Limite la largeur maximale */
     margin: 0 auto; /* Centre le conteneur horizontalement */
     padding: 1rem; /* Espacement interne autour des box */
-    background-color: white; /* Fond pour le conteneur */
+    background-color: #f8f8f8; /* Fond pour le conteneur */
     border: none; /* Supprimer les bordures visibles */
 }
 

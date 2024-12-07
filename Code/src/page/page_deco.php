@@ -8,5 +8,5 @@ if (isset($_SESSION["patient"])) {
     $patient = $_SESSION["patient"];
     $patient->Deconnect();
 }
-echo "Vous êtes bien déconnecté.";
+header("Location: page_accueil.php");
 ?>

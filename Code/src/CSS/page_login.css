@@ -1,38 +1,45 @@
 
-#fond {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 120%;
+body {
+    background-image: url(../Ressources/Images/background_login_signin.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Empêche le défilement horizontal indésirable */
+}
+
+#global_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Assure que le conteneur prend toute la hauteur de la vue */
 }
 
 #element_1er_plan {
     display: flex;
     background-color: #ffffff;
-    position: relative;
-    margin-top: 3%;
-    left: 5%;
-    width: 90%;
-    height: 90%;
-    padding: 5% 5% 5% 5%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 90%; /* Utilise un pourcentage pour la largeur */
+    max-width: 1400px; /* Largeur maximale pour éviter une trop grande expansion */
+    padding: 2%; /* Ajuster le padding pour l'adapter */
     border-radius: 1.5em;
     box-sizing: border-box;
+    box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
 }
 
 #logo {
-    width: 35%;
-    margin-top: 4%;
-    margin-bottom: 4%;
-    margin-left: 5%;
+    width: 50%;
+    max-width: 400px; /* Limite la taille maximale du logo */
+    margin: 0 auto; /* Centre le logo horizontalement */
 }
 
-
 #interface_connexion {
-    margin-left: 20%;
-    margin-top: 5%;
-    width: 25%;
-    height: 100%;
+    width: 100%;
+    max-width: 500px; /* Limite la largeur maximale de l'interface de connexion */
+    margin: 2em auto; /* Centre verticalement et ajoute un espace au-dessus */
     padding: 1em;
     border-radius: 1em;
     box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
@@ -46,7 +53,7 @@
 .input_info {
     display: flex;
     flex-direction: column;
-    width: 95%;
+    width: 90%;
     margin-left: 2.5%;
     margin-bottom: 2em;
 }
@@ -79,5 +86,5 @@ input {
 
 #button_login{
     margin-top : 0.5em;
-    width : 100%;
+    width : 60%;
 }
