@@ -37,8 +37,6 @@ if (isset($_SESSION["patient"])) { // vérifie si le patient souhaite changer se
 </head>
 
 <body>
-    <!-- division pour le fond de la page de connexion -->
-    <img src="../Ressources/Images/background_login_signin.png" alt="fond" id="fond">
 
     <!-- division pour le fond du 1er plan -->
     <!-- division pour les éléments du 1er plan (logo et formulaire) -->
