@@ -134,27 +134,31 @@ class Entreprise extends Utilisateur {
                     :placebo_nom, :a_debute
                 );
             ";
-            $stmt = $bdd->prepare($sql);
-
-            // Binding des paramètres avec les valeurs par défaut ou personnalisées
-            $stmt->bindValue(':id_essai', $data['id_essai'], PDO::PARAM_INT);
-            $stmt->bindValue(':id_phase', $id_phase, PDO::PARAM_INT); // Phase personnalisée ou par défaut
-            $stmt->bindValue(':id_entreprise_ref', $this->iduser, PDO::PARAM_INT);
-            $stmt->bindValue(':date_debut', $data['date_debut'], PDO::PARAM_);
-            $stmt->bindValue(':date_fin', $data['date_fin'], PDO::PARAM_STR);
-            $stmt->bindValue(':description', $data['description'], PDO::PARAM_STR);
-            $stmt->bindValue(':molecule_test', $data['molecule_test'], PDO::PARAM_STR);
-            $stmt->bindValue(':dosage_test', $data['dosage_test'], PDO::PARAM_STR);
-            $stmt->bindValue(':molecule_ref', $data['molecule_ref'], PDO::PARAM_STR);
-            $stmt->bindValue(':dosage_ref', $data['dosage_ref'], PDO::PARAM_STR);
-            $stmt->bindValue(':placebo_nom', $data['placebo_nom'], PDO::PARAM_STR);
-            $stmt->bindValue(':a_debute', false, PDO::PARAM_BOOL); // a_debute par défaut à false
-
-            $stmt->execute();
+    
+            // Prépare les paramètres à passer
+            $params = [
+                ':id_essai' => $data['id_essai'],
+                ':id_phase' => $id_phase,
+                ':id_entreprise_ref' => $this->iduser,
+                ':date_debut' => $data['date_debut'],
+                ':date_fin' => $data['date_fin'],
+                ':description' => $data['description'],
+                ':molecule_test' => $data['molecule_test'],
+                ':dosage_test' => $data['dosage_test'],
+                ':molecule_ref' => $data['molecule_ref'],
+                ':dosage_ref' => $data['dosage_ref'],
+                ':placebo_nom' => $data['placebo_nom'],
+                ':a_debute' => false, // Valeur par défaut pour a_debute
+            ];
+    
+            // Utilise la méthode insertLines de la classe Query
+            $bdd->insertLines($sql, $params);
+    
         } catch (PDOException $e) {
             error_log("Erreur lors de la création d'un essai avec phase : " . $e->getMessage());
         }
     }
+    
     public function TerminerPhase($bdd, $id_essai) {
         try {
             // Récupérer la date et l'heure actuelles au format SQL

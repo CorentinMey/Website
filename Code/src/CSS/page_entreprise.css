@@ -128,7 +128,6 @@
     opacity: 1; /* Rend la boîte de texte visible */
 }
 
-
 #banderolle_img{
     width: 100%;
     height : 50em;
@@ -174,3 +173,154 @@
     padding: 10px; /* Ajoute de l'espace intérieur */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre légère pour effet de profondeur */
 }
+#banderolle {
+    background-color: lightblue;
+    height: 8%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#logo_container_hist {
+    position: relative;
+    display: inline-block;
+}
+
+#logo_historic {
+    width: 5em;
+    height: 4em;
+    margin-left: 2em;
+    cursor: pointer;
+    border: 0.3em solid black;
+    border-radius: 50%;
+}
+
+#logo_container {
+    position: relative;
+    display: inline-block;
+}
+
+#logo_account {
+    width: 4em;
+    height: 4em;
+    cursor: pointer;
+    margin-left: -7em;
+}
+
+/* Menu déroulant pour les boutons deconnexion et home */
+#dropdown_menu {
+    display: none; /* Masqué par défaut */
+    position: absolute;
+    top: 90%; /* Positionne le menu juste en dessous du logo */
+    left: 50%;
+    transform: translateX(-97%); /* Centré par rapport au logo */
+    background-color: black;
+    border-radius: 0.5em;
+    padding: 0.5 em 0;
+    z-index: 1;
+    width: 11em; /* Largeur fixe pour éviter que le menu dépasse */
+    overflow: hidden; /* Empêche le débordement du menu */
+}
+
+.dropdown_button {
+    background-color:black ;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1em;
+    text-align: center;
+    cursor: pointer;
+    width: 100%; /* Largeur du bouton qui prend toute la largeur du menu */
+    border-radius: 5px;
+    box-sizing: border-box; /* Prend toute la largeur du conteneur */
+}
+
+.dropdown_button:hover {
+    background-color: #f0f0f047; /* Couleur de survol */
+}
+
+/* Affiche le menu au survol du logo */
+#logo_container:hover #dropdown_menu {
+    display: block; /* Affiche le menu */
+}
+
+#tooltip_hist {
+    visibility: hidden;
+    width: 10em;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 0.5em;
+    padding: 0.5em 0;
+    position: absolute;
+    z-index: 1;
+    top: 110%;
+    left: 50%;
+    transform: translateX(-40%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+#tooltip_hist::after {
+    content: "";
+    position: absolute;
+    top: -0.5em;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0.5em;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+
+#logo_container_hist:hover #tooltip_hist {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Image de la banderolle */
+#banderolle_img {
+    width: 100%;
+    height: 50em;
+}
+
+
+/*******************************CSS Pour le forme de nouvel essai *****************************************************/
+
+.form-nouvelle-phase {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-nouvelle-phase label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-nouvelle-phase input, 
+.form-nouvelle-phase textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-nouvelle-phase button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-nouvelle-phase button:hover {
+    background-color: #45a049;
+}
+

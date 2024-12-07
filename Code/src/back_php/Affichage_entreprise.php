@@ -65,6 +65,57 @@ function afficherListeEssais($bdd, $siret) {
     echo '</div>';
 }
 
+function afficherFormulaireNouvellePhase() {
+    echo '<div class="content-wrapper">';
+    echo "<h2>Créer un nouvel essai clinique</h2>";
+    echo '<form method="POST" action="" class="form-nouvelle-phase">';
+    
+    // Champs du formulaire
+    echo '<label for="id_essai">ID Essai:</label>';
+    echo '<input type="number" id="id_essai" name="id_essai" required><br>';
+    
+    echo '<label for="date_debut">Date de début:</label>';
+    echo '<input type="date" id="date_debut" name="date_debut" required><br>';
+    
+    echo '<label for="date_fin">Date de fin:</label>';
+    echo '<input type="date" id="date_fin" name="date_fin"><br>';
+    
+    echo '<label for="description">Description:</label>';
+    echo '<textarea id="description" name="description" rows="4" required></textarea><br>';
+    
+    echo '<label for="molecule_test">Molécule testée:</label>';
+    echo '<input type="text" id="molecule_test" name="molecule_test" required><br>';
+    
+    echo '<label for="dosage_test">Dosage testé:</label>';
+    echo '<input type="text" id="dosage_test" name="dosage_test" required><br>';
+    
+    echo '<label for="molecule_ref">Molécule de référence:</label>';
+    echo '<input type="text" id="molecule_ref" name="molecule_ref"><br>';
+    
+    echo '<label for="dosage_ref">Dosage de référence:</label>';
+    echo '<input type="text" id="dosage_ref" name="dosage_ref"><br>';
+    
+    echo '<label for="placebo_nom">Nom du placebo:</label>';
+    echo '<input type="text" id="placebo_nom" name="placebo_nom"><br>';
+    
+    echo '<button type="submit" name="createPhase">Créer un essai</button>';
+    echo '</form>';
+    echo '</div>';
+}
+
+/**
+ * Redirige vers la page par défaut de l'entreprise.
+ */
+function revenirPageParDefaut() {
+    // Construit l'URL de base de la page actuelle sans les paramètres
+    $url = strtok($_SERVER["REQUEST_URI"], '?');
+    // Redirige vers l'URL
+    header("Location: $url");
+    exit; // Stoppe l'exécution du script pour éviter des comportements inattendus
+}
+
+
+
 ?>
 </body>
 </html>
