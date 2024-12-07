@@ -20,12 +20,13 @@
     
     <div id="bandeau_top">
         <form method="POST" action="accueil.php" id="bande_welcome">
-            <button type="submit" class="button" name="show_list_user" value="1" id="button1">SIGN IN</button>
-            <button type="submit" class="button" name="show_list_doc" value="1" id="button2">LOG IN </button>
+            <button type="submit" class="button" name="show_list_user" value="1" id="button">SIGN IN</button>
+            <button type="submit" class="button" name="show_list_doc" value="1" id="button">LOG IN </button>
         </form>
     </div>
 
     <div id="fond">
+        <img src = "../Ressources/Images/background_accueil.png" alt = "fond_accueil" id = "fond_image">
         <div id = "texte_fond">
             <h1 id="bienvenue">Welcome on <br>MedExplorer</h1>
             <h2 id="ready" >Ready to start your trial ?</h2>
