@@ -324,3 +324,160 @@
     background-color: #45a049;
 }
 
+/**************************** CSS pour les listes des essais *************************/
+
+/* Conteneur principal de la liste */
+.Tableau {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 800px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Titres des sections */
+.Tableau h3 {
+    font-size: 1.8em;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    color: #333;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+}
+
+/* Conteneur pour chaque essai */
+.box_list {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.box_list:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Informations de l'essai */
+.assay-info p {
+    margin: 5px 0;
+    font-size: 1.2em;
+    line-height: 1.5;
+    color:black;
+}
+
+/* Bouton ou texte d'action */
+.assay-actions {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.assay-actions h3 {
+    display: inline-block;
+    font-size: 1.1em;
+    color: #007BFF;
+    cursor: pointer;
+    margin: 0;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.assay-actions h3:hover {
+    color: #0056b3;
+}
+
+/* Style pour différencier les sections */
+.Tableau h3:first-of-type {
+    color: #4CAF50; /* Couleur verte pour "Essais démarrés" */
+}
+
+.Tableau h3:last-of-type {
+    color: #FF5733; /* Couleur orange pour "Essais non démarrés" */
+}
+
+/* Ajustement des marges entre les essais */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.buttonVoirdetail {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/**************************** CSS pour les détails de l'essai *************************/
+
+/* Conteneur principal pour les détails de l'essai */
+.details {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 800px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre des détails */
+.details h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+}
+
+/* Informations des détails (similaire à celles des essais) */
+.details p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Met en valeur les étiquettes */
+.details p strong {
+    color: #007BFF; /* Couleur bleue pour les labels */
+}
+
+/* Bouton pour retourner ou voir les autres essais (si nécessaire) */
+.details .buttonVoirdetail {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.details .buttonVoirdetail:hover {
+    background-color: #0056b3;
+}
+
+/* Conteneur pour les médecins référents, avec le même style que les autres informations */
+.details p.medecins-referents {
+    font-size: 1.2em;
+    line-height: 1.5;
+    margin-top: 15px;
+    color: black;
+}
+
+/* Si aucun médecin référent n'est trouvé */
+.details p.medecins-referents::before {
+    content: "Aucun médecin référent trouvé.";
+    color: #FF5733; /* Orange pour attirer l'attention */
+}

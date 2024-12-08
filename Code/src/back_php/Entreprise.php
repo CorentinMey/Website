@@ -96,23 +96,28 @@ class Entreprise extends Utilisateur {
      * @param PDO $bdd L'objet PDO pour la base de données.
      * @param int $id_essai L'ID de l'essai.
      */
-    public function DemandMedecin($id_medecin, $bdd, $id_essai) {
+    public function DemandMedecin($id_medecin, Query $bdd, $id_essai) {
         try {
+            // Requête SQL pour insérer un lien entre un essai et un médecin
             $sql = "INSERT INTO ESSAI_MEDECIN (ID_medecin, ID_essai, is_accepte, est_de_company) 
                     VALUES (:id_medecin, :id_essai, :is_accepte, :est_de_company)";
             
-            $stmt = $bdd->prepare($sql);
-            
-            $stmt->bindValue(':id_medecin', $id_medecin, PDO::PARAM_INT);
-            $stmt->bindValue(':id_essai', $id_essai, PDO::PARAM_INT);
-            $stmt->bindValue(':is_accepte', false, PDO::PARAM_BOOL);
-            $stmt->bindValue(':est_de_company', false, PDO::PARAM_BOOL);
-
-            $stmt->execute();
+            // Appel de la méthode `insertLines` pour exécuter l'insertion
+            $bdd->insertLines($sql, [
+                ':id_medecin' => $id_medecin,
+                ':id_essai' => $id_essai,
+                ':is_accepte' => false,  // valeur booléenne
+                ':est_de_company' => true // valeur booléenne
+            ]);
+    
+            echo "<p>Le médecin a été notifié de votre demande !</p>";
         } catch (PDOException $e) {
+            // Gestion des erreurs avec un message d'erreur dans les logs
             error_log("Erreur lors de l'insertion dans ESSAI_MEDECIN : " . $e->getMessage());
+            echo "<p>Une erreur est survenue lors de la demande. Veuillez réessayer plus tard.</p>";
         }
     }
+    
 
     /**
      * Ajoute un nouvel essai clinique avec une phase choisie ou par défaut.
@@ -121,70 +126,73 @@ class Entreprise extends Utilisateur {
      * @param array $data Les données de l'essai clinique.
      * @param int $id_phase L'ID de la phase. Défaut : 1.
      */
-    public function NewPhase($bdd, $data, $id_phase = 1) {
-        try {
-            $sql = "
-                INSERT INTO ESSAI (
-                    ID_essai, ID_phase, ID_entreprise_ref, date_debut, date_fin,
-                    description, molecule_test, dosage_test, molecule_ref, dosage_ref,
-                    placebo_nom, a_debute
-                ) VALUES (
-                    :id_essai, :id_phase, :id_entreprise_ref, :date_debut, :date_fin,
-                    :description, :molecule_test, :dosage_test, :molecule_ref, :dosage_ref,
-                    :placebo_nom, :a_debute
-                );
-            ";
-    
-            // Prépare les paramètres à passer
-            $params = [
-                ':id_essai' => $data['id_essai'],
-                ':id_phase' => $id_phase,
-                ':id_entreprise_ref' => $this->iduser,
-                ':date_debut' => $data['date_debut'],
-                ':date_fin' => $data['date_fin'],
-                ':description' => $data['description'],
-                ':molecule_test' => $data['molecule_test'],
-                ':dosage_test' => $data['dosage_test'],
-                ':molecule_ref' => $data['molecule_ref'],
-                ':dosage_ref' => $data['dosage_ref'],
-                ':placebo_nom' => $data['placebo_nom'],
-                ':a_debute' => false, // Valeur par défaut pour a_debute
-            ];
-    
-            // Utilise la méthode insertLines de la classe Query
-            $bdd->insertLines($sql, $params);
-    
-        } catch (PDOException $e) {
-            error_log("Erreur lors de la création d'un essai avec phase : " . $e->getMessage());
-        }
-    }
-    
-    public function TerminerPhase($bdd, $id_essai) {
-        try {
-            // Récupérer la date et l'heure actuelles au format SQL
-            $date_fin = date('Y-m-d H:i:s');
-            
-            // Préparer la requête de mise à jour
-            $sql = "
-                UPDATE ESSAI
-                SET date_fin = :date_fin
-                WHERE ID_essai = :id_essai
-            ";
-    
-            $stmt = $bdd->prepare($sql);
-            
-            // Lier les valeurs
-            $stmt->bindValue(':date_fin', $date_fin, PDO::PARAM_STR);
-            $stmt->bindValue(':id_essai', $id_essai, PDO::PARAM_INT);
-    
-            // Exécuter la requête
-            $stmt->execute();
-        } catch (PDOException $e) {
-            // Gestion des erreurs
-            error_log("Erreur lors de la mise à jour de la date de fin : " . $e->getMessage());
-        }
-    }
-    
-}
+public function NewPhase($bdd, $data, $id_phase = 1) {
+    try {
+        // Début d'une transaction pour garantir la cohérence des insertions
+        $bdd->beginTransaction();
 
+        // Requête pour insérer un nouvel essai clinique
+        $sqlEssai = "
+            INSERT INTO ESSAI (
+                ID_entreprise_ref, date_debut, date_fin,
+                description, molecule_test, dosage_test, molecule_ref, dosage_ref,
+                placebo_nom, a_debute, nombre_patient_ideal
+            ) VALUES (
+                :id_entreprise_ref, :date_debut, :date_fin,
+                :description, :molecule_test, :dosage_test, :molecule_ref, :dosage_ref,
+                :placebo_nom, :a_debute, :nombre_patient_ideal
+            );
+        ";
+
+        // Préparation des paramètres pour la table ESSAI
+        $paramsEssai = [
+            ':id_entreprise_ref' => $this->iduser,
+            ':date_debut' => $data['date_debut'],
+            ':date_fin' => $data['date_fin'],
+            ':description' => $data['description'],
+            ':molecule_test' => $data['molecule_test'],
+            ':dosage_test' => $data['dosage_test'],
+            ':molecule_ref' => $data['molecule_ref'],
+            ':dosage_ref' => $data['dosage_ref'],
+            ':placebo_nom' => $data['placebo_nom'],
+            ':a_debute' => false, // Par défaut, l'essai n'a pas commencé
+        ];
+
+        // Exécution de l'insertion pour ESSAI
+        $bdd->insertLines($sqlEssai, $paramsEssai);
+
+        // Récupération de l'ID du dernier essai inséré
+        $idEssai = $bdd->lastInsertId();
+
+        // Requête pour insérer une phase initiale
+        $sqlPhase = "
+            INSERT INTO PHASE (
+                ID_essai, ID_phase, date_debut, date_fin_prevue, nombre_patients
+            ) VALUES (
+                :id_essai, :id_phase, :date_debut, :date_fin_prevue, :nombre_patients
+            );
+        ";
+
+        // Préparation des paramètres pour la table PHASE
+        $paramsPhase = [
+            ':id_essai' => $idEssai,
+            ':id_phase' => $id_phase, // Phase par défaut (1)
+            ':date_debut' => $data['date_debut'],
+            ':date_fin_prevue' => $data['date_fin'],
+            ':nombre_patients' => 0, // Nombre de patients initialisé à 0
+        ];
+
+        // Exécution de l'insertion pour PHASE
+        $bdd->insertLines($sqlPhase, $paramsPhase);
+
+        // Validation de la transaction
+        $bdd->commit();
+
+    } catch (PDOException $e) {
+        // Annulation de la transaction en cas d'erreur
+        $bdd->rollBack();
+        error_log("Erreur lors de la création d'un essai avec phase : " . $e->getMessage());
+    }
+}
+}
 ?>

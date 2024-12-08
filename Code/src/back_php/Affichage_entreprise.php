@@ -30,37 +30,90 @@ function afficherListeEssais($bdd, $siret) {
             essai.date_debut, 
             essai.date_fin, 
             essai.molecule_test, 
-            essai.dosage_test
+            essai.dosage_test, 
+            essai.a_debute, 
+            essai.ID_phase,
+            essai.ID_essai
         FROM essai 
         INNER JOIN entreprise ON entreprise.siret = essai.ID_entreprise_ref 
         INNER JOIN utilisateur ON utilisateur.ID_User = entreprise.siret
         WHERE entreprise.siret = :siret";
 
-    $res =$bdd->getResultsAll($query, [":siret" => $siret]);
-    
+    $res = $bdd->getResultsAll($query, [":siret" => $siret]);
 
-    // Vérifie si des essais ont été trouvés
-    if (!empty($res)) {
-        echo "<ul>";
-        foreach ($res as $essai) {
-            echo '<div class="box_list">';
-            echo '    <div class="assay-info">';
-            echo '        <p><strong>Description :</strong> ' . htmlspecialchars($essai['description']) . '</p>';
-            echo '        <p><strong>Nom de l\'entreprise :</strong> ' . htmlspecialchars($essai['nom_entreprise']) . '</p>';
-            echo '        <p><strong>Date de début :</strong> ' . htmlspecialchars($essai['date_debut']) . '</p>';
-            echo '        <p><strong>Date de fin :</strong> ' . htmlspecialchars($essai['date_fin']) . '</p>';
-            echo '        <p><strong>Molécule testée :</strong> ' . htmlspecialchars($essai['molecule_test']) . '</p>';
-            echo '        <p><strong>Dosage testé :</strong> ' . htmlspecialchars($essai['dosage_test']) . '</p>';
-            echo '    </div>';
-            echo '    <div class="assay-actions">';
-            echo '        <h3>Voir les détails</h3>';
-            echo '    </div>';
-            echo '</div>';
+    // Diviser les essais en trois groupes : démarrés, non démarrés, terminés
+    $essaisDemarres = [];
+    $essaisNonDemarres = [];
+    $essaisTermines = [];
+    $today = date('Y-m-d'); // Date actuelle
+
+    foreach ($res as $essai) {
+        if ($essai['a_debute']) {
+            if ($essai['date_fin'] < $today) {
+                $essaisTermines[] = $essai; // Ajouter à la liste des essais terminés
+            } else {
+                $essaisDemarres[] = $essai; // Ajouter à la liste des essais démarrés
+            }
+        } else {
+            $essaisNonDemarres[] = $essai; // Ajouter à la liste des essais non démarrés
         }
-        echo "</ul>";
-    } else {
-        echo "<p>Aucun essai trouvé pour cette entreprise.</p>";
     }
+
+    // Fonction pour récupérer les médecins référents
+    function getMedecinsReferents($bdd, $idEssai) {
+        $queryMedecins = "SELECT utilisateur.nom, utilisateur.prenom 
+                          FROM essai_medecin 
+                          INNER JOIN utilisateur ON utilisateur.ID_User = essai_medecin.ID_medecin
+                          WHERE essai_medecin.ID_essai = :idEssai AND essai_medecin.is_accepte = 1";
+        return $bdd->getResultsAll($queryMedecins, [":idEssai" => $idEssai]);
+    }
+
+    // Fonction pour afficher les essais
+    function afficherEssais($titre, $essais, $bdd) {
+        echo "<h3>{$titre}</h3>";
+        if (!empty($essais)) {
+            foreach ($essais as $essai) {
+                $medecins = getMedecinsReferents($bdd, $essai['ID_essai']);
+                echo '<div class="box_list">';
+                echo '    <div class="assay-info">';
+                echo '        <p><strong>Description :</strong> ' . htmlspecialchars($essai['description']) . '</p>';
+                echo '        <p><strong>Phase :</strong> ' . htmlspecialchars($essai['ID_phase']) . '</p>';
+                echo '        <p><strong>Nom de l\'entreprise :</strong> ' . htmlspecialchars($essai['nom_entreprise']) . '</p>';
+                echo '        <p><strong>Date de début :</strong> ' . htmlspecialchars($essai['date_debut']) . '</p>';
+                echo '        <p><strong>Date de fin :</strong> ' . htmlspecialchars($essai['date_fin']) . '</p>';
+                echo '        <p><strong>Molécule testée :</strong> ' . htmlspecialchars($essai['molecule_test']) . '</p>';
+                echo '        <p><strong>Dosage testé :</strong> ' . htmlspecialchars($essai['dosage_test']) . '</p>';
+                echo '        <p><strong>Médecins référents :</strong> ';
+                if (!empty($medecins)) {
+                    foreach ($medecins as $medecin) {
+                        echo htmlspecialchars($medecin['prenom']) . ' ' . htmlspecialchars($medecin['nom']) . ', ';
+                    }
+                    echo '</p>';
+                } else {
+                    echo 'Aucun médecin référent</p>';
+                }
+                echo '    </div>';
+
+                // Formulaire pour "Voir les détails"
+                echo '    <div class="assay-actions">';
+                echo '        <form method="POST" action="">';
+                echo '            <input type="hidden" name="idEssai" value="' . $essai['ID_essai'] . '">';
+                echo '            <button type="submit" name="VoirDétail" class="buttonVoirdetail">Voir les détails</button>';
+                echo '        </form>';
+                echo '    </div>';
+                echo '</div>';
+            }
+        } else {
+            echo "<p>Aucun essai trouvé dans cette catégorie.</p>";
+        }
+    }
+
+    // Affichage des essais
+    afficherEssais('Essais démarrés', $essaisDemarres, $bdd);
+    afficherEssais('Essais non démarrés', $essaisNonDemarres, $bdd);
+    afficherEssais('Essais terminés', $essaisTermines, $bdd);
+
+    // Traitement des détails si un formulaire est soumis
 
     echo '</div>';
 }
@@ -71,13 +124,11 @@ function afficherFormulaireNouvellePhase() {
     echo '<form method="POST" action="" class="form-nouvelle-phase">';
     
     // Champs du formulaire
-    echo '<label for="id_essai">ID Essai:</label>';
-    echo '<input type="number" id="id_essai" name="id_essai" required><br>';
     
-    echo '<label for="date_debut">Date de début:</label>';
+    echo '<label for="date_debut">Date de début prévue:</label>';
     echo '<input type="date" id="date_debut" name="date_debut" required><br>';
     
-    echo '<label for="date_fin">Date de fin:</label>';
+    echo '<label for="date_fin">Date de fin prévue:</label>';
     echo '<input type="date" id="date_fin" name="date_fin"><br>';
     
     echo '<label for="description">Description:</label>';
@@ -97,6 +148,9 @@ function afficherFormulaireNouvellePhase() {
     
     echo '<label for="placebo_nom">Nom du placebo:</label>';
     echo '<input type="text" id="placebo_nom" name="placebo_nom"><br>';
+
+    echo '<label for="placebo_nom">Nombre patient ideal:</label>';
+    echo '<input type="text" id="placebo_nom" name="nombre_patient_ideal"><br>';
     
     echo '<button type="submit" name="createPhase">Créer un essai</button>';
     echo '</form>';
@@ -114,7 +168,144 @@ function revenirPageParDefaut() {
     exit; // Stoppe l'exécution du script pour éviter des comportements inattendus
 }
 
+function afficherDetailsEssai($bdd, $idEssai) {
+    // Requête pour récupérer les détails de l'essai spécifique
+    $query = "SELECT 
+                essai.ID_essai,
+                essai.description, 
+                essai.date_debut, 
+                essai.date_fin, 
+                essai.molecule_test, 
+                essai.dosage_test, 
+                essai.molecule_ref, 
+                essai.dosage_ref, 
+                essai.placebo_nom, 
+                essai.a_debute, 
+                essai.ID_phase,
+                utilisateur.prenom AS nom_entreprise
+              FROM essai
+              INNER JOIN entreprise ON entreprise.siret = essai.ID_entreprise_ref
+              INNER JOIN utilisateur ON utilisateur.ID_User = entreprise.siret
+              WHERE essai.ID_essai = :idEssai";
 
+    $essai = $bdd->getResults($query, [":idEssai" => $idEssai]);
+
+    if ($essai) {
+
+        // Affichage des détails
+        echo '<div class="details">';
+        echo '<h2>Détails de l\'essai</h2>';
+
+        // Autres détails de l'essai
+        echo '<p><strong>Description :</strong> ' . htmlspecialchars($essai['description']) . '</p>';
+        echo '<p><strong>Phase :</strong> ' . $essai['ID_phase'] . '</p>';
+        echo '<p><strong>Nom de l\'entreprise :</strong> ' . htmlspecialchars($essai['nom_entreprise']) . '</p>';
+        echo '<p><strong>Date de début :</strong> ' . htmlspecialchars($essai['date_debut']) . '</p>';
+        echo '<p><strong>Date de fin :</strong> ' . htmlspecialchars($essai['date_fin']) . '</p>';
+        echo '<p><strong>Molécule testée :</strong> ' . htmlspecialchars($essai['molecule_test']) . '</p>';
+        echo '<p><strong>Dosage testé :</strong> ' . htmlspecialchars($essai['dosage_test']) . '</p>';
+        echo '<p><strong>Molécule de référence :</strong> ' . htmlspecialchars($essai['molecule_ref']) . '</p>';
+        echo '<p><strong>Dosage de référence :</strong> ' . htmlspecialchars($essai['dosage_ref']) . '</p>';
+        echo '<p><strong>Nom du placebo :</strong> ' . htmlspecialchars($essai['placebo_nom']) . '</p>';
+        echo '<p><strong>Statut :</strong> ' . ($essai['a_debute'] ? 'En cours' : 'Non démarré') . '</p>';
+
+        // Récupération et affichage des médecins référents
+        $queryMedecins = "SELECT utilisateur.nom, utilisateur.prenom 
+                          FROM essai_medecin 
+                          INNER JOIN utilisateur ON utilisateur.ID_User = essai_medecin.ID_medecin
+                          WHERE essai_medecin.ID_essai = :idEssai AND essai_medecin.is_accepte = 1";
+
+        $medecins = $bdd->getResultsAll($queryMedecins, [":idEssai" => $idEssai]);
+
+        echo '<p><strong>Médecins référents :</strong> ';
+        if (!empty($medecins)) {
+            foreach ($medecins as $medecin) {
+                echo htmlspecialchars($medecin['prenom']) . ' ' . htmlspecialchars($medecin['nom']) . ', ';
+            }
+            echo '</p>';
+        } else {
+            echo 'Aucun médecin référent</p>';
+        }
+
+        // Ajout des boutons conditionnels
+        if (!$essai['a_debute']) {
+            if (!empty($medecins)) {
+                // Bouton pour démarrer l'essai
+                echo '    <div class="assay-actions">';
+                echo '        <form method="POST" action="">';
+                echo '            <input type="hidden" name="idEssai" value="' . $essai['ID_essai'] . '">';
+                echo '            <button type="submit" name="StartEssai" class="buttonVoirdetail">Démarer la phase</button>';
+                echo '        </form>';
+                echo '    </div>';
+            } else {
+                // Bouton pour demander un médecin
+                echo '    <div class="assay-actions">';
+                echo '        <form method="POST" action="">';
+                echo '            <input type="hidden" name="idEssai" value="' . $essai['ID_essai'] . '">';
+                echo '            <button type="submit" name="DemanderMedecin" class="buttonVoirdetail">Demander un medecin</button>';
+                echo '        </form>';
+                echo '    </div>';
+            }
+        }
+
+        echo '</div>';
+    } else {
+        echo '<p>Essai introuvable.</p>';
+    }
+}
+
+function afficherFormulaireChoixMedecin($bdd, $idEssai) {
+    // Requête pour récupérer les médecins avec leurs spécialités
+    $query = "SELECT 
+                MEDECIN.numero_ordre, 
+                MEDECIN.domaine, 
+                MEDECIN.hopital, 
+                UTILISATEUR.prenom, 
+                UTILISATEUR.nom 
+              FROM MEDECIN 
+              INNER JOIN UTILISATEUR ON MEDECIN.numero_ordre = UTILISATEUR.ID_User
+              WHERE UTILISATEUR.is_bannis = 0"; // Exclure les médecins bannis
+
+    // Appel de la méthode getResultsAll avec un tableau vide comme deuxième argument
+    $medecins = $bdd->getResultsAll($query, []);
+
+    // Vérifie s'il y a des médecins à afficher
+    if (!empty($medecins)) {
+        echo '<div class="form-container">';
+        echo '<h2>Choisir un médecin</h2>';
+        echo '<form method="POST" action="" class="form-nouvelle-phase">';
+
+        // Champ caché pour transmettre l'ID de l'essai
+        echo '<input type="hidden" name="idEssai" value="' . htmlspecialchars($idEssai) . '">';
+
+        // Liste déroulante pour choisir un médecin
+        echo '<label for="medecin">Médecin :</label>';
+        echo '<select id="medecin" name="numero_ordre" required>';
+
+        // Ajoute une option pour chaque médecin
+        foreach ($medecins as $medecin) {
+            $fullName = htmlspecialchars($medecin['prenom'] . ' ' . $medecin['nom']);
+            $domaine = htmlspecialchars($medecin['domaine']);
+            $hopital = htmlspecialchars($medecin['hopital']);
+            echo '<option value="' . htmlspecialchars($medecin['numero_ordre']) . '">';
+            echo $fullName . ' - ' . $domaine . ' (' . $hopital . ')';
+            echo '</option>';
+        }
+
+        echo '</select>';
+
+        // Bouton de soumission
+        echo '<div class="assay-actions">';
+        echo '<button type="submit" name="RequeteMedecin" class="RequeteMedecin">Assigner le médecin</button>';
+        echo '</div>';
+
+        echo '</form>';
+        echo '</div>';
+    } else {
+        // Message si aucun médecin n'est disponible
+        echo '<p>Aucun médecin disponible.</p>';
+    }
+}
 
 ?>
 </body>

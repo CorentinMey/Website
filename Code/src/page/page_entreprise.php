@@ -114,9 +114,19 @@ $bdd = new Query("siteweb");
 
             $entreprise->NewPhase($bdd, $data);
             echo "<p>Nouvel essai clinique créé avec succès !</p>";
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['VoirDétail'])) {
+            $idEssai = $_POST['idEssai'];
+            afficherDetailsEssai($bdd, $idEssai); // Affiche les détails de l'essai sélectionné
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['DemanderMedecin'])) {
+            $idEssai = $_POST['idEssai'];
+            afficherFormulaireChoixMedecin($bdd, $idEssai); // Affiche les détails de l'essai sélectionné
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['RequeteMedecin']))  {
+            $idEssai = $_POST['idEssai'];
+            $id_medecin = $_POST['numero_ordre'];
+            $entreprise->DemandMedecin($id_medecin, $bdd, $idEssai);
         }
         echo '</div>';
-    } else {
+    }   else {
     ?>
 
         <h2 class="title">Options</h2>
@@ -129,5 +139,6 @@ $bdd = new Query("siteweb");
     <?php
     }
     ?>
+
 
 </body>
