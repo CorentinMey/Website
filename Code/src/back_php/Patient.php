@@ -2,6 +2,7 @@
 include_once("Utilisateur.php");
 include_once("Securite.php");
 include_once("Affichage_patient.php");
+include_once("Affichage_gen.php");
 class Patient extends Utilisateur{
 
     public function __construct($mdp,
@@ -32,7 +33,7 @@ class Patient extends Utilisateur{
     public function Inscription($bdd, $dict_information)
     {
         parent::Inscription($bdd, $dict_information); // reprend la fonction jusqu'à la création de l'objet utilisateur spécifique
-            
+        
     }
     
     public function Connexion($email, $password, $bdd)

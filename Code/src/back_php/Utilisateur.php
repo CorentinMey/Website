@@ -167,15 +167,54 @@ class Utilisateur {
                 return;
             }
         }
+
+        // Vérifier si la clé "numero_ordre" existe dans les informations
+        if (isset($dict_information['numero_ordre'])) {
+            // Vérifier si le numéro d'ordre est déjà utilisé, sinon retourner une erreur
+            $new_num = $dict_information['numero_ordre'];
+            // Construire la requête pour chercher le numéro d'ordre dans la bdd
+            $query = 'SELECT ID_User FROM utilisateur WHERE ID_User = :num_ordre';
+        
+            try {
+                $query_res = $bdd->getResults($query, array("num_ordre" => $new_num)); // Récupérer le premier résultat et le numéro d'ordre est unique
+
+                        // Si le résultat n'est pas vide, le numéro d'ordre est déjà utilisé
+                if (!empty($query_res)) {
+                    $_SESSION["result"] = "Erreur lors de l'inscription. Ce numéro d'ordre est déjà utilisé";
+                    return;
+                }
+            } catch (PDOException $e) {
+                // Gérer une erreur éventuelle lors de la requête
+                $_SESSION["result"] = "Erreur lors de la vérification du numéro d'ordre : " . $e->getMessage();
+                return;
+            }
+        //Prendre en tant que ID user le numéro d'ordre lorsque l'utilisateur est un médecin
+            $dict_information["ID_User"] = $dict_information["numero_ordre"];
+        }
+
+        // Liste des clés à exclure
+        $exclude_keys = ["siret", "ville", "numero_ordre", "domaine", "hopital"];
+        
+        //Liste des clés spécifiques aux entreprises
+        //$comp_keys = ["siret", "ville"];
+
+        // Filtrer le tableau pour exclure les clés non souhaitées
+        $filtered_dict = array_filter(
+            $dict_information,
+            function ($key) use ($exclude_keys) {
+                return !in_array($key, $exclude_keys); // Exclut les clés présentes dans $exclude_keys
+            },
+            ARRAY_FILTER_USE_KEY
+        );
     
         // Extraire les colonnes et leurs valeurs
-        $columns = array_keys($dict_information); // Récupère les noms des colonnes
-        $values = array_values($dict_information); // Récupère les valeurs à insérer
+        $columns = array_keys($filtered_dict); // Récupère les noms des colonnes
+        $values = array_values($filtered_dict); // Récupère les valeurs à insérer
     
         // Générer la partie de la requête SQL
         $column_names = implode(", ", $columns); // Concatène les noms des colonnes avec des virgules
         $placeholders = implode(", ", array_fill(0, count($columns), "?")); // Génère un placeholder "?" pour chaque colonne
-    
+
         // Construire la requête d'insertion
         $query = "INSERT INTO utilisateur ($column_names) VALUES ($placeholders)";
     
@@ -194,6 +233,9 @@ class Utilisateur {
             $_SESSION["result"] = "Erreur lors de l'inscription : " . $e->getMessage();
             return;
         }
+        
+        ////Over-ride de cette fonction chez chaque utilisateur ensuite pour pouvoir les inscrire selon leur données respectives
+
     }
     
     
