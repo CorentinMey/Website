@@ -128,7 +128,7 @@ function AfficherEssaisPasDemarré($bdd, $user, $search_query = "") {
     $query_medecins = "SELECT nom
                         FROM utilisateur
                         JOIN essai_medecin ON essai_medecin.ID_medecin = utilisateur.ID_User
-                        WHERE ID_essai = :id AND (is_accepte = 1 OR est_de_company = 1);";
+                        WHERE ID_essai = :id AND is_accepte = 1;";
 
     $essais = $bdd->getResultsAll($query_essai, ["id_patient" => $user->getIduser()]); // On récupère les essais
 
@@ -140,7 +140,7 @@ function AfficherEssaisPasDemarré($bdd, $user, $search_query = "") {
                 echo "<h2 class = 'title'>New clinical trials</h2>";
             echo "</div>";
         AfficherBarreRecherche($search_query); // Affiche la barre de recherche
-        echo "<div id='new_essais'>"; // cadre bleu pour les essais
+        echo "<div id='new_essais'>"; // cadre pour les essais
         foreach ($essais as $essai) {
             $id_essai = $essai['ID_essai'];
             $medecins = $bdd->getResultsAll($query_medecins, array(":id" => $id_essai)); // On récupère les médecins

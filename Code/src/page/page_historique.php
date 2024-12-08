@@ -1,23 +1,25 @@
 <?php
 include_once("../back_php/Query.php");
-include_once("../back_php/Affichage_patient.php");
 include_once("../back_php/Patient.php");
+include_once("../back_php/Affichage_historique.php");
+include_once("../back_php/Affichage_gen.php");
 session_start();
 
 // TODO ajouter les autres utilisateurs
-if (!isset($_SESSION["patient"])) { // si quelqu'un essaie d'accéder à la page sans être connecté on le redirige vers la page de connexion
-    header("Location: page_login.php");
-    exit;
-}
+// if (!isset($_SESSION["patient"])) { // si quelqu'un essaie d'accéder à la page sans être connecté on le redirige vers la page de connexion
+//     header("Location: page_login.php");
+//     exit;
+// }
 
 $bdd = new Query("siteweb");
+$search_query = "";
 ?>
 
 
 <!DOCTYPE html>
 
 <head>
-    <title>Page du patient</title>
+    <title>Page de l'historique</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../CSS/page_historique.css">
     <link rel="stylesheet" type="text/css" href="../CSS/global.css">
@@ -57,5 +59,24 @@ $bdd = new Query("siteweb");
     </div>
 
     <img src = "../Ressources/Images/test_banderolle.webp" alt = "banderolle" id = "banderolle_img">
+
+
+    <div id = "essai_conteneur">
+        <div id='title_essai_part'>
+            <h2 class = 'title'>Clinical trials completed</h2>
+        </div>
+
+        <?= AfficherBarreRecherche($search_query);?>
+        <div id='new_essais'>
+            <?php
+                $essais = getEssaiTermine($bdd);
+                foreach($essais as $essai){
+                    AfficherEssaisFinis($bdd, $essai);
+                }
+
+            ?>
+            
+        </div>
+    </div>
 
 </body>
