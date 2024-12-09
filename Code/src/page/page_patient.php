@@ -11,6 +11,24 @@ if (!isset($_SESSION["patient"])) { // si quelqu'un essaie d'accéder à la page
 
 $patient = $_SESSION["patient"];
 $bdd = new Query("siteweb");
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['Action'])) {
+        switch ($_POST['Action']) {
+            case 'Disconnect':
+                // Déconnecte l'utilisateur
+                header("Location: page_deco.php");
+                exit;
+            case 'RevenirAccueil':
+                header("Location: page_patient.php");
+                break;
+            case 'Historic':
+                // Redirige vers la page de l'historique
+                header("Location: page_historique.php");
+                exit;
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -33,13 +51,15 @@ $bdd = new Query("siteweb");
     </div>
 
     <div id="banderolle">
-        
         <!-- div pour le log de l'historique et son bouton -->
         <div id = "logo_container_hist">
-            <a href = "page_deco.php">
-                <img id = "logo_historic" src = "../Ressources/Images/logo_historic.png" alt = "Historic button">
-                <div id = "tooltip_hist">Historic</div>
-            </a>
+            <img id = "logo_historic" src = "../Ressources/Images/logo_historic.png" alt = "Historic button">
+            <div id="dropdown_menu_hist">
+                <form method="post" action="">
+                    <!-- Bouton de déconnexion -->
+                    <button class="dropdown_button" name="Action" value="Historic">Historic</button>
+                </form>
+            </div>
         </div>
 
         <!-- titre de la banderolle -->
@@ -47,11 +67,15 @@ $bdd = new Query("siteweb");
 
         <!-- div pour le logo de deconnexion et son bouton -->
         <div id="logo_container">
-            <!-- mettre logo dans une balsie ref a pour rediriger -->
-            <a href="page_deco.php">
-                <img id="logo_account" src="../Ressources/Images/account.png" alt="Account Logo">
-                <div id="tooltip">Disconnect</div>
-            </a>
+            <img id="logo_account" src="../Ressources/Images/account.png" alt="Account Logo">
+            <div id="dropdown_menu">
+                <form method="post" action="">
+                    <!-- Bouton de déconnexion -->
+                    <button class="dropdown_button" name="Action" value="Disconnect">Disconnect</button>
+                    <!-- Bouton Home -->
+                    <button class="dropdown_button" name="Action" value="RevenirAccueil">Home</button>
+                </form>
+            </div>
         </div>
     </div>
 
