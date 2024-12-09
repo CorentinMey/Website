@@ -10,6 +10,12 @@ body {
     overflow-x: auto; /* Permet le défilement horizontal si nécessaire */
 }
 
+#not_found{
+    width : 80%;    
+    height: 2%;
+    margin-left : 10%;
+}
+
 /* ========================================================================================================= */
 /*CSS pour le logo et le titre en haut de la page*/
 #en-tete {
@@ -263,6 +269,7 @@ body {
     height : 65em;
     overflow-y: scroll;
     margin-left : 15%;  
+    margin-bottom : 5%;
 
 }
 

@@ -12,7 +12,10 @@ session_start();
 // }
 
 $bdd = new Query("siteweb");
-$search_query = "";
+$search_query = '';
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search_query"])) {
+    $search_query = $_POST["search_query"];
+}
 ?>
 
 
@@ -60,20 +63,27 @@ $search_query = "";
 
     <img src = "../Ressources/Images/test_banderolle.webp" alt = "banderolle" id = "banderolle_img">
 
-
+    <!-- Div pour les barre de rechecrhe et les essais cliniques -->
     <div id = "essai_conteneur">
         <div id='title_essai_part'>
             <h2 class = 'title'>Clinical trials completed</h2>
         </div>
 
         <?= AfficherBarreRecherche($search_query);?>
+        <!-- Affiche tous les essais cloiniques avec des phases terminées -->
         <div id='new_essais'>
             <?php
                 $essais = getEssaiTermine($bdd);
-                foreach($essais as $essai){
-                    AfficherEssaisFinis($bdd, $essai);
+                $filtred_trail = 0;
+                if (!empty($search_query)) { // Si une recherche a été effectuée
+                    foreach($essais as $essai){
+                        $filtred_trail = AfficherEssaisFinisRecherche($bdd, $essai, $_POST["search_query"], $filtred_trail); // Affiche les essais qui correspondent à la recherche
+                    } $filtred_trail === count($essais) ? AfficherErreur("No clinical trials found", "not_found") : null;
+                } else {
+                    foreach($essais as $essai){
+                        AfficherEssaisFinis($bdd, $essai);
+                    }
                 }
-
             ?>
             
         </div>

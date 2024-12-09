@@ -37,7 +37,7 @@ function AfficherEssaisFinis($bdd, $param) {
 
     $essai = $bdd->getResults($query_essai, ["id_essai" => $param["ID_essai"]]); // On récupère l"essai en question
     if (empty($essai)){
-        AfficherErreur("No data for this trial.");
+        AfficherErreur("No data for this trial ".htmlspecialchars($param["ID_essai"]).".");
     } else {
         $essai = $essai + $param; // On ajoute les paramètres de l'essai
         $medecins = $bdd->getResultsAll($query_medecins, array(":id" => $param["ID_essai"])); // On récupère les médecins
@@ -66,6 +66,45 @@ function Affichage_content_essais_finis($essai, $medecins, $id_phase) {
     echo "</div>";
 }
 
+/**
+ * Fonction pour afficher les essais cliniques qui ne sont pas encore démarrés (1 essai = 1 ligne) en fonction de la recherche
+ * @param Query $bdd : objet de connexion à la base de données
+ * @param array $param : dictionnaire contenant les paramètres de l'essai concerné par l'historique [id_essai, id_phase]
+ * @param string $search_query : chaîne de caractères à rechercher
+ */
+function AfficherEssaisFinisRecherche($bdd, $param, $search_query, $cpt) {
+    // Requête pour rechercher dans le titre, la phase, la description ou les médecins associés
+    $query = "SELECT DISTINCT u.nom, e.description, e.titre
+                FROM essai e
+                JOIN utilisateur u ON e.ID_entreprise_ref = u.ID_User
+                LEFT JOIN essai_medecin em ON e.ID_essai = em.ID_essai
+                LEFT JOIN utilisateur m ON em.ID_medecin = m.ID_User
+                WHERE 
+                    (u.nom LIKE :search OR
+                    e.titre LIKE :search OR
+                    e.description LIKE :search OR
+                    e.ID_phase LIKE :search OR
+                    m.nom LIKE :search) AND
+                    e.ID_essai = :id_essai;";
+    $params = [
+        ':search' => '%' . $search_query . '%',
+        ':id_essai' => $param["ID_essai"]
+    ];
+
+    $essais = $bdd->getResults($query, $params);
+    if (empty($essais)) {
+        return $cpt+1;
+    } else {
+        $essai = $essais + $param;
+        // Récupérer les médecins référents pour chaque essai
+        $query_medecins = "SELECT nom FROM utilisateur 
+                            JOIN essai_medecin ON essai_medecin.ID_medecin = utilisateur.ID_User 
+                            WHERE ID_essai = :id AND is_accepte = 1;";
+        $medecins = $bdd->getResultsAll($query_medecins, array(":id" => $essai["ID_essai"]));
+        Affichage_content_essais_finis($essai, $medecins, $essai["ID_essai"]);
+        return $cpt;
+    }
+}
 
 
 
