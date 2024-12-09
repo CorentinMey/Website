@@ -86,71 +86,60 @@ body {
     margin-left: -7em; /* Décale le logo vers la gauche */
 }
 
-#tooltip {
-    visibility: hidden; /* Cache la boîte de texte par défaut */
-    width: 10em; /* Utilisation d'une mesure relative */
+/* Menu déroulant pour les boutons deconnexion et home */
+#dropdown_menu {
+    display: none; /* Masqué par défaut */
+    position: absolute;
+    top: 90%; /* Positionne le menu juste en dessous du logo */
+    left: 50%;
+    transform: translateX(-97%); /* Centré par rapport au logo */
     background-color: black;
-    color: #fff;
-    text-align: center;
     border-radius: 0.5em;
-    padding: 0.5em 0;
-    position: absolute;
+    padding: 0.5 em 0;
     z-index: 1;
-    top: 110%; /* Positionne la boîte de texte en dessous du logo */
-    left: 50%;
-    transform: translateX(-100%);
-    opacity: 0; /* Cache la boîte de texte par défaut */
-    transition: opacity 0.3s; /* Transition pour l'effet de fondu */
+    width: 11em; /* Largeur fixe pour éviter que le menu dépasse */
+    overflow: hidden; /* Empêche le débordement du menu */
 }
 
-#tooltip::after {
-    content: "";
+#dropdown_menu_hist {
+    display: none; /* Masqué par défaut */
     position: absolute;
-    top: -0.5em; /* En haut de la boîte de texte */
+    top: 90%; /* Positionne le menu juste en dessous du logo */
     left: 50%;
-    transform: translateX(-50%);
-    border-width: 0.5em;
-    border-style: solid;
-    border-color: black transparent transparent transparent; /* Triangle pointant vers le logo */
-}
-
-#logo_container:hover #tooltip {
-    visibility: visible; /* Affiche la boîte de texte au survol */
-    opacity: 1; /* Rend la boîte de texte visible */
-}
-
-#tooltip_hist {
-    visibility: hidden; /* Cache la boîte de texte par défaut */
-    width: 10em; /* Utilisation d'une mesure relative */
+    transform: translateX(-40%); /* Centré par rapport au logo */
     background-color: black;
-    color: #fff;
-    text-align: center;
     border-radius: 0.5em;
-    padding: 0.5em 0;
-    position: absolute;
+    padding: 0.5 em 0;
     z-index: 1;
-    top: 110%; /* Positionne la boîte de texte en dessous du logo */
-    left: 50%;
-    transform: translateX(-40%);
-    opacity: 0; /* Cache la boîte de texte par défaut */
-    transition: opacity 0.3s; /* Transition pour l'effet de fondu */
+    width: 11em; /* Largeur fixe pour éviter que le menu dépasse */
+    overflow: hidden; /* Empêche le débordement du menu */
 }
 
-#tooltip_hist::after {
-    content: "";
-    position: absolute;
-    top: -0.5em; /* En haut de la boîte de texte */
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 0.5em;
-    border-style: solid;
-    border-color: black transparent transparent transparent; /* Triangle pointant vers le logo */
+.dropdown_button {
+    background-color:black ;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1em;
+    text-align: center;
+    cursor: pointer;
+    width: 100%; /* Largeur du bouton qui prend toute la largeur du menu */
+    border-radius: 5px;
+    box-sizing: border-box; /* Prend toute la largeur du conteneur */
 }
 
-#logo_container_hist:hover #tooltip_hist {
-    visibility: visible; /* Affiche la boîte de texte au survol */
-    opacity: 1; /* Rend la boîte de texte visible */
+.dropdown_button:hover {
+    background-color: #f0f0f047; /* Couleur de survol */
 }
+
+/* Affiche le menu au survol du logo */
+#logo_container:hover #dropdown_menu {
+    display: block; /* Affiche le menu */
+}
+
+#logo_container_hist:hover #dropdown_menu_hist {
+    display: block; /* Affiche le menu */
+}
+
 
 /* ========================================================================================================= */
 /*CSS pour l'image de banderolle*/
