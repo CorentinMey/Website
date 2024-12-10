@@ -29,12 +29,50 @@ class Patient extends Utilisateur{
                             $origins);
     }
 
-    public function Inscription($bdd, $dict_information)
-    {
-        parent::Inscription($bdd, $dict_information); // reprend la fonction jusqu'à la création de l'objet utilisateur spécifique
-            
+    public function Inscription($bdd, $dict_information) {
+        // Appeler la méthode Inscription de la classe Utilisateur
+        parent::Inscription($bdd, $dict_information);
+
+        // Vérifier si l'inscription de l'utilisateur a réussi
+        if ($_SESSION["result"] === 1) {
+            // Insérer les informations spécifiques au patient
+            $this->insererPatient($bdd, $dict_information);
+        }
     }
-    
+
+    private function insererPatient($bdd) {
+        $id_patient = $this->getLastIdPatient();
+        echo "test";
+        $query = "UPDATE utilisateur SET ID_User = :id_patient WHERE mail = :mail_user;";
+        $params = [":id_patient" => $id_patient, ":mail_user" => $this->getEmail()];
+        $bdd->updateLines($query, $params);
+    }
+
+
+    public function getLastIdPatient() {
+        $filename = __DIR__."/id_patient_count.txt";
+        $id_patient = 0;
+        // Lire le nombre à partir du fichier
+        if (file_exists($filename)) {
+            $fh = fopen($filename, "r");
+            if ($fh) {
+                $id_patient = (int)fread($fh, filesize($filename));
+                fclose($fh);
+            }
+        } else {
+            AfficherErreur("Error while attributing an ID to the patient");
+            exit();
+        }        
+        // Incrémenter le nombre
+        $id_patient += 1;
+        $fh = fopen($filename, "w");
+        if ($fh) {
+            fwrite($fh, $id_patient);
+            fclose($fh);
+        }
+        return $id_patient;
+    }
+
     /**
      * Méthode pour se connecter à un compte patient depuis la page de connexion
      * @param $email : email du patient
@@ -57,8 +95,10 @@ class Patient extends Utilisateur{
             $this->gender = $res["genre"];
             $this->antecedent = $res["antecedents"];
             $this->origins = $res["origine"];
-        }    
-        $bdd->closeBD();
+        }  else {
+            AfficherErreur("Error while collecting user's info.");
+            exit();
+        }
     }
 
     public function Deconnect()
@@ -242,7 +282,7 @@ class Patient extends Utilisateur{
 
 
     /**
-     * Méthode poir afficher les notifications du patient en fonction de leurs types
+     * Méthode pour afficher les notifications du patient en fonction de leurs types
      * @param $bdd : base de données
      */
     public function AfficheNotif($bdd){
@@ -320,17 +360,41 @@ class Patient extends Utilisateur{
     }
 
     /**
+     * Fonction pour attribuer aléatoirement un traitement au patient qui s'est inscrit à un essai
+     * @param $test : nom de la molécule testée
+     * @param $test_dose : dose de la molécule testée
+     * @param $ref : nom de la molécule de référence
+     * @param $ref_dose : dose de la molécule de référence
+     * @param $placebo : nom du placebo
+     * @return array : tableau contenant le traitement et la dose attribuée
+     */
+    private function AttributeTreatment($test, $ref, $test_dose, $ref_dose, $placebo){
+        $rand = rand(0, 2);
+        if ($rand == 0)
+            return [$test, $test_dose];
+        else if ($rand == 1)
+            return [$ref, $ref_dose];
+        else
+            return [$placebo, 0.0];
+    }
+
+    /**
      * Méthode pour rejoindre un essai clinique pour un patient
      * @param $bdd : base de données
      * @param $id_essai : id de l'essai
      */
     public function Rejoindre($bdd, $id_essai){
-        $query_phase = "SELECT ID_phase FROM essai WHERE ID_essai = :id_essai;";
-        $query = "INSERT INTO resultat (ID_patient, ID_essai, is_accepte, is_patient_exclus, phase_res) 
-                  VALUES (:id, :id_essai, 0, 0, :phase_res);";
+        $query_phase = "SELECT ID_phase, molecule_test, molecule_ref, dosage_test, dosage_ref, placebo_nom FROM essai WHERE ID_essai = :id_essai;";
+        $query = "INSERT INTO resultat (ID_patient, ID_essai, is_accepte, is_patient_exclus, phase_res, traitement, dose) 
+                  VALUES (:id, :id_essai, 0, 0, :phase_res, :traitement, :dose);";
 
         $res = $bdd->getResults($query_phase, ["id_essai" => $id_essai]);
-        $bdd->insertLine($query, ["id" => $this->getIduser(), "id_essai" => $id_essai, "phase_res" => $res["ID_phase"]]);
+        $attribution = $this->AttributeTreatment($res["molecule_test"], $res["molecule_ref"], $res["dosage_test"], $res["dosage_ref"], $res["placebo_nom"]);
+        $bdd->insertLine($query, ["id" => $this->getIduser(),
+                                "id_essai" => $id_essai, 
+                                "phase_res" => $res["ID_phase"],
+                                "traitement" => $attribution[0],
+                                "dose" => $attribution[1]]);
         AfficherInfo("You have successfully joined the trial. Please now wait for the doctor confirmation.", $id_essai, "cross_inscription"); // affiche une notification pour confirmer l'inscription
     }
 }

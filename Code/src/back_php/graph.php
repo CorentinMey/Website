@@ -1,24 +1,38 @@
 <?php
 include_once('jpgraph/jpgraph.php');
 include_once('jpgraph/jpgraph_bar.php');
+include_once("jpgraph/jpgraph_stock.php");
 include_once("Affichage_gen.php");
+
+
+/**
+ * FOnction pour générer un graphique depuis Jpgraphe
+ * @param Graph $graph Graphique à afficher
+ */
+function GenerateGraph($graph){
+    ob_start();
+    $graph->Stroke(_IMG_HANDLER);
+    $gdImg = $graph->Stroke(_IMG_HANDLER);
+    imagepng($gdImg);
+    $imageData = ob_get_clean();
+    echo "<img src='data:image/png;base64," . base64_encode($imageData) . "'alt = 'Graphique'>";
+}
 
 /**
  * Affiche un graphique en barres groupées
- * @param array $data Données à afficher
- * @param array $categories Catégories de données
+ * @param array $data Données à afficher (dictionnaire avec en clé les traitement et leurs différentes valeurs)
+ * @param array $categories Catégories de données (statut d'évolution de la maladie Pire, Stable, Amélioré)
  * @param string $title Titre du graphique
  * @param string $xlabel Libellé de l'axe X
  * @param string $ylabel Libellé de l'axe Y
  */
 function barplot($data, $categories, $title = "Bar Plot Groupé", $xlabel = "Catégories", $ylabel = "Nombre de personnes") {
+    if (empty($data)) {
+        AfficherErreur("No data for the trial selected");
+        return;
+    }
     // Nombre de groupes
     $groupNames = array_keys($data);
-    // $groupCount = count($groupNames);
-
-    // // Nombre de catégories
-    // $categoryCount = count($categories);
-
     // Création du graphique
     $graph = new Graph(800, 600, 'auto');    
     $graph->SetScale("textlin");
@@ -57,8 +71,7 @@ function barplot($data, $categories, $title = "Bar Plot Groupé", $xlabel = "Cat
     $graph->legend->SetPos(0.05, 0.5, 'right', 'center'); // Positionnement à droite
     $graph->legend->SetColumns(1); // Disposer les légendes en une seule colonne
 
-    // Afficher le graphique
-    $graph->Stroke();
+    GenerateGraph($graph);
 }
 
 /**
@@ -94,6 +107,10 @@ function GroupData($ages, $interval = 5) {
  * @param int $bin Taille des tranches d'âge
  */
 function Histogramme($data, $title = "Age histogram", $xlabel = "Age slices", $ylabel = "Number of people", $color = "skyblue", $bin = 10) {
+    if (empty($data)) {
+        AfficherErreur("No data for the trial selected");
+        return;
+    }
     // Créer le graphique
     $graph = new Graph(800, 500);
     $graph->SetScale('textint');
@@ -132,7 +149,8 @@ function Histogramme($data, $title = "Age histogram", $xlabel = "Age slices", $y
     // Ajouter le plot au graphique
     $graph->Add($bplot);
     // Afficher le graphique
-    $graph->Stroke();
+    GenerateGraph($graph);
+
 }
 
 /**
@@ -149,6 +167,9 @@ function getDataHistogram($bdd, $id_essai, $nb_phase){
 
     $param = ["id_essai" => $id_essai, "nb_phase" => $nb_phase];
     $data = $bdd->getResultsAll($query, $param);
+    if (empty($data)) {
+        return [];
+    }
     foreach ($data as $row) {
         $date_naissance = date_create($row['date_naissance']);
         $age = date_diff($date_naissance, date_create('today'))->y;
@@ -245,8 +266,136 @@ function processBarPlotData($results){
 function getDataBarPlot($bdd, $id_essai, $nb_phase){
     $results = executeBarPlotQuery($bdd, $id_essai, $nb_phase);
     $processedData = processBarPlotData($results);
-
     return $processedData;
 }
 
+/**
+ * Fonction qui récupère les ages des patients en fonction de l'essai et de la phase pour en fair eun boxplot
+ * @param Query $bdd Instance de la classe Query pour interagir avec la base de données 
+ * @param int $id_essai Identifiant de l'essai clinique
+ * @param int $nb_phase Numéro de la phase de l'essai clinique
+ * @return array Tableau associatif avec les traitements et les ages des patients [traitement => [age1, age2, ...]]
+ */
+function getDataBoxPlotTraitement($bdd, $id_essai, $nb_phase){
+    $query = "SELECT traitement, FLOOR(DATEDIFF(CURDATE(), utilisateur.date_naissance) / 365.25) AS age
+                    FROM resultat JOIN utilisateur ON utilisateur.ID_User = resultat.ID_patient
+                        WHERE ID_essai = :id_essai AND phase_res = :nb_phase;";
+    $dict = [];
+    $param = ["id_essai" => $id_essai, "nb_phase" => $nb_phase];
+    $rows = $bdd->getResultsAll($query, $param);
+    foreach ($rows as $row) {
+        $traitement = $row['traitement'];
+        $age = $row['age'];
+        if (!isset($dict[$traitement])) // si le traitement n'existe pas dans le dictionnaire
+            $dict[$traitement] = [];
+        $dict[$traitement][] = $age; // ajouter l'âge au traitement
+    }
+
+    return $dict;
+}
+
+function getDataBoxPlotSideEffect($bdd, $id_essai, $nb_phase){
+    $query = "SELECT effet_secondaire, FLOOR(DATEDIFF(CURDATE(), utilisateur.date_naissance) / 365.25) AS age
+                    FROM resultat JOIN utilisateur ON utilisateur.ID_User = resultat.ID_patient
+                        WHERE ID_essai = :id_essai AND phase_res = :nb_phase;";
+    $dict = [];
+    $param = ["id_essai" => $id_essai, "nb_phase" => $nb_phase];
+    $rows = $bdd->getResultsAll($query, $param);
+    foreach ($rows as $row) {
+        $traitement = $row['evolution_symptome'];
+        $age = $row['age'];
+        if (!isset($dict[$traitement])) // si le traitement n'existe pas dans le dictionnaire
+            $dict[$traitement] = [];
+        $dict[$traitement][] = $age; // ajouter l'âge au traitement
+    }
+    return $dict;
+}
+
+/**
+ * Fonction pour calculer la médiane d'une liste de valeurs
+ * @param array $arr Liste de valeurs
+ * @return float Médiane
+ */
+function median($arr) {
+    sort($arr); // Trie les valeurs
+    $count = count($arr); // Nombre total de valeurs
+    $middle = floor(($count - 1) / 2); // Position médiane
+
+    if ($count % 2 == 0) // Si le nombre de valeurs est pair
+        return ($arr[$middle] + $arr[$middle + 1]) / 2.0;
+    else  // Si le nombre de valeurs est impair
+        return $arr[$middle];
+}
+
+/**
+ * Fonction pour calculer le quantile d'une liste de valeurs
+ * @param array $arr Liste de valeurs
+ * @param float $q Quantile (0 <= q <= 1)
+ * @return float Valeur du quantile
+ */
+function quantile($arr, $q) {
+    sort($arr);
+    $pos = ($q * (count($arr) - 1)); // 
+    $base = floor($pos);
+    $rest = $pos - $base;
+
+    if (isset($arr[$base + 1])) // si la valeur existe on renvoie la valeur du quantile
+        return $arr[$base] + $rest * ($arr[$base + 1] - $arr[$base]);
+    else  // si la valeur n'existe pas on renvoie la valeur du quantile
+        return $arr[$base];
+}
+
+/**
+ * Fonction qi récupère le dictionnaire de la fonction getDataBoxPlot et le transforme pour le boxplot
+ * Elle doit renvoyer une liste de 5*n données tel que:
+ * [1er quertile, 3e quartile, min, max, médiane] * n
+ * @param array $data Dictionnaire des données [traitement => [age1, age2, ...]]
+ * @return array Données pour le boxplot
+ */
+function TransformDataBoxPlot($data){
+    $result = [];
+    foreach ($data as $traitement => $ages) {
+        $result[] = quantile($ages, 0.25);
+        $result[] = quantile($ages, 0.75);
+        $result[] = min($ages);
+        $result[] = max($ages);
+        $result[] = median($ages);
+    }
+    // ajout de données fictives pour les extrémités pour contrer le bug de la bibliothèque
+    for ($i = 0; $i < 5; $i++) {
+        array_unshift($result, 0);
+        array_push($result, 0);
+    }
+    return $result;
+
+}
+
+
+function boxplot($data, $categories = null, $title = "Box Plot", $ylabel = "Age", $color = "skyblue") {
+    if (count($categories) == 2) { // si on a que les 2 données fantomes
+        AfficherErreur("No data for the trial selected");
+        return;
+    }
+
+    // Création du graphique
+        $graph = new Graph(800, 600, 'auto');    
+        $graph->SetScale("textlin");
+        $graph->SetShadow();
+        $graph->img->SetMargin(80, 80, 50, 50);
+        $graph->xaxis->SetTickLabels($categories);
+        // $graph->xaxis->SetLabelAngle(45);
+        $graph->yaxis->SetTitle($ylabel, 'middle');
+        $graph->yaxis->title->SetFont(FF_FONT1, FS_NORMAL);
+        $graph->title->Set($title);
+        $graph->title->SetFont(FF_FONT1, FS_BOLD);
+        // Création du BoxPlot
+        $p1 = new BoxPlot($data);
+        $p1->SetWidth(50);
+        $p1->SetColor($color);
+        // Ajout du plot au graphique
+        $graph->Add($p1);
+        // Affichage du graphique
+        GenerateGraph($graph);
+}
 ?>
+

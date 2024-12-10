@@ -119,83 +119,92 @@ class Utilisateur {
     }
 
     # Méthodes de classe
-
     public function Inscription($bdd, $dict_information) {
-        // Ajouter les clés is_bannis et is_admin avec valeur 0 au dictionnaire
+        // Ajouter les valeurs par défaut
+        $this->ajouterValeursParDefaut($dict_information);
+
+        // Hasher le mot de passe
+        $this->hasherPassword($dict_information);
+
+        // Vérifier l'âge
+        if (!$this->verifierAge($dict_information)) {
+            return;
+        }
+
+        // Vérifier l'unicité de l'email
+        if (isset($dict_information['mail']) && !$this->verifierEmailUnique($bdd, $dict_information['mail'])) {
+            return;
+        }
+
+        // Insérer l'utilisateur dans la base de données
+        $this->insererUtilisateur($bdd, $dict_information);
+    }
+
+    /**
+     * Ajoute les valeurs par défaut pour l'admin et le statut de ban
+     * L'utilisateur n'est pas admin et n'est pas banni par défaut
+     */
+    protected function ajouterValeursParDefaut(&$dict_information) {
         $dict_information['is_bannis'] = 0;
         $dict_information['is_admin'] = 0;
-    
-        // Vérifier si la clé "mdp" existe dans les informations
+    }
+
+    protected function hasherPassword(&$dict_information) {
         if (isset($dict_information['mdp'])) {
-            // Hacher le mot de passe avant l'insertion
             $dict_information['mdp'] = password_hash($dict_information['mdp'], PASSWORD_BCRYPT);
         }
+    }
 
-        // Vérifier si la clé "date_naissance" existe dans les informations
+    protected function verifierAge(&$dict_information) {
         if (isset($dict_information['date_naissance'])) {
-            // Convertir la date de naissance en objet DateTime
             $date_naissance = new DateTime($dict_information['date_naissance']);
             $date_actuelle = new DateTime();
-            
-            // Calculer la différence en années
             $age = $date_actuelle->diff($date_naissance)->y;
-        
+
             if ($age < 18) {
                 $_SESSION["result"] = "Erreur lors de l'inscription. L'âge minimum requis est de 18 ans";
-                return;
+                return false;
             }
         }
+        return true;
+    }
 
-        // Vérifier si la clé "mail" existe dans les informations
-        if (isset($dict_information['mail'])) {
-            // Vérifier si le mail est déjà utilisé, sinon retourner une erreur
-            $new_mail = $dict_information['mail'];
-            // Construire la requête pour chercher le mail dans la bdd
+    protected function verifierEmailUnique($bdd, $email) {
+        if (isset($email)) {
             $query = 'SELECT mail FROM utilisateur WHERE mail = :email';
-        
             try {
-                $query_res = $bdd->getResults($query, array("email" => $new_mail)); // Récupérer le premier résultat et l'email est unique
-                
-                        // Si le résultat n'est pas vide, le mail est déjà utilisé
+                $query_res = $bdd->getResults($query, array("email" => $email));
                 if (!empty($query_res)) {
                     $_SESSION["result"] = "Erreur lors de l'inscription. Cette adresse mail est déjà utilisée";
-                    return;
+                    return false;
                 }
             } catch (PDOException $e) {
-                // Gérer une erreur éventuelle lors de la requête
                 $_SESSION["result"] = "Erreur lors de la vérification de l'adresse mail : " . $e->getMessage();
-                return;
+                return false;
             }
         }
-    
-        // Extraire les colonnes et leurs valeurs
-        $columns = array_keys($dict_information); // Récupère les noms des colonnes
-        $values = array_values($dict_information); // Récupère les valeurs à insérer
-    
-        // Générer la partie de la requête SQL
-        $column_names = implode(", ", $columns); // Concatène les noms des colonnes avec des virgules
-        $placeholders = implode(", ", array_fill(0, count($columns), "?")); // Génère un placeholder "?" pour chaque colonne
-    
-        // Construire la requête d'insertion
-        $query = "INSERT INTO utilisateur ($column_names) VALUES ($placeholders)";
-    
-        try {
-            // Préparer la requête
-            $res = $bdd->getConnection()->prepare($query);
-    
-            // Exécuter la requête avec les valeurs
-            $res->execute($values);
-            
-            // Retourner le résultat ou true pour indiquer que tout s'est bien passé
-            $_SESSION["result"] = 1;
-            return;
-        } catch (PDOException $e) {
-            // Gérer les erreurs
-            $_SESSION["result"] = "Erreur lors de l'inscription : " . $e->getMessage();
-            return;
-        }
+        return true;
     }
-    
+
+    protected function insererUtilisateur($bdd, $dict_information) {
+        $columns = array_keys($dict_information);
+        $values = array_values($dict_information);
+
+        $column_names = implode(", ", $columns);
+        $placeholders = implode(", ", array_fill(0, count($columns), "?"));
+
+        $query = "INSERT INTO utilisateur ($column_names) VALUES ($placeholders)";
+
+        try {
+            $res = $bdd->getConnection()->prepare($query);
+            $res->execute($values);
+            $_SESSION["result"] = 1;
+            return true;
+        } catch (PDOException $e) {
+            $_SESSION["result"] = "Erreur lors de l'inscription : " . $e->getMessage();
+            return false;
+        }
+    }   
     
 
     public function Connexion($email, $password, $bdd) {
@@ -206,13 +215,11 @@ class Utilisateur {
             $query_res = $bdd->getResults($query, array("email" => $email)); // Récupérer le premier résultat et l'email est unique
             
             if (empty($query_res)) { // Si aucun utilisateur n'est trouvé
-                include_once("../back_php/Affichage_gen.php");
-                afficherErreur("Identifiants incorrects.");
+                afficherErreur("Unknown identifiers.");
                 exit();
                 return false;
             } elseif (!password_verify($password, $query_res["mdp"])) { // Si le mot de passe ne correspond pas
-                include_once("../back_php/Affichage_gen.php");
-                afficherErreur("Mot de passe incorrect pour l'email $email");
+                afficherErreur("Incorect password for".htmlspecialchars($email));
                 exit();
                 return false;
             } else { // définir les attributs de l'objet pour les classes filles
@@ -225,7 +232,7 @@ class Utilisateur {
 
         } catch (PDOException $e) {
             // Gérer les erreurs
-            echo "Erreur lors de la connexion : " . $e->getMessage();
+            AfficherErreur("Erreur lors de la connexion : " . $e->getMessage());
             return false;
         }
     }
@@ -234,7 +241,6 @@ class Utilisateur {
     public function Deconnect(){
         //Fonction pour se déconnecter du site
         session_destroy ();
-        //header("Location: page_deco.php");
     }
 
 }   

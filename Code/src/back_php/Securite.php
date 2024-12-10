@@ -3,7 +3,7 @@
 include_once("Query.php");
 include_once("Affichage_gen.php");
 include_once("Patient.php");
-// include_once("Medecin.php");
+include_once("Medecin.php");
 // include_once("Entreprise.php");
 
 
@@ -60,13 +60,38 @@ function checkFormFields($fields) {
     return true;
 }
 
-/** Vérifie si le mot de passe et sa confirmation sont identiques.
+/**
+ * Vérifie la force du mot de passe.
+ *
+ * @param string $password Le mot de passe à vérifier.
+ * @return bool True si le mot de passe est valide, False sinon.
+ */
+function validatePassword($password) {
+    // Vérifie la longueur minimale
+    if (strlen($password) < 8) {
+        return false;
+    }
+
+    // Vérifie la présence d'au moins un chiffre
+    if (!preg_match('/\d/', $password)) {
+        return false;
+    }
+
+    // Vérifie la présence d'au moins un caractère spécial
+    if (!preg_match('/[^a-zA-Z\d]/', $password)) {
+        return false;
+    }
+
+    return true;
+}
+
+/** Vérifie si le mot de passe et sa confirmation sont identiques ET s'il est assez puissant.
  * 
  */
 function checkPassword($password, $password_confirm) {
     if ($password != $password_confirm)
         return false;
-    return true;
+    return validatePassword($password);
 }
 
 // Fonction pour inscrire un nouveau patient
@@ -81,7 +106,6 @@ function registerNewPatient() {
         if (checkPassword($_POST["mdp"], $_POST["mdp2"])) {
             
             $bdd = new Query("siteweb");
-
             // Créer un tableau avec les informations du patient
             $bdd_dict = [
                 "nom" => $_POST["Nom"],
@@ -93,11 +117,9 @@ function registerNewPatient() {
                 "mdp" => $_POST["mdp"],
                 "date_naissance" => $_POST["date_naissance"]
             ];
-            
             // Appeler la fonction d'inscription
             $patient = new Patient($_POST["mdp"], $_POST["identifiant"]);
             $patient->Inscription($bdd, $bdd_dict);
-
             // Vérifier le résultat
             if ($_SESSION["result"] == 1) {
                 // Succès : redirection vers la page d'accueil
@@ -108,15 +130,13 @@ function registerNewPatient() {
                 AfficherErreur($_SESSION["result"]);
                 exit;
             }
-
         } else {
             // Les mots de passe ne correspondent pas
-            AfficherErreur("Les mots de passe ne correspondent pas");
+            AfficherErreur("Passwords do not match or are not strong enough");
         }
-
     } else {
         // Des champs obligatoires sont manquants
-        AfficherErreur("Veuillez remplir tous les champs");
+        AfficherErreur("Please fill all the fields");
     }
     session_abort(); //Fermer la session après inscription
 }

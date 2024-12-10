@@ -1,4 +1,5 @@
 <?php
+include_once("Affichage_gen.php");
 class Query {
     private $host;
     private $username;
@@ -18,7 +19,6 @@ class Query {
             $this->connection = new PDO($this->host, $this->username, $this->password);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e) {
-            include("../back_php/Affichage_gen.php");
             afficherErreur("Erreur lors de la connexion à la base de données : " . $e->getMessage());
             exit();
         }
@@ -62,6 +62,7 @@ class Query {
             $insert->execute($args);
             $this->closeStatement($insert);
         } catch (PDOException $e) {
+            echo "Erreur lors de l'inscription : " . $e->getMessage();
             exit(); // arret du script si l'utilisateur rafraichit la page alors qu'il s'est inscrit juste avant
         }
     }
