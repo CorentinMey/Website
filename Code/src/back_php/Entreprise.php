@@ -194,5 +194,26 @@ public function NewPhase($bdd, $data, $id_phase = 1) {
         error_log("Erreur lors de la création d'un essai avec phase : " . $e->getMessage());
     }
 }
+function startPhase($bdd, $idEssai) {
+    try {
+        // Requête pour mettre à jour la colonne a_debute
+        $query = "UPDATE ESSAI 
+                  SET a_debute = :aDebute 
+                  WHERE ID_essai = :idEssai";
+
+        // Exécution de la requête avec les paramètres
+        $bdd->UpdateLines($query, [
+            ':aDebute' => true,
+            ':idEssai' => $idEssai
+        ]);
+
+        // Message de confirmation
+        echo '<p style="color: green;">Votre essai a bien commencé.</p>';
+    } catch (PDOException $e) {
+        // Message d'erreur en cas de problème
+        echo '<p style="color: red;">Erreur lors du démarrage de l\'essai : ' . htmlspecialchars($e->getMessage()) . '</p>';
+    }
+}
+
 }
 ?>

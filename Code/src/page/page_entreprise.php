@@ -124,7 +124,11 @@ $bdd = new Query("siteweb");
             $idEssai = $_POST['idEssai'];
             $id_medecin = $_POST['numero_ordre'];
             $entreprise->DemandMedecin($id_medecin, $bdd, $idEssai);
+        } elseif (isset($_POST['StartEssai'])) {
+            $idEssai = $_POST['idEssai']; // ID de l'essai envoyé via un champ caché
+            $entreprise->startPhase($bdd, $idEssai);
         }
+        
         echo '</div>';
     }   else {
     ?>
