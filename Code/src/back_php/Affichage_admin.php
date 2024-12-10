@@ -201,6 +201,35 @@ function afficherConfirmationsEnAttente($query) {
     echo '</div>';
 }
 
+function afficherInfoAdmin($mail, $query) {
+    // Requête SQL pour récupérer les informations de l'admin
+    $sql = "SELECT nom, prenom, mail, genre, date_naissance, origine FROM utilisateur WHERE mail = :mail";
+    $params = [
+        ':mail' => $mail,
+    ];
+
+    // Exécution de la requête
+    $result = $query->getResults($sql, $params);
+
+    if ($result) {
+        // Afficher les informations de l'admin
+        echo '<div id="profile">';
+        echo '<img src="../Ressources/Images/profile_fond.jpg" alt="fond" id="fond">';
+        echo '<h2>Your profile :</h2>';
+        echo '<p><strong>Name :</strong> ' . htmlspecialchars($result['nom']) . '</p>';
+        echo '<p><strong>First name :</strong> ' . htmlspecialchars($result['prenom']) . '</p>';
+        echo '<p><strong>Mail :</strong> ' . htmlspecialchars($result['mail']) . '</p>';
+        echo '<p><strong>Gender :</strong> ' . htmlspecialchars($result['genre']) . '</p>';
+        echo '<p><strong>Birthdate :</strong> ' . htmlspecialchars($result['date_naissance']) . '</p>';
+        echo '<p><strong>Origin :</strong> ' . htmlspecialchars($result['origine']) . '</p>';
+        echo '<h3>Unfortunately, Admin information cannot be changed</h3>';
+        echo '</div>';
+    } else {
+        echo '<p>Aucun admin trouvé avec ces informations.</p>';
+    }
+}
+
+
 ?>
 
 

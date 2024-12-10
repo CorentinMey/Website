@@ -47,6 +47,26 @@ h1 {
     object-fit: cover; /* Assure que l'image garde son ratio sans déformation */
 }
 
+#profil .btn{
+    color: #131029;
+    border-radius: 10px;
+}
+
+/* Retirer le fond blanc du bouton et ajuster l'image */
+form button {
+    background: none; /* Aucun fond pour le bouton */
+    border: none; /* Supprimer la bordure */
+    padding: 0; /* Retirer tout le padding */
+    cursor: pointer; /* Curseur en forme de main */
+}
+
+form button img {
+    width: 100%; /* Redimensionner l'image pour qu'elle prenne tout l'espace disponible */
+    height: auto; /* Garder le ratio de l'image */
+    display: block; /* S'assurer que l'image est un élément de bloc */
+}
+
+
 /* ############################# conteneur des 5 bouttons au centre ########################## */
 
 /* conteneur */
@@ -322,4 +342,100 @@ h2{
     line-height: 1.5; /* Centre verticalement le texte */
     white-space: normal; /* Permet au texte de se déplier */
     display: inline-block; /* Garde le bouton en ligne */
+}
+
+/*##############profil de l'admin (division à part)############### */
+
+#profile {
+    margin-top: 10em;
+    background-color: rgba(0, 0, 0, 0.7); /* Fond semi-transparent */
+    color: white; /* Texte en blanc */
+    padding: 20px;
+    border-radius: 10px; /* Coins arrondis */
+    width: 400px;
+    margin: 50px auto; /* Centré horizontalement et espacement au-dessus */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Ombre portée */
+    font-family: Arial, sans-serif; /* Police simple et lisible */
+    text-align: left; /* Texte aligné à gauche */
+}
+
+#profile h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+     /* Centrer le titre */
+    font-weight: bold;
+}
+
+#profile p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+#profile p strong {
+    color: #FFD700; /* Texte en or pour les labels */
+}
+
+#profile h3 {
+    font-size: 18px;
+    font-style: italic;
+    color: #ff6347; /* Couleur tomate pour l'avertissement */
+    text-align: center; /* Centrer le texte */
+    margin-top: 20px;
+}
+
+/* ##################### page de profil du médecin et de lentreprise #################### */
+
+.content-wrapper2 {
+    background-color: #ffffff; /* Fond blanc */
+    border-radius: 1rem; /* Coins arrondis */
+    padding: 3vw; /* Padding en pourcentage pour plus de réactivité */
+    max-width: 90%; /* Largeur max de la div (90% de la largeur de l'écran) */
+    margin: 5vh auto; /* Centrer la div avec un espacement vertical */
+    background-color: rgba(36, 29, 29, 0.3); 
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.1); /* Ombre douce */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Police moderne */
+    color: #a99696; /* Couleur du texte */
+    overflow: hidden; /* Empêcher le texte de dépasser */
+    text-align: left; /* Aligner le texte à gauche */
+}
+
+/* Title of the profile */
+.content-wrapper2 h2 {
+    font-size: 4vw; /* Taille du titre en fonction de la largeur de l'écran */
+    color: #5a7a54; /* Couleur bleue pour le titre */
+    margin-bottom: 2vh; /* Espacement sous le titre */
+    font-weight: 600;
+    text-align: left; /* S'assurer que le titre est bien aligné à gauche */
+    white-space: normal; /* Permet au titre de se casser si nécessaire */
+}
+
+.content-wrapper2 p {
+    font-size: 3.5vw; /* Taille du texte adaptative */
+    margin: 2vh 0; /* Espacement entre les paragraphes */
+    line-height: 1.6; /* Interligne plus spacieux pour la lisibilité */
+}
+
+.content-wrapper2 p strong {
+    color: #a9b1b9; /* Couleur bleue pour les labels */
+}
+
+/* Style pour le bouton de retour */
+.back-btn-container {
+    text-align: center;
+    margin-top: 2em;
+}
+
+.back-btn {
+    background-color: #5a7a54; /* Couleur verte */
+    color: white;
+    padding: 10px 20px;
+    font-size: 3rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: #4a653f; /* Couleur verte foncée au survol */
 }

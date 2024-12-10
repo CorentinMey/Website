@@ -28,10 +28,10 @@ if (isset($_GET['id'])) {
             echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
             echo '<title>Profil Médecin</title>';
             echo '<link rel="stylesheet" type="text/css" href="../CSS/global.css">';
-            echo '<link rel="stylesheet" type="text/css" href="../CSS/page_admin.css">';
+            echo '<link rel="stylesheet" type="text/css" href="../CSS/page_admin_responsive.css">';
             echo '</head>';
             echo '<body>';
-            echo '<img src="../Ressources/Images/taiwan.jpg" alt="fond" id="fond">';
+            echo '<img src="../Ressources/Images/coffee.jpg" alt="fond" id="fond">';
             
             echo '<div class="content-wrapper2">';
             echo "<h2>Profile of Dr. " . htmlspecialchars($doctor['prenom']) . " " . htmlspecialchars($doctor['nom']) . "</h2>";
@@ -41,14 +41,17 @@ if (isset($_GET['id'])) {
             echo '<p><strong>Genre:</strong> ' . htmlspecialchars($doctor['genre']) . '</p>';
             echo '<p><strong>Hôpital:</strong> ' . htmlspecialchars($doctor['hopital']) . '</p>';
             echo '<p><strong>Domaine:</strong> ' . htmlspecialchars($doctor['domaine']) . '</p>';
+
+            echo '<div class="back-btn-container">';
+            echo '<a href="page_admin.php"><button class="back-btn">Retour à la page admin</button></a>';
             echo '</div>';
+            
+            echo '</body>';
+            echo '</html>';
         } else {
             echo "<p>Doctor not found.</p>";
         }
     }
-
-    
-    
 
     // Appeler la fonction pour afficher le profil du médecin
     afficherProfilMedecin($query, $id_user);

@@ -1,21 +1,25 @@
 <?php
-// Vérification si l'admin est connecté
-require_once('../back_php/Admin.php');
-session_start();
-var_dump($_SESSION);
-exit; 
 
-if (!isset($_SESSION["admin"])) {
+/*if (!isset($_SESSION["admin"])) {
     header("Location: page_login.php");
     exit;
+}*/
+
+session_start(); // Démarrer la session
+
+// Ensuite, tu vérifies si les variables existent dans la session et les assignes
+if (isset($_SESSION['mail_entre']) && isset($_SESSION['mdp_entre'])) {
+    $mail_entre = $_SESSION['mail_entre'];
+    $mdp_entre = $_SESSION['mdp_entre'];
+} else {
+    // Si les variables ne sont pas dans la session, tu peux les récupérer via GET, par exemple
+    $mail_entre = $_GET['mail'];
+    $mdp_entre = $_GET['mdp'];
+
+    // Et les stocker dans la session pour les utiliser sur les prochaines pages
+    $_SESSION['mail_entre'] = $mail_entre;
+    $_SESSION['mdp_entre'] = $mdp_entre;
 }
-
-// Récupérer l'objet Admin depuis la session
-$admin = $_SESSION["admin"];
-
-// Exemple d'affichage des informations de l'admin
-echo "<p>Welcome, " . $admin->getFirstName() . " " . $admin->getLastName() . "</p>";
-echo "<p>Email: " . $admin->getEmail() . "</p>";
 ?>
 <?php
 /*if(!isset($_SESSION["admin"])){
@@ -43,13 +47,21 @@ echo "<p>Email: " . $admin->getEmail() . "</p>";
     include_once("../back_php/Patient.php");
 
     // Créer une instance de la classe Query pour se connecter à la base de données
-    $patient = $_SESSION["patient"];
     $query = new Query('siteweb');
     
     // Récupérer le nombre de demandes avec is_bannis = 2 
     $newsql = "SELECT COUNT(*) AS count_waiting FROM utilisateur WHERE is_bannis = 2";
     $result_compte = $query->getResults($newsql, []);
     $count = $result_compte['count_waiting'];
+
+    $whoisit = "SELECT nom, prenom, mail, genre, mdp FROM utilisateur WHERE mail = :mail";
+    $params = [
+        ':mail' => $mail_entre,
+    ];
+    $whoisadmin = $query->getResultsAll($whoisit, $params);
+    $nom_admin = $whoisadmin[0]['nom']; 
+    $prenom_admin = $whoisadmin[0]['prenom'];
+
 
     // Vérifie si un bouton a été cliqué
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -65,16 +77,26 @@ echo "<p>Email: " . $admin->getEmail() . "</p>";
             afficherListeEssaisCliniques($query);
         } elseif (isset($_POST['show_list_confirmation'])) {
             afficherConfirmationsEnAttente($query);
-        }
+        } elseif(isset($_POST['profile_admin'])){
+            afficherInfoAdmin($mail_entre,$query);
 
-        echo '</div>';
+        echo '</div>';}
     } else {
     ?>
 
     <div id="bandeau_top">
-        <h1>Admin Page</h1>
-        <img src="../Ressources/Images/profil.png" alt="profil" id="profil" onclick="AffichageTableauInfoPerso()">
+        <h1>Admin Page of: <?php echo htmlspecialchars($prenom_admin . ' ' . $nom_admin); ?></h1>
+
+
+        <!-- Formulaire qui sera soumis quand l'image est cliquée -->
+        <form method="POST" action="page_admin.php">
+            <button type="submit" name="profile_admin">
+                <img src="../Ressources/Images/profil.png" alt="Profil" id="profil">
+            </button>
+        </form>
+
     </div>
+    
 
     <!-- Formulaire contenant les boutons -->
     <form method="POST" action="page_admin.php" id="content_button">
@@ -90,7 +112,7 @@ echo "<p>Email: " . $admin->getEmail() . "</p>";
                 <span class="pastille" id="notifCount" style="display:none;">0</span>
             <?php endif; ?>
             Required Confirmation for Inscription
-        </button>
+            </button>
     </form>
 
     <?php

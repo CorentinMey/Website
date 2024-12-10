@@ -1,7 +1,6 @@
 <?php
 # Inclure la classe utilisateur pour pouvoir connecter un utilisateur
 require_once('../back_php/Patient.php');
-require_once('../back_php/Admin.php');
 include_once("../back_php/Query.php");
 include_once("../back_php/Securite.php");
 session_start();
@@ -65,23 +64,10 @@ session_start();
                                     header("Location: page_entreprise.php");
                                     exit;
                                 } else if ($account_type == "admin") {
-                                    // Créer l'objet Admin et connecter l'utilisateur
-                                    $user = new Admin(
-                                        iduser: null,
-                                        mdp: $_POST["mdp"],
-                                        email: $_POST["mail"],
-                                        last_name: null,
-                                        is_banned: null,
-                                        is_admin: 1,  // L'admin a toujours is_admin = 1
-                                        first_name: null,
-                                        birthdate: null,
-                                        gender: null,
-                                        antecedent: null,
-                                        origins: null
-                                    );
-                                    $user->Connexion($_POST["mail"], $_POST["mdp"], $bdd);
-                                    $_SESSION["admin"] = $user;  // Stocker l'admin dans la session
-                                    header("Location: page_admin.php");
+                                    // Passer le mail et le mot de passe via l'URL
+                                    $mail = urlencode($_POST["mail"]);
+                                    $mdp = urlencode($_POST["mdp"]);
+                                    header("Location: page_admin.php?mail=$mail&mdp=$mdp");
                                     exit;
                                 } else if ($account_type == "patient") {
                                     $user = new Patient(
