@@ -139,7 +139,7 @@
 #why::after {
     content: "";
     flex: 1; /* Les traits prennent tout l'espace restant */
-    height: 2px; /* Épaisseur des traits */
+    height: 0.02em; /* Épaisseur des traits */
     background-color: black; /* Couleur des traits */
     margin: 0 10px; /* Espacement entre le texte et les traits */
 }

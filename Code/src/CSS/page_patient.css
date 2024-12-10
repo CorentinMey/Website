@@ -304,6 +304,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center; /* Centre la table horizontalement */
+    width : 80%;
+    margin-left : 10%;
 }
 
 #table_essai {
@@ -446,7 +448,7 @@ body {
 /* Partie dédiée à l'affichage des annonce sdes essais */
 #new_essais{
     border-radius: 0.5em;
-    width : 80em;
+    width : 70%;
     height : 65em;
     overflow-y: scroll;
 }
@@ -496,8 +498,9 @@ body {
 
 #button_join{
     margin-bottom: 0.5em;
-    width : 10em;
+    width : 15%;
     margin-left : 85%;
+    font-size:60%;
 }
 
 .essai_title{

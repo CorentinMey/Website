@@ -9,6 +9,18 @@
     
 </head>
 
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['inscription'])) {
+        header('Location: page_signin.php');
+        exit();
+    } elseif (isset($_POST['connexion'])) {
+        header('Location: page_login.php');
+        exit();
+    }
+}
+?>
+
 <body>
     <div id = "en-tete">
         <img src = "../Ressources/Images/logo_medexplorer.png" alt = "logo_med_explorer" id = logo_page>
@@ -19,9 +31,9 @@
     </div>
     
     <div id="bandeau_top">
-        <form method="POST" action="accueil.php" id="bande_welcome">
-            <button type="submit" class="button" name="show_list_user" value="1" id="button">SIGN IN</button>
-            <button type="submit" class="button" name="show_list_doc" value="1" id="button">LOG IN </button>
+        <form method="POST" action="page_accueil.php" id="bande_welcome">
+            <button type="submit" class="button" name="inscription" value="1" id="button">SIGN IN</button>
+            <button type="submit" class="button" name="connexion" value="1" id="button">LOG IN</button>
         </form>
     </div>
 
@@ -83,7 +95,4 @@
 <br>
 <br>
 
-<?php
-
-?>
 <body>

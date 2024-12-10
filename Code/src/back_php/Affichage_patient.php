@@ -133,7 +133,7 @@ function Affichage_content_essai($entreprise, $essai, $medecins, $id_essai){
  * @param Int $nb_notif : nombre de notifications en attente
  */
 function UpdateNotification($bdd, $patient, $nb_notif){
-    if (!($bdd instanceof Query) || !($patient instanceof Patient) || !is_int($nb_notif)) {
+    if (!($bdd instanceof Query) || !($patient instanceof Patient)) {
         AfficherErreur("Beware, there is a problem with the argument type", E_USER_WARNING);
         return;
     }
@@ -149,7 +149,7 @@ function UpdateNotification($bdd, $patient, $nb_notif){
  * @param Int $id_essai : id de l'essai
  */
 function handleJoinTrial($bdd, $patient, $id_essai) {
-    if (!($bdd instanceof Query) || !($patient instanceof Patient) || !is_int($id_essai)) {
+    if (!($bdd instanceof Query) || !($patient instanceof Patient)) {
         AfficherErreur("Beware, there is a problem with the argument type", E_USER_WARNING);
         return;
     }
@@ -170,7 +170,7 @@ function handleJoinTrial($bdd, $patient, $id_essai) {
  * @param Int $id_essai : id de l'essai
  */
 function handleConfirmJoin($bdd, $patient, $id_essai) {
-    if (!($bdd instanceof Query) || !($patient instanceof Patient) || !is_int($id_essai)) {
+    if (!($bdd instanceof Query) || !($patient instanceof Patient)) {
         AfficherErreur("Beware, there is a problem with the argument type", E_USER_WARNING);
         return;
     }
@@ -212,7 +212,7 @@ function handleCancelJoin($bdd, $patient) {
  * @param Int $nb_notif : nombre de notifications en attente
  */
 function handleSubmitSideEffects($bdd, $patient, $id_essai, $nb_notif) {
-    if (!($bdd instanceof Query) || !($patient instanceof Patient) || !is_int($id_essai) || !is_int($nb_notif)) {
+    if (!($bdd instanceof Query) || !($patient instanceof Patient)|| !is_int($nb_notif)) {
         AfficherErreur("Beware, there is a problem with the argument type", E_USER_WARNING);
         return;
     }
@@ -235,7 +235,7 @@ function handleSubmitSideEffects($bdd, $patient, $id_essai, $nb_notif) {
  * @param Int $nb_notif : nombre de notifications en attente
  */
 function handleUnsubscribe($bdd, $patient, $id_essai, $nb_notif) {
-    if (!($bdd instanceof Query) || !($patient instanceof Patient) || !is_int($id_essai) || !is_int($nb_notif)) {
+    if (!($bdd instanceof Query) || !($patient instanceof Patient)|| !is_int($nb_notif)) {
         AfficherErreur("Beware, there is a problem with the argument type", E_USER_WARNING);
         return;
     }
@@ -255,7 +255,7 @@ function handleUnsubscribe($bdd, $patient, $id_essai, $nb_notif) {
  * @param Int $nb_notif : nombre de notifications en attente
  */
 function handleConfirmUnsubscribe($bdd, $patient, $id_essai, $nb_notif) {
-    if (!($bdd instanceof Query) || !($patient instanceof Patient) || !is_int($id_essai) || !is_int($nb_notif)) {
+    if (!($bdd instanceof Query) || !($patient instanceof Patient)  || !is_int($nb_notif)) {
         AfficherErreur("Beware, there is a problem with the argument type", E_USER_WARNING);
         return;
     }
