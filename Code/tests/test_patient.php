@@ -3,6 +3,7 @@ include_once("../src/back_php/Patient.php");
 include_once("../src/back_php/Securite.php");
 include_once("../src/back_php/Affichage_patient.php");
 include_once("../src/back_php/Query.php");
+session_start();
 
 $bdd = new Query("siteweb");
 $query_jacques = "SELECT * FROM utilisateur WHERE prenom = 'Jacques';";
@@ -81,7 +82,6 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
         ?>
     
     <h3>Test inscription d'un patient</h3>
-
     <?php
     $patient->Inscription($bdd, [
         "nom" => "DuponD",
@@ -93,7 +93,29 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
         "mdp" => "nouveau_mdp",
         "date_naissance" => "2000-01-01"
         ]);
-    echo "l'incription a été effectuée avec succès";
+    if ($_SESSION["result"] == 1)
+        echo "Inscription réussie ".$_SESSION["result"];
+    else
+        echo "Inscription échouée ".$_SESSION["result"];
+    ?>
+
+    <h3> Test inscription avec un mineur</h3>
+    <?php
+    $patient->Inscription($bdd, [
+        "nom" => "DuponD",
+        "prenom" => "Jean",
+        "genre" => "M",
+        "origine" => "France",
+        "antecedents" => "Aucun",
+        "mail" => "test@test.com2",
+        "mdp" => "nouveau_mdp",
+        "date_naissance" => "2010-01-01"
+        ]);
+
+    if ($_SESSION["result"] == 1)
+        echo "Inscription réussie ".$_SESSION["result"];
+    else
+        echo "Inscription échouée ".$_SESSION["result"];
     ?>
 
 
