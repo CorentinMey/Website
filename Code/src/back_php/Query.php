@@ -62,7 +62,7 @@ class Query {
             $insert->execute($args);
             $this->closeStatement($insert);
         } catch (PDOException $e) {
-            echo "Erreur lors de l'inscription : " . $e->getMessage();
+            AfficherErreur("Error while inserting data : " . $e->getMessage());
             exit(); // arret du script si l'utilisateur rafraichit la page alors qu'il s'est inscrit juste avant
         }
     }
@@ -78,9 +78,14 @@ class Query {
      * Met à jour des lignes dans la base de données.
      */
     public function UpdateLines($query, $args){
-        $update = $this->connection->prepare($query);
-        $update->execute($args);
-        $this->closeStatement($update);
+        try{
+            $update = $this->connection->prepare($query);
+            $update->execute($args);
+            $this->closeStatement($update);
+        } catch (PDOException $e) {
+            AfficherErreur("Error while updating data : " . $e->getMessage());
+            exit(); // arret du script si l'utilisateur rafraichit la page alors qu'il s'est inscrit juste avant
+        }
     }
 }
 

@@ -369,8 +369,15 @@ class Patient extends Utilisateur{
      * Méthode pour quitter un essai clinique pour un patient
      */
     public function QuitEssai($bdd, $id_essai){
+        $query_preli = "SELECT * FROM essai WHERE ID_essai = :id_essai;";
+        $res = $bdd->getResults($query_preli, ["id_essai" => $id_essai]);
+        if ($res === []){
+            AfficherErreur("Error while quitting the trial. Trial unkown.");
+            return 1;
+        }
         $query = "UPDATE resultat SET is_patient_exclus = 3 WHERE ID_patient = :id AND ID_essai = :id_essai;";
         $bdd->updateLines($query, ["id" => $this->getIduser(), "id_essai" => $id_essai]);
+        return 0;
     }
 
     /**
@@ -404,7 +411,7 @@ class Patient extends Utilisateur{
 
         $res = $bdd->getResults($query_phase, ["id_essai" => $id_essai]);
         if ($res === []){
-            AfficherErreur("Error while joining the trial.");
+            AfficherErreur("Error while joining the trial. Trial unkown.");
             return;
         }
         $attribution = $this->AttributeTreatment($res["molecule_test"], $res["molecule_ref"], $res["dosage_test"], $res["dosage_ref"], $res["placebo_nom"]);
