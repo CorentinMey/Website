@@ -66,12 +66,20 @@ function Affichage_content_essai_med($entreprise, $essai, $medecins, $id_essai){
             echo '</td>';
             if ($essai["is_accepte"]!=0){ // si le docteur est accepté en tant que référent de l'essai
                 echo '<td>In charge of the trial</td>';
-            } else // si l'essai est en cours
-                echo '<td>Not yet accepted</td>';
+            } else { // si le docteur n'est pas encore accepté ou si c'est une demande de l'entreprise
+                if ($essai["est_de_company"]==1){
+                    echo '<td>The company is asking you to supervise the trial</td>';
+                }
+                else{
+                    echo '<td>Not yet accepted</td>';
+                }
+            } 
+                
             // ajout du bouton pour voir l'ensemble des informations de l'essai clinique
             echo '<td>';
             echo '<form action="page_essai_medecin.php" method="post">'; // Redirection vers page_essai_medecin.php
             echo '<input type="hidden" name="id_essai" value="' . $id_essai . '">';
+            echo '<input type="hidden" name="is_accepte" value="' . $essai["is_accepte"] . '">';
             echo '<input type="hidden" name="Action" value="Information">'; // Ajout du champ Action
             echo '<button type="submit" class="button">View more</button>';
             echo '</form>';
@@ -127,7 +135,7 @@ function Affichage_entete_tableau_participants(){
 /**
  * Affiche l'en tête du tableau pour les patients en attente
  */
-function Affichage_entete_tableau_patients(){
+function Affichage_entete_tableau_patients($acces){
 
     echo '<h2 class="title">General informations about the patients who want to join the trial</h2>';
         echo '<div id="essai_clinique">';
@@ -139,7 +147,12 @@ function Affichage_entete_tableau_patients(){
                         echo '<th>Gender</th>';
                         echo '<th>Birthdate</th>';
                         echo '<th>Medical Background</th>';
-                        echo '<th>Modify infos/View treatment</th>';
+                        if ($acces==1){
+                            echo '<th>Modify infos/View treatment</th>';
+                        }
+                        else{
+                        echo '<th>Accept/Reject the patient</th>';
+                        }
                     echo '</tr>';
                 echo '</thead>';
                 echo '<tbody>';
@@ -156,8 +169,8 @@ function Affichage_content_participants($participants, $id_essai){
         echo '<td>'.$participants["date_naissance"].'</td>';
         echo '<td>'.$participants["antecedents"].'</td>';
         echo '</td>';
-        echo '<td>';
         if ($participants["is_accepte"]!=0){ // si le patient est accepté dans l'essai
+            echo '<td>';
             echo '<form action="page_patient_medecin.php" method="post">'; // Redirection vers page_essai_medecin.php
             echo '<input type="hidden" name="id_user" value="' . $ID_User . '">';
             echo '<input type="hidden" name="id_essai" value="' . $id_essai . '">';
@@ -165,8 +178,18 @@ function Affichage_content_participants($participants, $id_essai){
             echo '<button type="submit" class="button">View more</button>';
             echo '</form>';
             echo '</td>';
-        } else // si le patient n'est pas admis
-            echo '<td>Not yet accepted</td>';
+        } else { // si le patient n'est pas admis
+            echo '<td>';
+            echo '<form action="page_essai_medecin.php" method="post">'; // Redirection vers la même page
+            echo '<input type="hidden" name="id_user" value="' . $ID_User . '">';
+            echo '<input type="hidden" name="id_essai" value="' . $id_essai . '">';
+            echo '<input type="hidden" name="Action" value="accept">'; // Champ Action pour préciser l'action
+            echo '<button type="submit" name="decision" value="1" class="button">Oui</button>'; // Bouton Oui
+            echo '<button type="submit" name="decision" value="0" class="button">Non</button>'; // Bouton Non
+            echo '</form>';
+            echo '</td>';
+        } 
+           
     echo '</tr>';
 }
 

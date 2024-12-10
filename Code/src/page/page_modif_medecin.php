@@ -94,12 +94,6 @@ if (isset($_SESSION['patient_infos'])) {
         <input type="text" id="genre" name="genre" value="<?php echo htmlspecialchars($patient_infos['genre']); ?>" />
     </div>
 
-    <!-- Email -->
-    <div class="input_info">
-        <label for="identifiant">Email</label>
-        <input type="email" id="identifiant" name="identifiant" value="<?php echo htmlspecialchars($patient_infos['mail']); ?>" />
-    </div>
-
     <!-- Date de naissance -->
     <div class="input_info">
         <label for="date_naissance">Birthdate</label>
@@ -136,17 +130,15 @@ if (isset($_SESSION['patient_infos'])) {
         <textarea id="evolution_symptome" name="evolution_symptome"><?php echo htmlspecialchars($patient_infos['evolution_symptome']); ?></textarea>
     </div>
 
-    <!-- Case à cocher pour bannir -->
     <div class="input_info">
-        <label>Ban this user from this trial?</label>
-        <div>
-            <input type="radio" id="ban_oui" name="ban_user" value="oui">
-            <label for="ban_oui">Yes</label>
-        </div>
-        <div>
-            <input type="radio" id="ban_non" name="ban_user" value="non" checked>
-            <label for="ban_non">No</label>
-        </div>
+    <label>Ban this user from this trial?</label>
+    <div>
+        <input type="radio" id="ban_oui" name="ban_user" value="1">
+        <label for="ban_oui">Yes</label>
+    </div>
+    <div>
+        <input type="radio" id="ban_non" name="ban_user" value="0" checked>
+        <label for="ban_non">No</label>
     </div>
 
     <!-- Boutons -->

@@ -65,7 +65,7 @@ function Affiche_medecin($medecins){
  * @param $medecins : dictionnaire contenant les médecins référents
  * @param $id_essai : id de l'essai
  */
-function Affichage_content_essai_pas_demarre($essai, $medecins, $id_essai) {
+function Affichage_content_essai_pas_demarre($essai, $medecins, $id_essai, $is_med) {
     echo '<tr>';
         echo '<td>' . htmlspecialchars($essai["nom"]) . '</td>'; // Affiche le nom de l'entreprise
         echo '<td>Phase ' . htmlspecialchars($essai["ID_phase"]) . '</td>'; // Affiche la phase de l'essai
@@ -74,6 +74,11 @@ function Affichage_content_essai_pas_demarre($essai, $medecins, $id_essai) {
         echo '<td>';
             Affiche_medecin($medecins); // Affiche les médecins référents
         echo '</td>';
+        if ($is_med == 1){
+            echo '<td>' . htmlspecialchars($essai["mail"]) . '</td>'; // Affiche la description de l'essai
+            echo '<td>' . htmlspecialchars($essai["molecule_test"]) . '</td>'; // Affiche la date de début de l'essai
+            echo '<td>' . htmlspecialchars($essai["molecule_ref"]) . '</td>'; // Affiche la description de l'essai   
+        }
         // Colonne pour le bouton "Join"
         echo '<td>';
             echo '<form action="" method="post">';
@@ -101,9 +106,16 @@ function AfficherEssaisPasDemarré($bdd, $user){
                         WHERE a_debute = 0 AND ID_essai #// On récupère les essais qui n'ont pas encore démarré
                         NOT IN  
                         (SELECT ID_essai FROM resultat WHERE ID_patient = :id_patient);"; // enlève les essais où le patient a déjà postulé (empĉhe aussi qu'un patient postule à plusieurs phases)
+    $is_med = 0; //On mémorise que c'est un patient qui a demandé à voir les essais non démarrés
     } else {
         // Requête pour obtenir les essais qui n'ont pas encore démarré et auxquels le médecin n'a pas postulé
-        #// TODO : à modifier pour les médecins
+        $query_essai = "SELECT  ID_essai, nom, description, date_debut, ID_phase, mail, molecule_test, molecule_ref
+                        FROM essai
+                        JOIN utilisateur ON essai.ID_entreprise_ref = utilisateur.ID_User
+                        WHERE a_debute = 0 AND ID_essai #// On récupère les essais qui n'ont pas encore démarré
+                        NOT IN 
+                        (SELECT ID_essai FROM essai_medecin WHERE ID_medecin = :id_patient);"; // enlève les essais où le patient a déjà postulé 
+        $is_med = 1; //On mémorise que c'est un médecin qui a demandé à voir les essais non démarrés
     }
     // Requête pour obtenir les médecins référents pour chaque essai
     $query_medecins = "SELECT nom
@@ -125,13 +137,18 @@ function AfficherEssaisPasDemarré($bdd, $user){
             echo '<th>Description</th>';
             echo '<th>Start Date</th>';
             echo '<th>Doctors</th>';
+            if ($is_med == 1){
+                echo '<th>Mail Company</th>';
+                echo '<th>Test Molecule</th>';
+                echo '<th>Reference Molecule</th>';    
+            }
             echo '<th>Action</th>'; // Colonne pour le bouton "Join"
         echo '</thead>';
 
         foreach ($essais as $essai) {
             $id_essai = $essai['ID_essai'];
             $medecins = $bdd->getResultsAll($query_medecins, array(":id" => $id_essai)); // On récupère les médecins
-            Affichage_content_essai_pas_demarre($essai, $medecins, $id_essai);
+            Affichage_content_essai_pas_demarre($essai, $medecins, $id_essai, $is_med);
         }
 
         echo '</table>';

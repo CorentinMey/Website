@@ -15,6 +15,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['is_accepte'])) { // Vérification correcte
+        $_SESSION["is_accepte"] = $_POST['is_accepte'];
+}
+}
+
 
 $medecin = $_SESSION["medecin"];
 $bdd = new Query("siteweb");
@@ -72,7 +78,29 @@ $bdd = new Query("siteweb");
  
     <h2 class = "title">Options</h2>
 
-    <?php // code pour mettre à jour le numéro des notifications
+    <?php 
+    // Code pour accepter ou refuser un patient dans un essai
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['decision'])) {
+        $decision = (int)$_POST['decision']; // Récupère la décision (1 pour Oui, 0 pour Non)
+        $id_user = $_POST['id_user'] ?? null; // Récupère l'ID utilisateur
+        $id_essai = $_POST['id_essai'] ?? null; // Récupère l'ID essai
+
+        if ($decision === 1) {
+            // Code pour "Oui"
+            $medecin->AccepterPatient($bdd,$id_essai,$id_user);
+            AfficherInfo("L'utilisateur $id_user a été accepté dans l'essai $id_essai.", 0, 0, False);
+        } elseif ($decision === 0) {
+            // Code pour "Non"
+            $medecin->SupprimerPatient($bdd,$id_essai,$id_user);
+        }
+    }
+}
+
+    
+    
+    
+    // code pour mettre à jour le numéro des notifications
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST['id_essai']) && isset($_POST['Action'])) {
             switch ($_POST["Action"]){
@@ -109,20 +137,26 @@ $bdd = new Query("siteweb");
     </form>
 
     <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Action"])) { // Si un bouton a été cliqué
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Action"]) && isset($_SESSION["id_essai"]) && isset($_SESSION["is_accepte"])) { // Si un bouton a été cliqué et que les données ont bien été transmises
         switch ($_POST['Action']) {
             case "Informations":
                 $medecin->AfficheEssais_full($bdd, $_SESSION["id_essai"]);
                 break;
             case "Participants":
-                $medecin->AfficherParticipants($bdd, $_SESSION["id_essai"]);
+                if ($_SESSION["is_accepte"]==1){
+                    $medecin->AfficherParticipants($bdd, $_SESSION["id_essai"]);
+                }
+                else{
+                    AfficherErreur("Vous n'êtes pas encore responsable de cet essai, les données patients ne sont donc pas accessibles");
+                }
                 break;
             case "Results":
                 $medecin->AffichageTableau($bdd);
                 break;
         }
-    } else
+    } else {
         $medecin->AffichageTableau($bdd);
+    }
     ?>
 
     <?php // balise php pour gérer les boutons de notifs

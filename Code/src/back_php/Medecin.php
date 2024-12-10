@@ -125,7 +125,6 @@ class Medecin extends Utilisateur{
                     echo '</tr>';
                 echo '</tbody>';
             echo '</table>';
-            echo '<a href="page_signin.php" id = "edit_option">Edit my infos</a>';
         echo '</div>';
     }
 
@@ -135,7 +134,7 @@ class Medecin extends Utilisateur{
      */
     public function AffichageTableau_patient($bdd, $id_user){
 
-        $query = "SELECT nom, prenom, genre, date_naissance, antecedents, mail, traitement, dose, effet_secondaire, evolution_symptome FROM resultat JOIN utilisateur ON 
+        $query = "SELECT nom, prenom, genre, date_naissance, antecedents, mail, traitement, dose, effet_secondaire, evolution_symptome, is_patient_exclus FROM resultat JOIN utilisateur ON 
                     resultat.ID_patient = utilisateur.ID_User NATURAL JOIN essai
                         WHERE ID_User = :id;";
         $res1 = $bdd->getResultsAll($query, ["id" => $id_user]);
@@ -158,6 +157,7 @@ class Medecin extends Utilisateur{
                         echo '<th>Gender</th>';
                         echo '<th>Email</th>';
                         echo '<th>Medical background</th>';
+                        echo '<th>Banned ?</th>';
                     echo '</tr>';
                 echo '</thead>';
                 echo '<tbody>';
@@ -168,6 +168,13 @@ class Medecin extends Utilisateur{
                         echo '<td>'.$res["genre"].'</td>';
                         echo '<td>'.$res["mail"].'</td>';
                         echo '<td>'.$res["antecedents"].'</td>';
+                        if ($res["is_patient_exclus"]==0){
+                            echo '<td>No</td>';
+                        }
+                        else{
+                            echo '<td>Yes</td>';
+                        }
+                        
                     echo '</tr>';
                 echo '</tbody>';
             echo '</table>';
@@ -203,7 +210,7 @@ class Medecin extends Utilisateur{
      * Méthode qui affiche un résumé des essais cliniques auxquels le médecin participe.
      */
     public function AfficheEssais($bdd){
-        $query = "SELECT ID_essai, date_debut, date_fin, description, ID_phase, is_accepte FROM medecin JOIN utilisateur ON 
+        $query = "SELECT ID_essai, date_debut, date_fin, description, ID_phase, is_accepte, est_de_company, a_debute FROM medecin JOIN utilisateur ON 
                     medecin.numero_ordre = utilisateur.ID_User NATURAL JOIN essai_medecin NATURAL JOIN essai
                         WHERE numero_ordre = :id
                         AND essai_medecin.ID_medecin = :id";
@@ -225,7 +232,9 @@ class Medecin extends Utilisateur{
             $id_essai = $essai["ID_essai"];
             $entreprise = $bdd->getResults($query2, ["id" => $id_essai]);
             $medecins = $bdd->getResultsAll($query3, ["id" => $id_essai]);
-            Affichage_content_essai_med($entreprise, $essai, $medecins, $id_essai);
+            if($essai["a_debute"]!=1 | $essai["is_accepte"]==1){ // On n'affiche que les essais qui sont soit ceux du médecin, soit ceux qui n'ont pas encore débuté (n'affiche pas ceux qui ont commencé et où le médecin n'a pas été sélectionné)
+                Affichage_content_essai_med($entreprise, $essai, $medecins, $id_essai);
+            }
         }         
             echo '</tbody>'; // fermeture du tableau et de la div qui le contient
             echo '</table>';
@@ -237,10 +246,9 @@ class Medecin extends Utilisateur{
      */
     public function AfficheEssais_full($bdd, $essai_id){
         $query = "SELECT DISTINCT ID_essai, date_debut, date_fin, description, ID_phase, molecule_test, 
-                        dosage_test, molecule_ref, dosage_ref, placebo_nom, is_accepte FROM medecin JOIN utilisateur ON 
+                        dosage_test, molecule_ref, dosage_ref, placebo_nom, is_accepte, est_de_company FROM medecin JOIN utilisateur ON 
                     medecin.numero_ordre = utilisateur.ID_User NATURAL JOIN essai_medecin NATURAL JOIN essai
-                        WHERE ID_essai = :id 
-                        AND is_accepte != 0;";
+                        WHERE ID_essai = :id;";
         // requete pour avoir le nom de l'entreprise
         $query2 = "SELECT nom, a_debute FROM utilisateur JOIN essai ON essai.ID_entreprise_ref = utilisateur.ID_User 
                         WHERE ID_essai = :id;";
@@ -256,16 +264,15 @@ class Medecin extends Utilisateur{
         #Affichage d'un premier tableau
         Affichage_entete_tableau_essai_med2(); // affiche l'en-tête du tableau
     
-        foreach($res as $essai){ // affiche les lignes du tableau
-            $id_essai = $essai["ID_essai"];
-            $entreprise = $bdd->getResults($query2, ["id" => $id_essai]);
-            $medecins = $bdd->getResultsAll($query3, ["id" => $id_essai]);
-            Affichage_content_essai_med2($entreprise, $essai, $medecins, $id_essai);
-        }         
+        $essai = $res[0]; // affiche les lignes du tableau
+        $id_essai = $essai["ID_essai"];
+        $entreprise = $bdd->getResults($query2, ["id" => $id_essai]);
+        $medecins = $bdd->getResultsAll($query3, ["id" => $id_essai]);
+        Affichage_content_essai_med2($entreprise, $essai, $medecins, $id_essai);        
                  
-            echo '</tbody>'; // fermeture du tableau et de la div qui le contient
-            echo '</table>';
-            echo '</div>';
+        echo '</tbody>'; // fermeture du tableau et de la div qui le contient
+        echo '</table>';
+        echo '</div>';
 
 }
 
@@ -274,12 +281,12 @@ class Medecin extends Utilisateur{
      */
     public function AfficherParticipants($bdd, $id_essai){
         // requete pour avoir les patients admis
-        $query = "SELECT ID_User, nom, prenom, genre, date_naissance, antecedents, is_accepte FROM resultat JOIN utilisateur ON 
+        $query = "SELECT ID_User, nom, prenom, genre, date_naissance, antecedents, is_accepte, a_debute FROM resultat JOIN utilisateur ON 
                     resultat.ID_patient = utilisateur.ID_User NATURAL JOIN essai
                         WHERE ID_essai = :id 
                         AND is_accepte != 0;";
         // requete pour avoir les patients en attente d'admission
-        $query2 = "SELECT ID_User, nom, prenom FROM resultat JOIN utilisateur ON 
+        $query2 = "SELECT ID_User, nom, prenom, genre, date_naissance, antecedents, is_accepte FROM resultat JOIN utilisateur ON 
                     resultat.ID_patient = utilisateur.ID_User NATURAL JOIN essai
                         WHERE ID_essai = :id 
                         AND is_accepte = 0;";
@@ -296,25 +303,52 @@ class Medecin extends Utilisateur{
             return;
         }
         //Affichage des patients admis
-        Affichage_entete_tableau_participants(); // affiche l'en-tête du tableau
+        Affichage_entete_tableau_participants(1); // affiche l'en-tête du tableau
     
         foreach($res as $participant){ // affiche les lignes du tableau
             Affichage_content_participants($participant, $id_essai);
+            $en_cours = $participant["a_debute"];
         }         
             echo '</tbody>'; // fermeture du tableau et de la div qui le contient
             echo '</table>';
             echo '</div>';
 
-        // Affichage des patients en attente
-        Affichage_entete_tableau_patients(); // affiche l'en-tête du tableau
+        if($en_cours==0){ //On vérifie si l'essai a débuté, sinon on supprime l'affichage des patients en attente de rejoindre l'essai
+            // Affichage des patients en attente
+            Affichage_entete_tableau_patients(0); // affiche l'en-tête du tableau
     
-        foreach($res2 as $participant){ // affiche les lignes du tableau
-            Affichage_content_participants($participant, $id_essai);
-        }         
+            foreach($res2 as $participant){ // affiche les lignes du tableau
+                Affichage_content_participants($participant, $id_essai);
+        }     
+        }
+            
             echo '</tbody>'; // fermeture du tableau et de la div qui le contient
             echo '</table>';
             echo '</div>';
         
+}
+
+// Fonction pour accepter un utilisateur dans un essai
+public function AccepterPatient($bdd, $id_essai, $id_patient){
+    $query = "UPDATE resultat SET is_accepte = 1 WHERE ID_patient = :id AND ID_essai = :id_essai;";
+    $bdd->updateLines($query, ["id" => $id_patient, "id_essai" => $id_essai]);
+    try {
+        $bdd->updateLines($query, ["id" => $id_patient, "id_essai" => $id_essai]);
+        return "Le patient a été accepté avec succès.";
+    } catch (Exception $e) {
+        return AfficherErreur("Erreur lors de l'acceptation du patient : " . $e->getMessage());
+    }
+}
+
+// Fonction pour supprimer un utilisateur d'un essai
+public function SupprimerPatient($bdd, $id_essai, $id_patient) {
+    $query = "DELETE FROM resultat WHERE ID_patient = :id AND ID_essai = :id_essai;";
+    try {
+        $bdd->updateLines($query, ["id" => $id_patient, "id_essai" => $id_essai]);
+        return "Le patient a été supprimé avec succès.";
+    } catch (Exception $e) {
+        return AfficherErreur("Erreur lors de la suppression du patient : " . $e->getMessage());
+    }
 }
 
 /**
@@ -327,7 +361,6 @@ public function ChangeInfo_patient($bdd, $id_user, $id_essai, $data) {
     $query = "UPDATE utilisateur 
               SET prenom = :prenom,
                   nom = :nom,
-                  mail = :email,
                   genre = :genre,
                   antecedents = :antecedents
               WHERE ID_User = :id_user";
@@ -336,7 +369,8 @@ public function ChangeInfo_patient($bdd, $id_user, $id_essai, $data) {
                SET traitement = :traitement,
                    dose = :dose,
                    effet_secondaire = :effet_secondaire,
-                   evolution_symptome = :evolution_symptome
+                   evolution_symptome = :evolution_symptome,
+                   is_patient_exclus = :exclu
                WHERE ID_patient = :id_user
                AND ID_essai = :id_essai";
 
@@ -344,7 +378,6 @@ public function ChangeInfo_patient($bdd, $id_user, $id_essai, $data) {
     $params_user = [
         ':prenom' => $data['prenom'],
         ':nom' => $data['nom'],
-        ':email' => $data['email'],
         ':genre' => $data['genre'],
         ':antecedents' => $data['antecedents'],
         ':id_user' => $id_user
@@ -355,6 +388,7 @@ public function ChangeInfo_patient($bdd, $id_user, $id_essai, $data) {
         ':dose' => $data['dose'],
         ':effet_secondaire' => $data['effet_secondaire'],
         ':evolution_symptome' => $data['evolution_symptome'],
+        ':exclu' => $data['ban_user'],
         ':id_user' => $id_user,
         ':id_essai' => $id_essai
     ];
@@ -364,7 +398,7 @@ public function ChangeInfo_patient($bdd, $id_user, $id_essai, $data) {
         $bdd->updateLines($query, $params_user);
         $bdd->updateLines($query2, $params_resultat);
     } catch (Exception $e) {
-        echo "Erreur lors de la mise à jour des informations : " . $e->getMessage();
+        AfficherErreur("Erreur lors de la mise à jour des informations : " . $e->getMessage());
     }
 }
 
@@ -459,23 +493,17 @@ public function ChangeInfo_patient($bdd, $id_user, $id_essai, $data) {
         $bdd->updateLines($query, ["side_effects" => $value, "id" => $this->getIduser(), "id_essai" => $id_essai]);
     }
 
-    public function QuitEssai($bdd, $id_essai){
-        $query = "UPDATE resultat SET is_patient_exclus = 3 WHERE ID_patient = :id AND ID_essai = :id_essai;";
-        $bdd->updateLines($query, ["id" => $this->getIduser(), "id_essai" => $id_essai]);
-    }
 
     /**
-     * Méthode pour rejoindre un essai clinique pour un patient
+     * Méthode pour rejoindre un essai clinique pour un médecin
      * @param $bdd : base de données
      * @param $id_essai : id de l'essai
      */
     public function Rejoindre($bdd, $id_essai){
-        $query_phase = "SELECT ID_phase FROM essai WHERE ID_essai = :id_essai;";
-        $query = "INSERT INTO resultat (ID_patient, ID_essai, is_accepte, is_patient_exclus, phase) 
-                  VALUES (:id, :id_essai, 0, 0, :phase);";
+        $query = "INSERT INTO essai_medecin (ID_medecin, ID_essai, is_accepte, est_de_company) 
+                  VALUES (:id, :id_essai, 0, 0);";
 
-        $res = $bdd->getResults($query_phase, ["id_essai" => $id_essai]);
-        $bdd->insertLine($query, ["id" => $this->getIduser(), "id_essai" => $id_essai, "phase" => $res["ID_phase"]]);
+        $bdd->insertLine($query, ["id" => $this->getIduser(), "id_essai" => $id_essai]);
         AfficherInfo("You have successfully joined the trial", $id_essai, "cross_inscription"); // affiche une notification pour confirmer l'inscription
     }
 
