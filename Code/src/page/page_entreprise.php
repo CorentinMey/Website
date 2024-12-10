@@ -101,7 +101,6 @@ $bdd = new Query("siteweb");
         } elseif (isset($_POST['createPhase'])) {
             // Traiter le formulaire de création d'un essai clinique
             $data = [
-                'id_essai' => $_POST['id_essai'],
                 'date_debut' => $_POST['date_debut'],
                 'date_fin' => $_POST['date_fin'] ?? null,
                 'description' => $_POST['description'],
@@ -127,7 +126,41 @@ $bdd = new Query("siteweb");
         } elseif (isset($_POST['StartEssai'])) {
             $idEssai = $_POST['idEssai']; // ID de l'essai envoyé via un champ caché
             $entreprise->startPhase($bdd, $idEssai);
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ChangePhase'])) {
+        
+            // Récupérer la description et la molécule testée
+            $result = recupererDescriptionEtMolecule($bdd, $_POST['idEssai']);
+        
+            if ($result) {
+                // Afficher le formulaire de création de la nouvelle phase
+                afficherFormulaireChangerPhase(
+                    $_POST['idEssai'],
+                    $result['description'],
+                    $result['molecule_test'],
+                    $_POST['idphase']
+                );
+            } else {
+                echo "<p>Erreur : Essai introuvable.</p>";
+            }
+        } elseif (isset($_POST['createPhase2'])) {
+
+            $data = [
+                'date_debut' => $_POST['date_debut'],
+                'date_fin' => $_POST['date_fin'] ?? null,
+                'description' => $_POST['description'],
+                'molecule_test' => $_POST['molecule_test'],
+                'dosage_test' => $_POST['dosage_test'],
+                'molecule_ref' => $_POST['molecule_ref'] ?? null,
+                'dosage_ref' => $_POST['dosage_ref'] ?? null,
+                'placebo_nom' => $_POST['placebo_nom'] ?? null,
+                'nombre_patient_ideal' => $_POST['nombre_patient_ideal'] ?? null
+            ];
+        
+            // Appeler la méthode pour ajouter une nouvelle phase
+            $entreprise->NewPhase($bdd, $data,$_POST['IDphase']);
+            echo "<p>Nouvelle phase créée avec succès ! </p>";
         }
+        
         
         echo '</div>';
     }   else {

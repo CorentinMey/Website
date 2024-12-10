@@ -238,45 +238,57 @@ function afficherDetailsEssai($bdd, $idEssai) {
         } else {
             echo 'Aucun médecin référent</p>';
         }
-         // Conteneur commun pour les boutons
-echo '<div class="button-container">';
 
-// Bouton pour revenir à la liste des essais
-echo '<div class="assay-actions">';
-echo '    <form method="POST" action="">';
-echo '        <button type="submit" name="Action" value="SeeEssai" class="buttonVoirdetail">Retour à la liste des essais</button>';
-echo '    </form>';
-echo '</div>';
+        // Conteneur commun pour les boutons
+        echo '<div class="button-container">';
 
-// Vérification des conditions avant d'afficher les boutons conditionnels
-if (!$essai['a_debute']) {
-    if (!empty($medecins)) {
-        if ($phase['nombre_patients'] && $phase['nombre_patients'] > 0) {
-            // Bouton pour démarrer l'essai
+        // Bouton pour revenir à la liste des essais
+        echo '<div class="assay-actions">';
+        echo '    <form method="POST" action="">';
+        echo '        <button type="submit" name="Action" value="SeeEssai" class="buttonVoirdetail">Retour à la liste des essais</button>';
+        echo '    </form>';
+        echo '</div>';
+
+        // Vérification des conditions avant d'afficher les boutons conditionnels
+        if (!$essai['a_debute']) {
+            if (!empty($medecins)) {
+                if ($phase['nombre_patients'] && $phase['nombre_patients'] > 0) {
+                    // Bouton pour démarrer l'essai
+                    echo '<div class="assay-actions">';
+                    echo '    <form method="POST" action="">';
+                    echo '        <input type="hidden" name="idEssai" value="' . htmlspecialchars($essai['ID_essai']) . '">';
+                    echo '        <button type="submit" name="StartEssai" class="buttonVoirdetail">Démarrer la phase</button>';
+                    echo '    </form>';
+                    echo '</div>';
+                } else {
+                    // Message d'avertissement si le nombre de patients est nul
+                    echo '<div class="assay-actions">';
+                    echo '<p style="color: red;">Impossible de démarrer la phase : aucun patient enregistré.</p>';
+                    echo '</div>';
+                }
+            } else {
+                // Bouton pour demander un médecin
+                echo '<div class="assay-actions">';
+                echo '    <form method="POST" action="">';
+                echo '        <input type="hidden" name="idEssai" value="' . htmlspecialchars($essai['ID_essai']) . '">';
+                echo '        <button type="submit" name="DemanderMedecin" class="buttonVoirdetail">Demander un médecin</button>';
+                echo '    </form>';
+                echo '</div>';
+            }
+        }
+
+        // Bouton pour changer de phase si l'essai est terminé et la phase est < 4
+        if ($essai['a_debute'] && $essai['ID_phase'] < 4 && strtotime($essai['date_fin']) <= time()) {
             echo '<div class="assay-actions">';
             echo '    <form method="POST" action="">';
             echo '        <input type="hidden" name="idEssai" value="' . htmlspecialchars($essai['ID_essai']) . '">';
-            echo '        <button type="submit" name="StartEssai" class="buttonVoirdetail">Démarrer la phase</button>';
+            echo '        <input type="hidden" name="idphase" value="' . htmlspecialchars($essai['ID_phase']) . '">';
+            echo '        <button type="submit" name="ChangePhase" class="buttonVoirdetail">Changer de phase</button>';
             echo '    </form>';
             echo '</div>';
-        } else {
-            // Message d'avertissement si le nombre de patients est nul
-            echo '<div class="assay-actions">';
-            echo '<p style="color: red;">Impossible de démarrer la phase : aucun patient enregistré.</p>';
-            echo '</div>';
         }
-    } else {
-        // Bouton pour demander un médecin
-        echo '<div class="assay-actions">';
-        echo '    <form method="POST" action="">';
-        echo '        <input type="hidden" name="idEssai" value="' . htmlspecialchars($essai['ID_essai']) . '">';
-        echo '        <button type="submit" name="DemanderMedecin" class="buttonVoirdetail">Demander un médecin</button>';
-        echo '    </form>';
-        echo '</div>';
-    }
-}
 
-echo '</div>'; // Fin du conteneur
+        echo '</div>'; // Fin du conteneur
     } else {
         echo '<p>Essai introuvable.</p>';
     }
@@ -334,6 +346,58 @@ function afficherFormulaireChoixMedecin($bdd, $idEssai) {
         // Message si aucun médecin n'est disponible
         echo '<p>Aucun médecin disponible.</p>';
     }
+}
+
+function recupererDescriptionEtMolecule($bdd, $idEssai) {
+    $query = "SELECT description, molecule_test 
+              FROM essai 
+              WHERE ID_essai = :idEssai";
+    return $bdd->getResults($query, [":idEssai" => $idEssai]);
+}
+
+
+
+function afficherFormulaireChangerPhase($idEssai, $description, $moleculeTest, $idphase) {
+    echo '<div class="content-wrapper">';
+    echo "<h2>Créer une nouvelle phase</h2>";
+    echo '<form method="POST" action="" class="form-nouvelle-phase">';
+    
+    // Affichage des champs non modifiables
+    echo '<p><strong>Description actuelle :</strong> ' . htmlspecialchars($description) . '</p>';
+    echo '<p><strong>Molécule testée :</strong> ' . htmlspecialchars($moleculeTest) . '</p>';
+    
+    // Champ caché pour l'ID de l'essai
+    echo '<input type="hidden" name="id_essai" value="' . htmlspecialchars($idEssai) . '">';
+    echo '<input type="hidden" name="description" value="' . htmlspecialchars($description) . '">';
+    echo '<input type="hidden" name="molecule_test" value="' . htmlspecialchars($moleculeTest) . '">';
+    echo '<input type="hidden" name="IDphase" value="' . htmlspecialchars($idphase + 1) . '">';
+    
+    // Champs à remplir pour la nouvelle phase
+    echo '<label for="date_debut">Date de début prévue:</label>';
+    echo '<input type="date" id="date_debut" name="date_debut" required><br>';
+    
+    echo '<label for="date_fin">Date de fin prévue:</label>';
+    echo '<input type="date" id="date_fin" name="date_fin"><br>';
+    
+    echo '<label for="dosage_test">Dosage testé:</label>';
+    echo '<input type="text" id="dosage_test" name="dosage_test" required><br>';
+    
+    echo '<label for="molecule_ref">Molécule de référence:</label>';
+    echo '<input type="text" id="molecule_ref" name="molecule_ref"><br>';
+    
+    echo '<label for="dosage_ref">Dosage de référence:</label>';
+    echo '<input type="text" id="dosage_ref" name="dosage_ref"><br>';
+    
+    echo '<label for="placebo_nom">Nom du placebo:</label>';
+    echo '<input type="text" id="placebo_nom" name="placebo_nom"><br>';
+
+    echo '<label for="nombre_patient_ideal">Nombre de patients idéal:</label>';
+    echo '<input type="text" id="nombre_patient_ideal" name="nombre_patient_ideal"><br>';
+    
+    // Bouton pour soumettre le formulaire
+    echo '<button type="submit" name="createPhase2">Créer la nouvelle phase</button>';
+    echo '</form>';
+    echo '</div>';
 }
 
 ?>

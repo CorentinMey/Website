@@ -77,6 +77,12 @@ class Query {
         $update->execute($args);
         $this->closeStatement($update);
     }
+    /**
+     * Récupère le dernier ID ajouté
+     */
+    public function getLastInsertId() {
+        return $this->connection->lastInsertId();
+    }
 }
 
 
