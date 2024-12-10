@@ -399,6 +399,10 @@ class Patient extends Utilisateur{
             return [$placebo, 0.0];
     }
 
+    public function getAttributeTreatment($test, $ref, $test_dose, $ref_dose, $placebo){ // fonction pour le fichier de test
+        return $this->AttributeTreatment($test, $ref, $test_dose, $ref_dose, $placebo);
+    }
+
     /**
      * Méthode pour rejoindre un essai clinique pour un patient
      * @param $bdd : base de données

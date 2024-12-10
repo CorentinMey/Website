@@ -168,17 +168,25 @@ function testGenerateSearchQuery() {
 }
 
 // Appel des fonctions de test
-echo "<h2>Tests unitaires pour Affichage_gen.php</h2><br>";
+echo "<h2>Tests unitaires pour Afficher_erreur</h2><br>";
 testAfficherErreur();
+echo "<h3>==============================================================================================================================================================</h3>";
+echo "<h2>Tests unitaires pour AfficherInfo</h2><br>";
 testAfficherInfo();
+echo "<h3>==============================================================================================================================================================</h3>";
+echo "<h2>Tests unitaires pour AfficherConfirmation</h2><br>";
 testAfficherConfirmation();
+echo "<h3>==============================================================================================================================================================</h3>";
+echo "<h2>Tests unitaires pour Affiche_medecin</h2><br>";
 testAffiche_medecin();
+echo "<h3>==============================================================================================================================================================</h3>";
+echo "<h2>Tests unitaires pour AfficherBarreRecherche</h2><br>";
 testAfficherBarreRecherche();
 
 
 
-
-echo "<h2> Tests unitaires pour AffiicherEssaisPAsdemarré (et Affichage_content_essai_pas_demarre)</h2><br>";
+echo "<h1>==============================================================================================================================================================</h1>";
+echo "<h2> Tests unitaires pour AfficherEssaisPAsdemarré (et Affichage_content_essai_pas_demarre)</h2><br>";
     echo "<h3> Si tous les arguments sont bons, la fonction devrait afficher les essais non démarrés</h3>";
     $bdd = new Query("siteweb");
     $patien3 = new Patient(mdp : "1234", email : "jacques.perrin@mail.com");
@@ -188,7 +196,7 @@ echo "<h2> Tests unitaires pour AffiicherEssaisPAsdemarré (et Affichage_content
     echo "<h3> Si un argument est manquant, la fonction devrait afficher un message d'erreur</h3>";
     AfficherEssaisPasDemarré($bdd,75);
 
-
+echo "<h3>==============================================================================================================================================================</h3>";
 echo '<h2>Tests unitaires AfficherEssaisRecherche (idem avant mais avec un paramètre de recherche)</h2>;';
     echo "<h3> Si tous les arguments sont bons, la fonction devrait afficher les essais recherchés</h3>";
     echo "Mot recherché : Virtual<br>";
@@ -204,6 +212,7 @@ echo '<h2>Tests unitaires AfficherEssaisRecherche (idem avant mais avec un param
 
 
 // Appel des tests
+echo "<h3>==============================================================================================================================================================</h3>";
 echo "<h2>Tests unitaires pour GenerateSearchQuery.php</h2><br>";
 testGenerateSearchQuery();
 

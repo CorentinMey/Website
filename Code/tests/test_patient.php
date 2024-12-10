@@ -38,6 +38,7 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
 
 <body>
     <h1>Test de la classe Patient</h1>
+<h3>==============================================================================================================================================================</h3>
     <h3>Test des accesseurs et de constructeur</h3>
     <?php
     echo "Nom : " . $patient->getLast_name() . "<br>";
@@ -52,7 +53,7 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
     echo "Est admin : " . ($patient->getIs_admin() ? 'Oui' : 'Non') . "<br>";
     echo "ID utilisateur : " . $patient->getIduser() . "<br>";
     ?>
-
+<h3>==============================================================================================================================================================</h3>
     <h3>Test des mutateurs</h3>
     <?php
     $patient->setOrigins("France");
@@ -67,7 +68,7 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
     $patient->setGender("M");
     $patient->setIduser(11111111);
     ?>
-
+<h3>==============================================================================================================================================================</h3>
     <h3>Test des accesseurs après mutation</h3>
         <?php
             echo "Nom : " . $patient->getLast_name() . "<br>";
@@ -82,7 +83,7 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
             echo "Est admin : " . ($patient->getIs_admin() ? 'Oui' : 'Non') . "<br>";
             echo "ID utilisateur : " . $patient->getIduser() . "<br>";
         ?>
-    
+<h3>==============================================================================================================================================================</h3>
     <h3>Test inscription d'un patient</h3>
     <?php
     $patient->Inscription($bdd, [
@@ -100,7 +101,7 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
     else
         echo "Inscription échouée ".$_SESSION["result"];
     ?>
-
+<h3>==============================================================================================================================================================</h3>
     <h3> Test inscription avec un mineur</h3>
     <?php
     $patient->Inscription($bdd, [
@@ -120,7 +121,7 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
         echo "Inscription échouée ".$_SESSION["result"];
     ?>
     
-
+<h3>==============================================================================================================================================================</h3>
     <h3> Test si le mail existe déjà dans la BDD</h3>
     <?php
     $patient->Inscription($bdd, [
@@ -139,7 +140,7 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
     else
         echo "Inscription échouée ".$_SESSION["result"];
     ?>
-
+<h3>==============================================================================================================================================================</h3>
     <h3> Test injection de code SQL</h3>
 
     <?php
@@ -160,7 +161,7 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
         echo "Inscription échouée ".$_SESSION["result"];
 
     ?>
-
+<h3>==============================================================================================================================================================</h3>
     <h2> Test de la fonction getLastIdPatient</h2>
     <?php
     echo "ID du dernier patient inscrit : " . $patient->getLastIdPatient();
@@ -168,17 +169,17 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
 
 
 
-
+<h3>==============================================================================================================================================================</h3>
     <h3>Test de la fonction ChangeInfo / updatePatientInfo</h3>
     <p>Impossible à tester depuis un fichier tier. La fonction a été testée depuis l'interface elle même.</p>
 
-        
+<h3>==============================================================================================================================================================</h3>   
     <h3> Test de la fonction AffichageTableauInfoPerso</h3>
     <?php
         $patient->AffichageTableauInfoPerso();
     ?>
 
-
+<h3>==============================================================================================================================================================</h3>
     <h3>Test de la fonction AfficheEssais</h3>
     <p>Il n'est pas nécessaire de tester la fonction avec $bdd défaillant car la classe Query empêche toutes execution de code si son output n'est pas conforme</p>
     <p>Si l'utilisateur ne participe à aucun essai</p>
@@ -191,49 +192,41 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
         $patien3->Connexion($patien3->getEmail(), $patien3->getMdp(), $bdd);
         $patien3->AfficheEssais($bdd);
     ?>
-
+<h3>==============================================================================================================================================================</h3>
     <h3> Test de la fonctionNombreNotif()</h3>
     <?php
         echo "Nombre de notifications : ".$patient->getEmail()." : ". $patient->NombreNotif($bdd)."<br>";
         echo "Nombre de notifications : ".$patien3->getEmail()." : ". $patien3->NombreNotif($bdd)."<br>";
     ?>
-
-    <h3> Test de la GetInfoEssai</h3>
-    <p>Si l'argument est bon :</p>
-        <?php
-            $res = $patien3->getGetInfoEssai($bdd);
-            print_r($res);
-        ?>
-    <p>Si les arguments sont faux :</p>
-        <?php
-            $res = $patien3->getGetInfoEssai(1);
-            print_r($res);
-        ?>
-
+<h3>==============================================================================================================================================================</h3>
     <h3>Test de la fonction AfficheNotif</h3>
     <?php
         $patient->AfficheNotif($bdd);
         $patien3->AfficheNotif($bdd);
     ?>
-
+<h3>==============================================================================================================================================================</h3>
     <h3>Test de la fonction Rejoindre (patient qui demande à participer à un essai)</h3>
     <?php
-        $patient->Rejoindre($bdd, 1);
+        $patient->Rejoindre($bdd, 4);
+    ?>
+
+    <?php
+    // supression de la BDD pour ne pas surcharger
+    $query = "DELETE FROM resultat WHERE ID_Essai = 4 AND ID_patient = 11111111;";
+    $bdd->deleteLines($query, []);
+
     ?>
 
     <p>Les autres méthodes de Patient ont été testées depuis l'interface web. Elles ne sont pas faites pour être testées dans un fichier tier</p>
 
+<h3>==============================================================================================================================================================</h3>
+    <h3> Test de la fonction AttributeTreatment</h3>
+    <p> test de la fonction qui attribut un traitement à un patient</p>
+    <?php
+    print_r($patien3->getAttributeTreatment("Bernosaurus", "Cometosaure", "500VIGEANT/mL", "1000GRATALOUP/mL", "GUZZI"));
+    ?>
 
-
-
-
-
-
-
-
-
-
-
+    <h3>==============================================================================================================================================================</h3>
     <h2> Test de la fonction Connexion</h2>
     <h3>Ici le patient se connect grâce à son mail et à son mdp et obtient ses infos au complet</h3>
     <?php
@@ -252,8 +245,9 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
     echo "Est admin : " . ($patient2->getIs_admin() ? 'Oui' : 'Non') . "<br>";
     echo "ID utilisateur : " . $patient2->getIduser() . "<br>";
     ?>
-
+<h3>==============================================================================================================================================================</h3>
     <h3> Test de la fonction connexion avec un mail qui n'existe pas</h3>
+    <p>Le fichier va arreter de s'éxécuter par sécurité. Il faut commenter le code ligne 249-266 pour voir la suite. Cela sera aussi le cas pour les test suivants</p>
     <?php
     $patient2->Connexion("zefzefzef", "1234", $bdd);
     // Affiche le patient avec ses nouvelles infos au complet
@@ -271,6 +265,19 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
     ?>
 
 
+
+<h3>==============================================================================================================================================================</h3>
+    <h3> Test de la GetInfoEssai</h3>
+    <p>Si l'argument est bon :</p>
+        <?php
+            $res = $patien3->getGetInfoEssai($bdd);
+            print_r($res);
+        ?>
+    <p>Si les arguments sont faux :</p>
+        <?php
+            $res = $patien3->getGetInfoEssai(1);
+            print_r($res);
+        ?>
 </html>
 
 
