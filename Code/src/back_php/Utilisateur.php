@@ -215,13 +215,11 @@ class Utilisateur {
             $query_res = $bdd->getResults($query, array("email" => $email)); // Récupérer le premier résultat et l'email est unique
             
             if (empty($query_res)) { // Si aucun utilisateur n'est trouvé
-                include_once("../back_php/Affichage_gen.php");
-                afficherErreur("Identifiants incorrects.");
+                afficherErreur("Unknown identifiers.");
                 exit();
                 return false;
             } elseif (!password_verify($password, $query_res["mdp"])) { // Si le mot de passe ne correspond pas
-                include_once("../back_php/Affichage_gen.php");
-                afficherErreur("Mot de passe incorrect pour l'email $email");
+                afficherErreur("Incorect password for".htmlspecialchars($email));
                 exit();
                 return false;
             } else { // définir les attributs de l'objet pour les classes filles
@@ -234,7 +232,7 @@ class Utilisateur {
 
         } catch (PDOException $e) {
             // Gérer les erreurs
-            echo "Erreur lors de la connexion : " . $e->getMessage();
+            AfficherErreur("Erreur lors de la connexion : " . $e->getMessage());
             return false;
         }
     }
@@ -243,7 +241,6 @@ class Utilisateur {
     public function Deconnect(){
         //Fonction pour se déconnecter du site
         session_destroy ();
-        //header("Location: page_deco.php");
     }
 
 }   
