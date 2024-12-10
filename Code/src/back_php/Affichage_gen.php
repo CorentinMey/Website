@@ -2,7 +2,7 @@
 include_once("Patient.php");
 include_once("Medecin.php");
 function AfficherErreur($message, $id = "") {
-    echo '<div class="error-message", id='.$id.'>' . htmlspecialchars($message) . '</div>';
+    echo '<div class="error-message" id='.$id.'>' . htmlspecialchars($message) . '</div>';
 }
 
 /**
@@ -70,7 +70,7 @@ function AfficherBarreRecherche($search_query) {
             echo '<div class="search">';
                 echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">';
                 echo '<input type="hidden" name="form_type" value="search_form">'; // utile pour savoir quel formulaire a été soumis
-                echo '<input class="search__input" type="text" name="search_query" placeholder="Search" value = "'.htmlspecialchars($search_query).'">';
+                echo '<input class="search__input" type="text" name="search_query" placeholder="Search" value="'.htmlspecialchars($search_query).'">';
                 echo '<button type="submit" id="search__button" class="fa fa-search"></button>';
             echo '</div>';
         echo '</form>';
