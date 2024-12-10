@@ -8,14 +8,15 @@ include_once("Affichage_gen.php");
 /**
  * FOnction pour générer un graphique depuis Jpgraphe
  * @param Graph $graph Graphique à afficher
+ * @param string $id Identifiant de l'image
  */
-function GenerateGraph($graph){
+function GenerateGraph($graph, $id = ""){
     ob_start();
     $graph->Stroke(_IMG_HANDLER);
     $gdImg = $graph->Stroke(_IMG_HANDLER);
     imagepng($gdImg);
     $imageData = ob_get_clean();
-    echo "<img src='data:image/png;base64," . base64_encode($imageData) . "'alt = 'Graphique'>";
+    echo "<img class='graphique' id='".htmlspecialchars($id)."' src='data:image/png;base64," . base64_encode($imageData) . "'alt = 'Graphique'>";
 }
 
 /**
@@ -305,7 +306,7 @@ function getDataBoxPlotSideEffect($bdd, $id_essai, $nb_phase){
     $param = ["id_essai" => $id_essai, "nb_phase" => $nb_phase];
     $rows = $bdd->getResultsAll($query, $param);
     foreach ($rows as $row) {
-        $traitement = $row['evolution_symptome'];
+        $traitement = $row['effet_secondaire'];
         $age = $row['age'];
         if (!isset($dict[$traitement])) // si le traitement n'existe pas dans le dictionnaire
             $dict[$traitement] = [];

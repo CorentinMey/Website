@@ -444,7 +444,10 @@ public function ChangeInfo_patient($bdd, $id_user, $id_essai, $data) {
         $query = "SELECT ID_User, genre, date_naissance, antecedents, traitement, dose, effet_secondaire, evolution_symptome FROM resultat JOIN utilisateur ON 
                     resultat.ID_patient = utilisateur.ID_User NATURAL JOIN essai
                         WHERE ID_essai = :id 
-                        AND a_debute = 2;"; // On ne prend que les résultats si l'essai est fini
+                        AND a_debute = 2
+                        AND is_accepte != 0
+                        # TODO faire la distinction selon les phases de l'essai 
+                        AND phase_res = 1;"; // On ne prend que les résultats si l'essai est fini
     
         $res = $bdd->getResultsAll($query, ["id" => $id_essai]);
         if ($res == []) {
@@ -465,6 +468,9 @@ public function ChangeInfo_patient($bdd, $id_user, $id_essai, $data) {
             echo '</tbody>'; // fermeture du tableau et de la div qui le contient
             echo '</table>';
             echo '</div>';
+            // TODO mettre le numéro de la phase ici à la place du 1
+            afficherGraphiques($bdd, $id_essai, 1);
+
     }
 
 

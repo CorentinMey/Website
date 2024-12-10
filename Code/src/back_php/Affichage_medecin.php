@@ -1,6 +1,8 @@
 <?php
 include_once("Medecin.php");
 include_once("Affichage_gen.php"); // pour la fonction Affiche_medecin
+include_once("graph.php");
+
 /**
  * Affiche l'en tête du tableau pour les essais cliniques du médecin
  */
@@ -250,6 +252,51 @@ function Affichage_content_resultats($results, $id_essai, $count){
         echo '<td>'.$results["evolution_symptome"].'</td>';
         echo '</td>';    
     echo '</tr>';
+}
+
+/**
+ * Fonction pour afficher les différents graphique srécapitulant les informations des essais cliniques
+ * @param Query $bdd : base de données
+ * @param $id_essai : id de l'essai clinique
+ * @param $nb_phase : numéro de phases de l'essai clinique
+ */
+function afficherGraphiques($bdd, $id_essai, $nb_phase) {
+
+    echo '<div class="graphique-container">';
+
+        // Histogramme de la distribution des âges
+        echo '<h2 class="title">Histogram of the age distribution</h2>';
+        $datahisto = getDataHistogram($bdd, $id_essai, $nb_phase);
+        Histogramme($datahisto);
+
+        // BoxPlot de la distribution des âges selon les traitements
+        echo "<h2 class='title'>BoxPlot of the age distribution according to treatments</h2>";
+        $boxplotData = getDataBoxPlotTraitement($bdd, $id_essai, $nb_phase);
+        $categories = array_keys($boxplotData);
+        // Ajouter des catégories fantômes pour les données manquantes
+        array_push($categories, " ");
+        array_unshift($categories, " ");
+        $boxplot_dict = TransformDataBoxPlot($boxplotData);
+        // Générer le boxplot
+        boxplot($boxplot_dict, $categories);
+
+        // BoxPlot de la distribution des âges selon les effets secondaires
+        echo "<h2 class='title'>BoxPlot of the age distribution according to side effects</h2>";
+        $boxplotData = getDataBoxPlotSideEffect($bdd, $id_essai, $nb_phase);
+        $categories = array_keys($boxplotData);
+        array_push($categories, " ");
+        array_unshift($categories, " ");
+        $boxplot_dict = TransformDataBoxPlot($boxplotData);
+        boxplot($boxplot_dict, $categories, "red");
+
+        // Barplot de l'évolution de la santé selon le traitement
+        echo "<h2 class='title'>Barplot of the health evolution according to the treatment</h2>";
+        $barplotData = getDataBarplot($bdd, $id_essai, $nb_phase);
+        $categories = $barplotData['categories'];
+        $data = $barplotData['data'];
+        barplot($data, $categories, "Grouped barplot", "Health evolution", "Number of patients");
+
+    echo '</div>';
 }
 
 ?>
