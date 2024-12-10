@@ -112,6 +112,10 @@ function Affichage_content_essai_pas_demarre($essai, $medecins, $id_essai) {
  * @param $user : objet utilisateur (patient ou médecin)
  */
 function AfficherEssaisPasDemarré($bdd, $user, $search_query = "") {
+    if (!($bdd instanceof Query) || !($user instanceof Utilisateur)) {
+        AfficherErreur("Invalid argument type.");
+        return;
+    }
     if ($user instanceof Patient) {
         // Requête pour obtenir les essais qui n'ont pas encore démarré et auxquels le patient n'a pas postulé
         $query_essai = "SELECT  ID_essai, nom, description, titre, date_debut, ID_phase
@@ -152,14 +156,15 @@ function AfficherEssaisPasDemarré($bdd, $user, $search_query = "") {
     }
 }
 
+
 /**
- * FOnction pour gérer l'affichage des essais en fonction de ce qui a été rentrée dans la barre de recherche
- * @param Query $bdd: objet de connexion à la base de données
- * @param User $user: objet utilisateur (patient ou médecin)
- * @param string $search_query: chaîne de caractères à rechercher
+ * Génère la requête SQL pour rechercher les essais cliniques en fonction de la requête de recherche.
+ *
+ * @param string $search_query La chaîne de caractères à rechercher.
+ * @param int $id_patient L'identifiant du patient.
+ * @return array Un tableau contenant la requête SQL et les paramètres associés.
  */
-function AfficherEssaisRecherche($bdd, $user, $search_query) {
-    // Requête pour rechercher dans le titre, la phase, la description ou les médecins associés
+function generateSearchQuery($search_query, $id_patient) {
     $query = "SELECT DISTINCT e.ID_essai, u.nom, e.description, e.titre, e.date_debut, e.ID_phase
                 FROM essai e
                 JOIN utilisateur u ON e.ID_entreprise_ref = u.ID_User
@@ -172,14 +177,34 @@ function AfficherEssaisRecherche($bdd, $user, $search_query) {
                     e.ID_phase LIKE :search OR
                     m.nom LIKE :search)
                     AND e.a_debute = 0
-                    AND e.ID_essai NOT IN (SELECT ID_essai FROM resultat WHERE ID_patient = :id_patient)
-    ";
+                    AND e.ID_essai NOT IN (SELECT ID_essai FROM resultat WHERE ID_patient = :id_patient)";
 
     $params = [
         ':search' => '%' . $search_query . '%',
-        ':id_patient' => $user->getIduser()
+        ':id_patient' => $id_patient
     ];
 
+    return ['query' => $query, 'params' => $params];
+}
+
+
+/**
+ * FOnction pour gérer l'affichage des essais en fonction de ce qui a été rentrée dans la barre de recherche
+ * @param Query $bdd: objet de connexion à la base de données
+ * @param User $user: objet utilisateur (patient ou médecin)
+ * @param string $search_query: chaîne de caractères à rechercher
+ */
+function AfficherEssaisRecherche($bdd, $user, $search_query) {
+    if (!($bdd instanceof Query) || !($user instanceof Utilisateur)) {
+        AfficherErreur("Invalid argument type.");
+        return;
+    }
+    // Générer la requête SQL et les paramètres
+    $searchData = generateSearchQuery($search_query, $user->getIduser());
+    $query = $searchData['query'];
+    $params = $searchData['params'];
+
+    // Exécuter la requête
     $essais = $bdd->getResultsAll($query, $params);
 
     if (empty($essais)) {
