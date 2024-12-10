@@ -29,12 +29,49 @@ class Patient extends Utilisateur{
                             $origins);
     }
 
-    public function Inscription($bdd, $dict_information)
-    {
-        parent::Inscription($bdd, $dict_information); // reprend la fonction jusqu'à la création de l'objet utilisateur spécifique
-            
+    public function Inscription($bdd, $dict_information) {
+        // Appeler la méthode Inscription de la classe Utilisateur
+        parent::Inscription($bdd, $dict_information);
+
+        // Vérifier si l'inscription de l'utilisateur a réussi
+        if ($_SESSION["result"] === 1) {
+            // Insérer les informations spécifiques au patient
+            $this->insererPatient($bdd, $dict_information);
+        }
     }
-    
+
+    private function insererPatient($bdd) {
+        $id_patient = $this->getLastIdPatient();
+        $query = "UPDATE utilisateur SET ID_User = :id_patient WHERE mail = :mail_user;";
+        $params = [":id_patient" => $id_patient, ":mail_user" => $this->getEmail()];
+        $bdd->updateLines($query, $params);
+    }
+
+
+    public function getLastIdPatient() {
+        $filename = __DIR__."/id_patient_count.txt";
+        $id_patient = 0;
+        // Lire le nombre à partir du fichier
+        try{
+            $fh = fopen($filename, "r");
+            if ($fh) {
+                $id_patient = (int)fread($fh, filesize($filename));
+                fclose($fh);
+            }
+        } catch (Exception $e) {
+                AfficherErreur("Error while attributing an ID to the patient".$e->getMessage());
+                exit;
+            }        
+        // Incrémenter le nombre
+        $id_patient += 1;
+        $fh = fopen($filename, "w");
+        if ($fh) {
+            fwrite($fh, $id_patient);
+            fclose($fh);
+        }
+        return $id_patient;
+    }
+
     /**
      * Méthode pour se connecter à un compte patient depuis la page de connexion
      * @param $email : email du patient

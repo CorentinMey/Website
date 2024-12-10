@@ -12,6 +12,7 @@ if (!isset($_SESSION["patient"])) { // si quelqu'un essaie d'accéder à la page
 $patient = $_SESSION["patient"];
 $bdd = new Query("siteweb");
 
+// code pour gérer les boutons de daconexion, de redirection vers l'historique et de retour à la page d'accueil du patient
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['Action'])) {
         switch ($_POST['Action']) {

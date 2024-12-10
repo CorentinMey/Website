@@ -81,7 +81,6 @@ function registerNewPatient() {
         if (checkPassword($_POST["mdp"], $_POST["mdp2"])) {
             
             $bdd = new Query("siteweb");
-
             // Créer un tableau avec les informations du patient
             $bdd_dict = [
                 "nom" => $_POST["Nom"],
@@ -93,11 +92,9 @@ function registerNewPatient() {
                 "mdp" => $_POST["mdp"],
                 "date_naissance" => $_POST["date_naissance"]
             ];
-            
             // Appeler la fonction d'inscription
             $patient = new Patient($_POST["mdp"], $_POST["identifiant"]);
             $patient->Inscription($bdd, $bdd_dict);
-
             // Vérifier le résultat
             if ($_SESSION["result"] == 1) {
                 // Succès : redirection vers la page d'accueil
@@ -108,12 +105,10 @@ function registerNewPatient() {
                 AfficherErreur($_SESSION["result"]);
                 exit;
             }
-
         } else {
             // Les mots de passe ne correspondent pas
             AfficherErreur("Les mots de passe ne correspondent pas");
         }
-
     } else {
         // Des champs obligatoires sont manquants
         AfficherErreur("Veuillez remplir tous les champs");
