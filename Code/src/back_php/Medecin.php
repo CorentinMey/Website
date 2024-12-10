@@ -261,14 +261,25 @@ class Medecin extends Utilisateur{
             AfficherErreur("No clinical trials found yet. Please subscribe to some trials.");
             return;
         }
-        #Affichage d'un premier tableau
-        Affichage_entete_tableau_essai_med2(); // affiche l'en-tête du tableau
+        
     
-        $essai = $res[0]; // affiche les lignes du tableau
+        $essai = $res[0]; // stock les lignes du tableau
+        if($essai["est_de_company"]==1){ //On vérifie si la demande vient du médecin ou de l'entreprise
+            $demande = 1; 
+        }
+        else{
+            $demande = 0;
+        }
+
+
+        #Affichage d'un premier tableau
+        Affichage_entete_tableau_essai_med2($demande, $essai["is_accepte"]); // affiche l'en-tête du tableau
+
         $id_essai = $essai["ID_essai"];
+        $ID_User = $this->iduser; //Récupération de l'ID du médecin
         $entreprise = $bdd->getResults($query2, ["id" => $id_essai]);
         $medecins = $bdd->getResultsAll($query3, ["id" => $id_essai]);
-        Affichage_content_essai_med2($entreprise, $essai, $medecins, $id_essai);        
+        Affichage_content_essai_med2($entreprise, $essai, $medecins, $id_essai, $ID_User);        
                  
         echo '</tbody>'; // fermeture du tableau et de la div qui le contient
         echo '</table>';
@@ -351,6 +362,29 @@ public function SupprimerPatient($bdd, $id_essai, $id_patient) {
     }
 }
 
+// Fonction pour accepter un utilisateur dans un essai
+public function AccepterDemande($bdd, $id_essai, $id_med){
+    $query = "UPDATE essai_medecin SET is_accepte = 1 WHERE ID_medecin = :id AND ID_essai = :id_essai;";
+    $bdd->updateLines($query, ["id" => $id_med, "id_essai" => $id_essai]);
+    try {
+        $bdd->updateLines($query, ["id" => $id_med, "id_essai" => $id_essai]);
+        return "Vous avez rejoint l'essai avec succès.";
+    } catch (Exception $e) {
+        return AfficherErreur("Erreur lors de l'acceptation de l'essai : " . $e->getMessage());
+    }
+}
+
+// Fonction pour supprimer un utilisateur d'un essai
+public function SupprimerDemande($bdd, $id_essai, $id_med) {
+    $query = "DELETE FROM essai_medecin WHERE ID_medecin = :id AND ID_essai = :id_essai;";
+    try {
+        $bdd->updateLines($query, ["id" => $id_med, "id_essai" => $id_essai]);
+        return "L'essai a été refusé avec succès.";
+    } catch (Exception $e) {
+        return AfficherErreur("Erreur lors du refus de l'essai : " . $e->getMessage());
+    }
+}
+
 /**
  * Méthode pour mettre à jour les informations du patient dans la base de données.
  * @param object $bdd L'objet de connexion à la base de données
@@ -401,6 +435,37 @@ public function ChangeInfo_patient($bdd, $id_user, $id_essai, $data) {
         AfficherErreur("Erreur lors de la mise à jour des informations : " . $e->getMessage());
     }
 }
+
+    /**
+     * Fonction qui renvoie les résultats généraux d'un essai clinique
+    */
+    public function AffichageResultats($bdd, $id_essai){
+        // requete pour avoir les patients admis
+        $query = "SELECT ID_User, genre, date_naissance, antecedents, traitement, dose, effet_secondaire, evolution_symptome FROM resultat JOIN utilisateur ON 
+                    resultat.ID_patient = utilisateur.ID_User NATURAL JOIN essai
+                        WHERE ID_essai = :id 
+                        AND a_debute = 2;"; // On ne prend que les résultats si l'essai est fini
+    
+        $res = $bdd->getResultsAll($query, ["id" => $id_essai]);
+        if ($res == []) {
+            AfficherErreur("The results are not available yet. Please wait until the end of the trial.");
+            return;
+        }
+
+        //Affichage des resultats
+        Affichage_entete_tableau_resultats(); // affiche l'en-tête du tableau
+        
+        //Initialisation d'une variable compteur
+        $x=1;
+        foreach($res as $result){ // affiche les lignes du tableau
+            Affichage_content_resultats($result, $id_essai, $x);
+            $x= $x + 1;
+        }         
+            
+            echo '</tbody>'; // fermeture du tableau et de la div qui le contient
+            echo '</table>';
+            echo '</div>';
+    }
 
 
 

@@ -93,9 +93,29 @@ $bdd = new Query("siteweb");
         } elseif ($decision === 0) {
             // Code pour "Non"
             $medecin->SupprimerPatient($bdd,$id_essai,$id_user);
+            AfficherInfo("L'utilisateur $id_user a été refusé de l'essai $id_essai.", 0, 0, False);
         }
     }
 }
+
+    // Code pour accepter ou refuser une demande de superviser un essai
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST['accepter'])) {
+            $decision = (int)$_POST['accepter']; // Récupère la décision (1 pour Oui, 0 pour Non)
+            $id_user = $_POST['id_user'] ?? null; // Récupère l'ID utilisateur
+            $id_essai = $_POST['id_essai'] ?? null; // Récupère l'ID essai
+    
+            if ($decision === 1) {
+                // Code pour "Oui"
+                $medecin->AccepterDemande($bdd,$id_essai,$id_user);
+                AfficherInfo("Vous avez bien accepté la demande de superviser l'essai $id_essai.", 0, 0, False);
+            } elseif ($decision === 0) {
+                // Code pour "Non"
+                $medecin->SupprimerDemande($bdd,$id_essai,$id_user);
+                AfficherInfo("Vous avez bien refusé la demande de superviser l'essai $id_essai.", 0, 0, False);
+            }
+        }
+    }
 
     
     
@@ -151,7 +171,7 @@ $bdd = new Query("siteweb");
                 }
                 break;
             case "Results":
-                $medecin->AffichageTableau($bdd);
+                $medecin->AffichageResultats($bdd, $_SESSION["id_essai"]);
                 break;
         }
     } else {

@@ -29,7 +29,7 @@ function Affichage_entete_tableau_essai_med(){
 /**
  * Affiche l'en tête du tableau 2 pour les essais cliniques du medecins
  */
-function Affichage_entete_tableau_essai_med2(){
+function Affichage_entete_tableau_essai_med2($demande, $acces){
 
     echo '<h2 class="title">General informations about the trial</h2>';
         echo '<div id="essai_clinique">';
@@ -47,7 +47,12 @@ function Affichage_entete_tableau_essai_med2(){
                         echo '<th>Reference Dosage</th>';
                         echo '<th>Placebo name</th>';
                         echo '<th>Referent Doctors</th>';
-                        echo "<th>Status</th>";
+                        if ($demande == 1 && $acces!=1){
+                            echo "<th>Accept to supervise the trial ?</th>";
+                        }
+                        else{
+                            echo "<th>Status</th>";
+                        }
                     echo '</tr>';
                 echo '</thead>';
                 echo '<tbody>';
@@ -87,7 +92,7 @@ function Affichage_content_essai_med($entreprise, $essai, $medecins, $id_essai){
         echo '</tr>';
 }
 
-function Affichage_content_essai_med2($entreprise, $essai, $medecins, $id_essai){
+function Affichage_content_essai_med2($entreprise, $essai, $medecins, $id_essai, $ID_User){
     echo '<tr>';
         echo '<td>'.$entreprise["nom"].'</td>'; // affiche le contenu des colonnes simples
         echo '<td>Phase '.$essai["ID_phase"].'</td>';
@@ -104,8 +109,22 @@ function Affichage_content_essai_med2($entreprise, $essai, $medecins, $id_essai)
         echo '</td>';
         if ($essai["is_accepte"]!=0){ // si le docteur est accepté en tant que référent de l'essai
             echo '<td>In charge of the trial</td>';
-        } else // si l'essai est en cours
-            echo '<td>Not yet accepted</td>';
+        } else { // si le médecin n'est pas encore référent de l'essai
+            if($essai["est_de_company"]==1){ //Si la demande vient du entreprise, possibilité d'accepter la demande et de rejoindre l'essai
+                echo '<td>';
+                echo '<form action="page_essai_medecin.php" method="post">'; // Redirection vers la même page
+                echo '<input type="hidden" name="id_user" value="' . $ID_User . '">';
+                echo '<input type="hidden" name="id_essai" value="' . $id_essai . '">';
+                echo '<input type="hidden" name="Action" value="accept">'; // Champ Action pour préciser l'action
+                echo '<button type="submit" name="accepter" value="1" class="button">Oui</button>'; // Bouton Oui
+                echo '<button type="submit" name="accepter" value="0" class="button">Non</button>'; // Bouton Non
+                echo '</form>';
+                echo '</td>';
+            }
+            else{  // Si la demande vient du médecin, attente de la réponse entreprise
+                echo '<td>Not yet accepted</td>';
+            }
+        }            
     echo '</tr>';
 }
     
@@ -190,6 +209,46 @@ function Affichage_content_participants($participants, $id_essai){
             echo '</td>';
         } 
            
+    echo '</tr>';
+}
+
+
+/**
+ * Affiche l'en tête du tableau pour les résultats
+ */
+function Affichage_entete_tableau_resultats(){
+
+    echo '<h2 class="title">General results of the trial for each individual</h2>';
+        echo '<div id="essai_clinique">';
+            echo '<table class="styled-table" id="table_essai">';
+                echo '<thead>';
+                    echo '<tr>';
+                        echo '<th>Individual number</th>';
+                        echo '<th>Gender</th>';
+                        echo '<th>Birthdate</th>';
+                        echo '<th>Medical Background</th>';
+                        echo '<th>Treatment</th>';
+                        echo '<th>Dose</th>';
+                        echo '<th>Side effects</th>';
+                        echo '<th>Symptoms evolution</th>';
+                    echo '</tr>';
+                echo '</thead>';
+                echo '<tbody>';
+
+    }
+
+// Affiche le contenu des résultats
+function Affichage_content_resultats($results, $id_essai, $count){
+    echo '<tr>';
+        echo '<td>'.$count.'</td>';
+        echo '<td>'.$results["genre"].'</td>'; // affiche le contenu des colonnes simples
+        echo '<td>'.$results["date_naissance"].'</td>';
+        echo '<td>'.$results["antecedents"].'</td>';
+        echo '<td>'.$results["traitement"].'</td>';
+        echo '<td>'.$results["dose"].'</td>';
+        echo '<td>'.$results["effet_secondaire"].'</td>';
+        echo '<td>'.$results["evolution_symptome"].'</td>';
+        echo '</td>';    
     echo '</tr>';
 }
 
