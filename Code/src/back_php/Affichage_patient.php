@@ -4,6 +4,44 @@ include_once("Affichage_gen.php"); // pour la fonction Affiche_medecin
 
 
 /**
+ * Fonction pour tester les arguments de la fonction Affichage_content_essai
+ */
+function Test_Argument($entreprise, $essai, $medecins, $id_essai){
+    if (!is_array($entreprise) || !isset($entreprise['nom']) || !isset($entreprise['a_debute'])) {
+        AfficherErreur("Beware, there is a proble with the argument type entreprise", E_USER_WARNING);
+        return false;
+    }
+
+    // Vérification de $essai
+    elseif (!is_array($essai) || !isset($essai['phase_res']) || !isset($essai['description']) || !array_key_exists('effet_secondaire', $essai)) {
+        AfficherErreur("Beware, there is a proble with the argument type essai", E_USER_WARNING);
+        return false;
+    }
+
+    // Vérification de $medecins
+    elseif (!is_array($medecins)) {
+        AfficherErreur("Beware, there is a proble with the argument type medecin", E_USER_WARNING);
+        return false;
+    }
+    foreach ($medecins as $medecin) {
+        if (!is_array($medecin) || !isset($medecin['nom'])) {
+            AfficherErreur("Beware, there is a proble with the argument type medecin", E_USER_WARNING);
+            return false;
+        }
+    }
+
+    // Vérification de $id_essai
+    if (!is_int($id_essai)) {
+        AfficherErreur("Beware, there is a proble with the argument type id_essai", E_USER_WARNING);
+        return false;
+    } else {
+        return true;
+    }
+}
+
+
+
+/**
  * Affiche l'en tête du tableau pour les essais cliniques du patients
  */
 function Affichage_entete_tableau_essai(){
@@ -38,6 +76,8 @@ function Affichage_entete_tableau_essai(){
  * @param Int $id_essai : id de l'essai
  */
 function Affichage_content_essai($entreprise, $essai, $medecins, $id_essai){
+        $test = Test_Argument($entreprise, $essai, $medecins, $id_essai); // test les arguments
+        if(!$test) return; // si un argument est invalide, on arrête la fonction
         echo '<tr>';
             echo '<td>'.$entreprise["nom"].'</td>'; // affiche le contenu des colonnes simples
             echo '<td>Phase '.$essai["phase_res"].'</td>';

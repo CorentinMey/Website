@@ -198,6 +198,18 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
         echo "Nombre de notifications : ".$patien3->getEmail()." : ". $patien3->NombreNotif($bdd)."<br>";
     ?>
 
+    <h3> Test de la GetInfoEssai</h3>
+    <p>Si l'argument est bon :</p>
+        <?php
+            $res = $patien3->getGetInfoEssai($bdd);
+            print_r($res);
+        ?>
+    <p>Si les arguments sont faux :</p>
+        <?php
+            $res = $patien3->getGetInfoEssai(1);
+            print_r($res);
+        ?>
+
     <h3>Test de la fonction AfficheNotif</h3>
     <?php
         $patient->AfficheNotif($bdd);

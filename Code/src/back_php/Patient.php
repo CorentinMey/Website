@@ -205,10 +205,18 @@ class Patient extends Utilisateur{
     }
 
     /**
-     * Méthode pour récupérer les informations des essais cliniques auxquels le patient participe. pour bien diciser les tâches
+     * Méthode pour récupérer les informations des essais cliniques auxquels le patient participe. pour bien diviser les tâches
      * @param $bdd : base de données
      */
     private function GetInfoEssai($bdd){
+        if ($this->getIduser() == null){
+            AfficherErreur("Error while collecting user's info.");
+            exit();
+        } elseif (!($bdd instanceof Query)){
+            AfficherErreur("Error while collecting user's info.");
+            exit();
+        }
+
         $query = "SELECT ID_essai, date_debut, date_fin, description, phase_res, effet_secondaire FROM resultat JOIN utilisateur ON 
         resultat.ID_patient = utilisateur.ID_User NATURAL JOIN essai
             WHERE ID_patient = :id 
@@ -217,6 +225,12 @@ class Patient extends Utilisateur{
    
         $res = $bdd->getResultsAll($query, ["id" => $this->getIduser()]);
         return $res;
+    }
+    /**
+     * Pour le fichier test_patient.php
+     */
+    public function getGetInfoEssai($bdd){
+        return $this->GetInfoEssai($bdd);
     }
 
     /**
@@ -245,7 +259,7 @@ class Patient extends Utilisateur{
             $id_essai = $essai["ID_essai"];
             $entreprise = $bdd->getResults($query2, ["id" => $id_essai]);
             $medecins = $bdd->getResultsAll($query3, ["id" => $id_essai]);
-            Affichage_content_essai($entreprise, $essai, $medecins, $id_essai);
+            Affichage_content_essai($entreprise, $essai, $medecins, $id_essai); // remplis la ligne du tableau
         }         
             echo '</tbody>'; // fermeture du tableau et de la div qui le contient
             echo '</table>';
@@ -389,6 +403,10 @@ class Patient extends Utilisateur{
                   VALUES (:id, :id_essai, 0, 0, :phase_res, :traitement, :dose);";
 
         $res = $bdd->getResults($query_phase, ["id_essai" => $id_essai]);
+        if ($res === []){
+            AfficherErreur("Error while joining the trial.");
+            return;
+        }
         $attribution = $this->AttributeTreatment($res["molecule_test"], $res["molecule_ref"], $res["dosage_test"], $res["dosage_ref"], $res["placebo_nom"]);
         $bdd->insertLine($query, ["id" => $this->getIduser(),
                                 "id_essai" => $id_essai, 
