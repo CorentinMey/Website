@@ -180,23 +180,25 @@ h2{
 
 .box_list {
     display: flex;
-    justify-content: space-between; /* Aligne les éléments en haut de la boîte */
-    align-items: stretch; /* Étend les éléments pour remplir la largeur */
+    justify-content: space-between; /* Aligne les éléments de façon horizontale */
+    align-items: center; /* Centre les éléments sur l'axe vertical */
     padding: 1em;
     margin: 10px 0;
     border: 1px solid #e7dcdc;
     border-radius: 5px;
     background-color: rgba(0, 0, 0, 0.5);
     max-width: 100%; /* Assure que la largeur ne dépasse pas son conteneur */
-    overflow-y: auto; /* Ajoute un défilement vertical si nécessaire */
+    overflow-x: auto; /* Ajoute un défilement horizontal si nécessaire */
+    overflow-y: hidden; /* Masque le débordement vertical */
     max-height: 200px; /* Ajuste la hauteur maximale de la boîte */
-    flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si nécessaire */
 }
 
 .box_list > * {
-    width: 100%; /* Les éléments enfants prennent toute la largeur disponible */
-    box-sizing: border-box; /* Assure que les bordures et paddings sont inclus dans la largeur */
+    flex-shrink: 0; /* Empêche les éléments de se réduire en taille */
+    white-space: nowrap; /* Empêche le texte de se couper en plusieurs lignes */
+    box-sizing: border-box; /* Inclut les bordures et le padding dans la largeur totale de l'élément */
 }
+
 
 .box_list .user-info,
 .box_list .user-actions,

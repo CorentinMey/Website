@@ -1,4 +1,22 @@
+<?php
+// Vérification si l'admin est connecté
+require_once('../back_php/Admin.php');
+session_start();
+var_dump($_SESSION);
+exit; 
 
+if (!isset($_SESSION["admin"])) {
+    header("Location: page_login.php");
+    exit;
+}
+
+// Récupérer l'objet Admin depuis la session
+$admin = $_SESSION["admin"];
+
+// Exemple d'affichage des informations de l'admin
+echo "<p>Welcome, " . $admin->getFirstName() . " " . $admin->getLastName() . "</p>";
+echo "<p>Email: " . $admin->getEmail() . "</p>";
+?>
 <?php
 /*if(!isset($_SESSION["admin"])){
     header("Location: page_login.php");
@@ -22,8 +40,10 @@
     include_once("../back_php/Query.php");
     include_once("../back_php/status.php");
     include_once("../back_php/Affichage_admin.php");
+    include_once("../back_php/Patient.php");
 
     // Créer une instance de la classe Query pour se connecter à la base de données
+    $patient = $_SESSION["patient"];
     $query = new Query('siteweb');
     
     // Récupérer le nombre de demandes avec is_bannis = 2 
@@ -53,7 +73,7 @@
 
     <div id="bandeau_top">
         <h1>Admin Page</h1>
-        <img src="../Ressources/Images/profil.png" alt="profil" id="profil">
+        <img src="../Ressources/Images/profil.png" alt="profil" id="profil" onclick="AffichageTableauInfoPerso()">
     </div>
 
     <!-- Formulaire contenant les boutons -->

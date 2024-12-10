@@ -200,6 +200,9 @@ function afficherConfirmationsEnAttente($query) {
     }
     echo '</div>';
 }
+
 ?>
+
+
 </body>
 </html>
