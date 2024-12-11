@@ -15,7 +15,7 @@ function GenerateGraph($graph){
     $gdImg = $graph->Stroke(_IMG_HANDLER);
     imagepng($gdImg);
     $imageData = ob_get_clean();
-    echo "<img src='data:image/png;base64," . base64_encode($imageData) . "'alt = 'Graphique'>";
+    echo "<img class='graphique' src='data:image/png;base64," . base64_encode($imageData) . "'alt = 'Graphique'>";
 }
 
 /**
@@ -37,7 +37,7 @@ function barplot($data, $categories, $title = "Bar Plot Groupé", $xlabel = "Cat
     $graph = new Graph(800, 600, 'auto');    
     $graph->SetScale("textlin");
     $graph->SetShadow();
-    $graph->img->SetMargin(40, 150, 20, 40); // Augmenter la marge droite pour la légende
+    $graph->img->SetMargin(40, 250, 20, 40); // Augmenter la marge droite pour la légende
     $graph->xaxis->SetTickLabels($categories);
     $graph->xaxis->SetTitle($xlabel, "center");
     $graph->xaxis->SetTitleMargin(50);
