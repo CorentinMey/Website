@@ -1,5 +1,5 @@
 <?php
-
+include_once("../back_php/Utilisateur.php");
 
 session_start(); // Démarrer la session
 
@@ -7,19 +7,28 @@ if (!isset($_SESSION["admin"])) {
     header("Location: page_login.php");
     exit;
 }
-// Ensuite, tu vérifies si les variables existent dans la session et les assignes
-if (isset($_SESSION['mail_entre']) && isset($_SESSION['mdp_entre'])) {
-    $mail_entre = $_SESSION['mail_entre'];
-    $mdp_entre = $_SESSION['mdp_entre'];
+if (isset($_SESSION["admin"])) {
+    $user = $_SESSION["admin"];
+    // Récupérer les informations de l'utilisateur
+    $mail_entre = $user->getEmail(); 
+    $mdp_entre = $user->getMdp();
 } else {
+    echo "Post didnt send User informations";
+}
+
+// Ensuite, tu vérifies si les variables existent dans la session et les assignes
+//if (isset($_SESSION['mail_entre']) && isset($_SESSION['mdp_entre'])) {
+    //$mail_entre = $_SESSION['mail_entre'];
+    //$mdp_entre = $_SESSION['mdp_entre'];
+//} else {
     // Si les variables ne sont pas dans la session, tu peux les récupérer via GET, par exemple
-    $mail_entre = $_GET['mail'];
-    $mdp_entre = $_GET['mdp'];
+    //$mail_entre = $_GET['mail'];
+    //$mdp_entre = $_GET['mdp'];
 
     // Et les stocker dans la session pour les utiliser sur les prochaines pages
-    $_SESSION['mail_entre'] = $mail_entre;
-    $_SESSION['mdp_entre'] = $mdp_entre;
-}
+    //$_SESSION['mail_entre'] = $mail_entre;
+    //$_SESSION['mdp_entre'] = $mdp_entre;
+//}
 ?>
 <?php
 /*if(!isset($_SESSION["admin"])){
@@ -66,22 +75,36 @@ if (isset($_SESSION['mail_entre']) && isset($_SESSION['mdp_entre'])) {
 
     // Vérifie si un bouton a été cliqué
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        echo '<div class="LALIST">';
-
         if (isset($_POST['show_list_user'])) {
+            echo '<div class="LALIST">';
             afficherListeUtilisateurs($query);
+            echo '</div>';
         } elseif (isset($_POST['show_list_doc'])) {
+            echo '<div class="LALIST">';
             afficherListeMedecins($query);
+            echo '</div>';
         } elseif (isset($_POST['show_list_company'])) {
+            echo '<div class="LALIST">';
             afficherListeEntreprises($query);
+            echo '</div>';
         } elseif (isset($_POST['show_list_clinical'])) {
+            echo '<div class="LALIST">';
             afficherListeEssaisCliniques($query);
+            echo '</div>';
         } elseif (isset($_POST['show_list_confirmation'])) {
+            echo '<div class="LALIST">';
             afficherConfirmationsEnAttente($query);
+            echo '</div>';
         } elseif(isset($_POST['profile_admin'])){
+            echo '<div class="LALIST">';
             afficherInfoAdmin($mail_entre,$query);
-
-        echo '</div>';}
+            echo '</div>';
+        } elseif(isset($_POST['deco'])){
+            $_SESSION = array();
+            header("Location: /PROJET_SITH_WEB/Website/Code/src/page/page_accueil.php");
+            session_destroy();
+            exit;
+        }
     } else {
     ?>
 
@@ -97,7 +120,7 @@ if (isset($_SESSION['mail_entre']) && isset($_SESSION['mdp_entre'])) {
                         <img src="../Ressources/Images/profil.png" alt="Profil" id="profil">
                     </button>
                 </div>
-                <button class="dropdown_button" name="Action" value="Disconnect">Disconnect</button>
+                <button class="dropdown_button" name="deco" value="Disconnect">Disconnect</button>
             </div>
         </form>
 

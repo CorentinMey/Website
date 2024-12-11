@@ -181,6 +181,7 @@ function afficherListeEssaisCliniques($query) {
             echo '        <p><strong>Reference molecule:</strong> '. htmlspecialchars($assay['molecule_ref']) . '</p>';
             echo '        <p><strong>Has it started yet ?:</strong> '. ($assay['a_debute'] == 1 ? 'Yes' : 'No') . '</p>';
             echo '</div>';
+            echo '</div>';
         }
         echo "</ul>";
     } else {
@@ -224,7 +225,7 @@ function afficherConfirmationsEnAttente($query, $message=null) {
         }
         echo "</ul>";
     } else {
-        echo "<p>No pending confirmations.</p>";
+        echo "<h4>No pending confirmations.</h4>";
     }
     echo '</div>';
 }

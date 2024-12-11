@@ -9,7 +9,7 @@ if (isset($_GET['id'])) {
     function afficherProfilentreprise($query, $id_user) {
         // Récupérer tous les résultats, mais nous n'attendons qu'un seul résultat
         $entreprise = $query->getResultsAll(
-            "SELECT u.nom, u.prenom, u.mail, e.siret, e.ville
+            "SELECT u.nom, u.mail, e.siret, e.ville
              FROM utilisateur u
              JOIN entreprise e ON u.ID_User = e.siret
              WHERE u.ID_User = ?",
@@ -37,9 +37,8 @@ if (isset($_GET['id'])) {
 
             // Afficher les informations de l'entreprise
             echo '<div class="content-wrapper2">';
-            echo "<h2>Company : " . htmlspecialchars($entreprise['nom']) . " " . htmlspecialchars($entreprise['prenom']) . "</h2>";
+            echo "<h2>Company : " . htmlspecialchars($entreprise['nom']) . "</h2>";
             echo '<p><strong>Nom:</strong> ' . htmlspecialchars($entreprise['nom']) . '</p>';
-            echo '<p><strong>Prénom:</strong> ' . htmlspecialchars($entreprise['prenom']) . '</p>';
             echo '<p><strong>Email:</strong> ' . htmlspecialchars($entreprise['mail']) . '</p>';
             echo '<p><strong>Siret:</strong> ' . htmlspecialchars($entreprise['siret']) . '</p>';
             echo '<p><strong>Ville:</strong> ' . htmlspecialchars($entreprise['ville']) . '</p>';

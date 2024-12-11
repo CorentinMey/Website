@@ -78,11 +78,11 @@ session_start();
                                         antecedent: null,
                                         origins: null
                                     );
-                                    $mail = urlencode($_POST["mail"]);
-                                    $mdp = urlencode($_POST["mdp"]);
+                                    //$mail = urlencode($_POST["mail"]);
+                                    //$mdp = urlencode($_POST["mdp"]);
+                                    $user->Connexion($_POST["mail"], $_POST["mdp"], $bdd);
                                     $_SESSION["admin"]= $user;
-                                    header("Location: page_admin.php?mail=$mail&mdp=$mdp");
-                                    exit;
+                                    header("Location: page_admin.php"); // ?mail=$mail&mdp=$mdp
                                 } else if ($account_type == "patient") {
                                     $user = new Patient(
                                         iduser: null,
