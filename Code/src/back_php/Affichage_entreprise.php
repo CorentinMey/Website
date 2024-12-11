@@ -26,7 +26,7 @@ function afficherListeEssais($bdd, $siret) {
     // Requête pour récupérer les essais cliniques associés à un SIRET donné
     $query = "SELECT 
             essai.description, 
-            utilisateur.prenom AS nom_entreprise, 
+            utilisateur.nom AS nom_entreprise, 
             essai.date_debut, 
             essai.date_fin, 
             essai.molecule_test, 
@@ -182,7 +182,7 @@ function afficherDetailsEssai($bdd, $idEssai) {
                 essai.placebo_nom, 
                 essai.a_debute, 
                 essai.ID_phase,
-                utilisateur.prenom AS nom_entreprise
+                utilisateur.nom AS nom_entreprise
               FROM essai
               INNER JOIN entreprise ON entreprise.siret = essai.ID_entreprise_ref
               INNER JOIN utilisateur ON utilisateur.ID_User = entreprise.siret
@@ -205,7 +205,7 @@ function afficherDetailsEssai($bdd, $idEssai) {
         echo '<p><strong>Dosage testé :</strong> ' . htmlspecialchars($essai['dosage_test']) . '</p>';
         echo '<p><strong>Molécule de référence :</strong> ' . htmlspecialchars($essai['molecule_ref']) . '</p>';
         echo '<p><strong>Dosage de référence :</strong> ' . htmlspecialchars($essai['dosage_ref']) . '</p>';
-        echo '<p><strong>Nom du placebo :</strong> ' . htmlspecialchars($essai['placebo_nom']) . '</p>';
+        echo '<p><strong>Nom du placebo :</strong> ' .$essai['placebo_nom'] . '</p>';
         echo '<p><strong>Statut :</strong> ' . ($essai['a_debute'] ? 'En cours' : 'Non démarré') . '</p>';
 
         // Récupération et affichage du nombre de patients actuels pour la phase

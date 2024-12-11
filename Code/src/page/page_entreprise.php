@@ -11,7 +11,7 @@ if (!isset($_SESSION["entreprise"])) {
 }
 
 $entreprise = $_SESSION["entreprise"];
-$name = $entreprise->getFirst_name();
+$name = $entreprise->getLast_name();
 $siret = $entreprise->getSiret(); // Récupère le SIRET
 $bdd = new Query("siteweb");
 
