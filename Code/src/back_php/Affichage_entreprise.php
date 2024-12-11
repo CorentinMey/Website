@@ -77,7 +77,7 @@ function afficherListeEssais($bdd, $siret) {
                 echo '<div class="box_list">';
                 echo '    <div class="assay-info">';
                 echo '        <p><strong>Description :</strong> ' . htmlspecialchars($essai['description']) . '</p>';
-                echo '        <p><strong>Phase :</strong> ' . htmlspecialchars($essai['ID_phase']) . '</p>';
+                echo '        <p><strong>Phase :</strong> ' . $essai['ID_phase'] . '</p>';
                 echo '        <p><strong>Nom de l\'entreprise :</strong> ' . htmlspecialchars($essai['nom_entreprise']) . '</p>';
                 echo '        <p><strong>Date de début :</strong> ' . htmlspecialchars($essai['date_debut']) . '</p>';
                 echo '        <p><strong>Date de fin :</strong> ' . htmlspecialchars($essai['date_fin']) . '</p>';
@@ -370,7 +370,7 @@ function afficherFormulaireChangerPhase($idEssai, $description, $moleculeTest, $
     echo '<input type="hidden" name="id_essai" value="' . htmlspecialchars($idEssai) . '">';
     echo '<input type="hidden" name="description" value="' . htmlspecialchars($description) . '">';
     echo '<input type="hidden" name="molecule_test" value="' . htmlspecialchars($moleculeTest) . '">';
-    echo '<input type="hidden" name="IDphase" value="' . htmlspecialchars($idphase + 1) . '">';
+    echo '<input type="hidden" name="IDphase" value="' . $idphase + 1 . '">';
     
     // Champs à remplir pour la nouvelle phase
     echo '<label for="date_debut">Date de début prévue:</label>';

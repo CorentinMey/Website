@@ -145,6 +145,7 @@ $bdd = new Query("siteweb");
         } elseif (isset($_POST['createPhase2'])) {
 
             $data = [
+                'ID_phase'=> $_POST['IDphase'],
                 'date_debut' => $_POST['date_debut'],
                 'date_fin' => $_POST['date_fin'] ?? null,
                 'description' => $_POST['description'],

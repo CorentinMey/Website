@@ -131,11 +131,11 @@ class Entreprise extends Utilisateur {
             // Requête pour insérer un nouvel essai clinique
             $sqlEssai = "
                 INSERT INTO ESSAI (
-                    ID_entreprise_ref, date_debut, date_fin,
+                    ID_entreprise_ref, ID_phase, date_debut, date_fin,
                     description, molecule_test, dosage_test, molecule_ref, dosage_ref,
                     placebo_nom, a_debute
                 ) VALUES (
-                    :id_entreprise_ref, :date_debut, :date_fin,
+                    :id_entreprise_ref,:ID_phase, :date_debut, :date_fin,
                     :description, :molecule_test, :dosage_test, :molecule_ref, :dosage_ref,
                     :placebo_nom, :a_debute
                 );
@@ -144,6 +144,7 @@ class Entreprise extends Utilisateur {
             // Préparation des paramètres pour la table ESSAI
             $paramsEssai = [
                 ':id_entreprise_ref' => $this->iduser,
+                ':ID_phase' => $data['ID_phase'],
                 ':date_debut' => $data['date_debut'],
                 ':date_fin' => $data['date_fin'],
                 ':description' => $data['description'],
