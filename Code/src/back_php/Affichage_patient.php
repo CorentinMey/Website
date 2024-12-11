@@ -85,7 +85,7 @@ function Affichage_content_essai($entreprise, $essai, $medecins, $id_essai){
             echo '<td>';
             Affiche_medecin($medecins); // affiche les médecins référents
             echo '</td>';
-            if ($entreprise["a_debute"] == 2){ // si la phase de l'essai est terminée et en attente des résultats
+            if (($entreprise["a_debute"] == 2) || (!empty($essai["effet_secondaire"]))){ // si la phase de l'essai est terminée et en attente des résultats
                 if (!empty($essai["effet_secondaire"])) // si le patient a déjà donné ses résultats
                     echo '<td>Thanks for your feedback</td>';
                 // affiche un menu déroulant pour choisir les effets secondaires avec un bouton pour valider
@@ -109,7 +109,7 @@ function Affichage_content_essai($entreprise, $essai, $medecins, $id_essai){
                 echo '<td>Not yet over</td>';
             // ajout du bouton pour se désinscrire
             if (!empty($essai["effet_secondaire"])) // si le patient a déjà donné ses résultats
-                echo '<td>Thanks for your feedback' . $essai["effet_secondaire"] .'</td>';
+                echo '<td>Thanks for your feedback : ' . $essai["effet_secondaire"] .'</td>';
             else{
                 echo '<td>';
                 echo '<form action="" method="post">';
