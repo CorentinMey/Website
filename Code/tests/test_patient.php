@@ -188,20 +188,22 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
     ?>
     <p>Si l'utilisateur participe à des essais</p>
     <?php
-        $patien3 = new Patient(mdp : "1234", email : "jacques.perrin@mail.com");
+        $patien3 = new Patient(mdp : "1234", email : "brigitte-suzanne.santos@mail.com");
         $patien3->Connexion($patien3->getEmail(), $patien3->getMdp(), $bdd);
         $patien3->AfficheEssais($bdd);
     ?>
 <h3>==============================================================================================================================================================</h3>
     <h3> Test de la fonctionNombreNotif()</h3>
     <?php
-        echo "Nombre de notifications : ".$patient->getEmail()." : ". $patient->NombreNotif($bdd)."<br>";
-        echo "Nombre de notifications : ".$patien3->getEmail()." : ". $patien3->NombreNotif($bdd)."<br>";
+        echo "Patient sans notification : ".$patient->getEmail()." : ". $patient->NombreNotif($bdd)."<br>";
+        echo "Patient avec notification : ".$patien3->getEmail()." : ". $patien3->NombreNotif($bdd)."<br>";
     ?>
 <h3>==============================================================================================================================================================</h3>
     <h3>Test de la fonction AfficheNotif</h3>
     <?php
+        echo "Patient sans notification (aucune pop up): <br>";
         $patient->AfficheNotif($bdd);
+        echo "Patient avec notification : <br>";
         $patien3->AfficheNotif($bdd);
     ?>
 <h3>==============================================================================================================================================================</h3>
@@ -223,14 +225,16 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
     <h3> Test de la fonction AttributeTreatment</h3>
     <p> test de la fonction qui attribut un traitement à un patient</p>
     <?php
-    print_r($patien3->getAttributeTreatment("Bernosaurus", "Cometosaure", "500VIGEANT/mL", "1000GRATALOUP/mL", "GUZZI"));
+    $res = $patien3->getAttributeTreatment("Bernosaurus", "Cometosaure", "500VIGEANT/mL", "1000GRATALOUP/mL", "GUZZI");
+    print_r($res);
+    is_array($res) ? print_r("Test réussi") : print_r("Test échoué");
     ?>
 
     <h3>==============================================================================================================================================================</h3>
     <h2> Test de la fonction Connexion</h2>
-    <h3>Ici le patient se connect grâce à son mail et à son mdp et obtient ses infos au complet</h3>
+    <h3>Ici le patient se connecte grâce à son mail et à son mdp et obtient ses infos au complet</h3>
     <?php
-    $patient2 = new Patient(mdp : "1234", email : "bigboss@gmail.com");
+    $patient2 = new Patient(mdp : "1234", email : "brigitte-suzanne.santos@mail.com");
     $patient2->Connexion($patient2->getEmail(), $patient2->getMdp(), $bdd);
     // Affiche le patient avec ses nouvelles infos au complet
     echo "Nom : " . $patient2->getLast_name() . "<br>";

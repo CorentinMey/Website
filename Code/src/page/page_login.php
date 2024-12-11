@@ -57,10 +57,9 @@ session_start();
                                 $bdd = new Query("siteweb");
                                 $account_type = VerifyAccountType($_POST["mail"], $bdd);
                                 if(checkStatus($_POST["mail"], $bdd) == false) {
-                                    AfficherErreur("Your account has been banned. Please contact the administrator.");
+                                    header("Location: page_ban.php");
                                     exit;
                                 }
-                                exit;
                                 if ($account_type == "medecin") {
                                     header("Location: page_medecin.php");
                                     exit;

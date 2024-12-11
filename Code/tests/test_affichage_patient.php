@@ -100,7 +100,7 @@
 
     <p>Test avec un patient sans notif et sans essais à son actif</p>
     <?php
-        $patient = new Patient(mdp : "1234", email : "david.lefevre@mail.com");
+        $patient = new Patient(mdp : "1234", email : "hortense.gilles-chevallier@mail.com");
         $patient->Connexion($patient->getEmail(), $patient->getMdp(), $bdd);
         UpdateNotification($bdd, $patient, 1);
     ?>
@@ -213,14 +213,14 @@
         $bdd = new Query("siteweb");
         $patien3 = new Patient(mdp : "1234", email : "brigitte-suzanne.santos@mail.com");
         $patien3->Connexion($patien3->getEmail(), $patien3->getMdp(), $bdd);
+        $del = "DELETE FROM resultat WHERE id_essai = 1 AND id_patient = 1";
+        $bdd->deleteLines($del, []);
         handleConfirmJoin($bdd, $patien3, 1);
     ?>
 
     <p>Test si le patient est déjà inscrit à un essai de ce type</p>
     <?php
-        $patient = new Patient(mdp : "1234", email : "bob.martin@mail.com");
-        $patient->Connexion($patient->getEmail(), $patient->getMdp(), $bdd);
-        handleConfirmJoin($bdd, $patient, 1);
+        handleConfirmJoin($bdd, $patien3, 1);
     ?>
 
   

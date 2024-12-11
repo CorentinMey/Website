@@ -2,7 +2,7 @@
 include_once("../src/back_php/Query.php");
 include_once("../src/back_php/graph.php");
 include_once("../src/back_php/Query.php");
-$bdd = new Query("siteweb2");
+$bdd = new Query("siteweb");
 ?>
 
 <DOCTYPE html>
@@ -10,6 +10,8 @@ $bdd = new Query("siteweb2");
 <html>
     <head>
         <title>Test graph</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="../src/CSS/global.css">
     </head>
 
 

@@ -124,3 +124,11 @@ body {
     padding: 1em;
     font-size: 0.6em;
 }
+
+/* afficche un encadré pour les graphiques */
+.graphique{
+    border: 0.1em solid black;
+    border-radius: 1em;
+    margin-top: 1em;
+    background-color: #f8f8f8;
+}
