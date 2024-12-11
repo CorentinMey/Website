@@ -32,6 +32,12 @@ body {
     position: relative; /* Nécessaire pour positionner le profil de manière absolue */
 }
 
+#div_ensemble{
+    display: flex;
+    align-items: center;
+    
+}
+
 /* Style pour le texte */
 h1 {
     color: #ffffff; /* Texte blanc */
@@ -66,6 +72,13 @@ form button img {
     display: block; /* S'assurer que l'image est un élément de bloc */
 }
 
+#hovered{
+    border-radius: 1em;
+}
+
+#hovered:hover {
+    background-color: white; /* Changer la couleur en blanc */
+}
 
 /* ############################# conteneur des 5 bouttons au centre ########################## */
 
@@ -156,9 +169,15 @@ form button img {
 
 /* ########################## affichage des listes ######################## */
 
+.titles{
+    display: flex;
+    align-items: center;
+
+}
 
 h2{
-    margin-left: 40%;
+    margin-left: 20%;
+    font-size: 5em;
 }
 
 .LALIST {
@@ -170,7 +189,7 @@ h2{
 }
 
 .content-wrapper {
-    margin-top: 5%;
+    margin-top: 10%;
     margin-bottom: 5%;
     color: white;
     position: fixed; /* Toujours visible dans la fenêtre */
@@ -256,7 +275,6 @@ h2{
     box-sizing: border-box; /* Assure que le padding ne dépasse pas la largeur définie */
     display: flex; /* Utilise flexbox pour gérer le contenu à l'intérieur */
     flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si nécessaire */
-    align-items: center; /* Centrer verticalement les éléments */
 }
 
 .user-controls button {
@@ -269,7 +287,7 @@ h2{
     font-size: 1.5rem; /* Taille du texte */
     height: auto; /* Hauteur s'adapte au texte */
     min-height: 4vh; /* Hauteur minimale */
-    min-width: 8vw; /* Largeur minimale */
+    min-width: 10vw; /* Largeur minimale */
     background-color: #26642e; /* Couleur de fond */
     color: white; /* Couleur du texte */
     border: none;
@@ -342,6 +360,13 @@ h2{
     line-height: 1.5; /* Centre verticalement le texte */
     white-space: normal; /* Permet au texte de se déplier */
     display: inline-block; /* Garde le bouton en ligne */
+}
+
+.unban-btn:hover, 
+.ban-btn:hover, 
+.approve-btn:hover, 
+.reject-btn:hover {
+    background-color: #171212; /* Fond noir très sombre au survol */
 }
 
 /*##############profil de l'admin (division à part)############### */
@@ -438,4 +463,52 @@ h2{
 
 .back-btn:hover {
     background-color: #4a653f; /* Couleur verte foncée au survol */
+}
+
+
+/* ##################### bouton home commun ##################### */
+
+.back-btn2-container {
+    margin: 20px; /* Espacement autour du conteneur */
+}
+
+.back-btn2 {
+    display: inline-block;
+    background-color: #000; /* Noir */
+    color: #fff; /* Couleur du texte : blanc */
+    border: none; /* Pas de bordure */
+    border-radius: 20px; /* Bords très arrondis */
+    width: 7em; /* Taille fixe pour un bouton carré */
+    height: 3em; /* Taille fixe pour un bouton carré */
+    font-size: 2em; /* Taille du texte */
+    font-weight: bold; /* Texte en gras */
+    cursor: pointer; /* Curseur pointeur au survol */
+    transition: all 0.3s ease; /* Transition fluide */
+}
+
+.back-btn2:hover {
+    background-color: #333; /* Change la couleur au survol */
+    transform: scale(1.2); /* Légère mise en relief */
+}
+
+.back-btn2:active {
+    transform: scale(0.95); /* Effet de clic */
+}
+
+/* #################### disconnect ################ */
+
+.dropdown_button {
+    background-color:black ;
+    color: white;
+    padding: 10px 20px;
+    font-size: 2em;
+    text-align: center;
+    cursor: pointer;
+    width: 100%; /* Largeur du bouton qui prend toute la largeur du menu */
+    border-radius: 5px;
+    box-sizing: border-box; /* Prend toute la largeur du conteneur */
+}
+
+.dropdown_button:hover {
+    background-color: #fffdfd47; /* Couleur de survol */
 }

@@ -69,8 +69,22 @@ session_start();
                                     exit;
                                 } else if ($account_type == "admin") {
                                     // Passer le mail et le mot de passe via l'URL
+                                    $user = new Patient(
+                                        iduser: null,
+                                        mdp: $_POST["mdp"],
+                                        email: $_POST["mail"],
+                                        last_name: null,
+                                        is_banned: null,
+                                        is_admin: 1,
+                                        first_name: null,
+                                        birthdate: null,
+                                        gender: null,
+                                        antecedent: null,
+                                        origins: null
+                                    );
                                     $mail = urlencode($_POST["mail"]);
                                     $mdp = urlencode($_POST["mdp"]);
+                                    $_SESSION["admin"]= $user;
                                     header("Location: page_admin.php?mail=$mail&mdp=$mdp");
                                     exit;
                                 } else if ($account_type == "patient") {
