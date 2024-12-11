@@ -199,8 +199,8 @@ echo "<h2> Tests unitaires pour AfficherEssaisPAsdemarré (et Affichage_content_
 echo "<h3>==============================================================================================================================================================</h3>";
 echo '<h2>Tests unitaires AfficherEssaisRecherche (idem avant mais avec un paramètre de recherche)</h2>;';
     echo "<h3> Si tous les arguments sont bons, la fonction devrait afficher les essais recherchés</h3>";
-    echo "Mot recherché : Virtual<br>";
-    AfficherEssaisRecherche($bdd, $patien3, "Virtual");
+    echo "Mot recherché : 5<br>";
+    AfficherEssaisRecherche($bdd, $patien3, "5");
 
     // test avec un mot sans sens
     echo "Mot recherché : 75<br>";
