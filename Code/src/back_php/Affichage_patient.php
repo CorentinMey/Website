@@ -4,6 +4,44 @@ include_once("Affichage_gen.php"); // pour la fonction Affiche_medecin
 
 
 /**
+ * Fonction pour tester les arguments de la fonction Affichage_content_essai
+ */
+function Test_Argument($entreprise, $essai, $medecins, $id_essai){
+    if (!is_array($entreprise) || !isset($entreprise['nom']) || !isset($entreprise['a_debute'])) {
+        AfficherErreur("Beware, there is a problem with the argument type entreprise", E_USER_WARNING);
+        return false;
+    }
+
+    // Vérification de $essai
+    elseif (!is_array($essai) || !isset($essai['phase_res']) || !isset($essai['description']) || !array_key_exists('effet_secondaire', $essai)) {
+        AfficherErreur("Beware, there is a problem with the argument type essai", E_USER_WARNING);
+        return false;
+    }
+
+    // Vérification de $medecins
+    elseif (!is_array($medecins)) {
+        AfficherErreur("Beware, there is a problem with the argument type medecin", E_USER_WARNING);
+        return false;
+    }
+    foreach ($medecins as $medecin) {
+        if (!is_array($medecin) || !isset($medecin['nom'])) {
+            AfficherErreur("Beware, there is a problem with the argument type medecin", E_USER_WARNING);
+            return false;
+        }
+    }
+
+    // Vérification de $id_essai
+    if (!is_int($id_essai)) {
+        AfficherErreur("Beware, there is a problem with the argument type id_essai", E_USER_WARNING);
+        return false;
+    } else {
+        return true;
+    }
+}
+
+
+
+/**
  * Affiche l'en tête du tableau pour les essais cliniques du patients
  */
 function Affichage_entete_tableau_essai(){
@@ -38,6 +76,8 @@ function Affichage_entete_tableau_essai(){
  * @param Int $id_essai : id de l'essai
  */
 function Affichage_content_essai($entreprise, $essai, $medecins, $id_essai){
+        $test = Test_Argument($entreprise, $essai, $medecins, $id_essai); // test les arguments
+        if(!$test) return; // si un argument est invalide, on arrête la fonction
         echo '<tr>';
             echo '<td>'.$entreprise["nom"].'</td>'; // affiche le contenu des colonnes simples
             echo '<td>Phase '.$essai["phase_res"].'</td>';
@@ -45,7 +85,7 @@ function Affichage_content_essai($entreprise, $essai, $medecins, $id_essai){
             echo '<td>';
             Affiche_medecin($medecins); // affiche les médecins référents
             echo '</td>';
-            if ($entreprise["a_debute"] == 2){ // si la phase de l'essai est terminée et en attente des résultats
+            if (($entreprise["a_debute"] == 2) || (!empty($essai["effet_secondaire"]))){ // si la phase de l'essai est terminée et en attente des résultats
                 if (!empty($essai["effet_secondaire"])) // si le patient a déjà donné ses résultats
                     echo '<td>Thanks for your feedback</td>';
                 // affiche un menu déroulant pour choisir les effets secondaires avec un bouton pour valider
@@ -69,7 +109,7 @@ function Affichage_content_essai($entreprise, $essai, $medecins, $id_essai){
                 echo '<td>Not yet over</td>';
             // ajout du bouton pour se désinscrire
             if (!empty($essai["effet_secondaire"])) // si le patient a déjà donné ses résultats
-                echo '<td>Thanks for your feedback' . $essai["effet_secondaire"] .'</td>';
+                echo '<td>Thanks for your feedback : ' . $essai["effet_secondaire"] .'</td>';
             else{
                 echo '<td>';
                 echo '<form action="" method="post">';
@@ -93,6 +133,10 @@ function Affichage_content_essai($entreprise, $essai, $medecins, $id_essai){
  * @param Int $nb_notif : nombre de notifications en attente
  */
 function UpdateNotification($bdd, $patient, $nb_notif){
+    if (!($bdd instanceof Query) || !($patient instanceof Patient)) {
+        AfficherErreur("Beware, there is a problem with the argument type", E_USER_WARNING);
+        return;
+    }
     if ($nb_notif > 0) 
         $patient->AfficheNotif($bdd); // Affiche les notifications restantes
     $patient->AfficheEssais($bdd);
@@ -105,10 +149,14 @@ function UpdateNotification($bdd, $patient, $nb_notif){
  * @param Int $id_essai : id de l'essai
  */
 function handleJoinTrial($bdd, $patient, $id_essai) {
-    AfficherConfirmation("Are you sure you want to join this trial?", $id_essai, ["confirm_join", "cancel_join"]);
+    if (!($bdd instanceof Query) || !($patient instanceof Patient)) {
+        AfficherErreur("Beware, there is a problem with the argument type", E_USER_WARNING);
+        return;
+    }
+    AfficherConfirmation("Are you sure you want to join this trial?", $id_essai, ["confirm_join", "cancel_join"]); // $id_essai sert de marqueur pour la fonction suivante ici
     // Récupère la recherche depuis la session
     $search_query = isset($_SESSION['search_query']) ? $_SESSION['search_query'] : "";
-    if ($search_query !== "") {
+    if ($search_query !== "") { // affiche les résultats de la recherche précédente ou non
         AfficherEssaisRecherche($bdd, $patient, $search_query);
     } else {
         AfficherEssaisPasDemarré($bdd, $patient);
@@ -122,6 +170,10 @@ function handleJoinTrial($bdd, $patient, $id_essai) {
  * @param Int $id_essai : id de l'essai
  */
 function handleConfirmJoin($bdd, $patient, $id_essai) {
+    if (!($bdd instanceof Query) || !($patient instanceof Patient)) {
+        AfficherErreur("Beware, there is a problem with the argument type", E_USER_WARNING);
+        return;
+    }
     $patient->Rejoindre($bdd, $id_essai); // Met à jour la BDD pour rejoindre l'essai
     // Récupère la recherche depuis la session
     $search_query = isset($_SESSION['search_query']) ? $_SESSION['search_query'] : "";
@@ -138,6 +190,10 @@ function handleConfirmJoin($bdd, $patient, $id_essai) {
  * @param Patient $patient : objet patient
  */
 function handleCancelJoin($bdd, $patient) {
+    if (!($bdd instanceof Query) || !($patient instanceof Patient)) {
+        AfficherErreur("Beware, there is a problem with the argument type", E_USER_WARNING);
+        return;
+    }
     // Récupère la recherche depuis la session
     $search_query = isset($_SESSION['search_query']) ? $_SESSION['search_query'] : "";
     if ($search_query !== "") {
@@ -156,9 +212,15 @@ function handleCancelJoin($bdd, $patient) {
  * @param Int $nb_notif : nombre de notifications en attente
  */
 function handleSubmitSideEffects($bdd, $patient, $id_essai, $nb_notif) {
-    $_SESSION["side-effects"] = $_POST["side_effects"]; // Stocke les effets secondaires dans la session
+    if (!($bdd instanceof Query) || !($patient instanceof Patient)|| !is_int($nb_notif)) {
+        AfficherErreur("Beware, there is a problem with the argument type", E_USER_WARNING);
+        return;
+    }
+     // Stocke les effets secondaires dans la session
+    isset($_POST["side_effects"]) ? $side_effects = $_POST["side_effects"] : $side_effects = "Error";
+    $_SESSION["side-effects"] = $side_effects;
     AfficherConfirmation(
-        "Are you sure you want to submit these side effects: " . htmlspecialchars($_POST["side_effects"]) . " ?",
+        "Are you sure you want to submit these side effects: " . htmlspecialchars($side_effects) . " ?",
         $id_essai,
         ["yes", "no"]
     ); // Affiche une confirmation pour valider les effets secondaires
@@ -173,6 +235,10 @@ function handleSubmitSideEffects($bdd, $patient, $id_essai, $nb_notif) {
  * @param Int $nb_notif : nombre de notifications en attente
  */
 function handleUnsubscribe($bdd, $patient, $id_essai, $nb_notif) {
+    if (!($bdd instanceof Query) || !($patient instanceof Patient)|| !is_int($nb_notif)) {
+        AfficherErreur("Beware, there is a problem with the argument type", E_USER_WARNING);
+        return;
+    }
     AfficherConfirmation(
         "Are you sure you want to unsubscribe from this trial?",
         $id_essai,
@@ -189,8 +255,13 @@ function handleUnsubscribe($bdd, $patient, $id_essai, $nb_notif) {
  * @param Int $nb_notif : nombre de notifications en attente
  */
 function handleConfirmUnsubscribe($bdd, $patient, $id_essai, $nb_notif) {
-    $patient->QuitEssai($bdd, $id_essai); // Désinscrire le patient
-    AfficherInfo("You have successfully unsubscribed from this trial", $id_essai, "cross");
+    if (!($bdd instanceof Query) || !($patient instanceof Patient)  || !is_int($nb_notif)) {
+        AfficherErreur("Beware, there is a problem with the argument type", E_USER_WARNING);
+        return;
+    }
+    $test = $patient->QuitEssai($bdd, $id_essai); // Désinscrire le patient
+    if (!$test)
+        AfficherInfo("You have successfully unsubscribed from this trial", $id_essai, "cross");
     UpdateNotification($bdd, $patient, $nb_notif);
 }
 

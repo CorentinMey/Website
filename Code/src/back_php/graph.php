@@ -163,7 +163,7 @@ function Histogramme($data, $title = "Age histogram", $xlabel = "Age slices", $y
 function getDataHistogram($bdd, $id_essai, $nb_phase){
     $query = "SELECT date_naissance FROM `resultat` 
                     JOIN utilisateur ON utilisateur.ID_User = resultat.ID_patient
-                        WHERE ID_essai = :id_essai AND phase_res = :nb_phase;";
+                        WHERE ID_essai = :id_essai AND phase_res = :nb_phase AND is_patient_exclus = 0;";
 
     $param = ["id_essai" => $id_essai, "nb_phase" => $nb_phase];
     $data = $bdd->getResultsAll($query, $param);
@@ -191,7 +191,7 @@ function executeBarPlotQuery($bdd, $id_essai, $nb_phase){
         SELECT evolution_symptome, traitement, COUNT(*) AS nombre_personnes
         FROM `resultat`
         JOIN utilisateur ON utilisateur.ID_User = resultat.ID_patient
-        WHERE ID_essai = :id_essai AND phase_res = :id_phase
+        WHERE ID_essai = :id_essai AND phase_res = :id_phase AND is_patient_exclus = 0
         GROUP BY evolution_symptome, traitement
         ORDER BY evolution_symptome, traitement;
     ";
@@ -270,7 +270,7 @@ function getDataBarPlot($bdd, $id_essai, $nb_phase){
 }
 
 /**
- * Fonction qui récupère les ages des patients en fonction de l'essai et de la phase pour en fair eun boxplot
+ * Fonction qui récupère les ages des patients en fonction de l'essai et de la phase pour en faire un boxplot en fonction des traitemenst reçus
  * @param Query $bdd Instance de la classe Query pour interagir avec la base de données 
  * @param int $id_essai Identifiant de l'essai clinique
  * @param int $nb_phase Numéro de la phase de l'essai clinique
@@ -279,7 +279,7 @@ function getDataBarPlot($bdd, $id_essai, $nb_phase){
 function getDataBoxPlotTraitement($bdd, $id_essai, $nb_phase){
     $query = "SELECT traitement, FLOOR(DATEDIFF(CURDATE(), utilisateur.date_naissance) / 365.25) AS age
                     FROM resultat JOIN utilisateur ON utilisateur.ID_User = resultat.ID_patient
-                        WHERE ID_essai = :id_essai AND phase_res = :nb_phase;";
+                        WHERE ID_essai = :id_essai AND phase_res = :nb_phase AND is_patient_exclus = 0;";
     $dict = [];
     $param = ["id_essai" => $id_essai, "nb_phase" => $nb_phase];
     $rows = $bdd->getResultsAll($query, $param);
@@ -294,10 +294,13 @@ function getDataBoxPlotTraitement($bdd, $id_essai, $nb_phase){
     return $dict;
 }
 
+/**
+ * Idem mais en fonction des effets secondaire cetet fois ci
+ */
 function getDataBoxPlotSideEffect($bdd, $id_essai, $nb_phase){
     $query = "SELECT effet_secondaire, FLOOR(DATEDIFF(CURDATE(), utilisateur.date_naissance) / 365.25) AS age
                     FROM resultat JOIN utilisateur ON utilisateur.ID_User = resultat.ID_patient
-                        WHERE ID_essai = :id_essai AND phase_res = :nb_phase;";
+                        WHERE ID_essai = :id_essai AND phase_res = :nb_phase AND is_patient_exclus = 0;";
     $dict = [];
     $param = ["id_essai" => $id_essai, "nb_phase" => $nb_phase];
     $rows = $bdd->getResultsAll($query, $param);

@@ -1,7 +1,7 @@
 <DOCTYPE html>
 <html>
 <head>
-    <title>Test Patient</title>
+    <title>Test Affichage gen</title>
     <charset="utf-8">
     <link rel="stylesheet" type="text/css" href="../src/CSS/global.css">
 </head>
@@ -91,13 +91,130 @@ function testAfficherBarreRecherche() {
     echo ($output === $expected) ? "Test réussi<br><br>" : "Test échoué<br><br>";
 }
 
+/**
+ * Fonction générique pour afficher un message de résultat de test
+ */
+function afficherResultatTest($test_name, $expected, $actual) {
+    echo "<strong>$test_name:</strong><br>";
+    echo "Résultat attendu : " . htmlspecialchars($expected) . "<br>";
+    echo "Résultat obtenu : " . htmlspecialchars($actual) . "<br>";
+    echo ($actual === $expected) ? "Test réussi<br><br>" : "Test échoué<br><br>";
+}
+
+/**
+ * Permet de tester la fonction pour générer une requête de recherche
+ */
+function testGenerateSearchQuery() {
+    // Cas de Test 1 : Requête de recherche simple
+    $search_query = "Clinique";
+    $id_patient = 1;
+    $expected_query = "SELECT DISTINCT e.ID_essai, u.nom, e.description, e.titre, e.date_debut, e.ID_phase
+                FROM essai e
+                JOIN utilisateur u ON e.ID_entreprise_ref = u.ID_User
+                LEFT JOIN essai_medecin em ON e.ID_essai = em.ID_essai
+                LEFT JOIN utilisateur m ON em.ID_medecin = m.ID_User
+                WHERE 
+                    (u.nom LIKE :search OR
+                    e.titre LIKE :search OR
+                    e.description LIKE :search OR
+                    e.ID_phase LIKE :search OR
+                    m.nom LIKE :search)
+                    AND e.a_debute = 0
+                    AND e.ID_essai NOT IN (SELECT ID_essai FROM resultat WHERE ID_patient = :id_patient)";
+    $expected_params = [
+        ':search' => '%Clinique%',
+        ':id_patient' => 1
+    ];
+
+    $result = generateSearchQuery($search_query, $id_patient);
+    $actual_query = $result['query'];
+    $actual_params = $result['params'];
+
+    // Comparer et afficher le résultat
+    afficherResultatTest("generateSearchQuery - Cas 1", $expected_query, $actual_query);
+    afficherResultatTest("generateSearchQuery - Cas 1 Params", json_encode($expected_params), json_encode($actual_params));
+
+    // Cas de Test 2 : Requête de recherche avec caractères spéciaux
+    $search_query = "Test@123";
+    $id_patient = 2;
+    $expected_params = [
+        ':search' => '%Test@123%',
+        ':id_patient' => 2
+    ];
+
+    $result = generateSearchQuery($search_query, $id_patient);
+    $actual_query = $result['query'];
+    $actual_params = $result['params'];
+
+    // Comparer et afficher le résultat
+    afficherResultatTest("generateSearchQuery - Cas 2", $expected_query, $actual_query);
+    afficherResultatTest("generateSearchQuery - Cas 2 Params", json_encode($expected_params), json_encode($actual_params));
+
+    // Cas de Test 3 : Requête de recherche vide
+    $search_query = "";
+    $id_patient = 3;
+    $expected_params = [
+        ':search' => '%%',
+        ':id_patient' => 3
+    ];
+
+    $result = generateSearchQuery($search_query, $id_patient);
+    $actual_query = $result['query'];
+    $actual_params = $result['params'];
+
+    // Comparer et afficher le résultat
+    afficherResultatTest("generateSearchQuery - Cas 3", $expected_query, $actual_query);
+    afficherResultatTest("generateSearchQuery - Cas 3 Params", json_encode($expected_params), json_encode($actual_params));
+}
+
 // Appel des fonctions de test
-echo "<h2>Tests unitaires pour Affichage_gen.php</h2><br>";
+echo "<h2>Tests unitaires pour Afficher_erreur</h2><br>";
 testAfficherErreur();
+echo "<h3>==============================================================================================================================================================</h3>";
+echo "<h2>Tests unitaires pour AfficherInfo</h2><br>";
 testAfficherInfo();
+echo "<h3>==============================================================================================================================================================</h3>";
+echo "<h2>Tests unitaires pour AfficherConfirmation</h2><br>";
 testAfficherConfirmation();
+echo "<h3>==============================================================================================================================================================</h3>";
+echo "<h2>Tests unitaires pour Affiche_medecin</h2><br>";
 testAffiche_medecin();
+echo "<h3>==============================================================================================================================================================</h3>";
+echo "<h2>Tests unitaires pour AfficherBarreRecherche</h2><br>";
 testAfficherBarreRecherche();
+
+
+
+echo "<h1>==============================================================================================================================================================</h1>";
+echo "<h2> Tests unitaires pour AfficherEssaisPAsdemarré (et Affichage_content_essai_pas_demarre)</h2><br>";
+    echo "<h3> Si tous les arguments sont bons, la fonction devrait afficher les essais non démarrés</h3>";
+    $bdd = new Query("siteweb");
+    $patien3 = new Patient(mdp : "1234", email : "jacques.perrin@mail.com");
+    $patien3->Connexion($patien3->getEmail(), $patien3->getMdp(), $bdd);
+    AfficherEssaisPasDemarré($bdd, $patien3);
+
+    echo "<h3> Si un argument est manquant, la fonction devrait afficher un message d'erreur</h3>";
+    AfficherEssaisPasDemarré($bdd,75);
+
+echo "<h3>==============================================================================================================================================================</h3>";
+echo '<h2>Tests unitaires AfficherEssaisRecherche (idem avant mais avec un paramètre de recherche)</h2>;';
+    echo "<h3> Si tous les arguments sont bons, la fonction devrait afficher les essais recherchés</h3>";
+    echo "Mot recherché : Virtual<br>";
+    AfficherEssaisRecherche($bdd, $patien3, "Virtual");
+
+    // test avec un mot sans sens
+    echo "Mot recherché : 75<br>";
+    AfficherEssaisRecherche($bdd, $patien3, 75);
+
+    // test avec les mauvais arguments
+    echo "Mot recherché : 75<br>";
+    AfficherEssaisRecherche($bdd, 75, 75);
+
+
+// Appel des tests
+echo "<h3>==============================================================================================================================================================</h3>";
+echo "<h2>Tests unitaires pour GenerateSearchQuery.php</h2><br>";
+testGenerateSearchQuery();
 
 ?>
 
