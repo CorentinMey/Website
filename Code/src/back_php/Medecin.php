@@ -476,93 +476,62 @@ public function ChangeInfo_patient($bdd, $id_user, $id_essai, $data) {
 
 
     /**
-     * Fonction qui renvoie le nombre de notifications à voir du patient
-     * Notif : Si un essai que le patient a rejoint a été terminé, il doit donner des résultats
-     *         Si un essai le patient a été exclus d'un essai
-     *         Si un essai le patient a été accepté dans un essai
+     * Fonction qui renvoie le nombre de notifications à voir du médecin
+     * Notif : Si le médecin a reçu des demandes de participation de la part des entreprises
+     * Si le médecin a été accepté dans un essai
      * @param $bdd : base de données
      * @return int : nombre de notifications
      */
     public function NombreNotif($bdd){
-        $query_notif1_cpt = "SELECT COUNT(*) FROM resultat NATURAL JOIN essai # notif si on a des résultats à donner
-                             WHERE ID_patient = :id 
-                             AND a_debute = 2 
-                             AND is_patient_exclus = 0
-                             AND is_accepte != 0    
-                             AND effet_secondaire IS NULL;"; // vérifie si le patient n'a pas déjà donné ses résultats
-        $query_notif2 = "SELECT COUNT(*) FROM resultat WHERE ID_patient = :id AND is_patient_exclus = 1;"; // notif si on a été exclus
-        $query_notif3 = "SELECT COUNT(*) FROM resultat WHERE ID_patient = :id AND is_accepte = 1;"; // notif si on a été accepté
+        $query_notif1_cpt = "SELECT COUNT(*) FROM essai_medecin NATURAL JOIN essai
+                            WHERE ID_medecin = :id
+                            AND a_debute = 0  # L'essai ne doit pas encore avoir commencé
+                            AND is_accepte = 0 # Le patient ne doit pas encore avoir accepté
+                            AND est_de_company = 1;"; # On vérifie que l'entreprise a demandé au patient    
+        $query_notif2 = "SELECT COUNT(*) FROM essai_medecin NATURAL JOIN essai WHERE ID_medecin = :id AND a_debute = 0 AND is_accepte = 1 AND est_de_company = 0;"; // notif si on a été accepté
 
-        $res1 = $bdd->getResults($query_notif1_cpt, ["id" => $this->getIduser()])["COUNT(*)"]; // compte le nombre d'essais terminés
+        $res1 = $bdd->getResults($query_notif1_cpt, ["id" => $this->getIduser()])["COUNT(*)"]; // compte le nombre de demande qu'on a fait au medecin
         $res2 = $bdd->getResults($query_notif2, ["id" => $this->getIduser()])["COUNT(*)"];
-        $res3 = $bdd->getResults($query_notif3, ["id" => $this->getIduser()])["COUNT(*)"];
-        $total = $res1 + $res2 + $res3;
+        $total = $res1 + $res2;
         return $total;
     }
 
     public function AfficheNotif($bdd){
-        $query_notif1 = "SELECT ID_essai, description  FROM resultat NATURAL JOIN essai 
-                            WHERE ID_patient = :id 
-                            AND a_debute = 2
-                            AND effet_secondaire IS NULL;";
+        $query_notif1 = "SELECT ID_essai, nom FROM essai_medecin NATURAL JOIN essai 
+                            JOIN entreprise ON essai.id_entreprise_ref = entreprise.siret
+                            JOIN utilisateur ON entreprise.siret = utilisateur.ID_User
+                            WHERE ID_medecin = :id 
+                            AND a_debute = 0 # L'essai ne doit pas encore avoir commencé
+                            AND is_accepte = 0 # Le patient ne doit pas encore avoir accepté
+                            AND est_de_company = 1;"; # On vérifie que l'entreprise a demandé au patient    
+                            
 
-        $query_notif2 = "SELECT ID_essai, description FROM resultat NATURAL JOIN essai
-                             WHERE ID_patient = :id AND is_patient_exclus = 1;";
-        $query_notif3 = "SELECT ID_essai, description FROM resultat NATURAL JOIN essai
-                             WHERE ID_patient = :id AND is_accepte = 1;";
+        $query_notif2 = "SELECT ID_essai, nom FROM essai_medecin NATURAL JOIN essai 
+                            JOIN entreprise ON essai.id_entreprise_ref = entreprise.siret
+                            JOIN utilisateur ON entreprise.siret = utilisateur.ID_User
+                            WHERE ID_medecin = :id 
+                            AND a_debute = 0 # L'essai ne doit pas encore avoir commencé
+                            AND is_accepte = 1 # Le patient doit avoir été accepté
+                            AND est_de_company = 0;"; # On vérifie que l'entreprise a demandé au patient    
+                            
+        
         // récupération des informations des essais
         $res1 = $bdd->getResultsAll($query_notif1, ["id" => $this->getIduser()]);
         $res2 = $bdd->getResultsAll($query_notif2, ["id" => $this->getIduser()]);
-        $res3 = $bdd->getResultsAll($query_notif3, ["id" => $this->getIduser()]);
         //affichage des notifications
-        foreach($res1 as $notif_essai_fini){
-            AfficherInfo("The trial number : ".htmlspecialchars($notif_essai_fini["ID_essai"])." has ended with the description : ".htmlspecialchars($notif_essai_fini["description"])." Please give your feedback.", 
-                        $notif_essai_fini["ID_essai"], 
-                        "cross",
-                        false); // ici cette notification ne peut pas disparaitre tant que l'utilisateur n'a pas donné ses résultats
+        foreach($res1 as $notif_essai){
+            AfficherInfo("The company named : ".htmlspecialchars($notif_essai["nom"])." wants you to join the trial number ".htmlspecialchars($notif_essai["ID_essai"]).". Please give your feedback.", 
+                        $notif_essai["ID_essai"], 
+                        "cross", False); 
         }
-        foreach($res2 as $notif_exclu){
-            AfficherInfo("You have been excluded from the trial number : ".htmlspecialchars($notif_exclu["ID_essai"])." with the description : ".htmlspecialchars($notif_exclu["description"]), 
-                        $notif_exclu["ID_essai"],  
-                        "exclude");
-        }
-        foreach($res3 as $notif_accepte){
-            AfficherInfo("You have been accepted in the trial number : ".htmlspecialchars($notif_accepte["ID_essai"])." with the description : ".htmlspecialchars($notif_accepte["description"]), 
+        foreach($res2 as $notif_accepte){
+            AfficherInfo("You have been accepted in the trial number ".htmlspecialchars($notif_accepte["ID_essai"])." by the company : ".htmlspecialchars($notif_accepte["nom"]).". This message will automatically disappear when the trial will begin.", 
                         $notif_accepte["ID_essai"], 
-                        "accept");
+                        "cross", False);
         }
 
     }   
-    /**
-     * Méthode pour mettre à jour la BDD si un patient est exclus d'un essai (passe en statut "a vu l'exclusion")
-     * @param $bdd : base de données
-     * @param $id_essai : id de l'essai
-     */
-    public function ReadNotifExclusion($bdd, $id_essai){
-        $query = "UPDATE resultat SET is_patient_exclus = 2 WHERE ID_patient = :id AND ID_essai = :id_essai;";
-        $bdd->updateLines($query, ["id" => $this->getIduser(), "id_essai" => $id_essai]);
-    }
-
-    /**
-     * Méthode pour mettre à jour la BDD si un patient est accepté dans un essai (passe en statut "a vu l'acceptation")
-     * @param $bdd : base de données
-     * @param $id_essai : id de l'essai
-     */
-    public function ReadNotifAcceptation($bdd, $id_essai){
-        $query = "UPDATE resultat SET is_accepte = 2 WHERE ID_patient = :id AND ID_essai = :id_essai;";
-        $bdd->updateLines($query, ["id" => $this->getIduser(), "id_essai" => $id_essai]);  
-    }
-
-    /**
-     * Méthode pour mettre à jour la BDD si un patient donne ses résultats
-     * @param $bdd : base de données
-     * @param $id_essai : id de l'essai
-     * @param $value : valeur des effets secondaires
-     */
-    public function FillSideEffects($bdd, $value, $id_essai){
-        $query = "UPDATE resultat SET effet_secondaire = :side_effects WHERE ID_patient = :id AND ID_essai = :id_essai;";
-        $bdd->updateLines($query, ["side_effects" => $value, "id" => $this->getIduser(), "id_essai" => $id_essai]);
-    }
+    
 
 
     /**

@@ -64,27 +64,6 @@ $bdd = new Query("siteweb");
 
  
     <h2 class = "title">Options</h2>
-
-    <?php // code pour mettre à jour le numéro des notifications
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (isset($_POST['id_essai']) && isset($_POST['Action'])) {
-            switch ($_POST["Action"]){
-                case "yes":
-                    $medecin->FillSideEffects($bdd, $_SESSION["side-effects"], $_POST['id_essai']); // met à jour la BDD avec les effets secondaires
-                    break;
-                case "exclude":
-                    $medecin->ReadNotifExclusion($bdd, $_POST['id_essai']); // met à jour la BDD et recharge la page pour enlever la notification
-                    break;
-                case "accept":
-                    $medecin->ReadNotifAcceptation($bdd, $_POST['id_essai']); // met à jour la BDD et recharge la page pour enlever la notification
-                    break;
-            }
-
-        }
-
-    }
-
-    ?>
  
     <form action = "" method = "post" id = "redirect_buttons">
         <!-- <div id = "redirect_buttons"> -->
@@ -107,8 +86,8 @@ $bdd = new Query("siteweb");
             case "ViewMine":
                 if ($nb_notif > 0)
                     $medecin->AfficheNotif($bdd); // affiche les notifications
-                $medecin->AfficheEssais($bdd);
-                break;
+                    $medecin->AfficheEssais($bdd);
+                    break;
             case "ViewNew":
                 AfficherEssaisPasDemarré($bdd, $medecin);
                 break;
@@ -131,71 +110,11 @@ $bdd = new Query("siteweb");
                     $medecin->Rejoindre($bdd, $id_essai); // met à jour la BDD pour rejoindre l'essai
                     AfficherEssaisPasDemarré($bdd, $medecin);
                     break;
-
-                case "cross_inscription":
-                    AfficherEssaisPasDemarré($bdd, $medecin);
-                    break;
-                    
-                case "exclude":
-                    if ($nb_notif > 0)
-                        $medecin->AfficheNotif($bdd); // affiche les notifications
-                    $medecin->AfficheEssais($bdd);
-                    break;
-                case "accept":
-                    $medecin->ReadNotifAcceptation($bdd, $id_essai); // idem
-                    if ($nb_notif > 0)
-                        $medecin->AfficheNotif($bdd); // idem
-                    $medecin->AfficheEssais($bdd);
-                    break;
-                case "submit_side_effects":
-                    $_SESSION["side-effects"] = $_POST["side_effects"]; // stocke les effets secondaires dans la session
-                    AfficherConfirmation("Are you sure you want to submit these side effects : ".htmlspecialchars($_POST["side_effects"]). " ?", 
-                                        $id_essai, 
-                                        ["yes", "no"]); // affiche une confirmation pour valider les effets secondaires
-                    if ($nb_notif > 0)
-                        $medecin->AfficheNotif($bdd); // idem
-                    $medecin->AfficheEssais($bdd);
-                    break;
-                case "yes":
-                    if ($nb_notif > 0)
-                        $medecin->AfficheNotif($bdd); // idem
-                    $medecin->AfficheEssais($bdd);
-                    break;
-                case "no":
-                    if ($nb_notif > 0)
-                        $medecin->AfficheNotif($bdd); // idem
-                    $medecin->AfficheEssais($bdd);
-                    break;
-                case "unsubscribe":
-                    AfficherConfirmation("Are you sure you want to unsubscribe from this trial?",
-                                         $id_essai, ["confirm_unsubscribe", "cancel_unsubscribe"]);
-                    if ($nb_notif > 0)
-                        $medecin->AfficheNotif($bdd); // idem
-                    $medecin->AfficheEssais($bdd);
-                    break;
-
-                case "confirm_unsubscribe":
-                    // L'utilisateur a confirmé la désinscription
-                    // Appeler la fonction pour se désinscrire
-                    $medecin->QuitEssai($bdd, $id_essai);
-                    AfficherInfo("You have successfully unsubscribed from this trial", $id_essai, "cross");
-                    if ($nb_notif > 0)
-                        $medecin->AfficheNotif($bdd); // idem
-                    $medecin->AfficheEssais($bdd);
-                    break;
-            
-                case "cancel_unsubscribe":
-                    if ($nb_notif > 0)
-                        $medecin->AfficheNotif($bdd); // idem
-                    $medecin->AfficheEssais($bdd);
-                    break;
-
                 case "cross": // cas ou on ferme une notif qui n'interragit pas avec la BDD
                     if ($nb_notif > 0)
                         $medecin->AfficheNotif($bdd); // idem
                     $medecin->AfficheEssais($bdd);
                     break;
-
             
             }
         }

@@ -114,7 +114,7 @@ function AfficherEssaisPasDemarré($bdd, $user){
                         JOIN utilisateur ON essai.ID_entreprise_ref = utilisateur.ID_User
                         WHERE a_debute = 0 AND ID_essai #// On récupère les essais qui n'ont pas encore démarré
                         NOT IN 
-                        (SELECT ID_essai FROM essai_medecin WHERE ID_medecin = :id_patient);"; // enlève les essais où le patient a déjà postulé 
+                        (SELECT ID_essai FROM essai_medecin WHERE ID_medecin = :id_patient);"; // enlève les essais où le médecin a déjà postulé 
         $is_med = 1; //On mémorise que c'est un médecin qui a demandé à voir les essais non démarrés
     }
     // Requête pour obtenir les médecins référents pour chaque essai

@@ -47,6 +47,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'ban_user' => $ban
         ];
         $medecin->ChangeInfo_patient($bdd, $_SESSION["ID_User"], $_SESSION["ID_essai"], $form_data);
+        AfficherInfo("Modifications on user " . $_POST['prenom'] . " " . $_POST['nom'] . " have been saved.", 0, 0, False);
+        if ($_POST["ban_user"]==1){
+            AfficherInfo("User " . $_POST['prenom'] . " " . $_POST['nom'] . " have been excluded from the trial.", 0, 0, False);
+        }
     }
 }
 
