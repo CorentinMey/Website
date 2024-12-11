@@ -226,10 +226,8 @@ class Utilisateur {
                 $this->setMdp($query_res["mdp"]);
                 $this->setIduser($query_res["ID_User"]);
             }
-            //Over-ride de cette fonction chez chaque utilisateur ensuite pour pouvoir les rediriger vers leur page d'accueil utilisateur respective
-            //Pour l'instant redirection vers une page test
-            //Rajouter un session start, récuperer toutes les infos de l'utilisateur en demandant à la BDD, puis transmettre ces infos à la page suivante avec un $_session["utilisateur"] (peut-être à faire dans la page login)
 
+  
         } catch (PDOException $e) {
             // Gérer les erreurs
             AfficherErreur("Erreur lors de la connexion : " . $e->getMessage());

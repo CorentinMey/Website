@@ -24,6 +24,40 @@ if (isset($_SESSION["patient"])) { // vérifie si le patient souhaite changer se
 }
 
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['action'])) {
+        $action = $_POST['action'];
+        // Pour débogage
+        // echo "Action: $action";
+
+        if ($action == 'confirm' && isset($_SESSION["patient"])) {
+            $bdd = new Query("siteweb");
+
+            // Mettre à jour les informations du patient
+            $patient->setFirst_name($_POST["Nom"]);
+            $patient->setLast_name($_POST["prénom"]);
+            $patient->setEmail($_POST["identifiant"]);
+            $patient->setGender($_POST["genre"]);
+            $patient->setOrigins($_POST["origin"]);
+            $patient->setAntecedent($_POST["antecedent"]);
+            $patient->setMdp($_POST["mdp"]);
+
+            // Mettre à jour la base de données
+            $patient->ChangeInfo($bdd);
+
+            // Mettre à jour l'objet en session
+            $_SESSION["patient"] = $patient;
+
+            // Rediriger vers la page du patient
+            header("Location: page_patient.php");
+            exit;
+        } elseif ($action == 'back' && isset($_SESSION["patient"])) {
+            // Rediriger vers la page du patient sans mettre à jour
+            header("Location: page_patient.php");
+            exit;
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>

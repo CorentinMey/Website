@@ -87,6 +87,12 @@ class Query {
             exit(); // arret du script si l'utilisateur rafraichit la page alors qu'il s'est inscrit juste avant
         }
     }
+    /**
+     * Récupère le dernier ID ajouté
+     */
+    public function getLastInsertId() {
+        return $this->connection->lastInsertId();
+    }
 }
 
 
