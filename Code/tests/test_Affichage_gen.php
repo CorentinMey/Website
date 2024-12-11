@@ -189,7 +189,7 @@ echo "<h1>======================================================================
 echo "<h2> Tests unitaires pour AfficherEssaisPAsdemarré (et Affichage_content_essai_pas_demarre)</h2><br>";
     echo "<h3> Si tous les arguments sont bons, la fonction devrait afficher les essais non démarrés</h3>";
     $bdd = new Query("siteweb");
-    $patien3 = new Patient(mdp : "1234", email : "jacques.perrin@mail.com");
+    $patien3 = new Patient(mdp : "1234", email : "brigitte-suzanne.santos@mail.com");
     $patien3->Connexion($patien3->getEmail(), $patien3->getMdp(), $bdd);
     AfficherEssaisPasDemarré($bdd, $patien3);
 

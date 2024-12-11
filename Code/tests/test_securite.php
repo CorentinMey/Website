@@ -48,16 +48,16 @@ function testVerifyAccountType($id_user, $bdd, $expected) {
 echo "<h2>Test de la fonction VerifyAccountType</h2><br><br>";
 
 // Test 1 : l'id donné est un médecin
-testVerifyAccountType("alice.dupont@mail.com", $bdd, "medecin");
+testVerifyAccountType("margot.hardy@hospital.com", $bdd, "medecin");
 
 // Test 2 : l'id donné est un patient
-testVerifyAccountType("jacques.perrin@mail.com", $bdd, "patient");
+testVerifyAccountType("brigitte-suzanne.santos@mail.com", $bdd, "patient");
 
 // Test 3 : l'id donné est une entreprise
-testVerifyAccountType("imean@imean.com", $bdd, "entreprise");
+testVerifyAccountType("entreprise_70@mail.com", $bdd, "entreprise");
 
 // Test 4 : l'id donné est un admin
-testVerifyAccountType("yasmine.berrier@mail.com", $bdd, "admin");
+testVerifyAccountType("giles.bernot@mail.com", $bdd, "admin");
 
 // Test 5 : l'id donné n'est pas un entier
 testVerifyAccountType(2, $bdd, "Exception");

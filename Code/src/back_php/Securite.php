@@ -85,6 +85,20 @@ function validatePassword($password) {
     return true;
 }
 
+/**
+ * Vérifie si un utilisateur est banni.
+ * @param string $mail L'adresse mail de l'utilisateur.
+ * @param Query $bdd L'objet de connexion à la base de données.
+ * @return bool True si l'utilisateur n'est pas banni, False sinon.
+ */
+function checkStatus($mail, $bdd) {
+    $query_ban = "SELECT is_bannis FROM utilisateur WHERE mail = :email";
+    $res = $bdd->getResults($query_ban, array("email" => $mail));
+    if ($res["is_bannis"] == 1) 
+        return false;
+    return true;
+}
+
 /** Vérifie si le mot de passe et sa confirmation sont identiques ET s'il est assez puissant.
  * 
  */

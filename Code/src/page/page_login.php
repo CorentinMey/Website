@@ -56,7 +56,11 @@ session_start();
                                 // Inclure le fichier de connexion à la base de données
                                 $bdd = new Query("siteweb");
                                 $account_type = VerifyAccountType($_POST["mail"], $bdd);
-
+                                if(checkStatus($_POST["mail"], $bdd) == false) {
+                                    AfficherErreur("Your account has been banned. Please contact the administrator.");
+                                    exit;
+                                }
+                                exit;
                                 if ($account_type == "medecin") {
                                     header("Location: page_medecin.php");
                                     exit;
@@ -87,7 +91,7 @@ session_start();
                                     $_SESSION["patient"] = $user;
                                     header("Location: page_patient.php");
                                 } else
-                                    AfficherErreur("Erreur lors de la connexion : type de compte inconnu");
+                                    AfficherErreur("Error during teh connection, please try again later.");
                                 // $bdd_connect = $bdd->getConnection();
                                 // $user = new Utilisateur(iduser:"temporary", mdp:$_POST["mdp"],email:$_POST["mail"],last_name:"temporary",is_banned:0,is_admin:0);
                                 // // Appeler la fonction connexion de la classe utilisateur

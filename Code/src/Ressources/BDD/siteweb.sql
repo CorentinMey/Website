@@ -1319,7 +1319,7 @@ CREATE TABLE `utilisateur` (
 --
 
 INSERT INTO `utilisateur` (`ID_User`, `date_naissance`, `prenom`, `nom`, `genre`, `mail`, `antecedents`, `is_bannis`, `is_admin`, `mdp`, `origine`) VALUES
-(0, '1000-01-01', "Giles", "Bernot", "M", "giles.bernot@mail.com", "NONE", 0, 1, "$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme", "X"),
+(0, '1000-01-01', "Gilles", "Bernot", "M", "giles.bernot@mail.com", "NONE", 0, 1, "$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme", "X"),
 (1, '1971-07-30', 'Brigitte-Suzanne', 'Santos', 'F', 'brigitte-suzanne.santos@mail.com', 'Cardiac history', 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'Oceania'),
 (2, '1974-10-24', 'Tristan', 'Martinez-Legendre', 'M', 'tristan.martinez-legendre@mail.com', 'Food allergy', 1, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
 (3, '1986-07-19', 'Sébastien', 'Lévêque', 'F', 'sébastien.lévêque@mail.com', 'Cardiac history', 1, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),

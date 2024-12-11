@@ -93,7 +93,7 @@
     <p>Test avec un patient avec au moins 1 notif</p>
     <?php
         $bdd = new Query("siteweb");
-        $patien3 = new Patient(mdp : "1234", email : "jacques.perrin@mail.com");
+        $patien3 = new Patient(mdp : "1234", email : "brigitte-suzanne.santos@mail.com");
         $patien3->Connexion($patien3->getEmail(), $patien3->getMdp(), $bdd);
         UpdateNotification($bdd, $patien3, 1);
     ?>
@@ -114,7 +114,7 @@
     <p>Test avec un patient correct</p>
     <?php
         $bdd = new Query("siteweb");
-        $patien3 = new Patient(mdp : "1234", email : "jacques.perrin@mail.com");
+        $patien3 = new Patient(mdp : "1234", email : "brigitte-suzanne.santos@mail.com");
         $patien3->Connexion($patien3->getEmail(), $patien3->getMdp(), $bdd);
         handleJoinTrial($bdd, $patien3, 1);
     ?>
@@ -133,7 +133,7 @@
     <p>Test avec un patient correct. le résultat attendu est de recharger la page des essais disponible</p>
     <?php
         $bdd = new Query("siteweb");
-        $patien3 = new Patient(mdp : "1234", email : "jacques.perrin@mail.com");
+        $patien3 = new Patient(mdp : "1234", email : "brigitte-suzanne.santos@mail.com");
         $patien3->Connexion($patien3->getEmail(), $patien3->getMdp(), $bdd);
         handleCancelJoin($bdd, $patien3);
     ?>
@@ -150,7 +150,7 @@
     <p>Test avec un patient correct, affiche error pour l'effet secondaire car il n'a pas été défini au préalable ici</p>
     <?php
         $bdd = new Query("siteweb");
-        $patien3 = new Patient(mdp : "1234", email : "jacques.perrin@mail.com");
+        $patien3 = new Patient(mdp : "1234", email : "brigitte-suzanne.santos@mail.com");
         $patien3->Connexion($patien3->getEmail(), $patien3->getMdp(), $bdd);
         handleSubmitSideEffects($bdd, $patien3, 1, 1);
     ?>
@@ -169,7 +169,7 @@
     <p>Test avec un patient correct,</p>
     <?php
         $bdd = new Query("siteweb");
-        $patien3 = new Patient(mdp : "1234", email : "jacques.perrin@mail.com");
+        $patien3 = new Patient(mdp : "1234", email : "brigitte-suzanne.santos@mail.com");
         $patien3->Connexion($patien3->getEmail(), $patien3->getMdp(), $bdd);
         handleUnsubscribe($bdd, $patien3, 1, 1);
     ?>
@@ -187,7 +187,7 @@
     <p>Test avec un patient correct,</p>
     <?php
         $bdd = new Query("siteweb");
-        $patien3 = new Patient(mdp : "1234", email : "jacques.perrin@mail.com");
+        $patien3 = new Patient(mdp : "1234", email : "brigitte-suzanne.santos@mail.com");
         $patien3->Connexion($patien3->getEmail(), $patien3->getMdp(), $bdd);
         handleConfirmUnsubscribe($bdd, $patien3, 1, 1);
     ?>
@@ -211,7 +211,7 @@
     <p>Test avec un patient correct</p>
     <?php
         $bdd = new Query("siteweb");
-        $patien3 = new Patient(mdp : "1234", email : "jacques.perrin@mail.com");
+        $patien3 = new Patient(mdp : "1234", email : "brigitte-suzanne.santos@mail.com");
         $patien3->Connexion($patien3->getEmail(), $patien3->getMdp(), $bdd);
         handleConfirmJoin($bdd, $patien3, 1);
     ?>
