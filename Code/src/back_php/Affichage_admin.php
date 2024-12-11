@@ -17,12 +17,19 @@ include_once("Query.php");
 /**
  * @param Query $query
  */
-function afficherListeUtilisateurs($query) {
-    $users = $query->getResultsAll("SELECT ID_User, prenom, mail, nom, genre, is_bannis FROM utilisateur", []);
-    
+function afficherListeUtilisateurs($query, $message = null) {
+    $users = $query->getResultsAll("SELECT ID_User, prenom, mail, nom, genre, is_bannis FROM utilisateur WHERE is_bannis!=2 AND is_admin=0", []);
     
     echo '<div class="content-wrapper">';
+    echo '<div class="titles">';
+    echo '<div class="back-btn2-container">';
+    echo '<a href="/PROJET_SITH_WEB/Website/Code/src/page/page_admin.php"><button class="back-btn2">Home</button></a>';
+    echo '</div>';
     echo "<h2>USER LIST</h2>";
+    echo '</div>';
+    if ($message) {
+        echo '<div class="information_move">' . htmlspecialchars($message) . '</div>';
+    }
     if (!empty($users)) {
         echo "<ul>";
         foreach ($users as $user) {
@@ -34,9 +41,6 @@ function afficherListeUtilisateurs($query) {
             echo '        <p><strong>Genre:</strong> ' . htmlspecialchars($user['genre']) . '</p>';
             echo '        <p><strong>e-mail:</strong> ' . htmlspecialchars($user['mail']) . '</p>';
             echo '    </div>';
-            /*echo '    <div class="user-actions">';
-            echo '        <h3>View Profile</h3>';
-            echo '    </div>';*/
             echo '    <div class="user-controls">';
             echo '        <form method="POST" action="../back_php/manage_user.php" class="action-form">';
             echo '            <input type="hidden" name="LID" value="' . htmlspecialchars($user['ID_User']) . '">';
@@ -54,13 +58,21 @@ function afficherListeUtilisateurs($query) {
 }
 
 // Fonction pour afficher la liste des médecins
-function afficherListeMedecins($query) {
+function afficherListeMedecins($query, $message = null) {
     echo '<div class="content-wrapper">';
+    echo '<div class="titles">';
+    echo '<div class="back-btn2-container">';
+    echo '<a href="/PROJET_SITH_WEB/Website/Code/src/page/page_admin.php"><button class="back-btn2">Home</button></a>';
+    echo '</div>';
     echo "<h2>DOCTOR LIST</h2>";
+    echo '</div>';
+    if ($message) {
+        echo '<div class="information_move">' . htmlspecialchars($message) . '</div>';
+    }
 
     // Affichage de la liste des médecins
     $doctors = $query->getResultsAll(
-        "SELECT ID_User, nom, prenom, genre, mail, is_bannis, hopital, domaine FROM utilisateur INNER JOIN medecin WHERE ID_USER = numero_ordre",
+        "SELECT ID_User, nom, prenom, genre, mail, is_bannis, hopital, domaine FROM utilisateur INNER JOIN medecin WHERE ID_USER = numero_ordre AND is_bannis!=2",
         []
     );
     
@@ -101,11 +113,19 @@ function afficherListeMedecins($query) {
 }
 
 // Fonction pour afficher la liste des entreprises
-function afficherListeEntreprises($query) {
+function afficherListeEntreprises($query, $message=null) {
     echo '<div class="content-wrapper">';
-    echo "<h2>Company List</h2>";
+    echo '<div class="titles">';
+    echo '<div class="back-btn2-container">';
+    echo '<a href="/PROJET_SITH_WEB/Website/Code/src/page/page_admin.php"><button class="back-btn2">Home</button></a>';
+    echo '</div>';
+    echo "<h2>COMPANY LIST</h2>";
+    echo '</div>';
+    if ($message) {
+        echo '<div class="information_move">' . htmlspecialchars($message) . '</div>';
+    }
     $companies = $query->getResultsAll(
-        "SELECT ID_User, siret, ville, is_bannis FROM entreprise INNER JOIN utilisateur ON utilisateur.ID_User = entreprise.siret", []
+        "SELECT ID_User, siret, ville, is_bannis FROM entreprise INNER JOIN utilisateur ON utilisateur.ID_User = entreprise.siret AND is_bannis!=2", []
     );
     if (!empty($companies)) {
         echo "<ul>";
@@ -138,9 +158,15 @@ function afficherListeEntreprises($query) {
 // Fonction pour afficher la liste des essais cliniques
 function afficherListeEssaisCliniques($query) {
     echo '<div class="content-wrapper">';
-    echo "<h2>Clinical Assay List</h2>";
+    echo '<div class="titles">';
+    echo '<div class="back-btn2-container">';
+    echo '<a href="/PROJET_SITH_WEB/Website/Code/src/page/page_admin.php"><button class="back-btn2">Home</button></a>';
+    echo '</div>';
+    echo "<h2>CLINICAL ASSAY LIST</h2>";
+    echo '</div>';
+    
     $assays = $query->getResultsAll(
-        "SELECT essai.description, utilisateur.nom AS nom_entreprise FROM essai INNER JOIN utilisateur ON utilisateur.ID_User = essai.ID_entreprise_ref;", []
+        "SELECT essai.description, essai.date_debut, essai.date_fin, molecule_test, molecule_ref, a_debute, utilisateur.nom AS nom_entreprise FROM essai INNER JOIN utilisateur ON utilisateur.ID_User = essai.ID_entreprise_ref", []
     );
     if (!empty($assays)) {
         echo "<ul>";
@@ -148,18 +174,12 @@ function afficherListeEssaisCliniques($query) {
             echo '<div class="box_list">';
             echo '    <div class="assay-info">';
             echo '        <p><strong>Description:</strong> ' . htmlspecialchars($assay['description']) . '</p>';
-            echo '        <p><strong>Nom de l\'entreprise:</strong> ' . htmlspecialchars($assay['nom_entreprise']) . '</p>';
-            echo '    </div>';
-            echo '    <div class="assay-actions">';
-            echo '        <h3>View Details</h3>';
-            echo '    </div>';
-            /*echo '    <div class="assay-controls">';
-            echo '        <form method="POST" action="../back_php/manage_user.php" class="action-form">';
-            echo '            <input type="hidden" name="description" value="' . htmlspecialchars($assay['description']) . '">';
-            echo '            <button type="submit" name="action" value="edit" class="edit-btn">Edit</button>';
-            echo '            <button type="submit" name="action" value="delete" class="delete-btn">Delete</button>';
-            echo '        </form>';
-            echo '    </div>';*/
+            echo '        <p><strong>Company name:</strong> ' . htmlspecialchars($assay['nom_entreprise']) . '</p>';
+            echo '        <p><strong>Start:</strong> '. htmlspecialchars($assay['date_debut']) . '</p>';
+            echo '        <p><strong>End:</strong> '. htmlspecialchars($assay['date_fin']) . '</p>';
+            echo '        <p><strong>Test molecule:</strong> '. htmlspecialchars($assay['molecule_test']) . '</p>';
+            echo '        <p><strong>Reference molecule:</strong> '. htmlspecialchars($assay['molecule_ref']) . '</p>';
+            echo '        <p><strong>Has it started yet ?:</strong> '. ($assay['a_debute'] == 1 ? 'Yes' : 'No') . '</p>';
             echo '</div>';
         }
         echo "</ul>";
@@ -169,9 +189,17 @@ function afficherListeEssaisCliniques($query) {
 }
 
 // Fonction pour afficher les confirmations en attente
-function afficherConfirmationsEnAttente($query) {
+function afficherConfirmationsEnAttente($query, $message=null) {
     echo '<div class="content-wrapper">';
+    echo '<div class="titles">';
+    echo '<div class="back-btn2-container">';
+    echo '<a href="/PROJET_SITH_WEB/Website/Code/src/page/page_admin.php"><button class="back-btn2">Home</button></a>';
+    echo '</div>';
     echo "<h2>Pending Confirmations</h2>";
+    echo '</div>';
+    if ($message) {
+        echo '<div class="information_move">' . htmlspecialchars($message) . '</div>';
+    }
     $pendingConfirmations = $query->getResultsAll(
         "SELECT ID_User, prenom, nom, mail, genre FROM utilisateur WHERE is_bannis = 2", []
     );

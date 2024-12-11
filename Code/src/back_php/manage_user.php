@@ -5,14 +5,13 @@ include 'status.php';
 include_once("Query.php");
 
 // Vérifier si une action a été envoyée
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'],$_POST['LID'], $_POST['context'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'],$_POST['LID'])) {
     $userId = $_POST['LID'];  // ID de l'utilisateur envoyé par le formulaire
     $action = $_POST['action'];  // L'action choisie (ban, unban, etc.)
-    $context = $_POST['context'];
+    $context = isset($_POST['context']) ? $_POST['context'] : null;
     // Connexion à la base de données (ajuste selon ta configuration)
     $dbConnection = new Query('siteweb');
     
-
     // Appeler la fonction appropriée en fonction de l'action
     switch ($action) {
         case 'ban':

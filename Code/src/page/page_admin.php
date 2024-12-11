@@ -1,12 +1,12 @@
 <?php
 
-/*if (!isset($_SESSION["admin"])) {
-    header("Location: page_login.php");
-    exit;
-}*/
 
 session_start(); // Démarrer la session
 
+if (!isset($_SESSION["admin"])) {
+    header("Location: page_login.php");
+    exit;
+}
 // Ensuite, tu vérifies si les variables existent dans la session et les assignes
 if (isset($_SESSION['mail_entre']) && isset($_SESSION['mdp_entre'])) {
     $mail_entre = $_SESSION['mail_entre'];
@@ -38,13 +38,14 @@ if (isset($_SESSION['mail_entre']) && isset($_SESSION['mdp_entre'])) {
 </head>
 <body>
     <!-- Image de fond -->
-    <img src="../Ressources/Images/background_admin2.jpg" alt="fond" id="fond">
-
+    <img src="../Ressources/Images/background_admin2.jpg" alt="fond" id="fond"> 
+    <!-- Div contenant l'image de fond -->
     <?php
     include_once("../back_php/Query.php");
     include_once("../back_php/status.php");
     include_once("../back_php/Affichage_admin.php");
     include_once("../back_php/Patient.php");
+    
 
     // Créer une instance de la classe Query pour se connecter à la base de données
     $query = new Query('siteweb');
@@ -90,9 +91,14 @@ if (isset($_SESSION['mail_entre']) && isset($_SESSION['mdp_entre'])) {
 
         <!-- Formulaire qui sera soumis quand l'image est cliquée -->
         <form method="POST" action="page_admin.php">
-            <button type="submit" name="profile_admin">
-                <img src="../Ressources/Images/profil.png" alt="Profil" id="profil">
-            </button>
+            <div id= div_ensemble>
+                <div id=hovered>
+                    <button type="submit" name="profile_admin" id="profile_admin_button">
+                        <img src="../Ressources/Images/profil.png" alt="Profil" id="profil">
+                    </button>
+                </div>
+                <button class="dropdown_button" name="Action" value="Disconnect">Disconnect</button>
+            </div>
         </form>
 
     </div>
