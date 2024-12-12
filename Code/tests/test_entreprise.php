@@ -186,70 +186,70 @@ echo "Siret : " . $entreprise2->getSiret() . "<br>";
 <h3>Test de la fonction DemandMedecin</h3>
 
 <?php
-// $bdd = new Query("siteweb");
-// // Simuler les données pour l'essai et le médecin
-// $id_medecin = 100001;
-// $id_essai = 2;
+$bdd = new Query("siteweb");
+// Simuler les données pour l'essai et le médecin
+$id_medecin = 100001;
+$id_essai = 2;
 
-// // Appeler la méthode DemandMedecin
+// Appeler la méthode DemandMedecin
 
-// $entreprise->DemandMedecin($id_medecin, $bdd, $id_essai);
+$entreprise->DemandMedecin($id_medecin, $bdd, $id_essai);
 
-// // Vous pouvez vérifier si l'insertion a bien été réalisée dans la base de données en effectuant une requête de test, par exemple :
-// $query_check = "SELECT * FROM ESSAI_MEDECIN WHERE ID_medecin = :id_medecin AND ID_essai = :id_essai";
-// $res_check = $bdd->getResults($query_check, [':id_medecin' => $id_medecin, ':id_essai' => $id_essai]);
+// Vous pouvez vérifier si l'insertion a bien été réalisée dans la base de données en effectuant une requête de test, par exemple :
+$query_check = "SELECT * FROM ESSAI_MEDECIN WHERE ID_medecin = :id_medecin AND ID_essai = :id_essai";
+$res_check = $bdd->getResults($query_check, [':id_medecin' => $id_medecin, ':id_essai' => $id_essai]);
 
-// if ($res_check) {
-//     echo "<p>Insertion réussie : un lien a été ajouté entre le médecin et l'essai.</p>";
-// } else {
-//     echo "<p>Insertion échouée : aucun lien trouvé entre le médecin et l'essai dans la base de données.</p>";
-// }
-// ?>
+if ($res_check) {
+    echo "<p>Insertion réussie : un lien a été ajouté entre le médecin et l'essai.</p>";
+} else {
+    echo "<p>Insertion échouée : aucun lien trouvé entre le médecin et l'essai dans la base de données.</p>";
+}
+?>
 
 <h3>Test de la fonction NewPhase</h3>
 <?php
-echo "Pour l'instant testée a travers l'interface web car probleme avec l'autoincrémentation mais ça marche"
-// // Simuler des données pour un nouvel essai clinique
-// $dataEssai = [
-//     'ID_phase' => 2, // Phase 1 (par défaut)
-//     'date_debut' => '2024-01-01',
-//     'date_fin' => '2024-12-31',
-//     'description' => 'Essai clinique sur la molécule X.',
-//     'molecule_test' => 'Molécule X',
-//     'dosage_test' => '50mg',
-//     'molecule_ref' => 'dfgiushdrhugdjf',
-//     'dosage_ref' => '50mg',
-//     'placebo_nom' => 'Placebo',
-// ];
+// Simuler des données pour un nouvel essai clinique
+$dataEssai = [
+    'date_debut' => '2024-01-01',
+    'date_fin' => '2024-12-31',
+    'description' => 'Essai clinique sur la molécule X.',
+    'molecule_test' => 'Molécule X',
+    'dosage_test' => '50mg',
+    'molecule_ref' => 'dfgiushdrhugdjf',
+    'dosage_ref' => '50mg',
+    'placebo_nom' => 'Placebo',
+];
 
-// $bdd = new Query("siteweb");
+$bdd = new Query("siteweb");
 
-// // Appeler la méthode NewPhase avec les données simulées
-// $entreprise->NewPhase($bdd, $dataEssai);
+// Appeler la méthode NewPhase avec les données simulées
+$entreprise->NewPhase($bdd, $dataEssai);
 
-// // Vérifier si l'insertion a bien eu lieu dans la base de données pour l'ESSAI
-// $query_check_essai = "SELECT * FROM ESSAI WHERE description = :description AND molecule_test = :molecule_test";
-// $res_check_essai = $bdd->getResults($query_check_essai, [
-//     ':description' => $dataEssai['description'],
-//     ':molecule_test' => $dataEssai['molecule_test'],
-// ]);
+// Vérifier si l'insertion a bien eu lieu dans la base de données pour l'ESSAI
+$query_check_essai = "SELECT * FROM ESSAI WHERE description = :description AND molecule_test = :molecule_test";
+$res_check_essai = $bdd->getResults($query_check_essai, [
+    ':description' => $dataEssai['description'],
+    ':molecule_test' => $dataEssai['molecule_test'],
+]);
 
-// if ($res_check_essai) {
-//     echo "<p>Insertion réussie de l'essai clinique dans la table ESSAI.</p>";
+if ($res_check_essai) {
+    echo "<p>Insertion réussie de l'essai clinique dans la table ESSAI.</p>";
 
-//     // Vérifier l'insertion dans la table PHASE
-//     $idEssai = $bdd->getLastInsertId();
-//     $query_check_phase = "SELECT * FROM PHASE WHERE ID_essai = :id_essai";
-//     $res_check_phase = $bdd->getResults($query_check_phase, [':id_essai' => $idEssai]);
+    // Vérifier l'insertion dans la table PHASE
+    $idEssai = $bdd->getLastInsertId();
+    $query_check_phase = "SELECT * FROM PHASE WHERE ID_essai = :id_essai";
+    $res_check_phase = $bdd->getResults($query_check_phase, [':id_essai' => $idEssai]);
 
-//     if ($res_check_phase) {
-//         echo "<p>Insertion réussie de la phase dans la table PHASE.</p>";
-//     } else {
-//         echo "<p>Insertion échouée dans la table PHASE.</p>";
-//     }
-// } else {
-//     echo "<p>Insertion échouée dans la table ESSAI.</p>";
-// }
+    if ($res_check_phase) {
+        echo "<p>Insertion réussie de la phase dans la table PHASE.</p>";
+    } else {
+        echo "<p>Insertion échouée dans la table PHASE.</p>";
+    }
+} else {
+    echo "<p>Insertion échouée dans la table ESSAI.</p>";
+}
+
+echo "<p>Quand on passe par l'interface graphique, l'insertion dans les 2 tables se fait correctement, ici je ne sais pas pourquoi cela ne fais pas la table Phase</p>";
 ?>
 
 <h3>Test de la fonction startPhase</h3>

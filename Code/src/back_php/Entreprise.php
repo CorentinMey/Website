@@ -200,7 +200,7 @@ class Entreprise extends Utilisateur {
             // Préparation des paramètres pour la table ESSAI
             $paramsEssai = [
                 ':id_entreprise_ref' => $this->iduser,
-                ':ID_phase' => $data['ID_phase'],
+                ':ID_phase' => $id_phase,
                 ':date_debut' => $data['date_debut'],
                 ':date_fin' => $data['date_fin'],
                 ':description' => $data['description'],
@@ -209,7 +209,7 @@ class Entreprise extends Utilisateur {
                 ':molecule_ref' => $data['molecule_ref'],
                 ':dosage_ref' => $data['dosage_ref'],
                 ':placebo_nom' => $data['placebo_nom'],
-                ':a_debute' => false, // Par défaut, l'essai n'a pas commencé
+                ':a_debute' => 0, // Par défaut, l'essai n'a pas commencé
             ];
     
             // Exécution de l'insertion pour ESSAI
@@ -242,7 +242,7 @@ class Entreprise extends Utilisateur {
             ];
     
             // Exécution de l'insertion pour PHASE
-            $bdd->insertLines($sqlPhase, $paramsPhase);
+            $bdd->insertLine($sqlPhase, $paramsPhase);
     
         } catch (PDOException $e) {
             // Message d'erreur en cas de problème
@@ -263,9 +263,9 @@ class Entreprise extends Utilisateur {
     
             // Exécution de la requête avec les paramètres
             $bdd->UpdateLines($query, [
-                ':aDebute' => true,
-                ':idEssai' => $idEssai,  // Correction : vous devez assigner la valeur à :idEssai
-                ':idPhase' => $id_phase   // Correction : vous devez utiliser :idPhase
+                ':aDebute' => 1,
+                ':idEssai' => $idEssai,
+                ':idPhase' => $id_phase   
             ]);
     
             // Message de confirmation
@@ -273,6 +273,27 @@ class Entreprise extends Utilisateur {
         } catch (PDOException $e) {
             // Message d'erreur en cas de problème
             echo '<p style="color: red;">Erreur lors du démarrage de l\'essai : ' . htmlspecialchars($e->getMessage()) . '</p>';
+        }
+    }
+
+    function terminerPhase($bdd, $idEssai, $id_phase) {
+        try {
+            // Requête pour mettre à jour la colonne a_debute à 2 (terminé)
+            $query = "UPDATE ESSAI 
+                      SET a_debute = :aDebute 
+                      WHERE ID_essai = :idEssai AND ID_phase = :idPhase";
+    
+            // Exécution de la requête avec les paramètres
+            $bdd->UpdateLines($query, [
+                ':aDebute' => 2,    // L'essai est terminé
+                ':idEssai' => $idEssai,
+                ':idPhase' => $id_phase   
+            ]);
+    
+            echo '<p style="color: green;">La phase a été marquée comme terminée.</p>';
+        } catch (PDOException $e) {
+            // Gestion des erreurs en cas de problème avec la mise à jour
+            echo '<p style="color: red;">Erreur lors de la mise à jour de la phase : ' . htmlspecialchars($e->getMessage()) . '</p>';
         }
     }
     

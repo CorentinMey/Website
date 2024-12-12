@@ -48,14 +48,12 @@ function afficherListeEssais($bdd, $siret) {
     $today = date('Y-m-d'); // Date actuelle
 
     foreach ($res as $essai) {
-        if ($essai['a_debute']) {
-            if ($essai['date_fin'] < $today) {
-                $essaisTermines[] = $essai; // Ajouter à la liste des essais terminés
-            } else {
-                $essaisDemarres[] = $essai; // Ajouter à la liste des essais démarrés
-            }
-        } else {
+        if ($essai['a_debute'] == 1) {  // Essai démarré
+            $essaisDemarres[] = $essai; // Ajouter à la liste des essais démarrés
+        } elseif ($essai['a_debute'] == 0) {  // Essai non démarré
             $essaisNonDemarres[] = $essai; // Ajouter à la liste des essais non démarrés
+        } elseif ($essai['a_debute'] == 2) {  // Essai terminé
+            $essaisTermines[] = $essai; // Ajouter à la liste des essais terminés
         }
     }
 
@@ -275,13 +273,14 @@ function afficherDetailsEssai($bdd, $idEssai) {
         echo '</div>';
 
         // Vérification des conditions avant d'afficher les boutons conditionnels
-        if (!$essai['a_debute']) {
+        if ($essai['a_debute']==0) {
             if (!empty($medecins)) {
                 if ($phase['nombre_patients'] && $phase['nombre_patients'] > 0) {
                     // Bouton pour démarrer l'essai
                     echo '<div class="assay-actions">';
                     echo '    <form method="POST" action="">';
-                    echo '        <input type="hidden" name="idEssai" value="' . htmlspecialchars($essai['ID_essai']) . '">';
+                    echo '        <input type="hidden" name="idEssai" value="' . $essai['ID_essai'] . '">';
+                    echo '        <input type="hidden" name="idphase" value="' . $essai['ID_essai'] . '">';
                     echo '        <button type="submit" name="StartEssai" class="buttonVoirdetail">Démarrer la phase</button>';
                     echo '    </form>';
                     echo '</div>';
@@ -291,7 +290,8 @@ function afficherDetailsEssai($bdd, $idEssai) {
                     echo '<p style="color: red;">Impossible de démarrer la phase : aucun patient enregistré.</p>';
                     echo '</div>';
                 }
-            } else {
+            }
+        }
                 // Bouton pour demander un médecin
                 echo '<div class="assay-actions">';
                 echo '    <form method="POST" action="">';
@@ -299,11 +299,10 @@ function afficherDetailsEssai($bdd, $idEssai) {
                 echo '        <button type="submit" name="DemanderMedecin" class="buttonVoirdetail">Demander un médecin</button>';
                 echo '    </form>';
                 echo '</div>';
-            }
-        }
+            
 
-        // Bouton pour changer de phase si l'essai est terminé et la phase est < 4
-        if ($essai['a_debute'] && $essai['ID_phase'] < 4 && strtotime($essai['date_fin']) <= time()) {
+        // Bouton pour changer de phase si l'essai est terminé (a_debute = 2) et la phase est < 4
+        if ($essai['a_debute'] == 2 && $essai['ID_phase'] < 4 ) {
             echo '<div class="assay-actions">';
             echo '    <form method="POST" action="">';
             echo '        <input type="hidden" name="idEssai" value="' . htmlspecialchars($essai['ID_essai']) . '">';
@@ -312,14 +311,21 @@ function afficherDetailsEssai($bdd, $idEssai) {
             echo '    </form>';
             echo '</div>';
         }
-
+        //Bouton pour terminer une phase
+        if ($essai['a_debute'] == 1){
+            echo '<div class="assay-actions">';
+            echo '    <form method="POST" action="">';
+            echo '        <input type="hidden" name="idEssai" value="' . htmlspecialchars($essai['ID_essai']) . '">';
+            echo'         <input type="hidden" name="idphase" value="' . htmlspecialchars($essai['ID_phase']) . '">';
+            echo '       <button type="submit" name="TerminerPhase" class="buttonVoirdetail">Terminer phase</button>';
+            echo '    </form>';
+            echo '</div>';
+        }
         echo '</div>'; // Fin du conteneur
     } else {
         echo '<p>Essai introuvable.</p>';
     }
 }
-
-
 
 function afficherFormulaireChoixMedecin($bdd, $idEssai) {
     // Requête pour récupérer les médecins avec leurs spécialités
