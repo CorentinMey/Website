@@ -229,7 +229,7 @@ testValidatePassword("P@ssw0rd#2024", true);
 // Cas de Test pour registerNewPatient
 echo "<h2>Tests de la fonction registerNewPatient</h2>";
 echo "Le test devrait retourner un warning stipulant que la redirection vers la page accueil.php n'est pas possible depuis le fichier de test.<br><br>";
-echo "Cependant la fonction dépen des formulaire de la page login donc elle a été testée manuellement sur l'interface.<br><br>";
+echo "Cependant la fonction dépend des formulaire de la page login donc elle a été testée manuellement sur l'interface.<br><br>";
 
 
 ?>

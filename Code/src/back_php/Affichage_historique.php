@@ -54,7 +54,7 @@ function AfficherEssaisFinis($bdd, $param) {
  */
 function Affichage_content_essais_finis($essai, $medecins, $id_phase) {
     echo "<div class='box_essai'>";
-        echo "<div class='essai_title'>".htmlspecialchars($essai["titre"])."</div>"; // Affiche le titre de l'essai
+        echo "<div class='essai_title'><b>".htmlspecialchars($essai["titre"])."</b></div>"; // Affiche le titre de l'essai
         echo "<p id='essai_description'><b>Description :</b> <br>".htmlspecialchars($essai["description"])."</p>"; // Affiche la description de l'essai
         echo "<p><b>Concerned Phase : </b>".htmlspecialchars($id_phase)."</p>"; // Affiche la phase de l'essai
         echo "<p><b>Phase start date : </b>".htmlspecialchars($essai["date_debut"])."</p>"; // Affiche la date de début de l'essai

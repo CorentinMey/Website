@@ -126,6 +126,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         echo '</select>';
                     echo '</div>';
 
+                    echo '<div class = "input_info">';
+                    echo '    <label for="date_naissance">Birthdate</label>';
+                    echo '    <input type="date" id="date_naissance" name="date_naissance" value = "<?php echo $date_naissance?>"/>';
+                    echo '</div>';
+
                 }
 
                 ?>
@@ -211,10 +216,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 </div>
 
-                <div class = "input_info">
-                    <label for="date_naissance">Birthdate</label>
-                    <input type="date" id="date_naissance" name="date_naissance" value = "<?php echo $date_naissance?>"/>
-                </div>
+
 
                 <div class="input_info">
                     <label for="mdp">Password</label>
