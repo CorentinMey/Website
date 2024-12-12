@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ?>
             </button>
             <button class = "button" id = "button_patient" name = "Action" value = "ViewNew">New studies</button>
-            <button class = "button" id = "button_patient" name = "Action" value = "ViewInfo">My information</button>
+            <button class = "button" id = "button_patient" name = "Action" value = "ViewInfo">My informations</button>
     </form>
 
     <!-- ===================================================================================================================== -->

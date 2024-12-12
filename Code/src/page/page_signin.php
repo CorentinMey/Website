@@ -39,11 +39,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $patient->setEmail($_POST["identifiant"]);
             $patient->setGender($_POST["genre"]);
             $patient->setOrigins($_POST["origin"]);
-            $patient->setAntecedent($_POST["antecedent"]);
+            $patient->setAntecedent($_POST["medical"]);
             $patient->setMdp($_POST["mdp"]);
+            $patient->setBirthdate($_POST["date_naissance"]);
 
             // Mettre à jour la base de données
-            $patient->ChangeInfo($bdd);
+            $patient->updatePatientInfo($bdd);
 
             // Mettre à jour l'objet en session
             $_SESSION["patient"] = $patient;
