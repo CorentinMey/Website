@@ -60,6 +60,11 @@ session_start();
                             $bdd = new Query("siteweb");
                             $account_type = VerifyAccountType($_POST["mail"], $bdd);
 
+                            if (checkStatus($_POST["mail"], $bdd) == false) {
+                                header("Location: page_ban.html");
+                                exit;
+                            }
+
                             if ($account_type == "medecin") {
                                 $user = new Medecin(
                                     iduser: null,
