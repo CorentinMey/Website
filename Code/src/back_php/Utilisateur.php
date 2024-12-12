@@ -204,7 +204,7 @@ class Utilisateur {
             $_SESSION["result"] = "Erreur lors de l'inscription : " . $e->getMessage();
             return false;
         }
-    }
+    }   
     
 
     public function Connexion($email, $password, $bdd) {
