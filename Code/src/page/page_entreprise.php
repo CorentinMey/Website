@@ -133,7 +133,8 @@ $bdd = new Query("siteweb");
             $entreprise->DemandMedecin($id_medecin, $bdd, $idEssai);
         } elseif (isset($_POST['StartEssai'])) {
             $idEssai = $_POST['idEssai']; // ID de l'essai envoyé via un champ caché
-            $entreprise->startPhase($bdd, $idEssai);
+            $idphase = $_POST['idphase']; // ID de la phase envoyé via un champ caché
+            $entreprise->startPhase($bdd, $idEssai,$idphase);
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ChangePhase'])) {
         
             // Récupérer la description et la molécule testée
