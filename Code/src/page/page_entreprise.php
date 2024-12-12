@@ -126,14 +126,19 @@ $bdd = new Query("siteweb");
             afficherDetailsEssai($bdd, $idEssai); // Affiche les détails de l'essai sélectionné
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['DemanderMedecin'])) {
             $idEssai = $_POST['idEssai'];
-            afficherFormulaireChoixMedecin($bdd, $idEssai); // Affiche les détails de l'essai sélectionné
+            afficherFormulaireChoixMedecin($bdd, $idEssai);
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['RequeteMedecin']))  {
             $idEssai = $_POST['idEssai'];
             $id_medecin = $_POST['numero_ordre'];
             $entreprise->DemandMedecin($id_medecin, $bdd, $idEssai);
         } elseif (isset($_POST['StartEssai'])) {
             $idEssai = $_POST['idEssai']; // ID de l'essai envoyé via un champ caché
-            $entreprise->startPhase($bdd, $idEssai);
+            $idphase = $_POST['idphase']; // ID de la phase envoyé via un champ caché
+            $entreprise->startPhase($bdd, $idEssai,$idphase);
+        } elseif (isset($_POST['TerminerPhase'])) {
+            $idEssai = $_POST['idEssai']; // ID de l'essai envoyé via un champ caché
+            $idphase = $_POST['idphase']; // ID de la phase envoyé via un champ caché
+            $entreprise->terminerPhase($bdd, $idEssai,$idphase);
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ChangePhase'])) {
         
             // Récupérer la description et la molécule testée
