@@ -4,7 +4,7 @@ include_once("Query.php");
 include_once("Affichage_gen.php");
 include_once("Patient.php");
 include_once("Medecin.php");
-// include_once("Entreprise.php");
+include_once("Entreprise.php");
 
 
 
@@ -217,11 +217,12 @@ function registerNewCompany() {
                 "date_naissance" => $_POST["date_naissance"],
                 "mail" => $_POST["identifiant"],
                 "mdp" => $_POST["mdp"],
-                "siret" => $_POST["siret"],
-                "nom_entreprise" => $_POST["nom_entreprise"],
-                "ville" => $_POST["ville"]
+                "ID_User" => $_POST["siret"],
+                "nom" => $_POST["nom_entreprise"]
+                // "ville" => $_POST["ville"]
             ];
             // Inscrire l'entreprise
+            $_SESSION["ville"] = $_POST["ville"];
             $company->Inscription($bdd, $bdd_dict);
             
             if ($_SESSION["result"] == 1) {

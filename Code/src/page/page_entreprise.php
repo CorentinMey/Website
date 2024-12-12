@@ -37,12 +37,16 @@ $bdd = new Query("siteweb");
 
     <div id="banderolle">
     <!-- div pour le logo de l'historique et son bouton -->
-    <div id="logo_container_hist">
-        <a href="page_test.php">
-            <img id="logo_historic" src="../Ressources/Images/logo_historic.png" alt="Historic button">
-            <div id="tooltip_hist">Historic</div>
-        </a>
-    </div>
+    <div id = "logo_container_hist">
+            <img id = "logo_historic" src = "../Ressources/Images/logo_historic.png" alt = "Historic button">
+            <div id="dropdown_menu_hist">
+                <form method="post" action="">
+                    <!-- Bouton de déconnexion -->
+                    <button class="dropdown_button" name="Action" value="Historic">Historic</button>
+                </form>
+            </div>
+        </div>
+
 
     <!-- titre de la banderolle -->
     <h1 id="title"><?= "Welcome " . htmlspecialchars($name); ?></h1>
@@ -64,7 +68,7 @@ $bdd = new Query("siteweb");
 
 
 
-    <img src="../Ressources/Images/image_banderolle.webp" alt="banderolle" id="banderolle_img">
+    <img src="../Ressources/Images/test_banderolle.webp" alt="banderolle" id="banderolle_img">
 
     <?php
     // Instancie la connexion à la base de données
@@ -83,6 +87,10 @@ $bdd = new Query("siteweb");
                     // Retourne à la page d'accueil
                     revenirPageParDefaut();
                     break;
+                case 'Historic':
+                    // Redirige vers la page de l'historique
+                    header("Location: page_historique.php");
+                    exit;
             }
         }
     }
@@ -167,7 +175,7 @@ $bdd = new Query("siteweb");
     }   else {
     ?>
 
-        <h2 class="title">Options</h2>
+        <h2 class = "title" id ="titre_bouton_principal">Options</h2>
 
         <form action="" method="post" id="redirect_buttons">
             <button class="button" id="button_enterprise" name="Action" value="SeeEssai">My studies</button>

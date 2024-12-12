@@ -1,3 +1,15 @@
+/* insérer une image de fond sur toutes la page */
+body {
+    background-image: url(../Ressources/Images/background_patient.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    margin: 0; /* Supprime les marges par défaut */
+    padding: 0; /* Supprime les espacements internes par défaut */
+    overflow-x: auto; /* Permet le défilement horizontal si nécessaire */
+}
+
 #en-tete {
     margin-left: 40%;
     width:50%;
@@ -27,13 +39,22 @@
     margin-left: 3%;
 }
 
+/*CSS pour la banderolle avec les icones*/
 #banderolle {
-    background-color: lightblue;
+    background-color: #f5eded;
     height: 8%;
     width: 100%;
+    border : solid 0.1em black;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     justify-content: space-between;
+}
+
+/*CSS pour l'image de banderolle*/
+#banderolle_img{
+    width: 100%;
+    height : 30em;
 }
 
 #logo_container_hist {
@@ -128,11 +149,6 @@
     opacity: 1; /* Rend la boîte de texte visible */
 }
 
-#banderolle_img{
-    width: 100%;
-    height : 50em;
-}
-
 .title{
     display: flex;
     flex-direction: row;
@@ -140,6 +156,23 @@
     align-items: center;
     margin-bottom: 0em;
     margin-left : 1em;
+}
+
+#titre_bouton_principal::before,
+#titre_bouton_principal::after {
+    content: "";
+    top: 50%;
+    width: 40%;
+    height: 0.01em;
+    background-color: #969494;
+}
+
+#titre_bouton_principal::before {
+    left: 0;
+}
+
+#titre_bouton_principal h2::after {
+    right: 0;
 }
 
 #redirect_buttons{
@@ -173,14 +206,7 @@
     padding: 10px; /* Ajoute de l'espace intérieur */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre légère pour effet de profondeur */
 }
-#banderolle {
-    background-color: lightblue;
-    height: 8%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
+
 
 #logo_container_hist {
     position: relative;
@@ -244,6 +270,24 @@
     display: block; /* Affiche le menu */
 }
 
+#dropdown_menu_hist {
+    display: none; /* Masqué par défaut */
+    position: absolute;
+    top: 90%; /* Positionne le menu juste en dessous du logo */
+    left: 50%;
+    transform: translateX(-40%); /* Centré par rapport au logo */
+    background-color: black;
+    border-radius: 0.5em;
+    padding: 0.5 em 0;
+    z-index: 1;
+    width: 11em; /* Largeur fixe pour éviter que le menu dépasse */
+    overflow: hidden; /* Empêche le débordement du menu */
+}
+
+#logo_container_hist:hover #dropdown_menu_hist {
+    display: block; /* Affiche le menu */
+}
+
 #tooltip_hist {
     visibility: hidden;
     width: 10em;
@@ -275,12 +319,6 @@
 #logo_container_hist:hover #tooltip_hist {
     visibility: visible;
     opacity: 1;
-}
-
-/* Image de la banderolle */
-#banderolle_img {
-    width: 100%;
-    height: 50em;
 }
 
 
