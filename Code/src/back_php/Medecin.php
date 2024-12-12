@@ -24,39 +24,13 @@ class Medecin extends Utilisateur{
     {
         parent::Inscription($bdd, $dict_information); // reprend la fonction jusqu'à la création de l'objet utilisateur spécifique
             
-        //Liste des clés spécifiques au médecin
-        $med_keys = ["numero_ordre", "domaine", "hopital"];
-
-        // Filtrer le tableau pour récupérer les clés spécifiques au médecin
-        $med_dict = array_filter(
-            $dict_information,
-            function ($key) use ($med_keys) {
-                return in_array($key, $med_keys); // Inclut les clés présentes dans $med_keys
-            },
-            ARRAY_FILTER_USE_KEY
-        );
-
-        // Ajout de la clé 'is_bannis' avec la valeur associée 2 pour préciser que le médecin n'est pas encore accepté
-        $med_dict['is_bannis'] = 2;
-
-        // Extraire les colonnes et leurs valeurs
-        $med_columns = array_keys($med_dict); // Récupère les noms des colonnes
-        $med_values = array_values($med_dict); // Récupère les valeurs à insérer
-    
-        // Générer la partie de la requête SQL
-        $med_column_names = implode(", ", $med_columns); // Concatène les noms des colonnes avec des virgules
-        $med_placeholders = implode(", ", array_fill(0, count($med_columns), "?")); // Génère un placeholder "?" pour chaque colonne
-
         // Construire la requête d'insertion
-        $query = "INSERT INTO medecin ($med_column_names) VALUES ($med_placeholders)";
+        $query = "INSERT INTO medecin (`numero_ordre`, `domaine`, `hopital`) VALUES (:numero_ordre, :domaine, :hopital);";
+        $query_ban = "UPDATE utilisateur SET is_bannis = 2 WHERE mail = :mail;";
     
         try {
-            // Préparer la requête
-            $res = $bdd->getConnection()->prepare($query);
-    
-            // Exécuter la requête avec les valeurs
-            $res->execute($med_values);
-            
+            $bdd->insertLine($query, ["numero_ordre" => $dict_information["numero_ordre"], "domaine" => $dict_information["domaine"], "hopital" => $dict_information["hopital"]]);
+            $bdd->updateLines($query_ban, ["mail" => $dict_information["mail"]]);
             // Retourner le résultat ou true pour indiquer que tout s'est bien passé
             $_SESSION["result"] = 1;
             return;

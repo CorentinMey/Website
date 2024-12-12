@@ -132,7 +132,7 @@ function registerNewPatient() {
                 "nom" => $_POST["Nom"],
                 "prenom" => $_POST["prénom"],
                 "genre" => $_POST["genre"],
-                "origine" => $_POST["origins"],
+                "origine" => $_POST["origin"],
                 "antecedents" => $_POST["medical"],
                 "mail" => $_POST["identifiant"],
                 "mdp" => $_POST["mdp"],
