@@ -4,7 +4,7 @@ include_once("Query.php");
 include_once("Affichage_gen.php");
 include_once("Patient.php");
 include_once("Medecin.php");
-// include_once("Entreprise.php");
+include_once("Entreprise.php");
 
 
 

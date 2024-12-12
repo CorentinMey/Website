@@ -88,6 +88,58 @@ class Entreprise extends Utilisateur {
     
         $bdd->closeBD();
     }
+
+    public function Inscription($bdd, $dict_information) {
+        // Appeler la méthode Inscription de la classe Utilisateur
+        parent::Inscription($bdd, $dict_information);
+        // Vérifier si l'inscription de l'utilisateur a réussi
+        if ($_SESSION["result"] === 1) {
+            // Insérer les informations spécifiques au patient
+            $this->insererCompany($dict_information);
+        }
+    }
+    
+    private function insererCompany($dict_information) {
+        try {
+            // Récupérer l'email de l'utilisateur ajouté
+            $mail = $dict_information['mail'];
+    
+            // Récupérer l'ID de l'utilisateur ajouté
+            $querySelect = "SELECT ID_User FROM utilisateur WHERE mail = :mail";
+            $argsSelect = [':mail' => $mail];
+            $query = $this->connection->prepare($querySelect);
+            $query->execute($argsSelect);
+            $result = $query->fetch(PDO::FETCH_ASSOC);
+            $this->closeStatement($query);
+    
+            if ($result) {
+                $idUser = $result['ID_User'];
+    
+                // Ajouter le SIRET et la ville à la table entreprise
+                $queryInsert = "INSERT INTO entreprise (siret, ville) VALUES (:siret, :ville)";
+                $argsInsert = [
+                    ':siret' => $dict_information['siret'],
+                    ':ville' => $dict_information['ville']
+                ];
+                $this->insertLine($queryInsert, $argsInsert);
+    
+                // Remplacer l'ID_User par le SIRET dans la table utilisateur
+                $queryUpdate = "UPDATE utilisateur SET ID_User = :siret WHERE ID_User = :idUser";
+                $argsUpdate = [
+                    ':siret' => $dict_information['siret'],
+                    ':idUser' => $idUser
+                ];
+                $this->UpdateLines($queryUpdate, $argsUpdate);
+            } else {
+                throw new Exception("Utilisateur non trouvé avec l'email fourni.");
+            }
+        } catch (Exception $e) {
+            // Gérer les erreurs
+            error_log("Erreur lors de l'insertion de l'entreprise : " . $e->getMessage());
+            throw $e;
+        }
+    }
+    
     
     /**
      * Ajoute une demande de médecin à un essai clinique dans la base de données.
