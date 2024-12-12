@@ -94,11 +94,15 @@ function validatePassword($password) {
 function checkStatus($mail, $bdd) {
     $query_ban = "SELECT is_bannis FROM utilisateur WHERE mail = :email";
     $res = $bdd->getResults($query_ban, array("email" => $mail));
-    if ($res === []){
+    if ($res === []){ // test si l'email est dans la base de données
         AfficherErreur("No data for this user ".htmlspecialchars($mail).".");
         exit;
-    } elseif ($res["is_bannis"] == 1) 
+    } elseif ($res["is_bannis"] == 1)  // test si l'utilisateur est banni
         return false;
+    elseif($res["is_bannis"] == 2){ // test si l'utilisateur est en attente de validation
+        AfficherErreur("Please wait for the admin validation");
+        exit;
+    }
     return true;
 }
 
