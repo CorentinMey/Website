@@ -14,7 +14,10 @@
 include_once("Query.php");
 
 /**
- * @param Query $query
+ * fonction qui permet d'afficher une liste des utilisateurs
+ * @param object $query L'objet de connexion à la base de données
+ * @param string $message message qui sera affiché en cas d'une action
+ * @param int $limit combien de display dans la redirection de la liste
  */
 // Fonction pour afficher la liste des utilisateurs
 function afficherListeUtilisateurs($query, $message = null,  $limit = null) {
@@ -84,7 +87,12 @@ function afficherListeUtilisateurs($query, $message = null,  $limit = null) {
         echo "Error: " . $e->getMessage() . "<br>";
     }
 }
-
+/**
+ * fonction qui permet d'afficher une liste des médecins
+ * @param object $query L'objet de connexion à la base de données
+ * @param string $message message qui sera affiché en cas d'une action
+ * @param int $limit combien de display dans la redirection de la liste
+ */
 // Fonction pour afficher la liste des médecins:
 function afficherListeMedecins($query, $message = null,  $limit = null) {
     try {
@@ -164,6 +172,12 @@ function afficherListeMedecins($query, $message = null,  $limit = null) {
     }
 }
 
+/**
+ * fonction qui permet d'afficher une liste des entreprises
+ * @param object $query L'objet de connexion à la base de données
+ * @param string $message message qui sera affiché en cas d'une action
+ * @param int $limit combien de display dans la redirection de la liste
+ */
 // Fonction pour afficher la liste des entreprises:
 function afficherListeEntreprises($query, $message=null,  $limit = null) {
     try {
@@ -235,6 +249,12 @@ function afficherListeEntreprises($query, $message=null,  $limit = null) {
     }
 }
 
+
+/**
+ * fonction qui permet d'afficher une liste des essais cliniques
+ * @param object $query L'objet de connexion à la base de données
+ * @param int $limit combien de display dans la redirection de la liste
+ */
 // Fonction pour afficher la liste des essais cliniques:
 function afficherListeEssaisCliniques($query,  $limit = null) {
     try {
@@ -293,6 +313,12 @@ function afficherListeEssaisCliniques($query,  $limit = null) {
     }
 }
 
+/**
+ * fonction qui permet d'afficher une liste des demande de confirmations de account
+ * @param object $query L'objet de connexion à la base de données
+ * @param string $message message qui sera affiché en cas d'une action
+ * @param int $limit combien de display dans la redirection de la liste
+ */
 // Fonction pour afficher les confirmations en attente:
 function afficherConfirmationsEnAttente($query, $message=null,  $limit = null) {
     try {
@@ -359,6 +385,11 @@ function afficherConfirmationsEnAttente($query, $message=null,  $limit = null) {
     }
 }
 
+/**
+ * fonction qui permet d'afficher une liste des médecins
+ * @param object $query L'objet de connexion à la base de données
+ * @param string $mail le mail de l'admin qui utilise le site
+ */
 // Fonction pour afficher le profil de l'admin qui utilise le site:
 function afficherInfoAdmin($query, $mail) {
     

@@ -1,11 +1,24 @@
 
 <?php
+// ce fichier contient les commandes d'actions utilisées par l'admin : ban/uban/accept/reject.
 
+// appelle des fichiers necessaires
 include_once("Affichage_admin.php");
+
+
+
+
+/**
+ * Méthode pour bannir un utilisateur
+ * @param int $userID L'identifiant unique de l'utilisateur
+ * @param object $query L'objet de connexion à la base de données
+ * @param string $context Les informations du formulaire pour la redirection
+ * @param int $limit combien de display dans la redirection de la liste
+ */
 // Fonction pour bannir un utilisateur
 function banUser($userID, $query, $context, $limit=null) {
     try {
-        // Validation des paramètres
+        // Validation des paramètres et utilisation des exceptions
         if (!is_int($userID) || $userID <= 0) {
             throw new Exception("Invalid user ID: must be a positive integer.");
         }
@@ -50,11 +63,15 @@ function banUser($userID, $query, $context, $limit=null) {
 }
 
 /**
- * Fonction pour débannir un utilisateur
+ * fonction pour débannir un utilisateur
+ * @param int $userID L'identifiant unique de l'utilisateur
+ * @param object $query L'objet de connexion à la base de données
+ * @param string $context Les informations du formulaire pour la redirection
+ * @param int $limit combien de display dans la redirection de la liste
  */
 function unbanUser($userID, $query, $context, $limit=null) {
     try {
-        // Validation des paramètres
+        // Validation des paramètres et utilisation des exceptions
         if (!is_int($userID) || $userID <= 0) {
             throw new Exception("Invalid user ID: must be a positive integer.");
         }
@@ -97,10 +114,17 @@ function unbanUser($userID, $query, $context, $limit=null) {
     }
 }
 
+
+/**
+ * fonction pour accepter un utilisateur
+ * @param int $userID L'identifiant unique de l'utilisateur
+ * @param object $query L'objet de connexion à la base de données
+ * @param int $limit combien de display dans la redirection de la liste
+ */
 // Fonction pour accepter une demande (passage de 2 à 0)
 function acceptUser($userID, $query, $limit=null) {
     try {
-        // Validation des paramètres
+        // Validation des paramètres  et utilisation des exceptions
         if (!is_int($userID) || $userID <= 0) {
             throw new Exception("Invalid user ID: must be a positive integer.");
         }
@@ -131,10 +155,16 @@ function acceptUser($userID, $query, $limit=null) {
     
 }
 
+/**
+ * fonction pour refuser un utilisateur
+ * @param int $userID L'identifiant unique de l'utilisateur
+ * @param object $query L'objet de connexion à la base de données
+ * @param int $limit combien de display dans la redirection de la liste
+ */
 // Fonction pour rejeter une demande (passage de 2 à 1)
 function rejectUser($userID, $query, $limit=null) {
     try {
-        // Validation des paramètres
+        // Validation des paramètres  et utilisation des exceptions
         if (!is_int($userID) || $userID <= 0) {
             throw new Exception("Invalid user ID: must be a positive integer.");
         }

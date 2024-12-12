@@ -1,12 +1,14 @@
 <?php
+// imports fichiers
 include_once("../back_php/Utilisateur.php");
 
 session_start(); // Démarrer la session
-
+// si il accede en mettant directement l'url : redirection vers login
 if (!isset($_SESSION["admin"])) {
     header("Location: page_login.php");
     exit;
 }
+// si la session est bien admin on récupère le mail et mdp
 if (isset($_SESSION["admin"])) {
     $user = $_SESSION["admin"];
     // Récupérer les informations de l'utilisateur
@@ -15,25 +17,6 @@ if (isset($_SESSION["admin"])) {
 } else {
     echo "Post didnt send User informations";
 }
-
-// Ensuite, tu vérifies si les variables existent dans la session et les assignes
-//if (isset($_SESSION['mail_entre']) && isset($_SESSION['mdp_entre'])) {
-    //$mail_entre = $_SESSION['mail_entre'];
-    //$mdp_entre = $_SESSION['mdp_entre'];
-//} else {
-    // Si les variables ne sont pas dans la session, tu peux les récupérer via GET, par exemple
-    //$mail_entre = $_GET['mail'];
-    //$mdp_entre = $_GET['mdp'];
-
-    // Et les stocker dans la session pour les utiliser sur les prochaines pages
-    //$_SESSION['mail_entre'] = $mail_entre;
-    //$_SESSION['mdp_entre'] = $mdp_entre;
-//}
-?>
-<?php
-/*if(!isset($_SESSION["admin"])){
-    header("Location: page_login.php");
-}*/
 ?>
 <!-- page_admin.php -->
 <!DOCTYPE html>
@@ -64,6 +47,7 @@ if (isset($_SESSION["admin"])) {
     $result_compte = $query->getResults($newsql, []);
     $count = $result_compte['count_waiting'];
 
+    // on creer celui qui controle la page admin et on recupere ses infos pour les afficher 
     $whoisit = "SELECT nom, prenom, mail, genre, mdp FROM utilisateur WHERE mail = :mail";
     $params = [
         ':mail' => $mail_entre,
@@ -73,7 +57,7 @@ if (isset($_SESSION["admin"])) {
     $prenom_admin = $whoisadmin[0]['prenom'];
 
 
-    // Vérifie si un bouton a été cliqué
+    // Vérifie si un bouton a été cliqué selon le bouton on associe la fonction correspondante
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($_POST['show_list_user'])) {
             echo '<div class="LALIST">';
@@ -107,11 +91,11 @@ if (isset($_SESSION["admin"])) {
         }
     } else {
     ?>
-
+    <!-- si aucun bouton est cliqué on affiche cette section -->
     <div id="bandeau_top">
         <h1>Admin Page of: <?php echo htmlspecialchars($prenom_admin . ' ' . $nom_admin); ?></h1>
 
-
+        
         <!-- Formulaire qui sera soumis quand l'image est cliquée -->
         <form method="POST" action="page_admin.php">
             <div id= div_ensemble>

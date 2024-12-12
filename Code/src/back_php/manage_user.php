@@ -1,46 +1,52 @@
-
 <?php
-// Inclure les fonctions d'action
-include 'status.php';
-include_once("Query.php");
+// Inclure les fichiers contenant les fonctions nécessaires
+include 'status.php'; // Inclut les fonctions liées au statut des utilisateurs
+include_once("Query.php"); // Inclut la classe Query pour interagir avec la base de données
 
-// Vérifier si une action a été envoyée
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'],$_POST['LID'])) {
-    $userId = $_POST['LID'];  // ID de l'utilisateur envoyé par le formulaire
-    $userId = (int) $userId;
-    $action = $_POST['action'];  // L'action choisie (ban, unban, etc.)
+// Vérifier si une requête POST a été envoyée avec les paramètres nécessaires
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['LID'])) {
+    // Récupération de l'ID utilisateur envoyé via le formulaire
+    $userId = $_POST['LID'];  
+    $userId = (int) $userId; // Conversion en entier pour garantir un traitement sécurisé
+
+    // Récupération de l'action choisie (ban, unban, etc.)
+    $action = $_POST['action'];  
+    // Récupération du contexte supplémentaire (optionnel)
     $context = isset($_POST['context']) ? $_POST['context'] : null;
-    // Connexion à la base de données (ajuste selon ta configuration)
+
+    // Initialisation de la connexion à la base de données
+    // Assure-toi que le paramètre 'siteweb' correspond au nom correct de ta base de données
     $dbConnection = new Query('siteweb');
     
-    // Appeler la fonction appropriée en fonction de l'action
+    // Exécuter l'action appropriée en fonction de la valeur de $action
     switch ($action) {
         case 'ban':
-            // Appeler la fonction ban
-            banUser($userId, $dbConnection, $context, $limit=null);
+            // Appeler la fonction pour bannir l'utilisateur
+            banUser($userId, $dbConnection, $context, $limit = null);
             break;
 
         case 'unban':
-            // Appeler la fonction unban
-            unbanUser($userId, $dbConnection, $context, $limit=null);
+            // Appeler la fonction pour débannir l'utilisateur
+            unbanUser($userId, $dbConnection, $context, $limit = null);
             break;
 
         case 'accept':
-            // Appeler la fonction accept
+            // Appeler la fonction pour accepter l'utilisateur
             acceptUser($userId, $dbConnection);
             break;
 
         case 'reject':
-            // Appeler la fonction reject
+            // Appeler la fonction pour rejeter l'utilisateur
             rejectUser($userId, $dbConnection);
             break;
     }
 
-    // Rediriger ou afficher un message après l'action
-    //header("Location: ../page/page_admin.php");  // Redirection pour éviter la soumission multiple
+    // Après avoir exécuté l'action, tu peux rediriger l'utilisateur ou afficher un message
+    // La redirection permet d'éviter une soumission multiple en actualisant la page
+    //header("Location: ../page/page_admin.php");  // Décommenter pour rediriger vers une page spécifique
     exit();
-}
-else{
+} else {
+    // Affiche un message si les données POST nécessaires ne sont pas disponibles
     echo "jai pas les données du post";
 }
 ?>
