@@ -168,6 +168,18 @@ $bdd = new Query("siteweb");
             // Appeler la méthode pour ajouter une nouvelle phase
             $entreprise->NewPhase($bdd, $data,$_POST['IDphase']);
             echo "<p>Nouvelle phase créée avec succès ! </p>";
+        } elseif (isset($_POST['AccepterMedecin'])) {
+
+            $idMedecin = $_POST['idMedecin'];
+            $idEssai = $_POST['idEssai'];
+        
+            // Appeler la méthode pour accepter un médecin
+            try {
+                $entreprise->acceptMedecin($bdd, $idMedecin, $idEssai);
+                echo "<p>Médecin accepté avec succès !</p>";
+            } catch (Exception $e) {
+                echo "<p>Erreur lors de l'acceptation du médecin : " . htmlspecialchars($e->getMessage()) . "</p>";
+            }
         }
         
         

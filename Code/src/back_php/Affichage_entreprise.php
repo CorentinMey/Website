@@ -239,6 +239,31 @@ function afficherDetailsEssai($bdd, $idEssai) {
             echo 'Aucun médecin référent</p>';
         }
 
+        // Récupération et affichage des médecins en attente
+        $queryMedecinsAttente = "SELECT utilisateur.ID_User, utilisateur.nom, utilisateur.prenom 
+                                 FROM essai_medecin 
+                                 INNER JOIN utilisateur ON utilisateur.ID_User = essai_medecin.ID_medecin
+                                 WHERE essai_medecin.ID_essai = :idEssai AND essai_medecin.is_accepte = 0 AND essai_medecin.est_de_company = 0";
+
+        $medecinsAttente = $bdd->getResultsAll($queryMedecinsAttente, [":idEssai" => $idEssai]);
+
+        echo '<p><strong>Médecins en attente :</strong> ';
+        if (!empty($medecinsAttente)) {
+            echo '<ul>';
+            foreach ($medecinsAttente as $medecin) {
+                echo '<li>' . htmlspecialchars($medecin['prenom']) . ' ' . htmlspecialchars($medecin['nom']);
+                echo ' <form method="POST" action="">';
+                echo '     <input type="hidden" name="idMedecin" value="' . htmlspecialchars($medecin['ID_User']) . '">';
+                echo '     <input type="hidden" name="idEssai" value="' . htmlspecialchars($idEssai) . '">';
+                echo '     <button type="submit" name="AccepterMedecin" class="buttonAccepter">Accepter</button>';
+                echo ' </form>';
+                echo '</li>';
+            }
+            echo '</ul>';
+        } else {
+            echo 'Aucun médecin en attente</p>';
+        }
+
         // Conteneur commun pour les boutons
         echo '<div class="button-container">';
 
@@ -293,6 +318,7 @@ function afficherDetailsEssai($bdd, $idEssai) {
         echo '<p>Essai introuvable.</p>';
     }
 }
+
 
 
 function afficherFormulaireChoixMedecin($bdd, $idEssai) {
