@@ -54,54 +54,84 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['Action'])) {
+        switch ($_POST['Action']) {
+            case 'Disconnect':
+                // Déconnecte l'utilisateur
+                header("Location: page_deco.php");
+                exit;
+            case 'RevenirAccueil':
+                header("Location: page_medecin.php");
+                exit;
+            case 'Historic':
+                // Redirige vers la page de l'historique
+                header("Location: page_historique.php");
+                exit;
+            case 'RetourPrecedent':
+                // Retourne à la page précédente
+                $referer = $_SERVER['HTTP_REFERER'] ?? 'page_medecin.php'; // Si aucun referer, retourne à l'accueil
+                header("Location: $referer");
+                exit;
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
+<html lang="fr">
 
 <head>
-
-    <title>Page visualisation des patients par le médecin</title>
+    <title>Page du médecin</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../CSS/page_patient.css">
     <link rel="stylesheet" type="text/css" href="../CSS/global.css">
-
-
 </head>
 
-
 <body>
-    <div id = "en-tete">
-        <img src = "../Ressources/Images/logo_medexplorer.png" alt = "logo_med_explorer" id = logo_page>
-        <div id = "en-tete_text">
+    <div id="en-tete">
+        <img src="../Ressources/Images/logo_medexplorer.png" alt="logo_med_explorer" id="logo_page">
+        <div id="en-tete_text">
             <h1>MedExplorer</h1>
             <h2>A new way for health research</h2>
         </div>
     </div>
 
     <div id="banderolle">
-        
         <!-- div pour le log de l'historique et son bouton -->
-        <div id = "logo_container_hist">
-            <a href = "page_test.php">
-                <img id = "logo_historic" src = "../Ressources/Images/logo_historic.png" alt = "Historic button">
-                <div id = "tooltip_hist">Historic</div>
-            </a>
+        <div id="logo_container_hist">
+            <img id="logo_historic" src="../Ressources/Images/logo_historic.png" alt="Historic button">
+            <div id="dropdown_menu_hist">
+                <form method="post" action="">
+                    <!-- Bouton de l'historique -->
+                    <button class="dropdown_button" name="Action" value="Historic">Historic</button>
+                </form>
+            </div>
         </div>
-
         <!-- titre de la banderolle -->
         <h1 id="title">My account</h1>
 
         <!-- div pour le logo de deconnexion et son bouton -->
         <div id="logo_container">
-            <!-- mettre logo dans une balsie ref a pour rediriger -->
-            <a href="page_deco.php">
-                <img id="logo_account" src="../Ressources/Images/account.png" alt="Account Logo">
-                <div id="tooltip">Disconnect</div>
-            </a>
+            <img id="logo_account" src="../Ressources/Images/account.png" alt="Account Logo">
+            <div id="dropdown_menu">
+                <form method="post" action="">
+                    <!-- Bouton de déconnexion -->
+                    <button class="dropdown_button" name="Action" value="Disconnect">Disconnect</button>
+                    <!-- Bouton Home -->
+                    <button class="dropdown_button" name="Action" value="RevenirAccueil">Home</button>
+                    <!-- Bouton Retour à la page précédente -->
+                    <button class="dropdown_button" name="Action" value="RetourPrecedent">Back</button>
+                </form>
+            </div>
         </div>
     </div>
 
-    <img src = "../Ressources/Images/image_banderolle.webp" alt = "banderolle" id = "banderolle_img">
+    <img src="../Ressources/Images/test_banderolle.webp" alt="banderolle" id="banderolle_img">
+</body>
+
+</html>
+
 
  
 

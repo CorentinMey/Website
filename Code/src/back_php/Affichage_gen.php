@@ -27,7 +27,7 @@ function AfficherInfo($message, $id_essai, $action, $close_notif = true) {
 }
 
 /**
- * FOnction qui afficher une boite de confirmation
+ * Fonction qui afficher une boite de confirmation
  * @param $message : message à afficher
  * @param $id_essai : id de l'essai concerné
  * @param $action : tableau contenant les actions à effectuer (exemple : oui, non)
@@ -83,14 +83,7 @@ function AfficherBarreRecherche($search_query) {
  * @param $medecins : dictionnaire contenant les médecins référents
  * @param $id_essai : id de l'essai
  */
-function Affichage_content_essai_pas_demarre($essai, $medecins, $id_essai, $is_med) {
-    echo '<tr>';
-        echo '<td>' . htmlspecialchars($essai["nom"]) . '</td>'; // Affiche le nom de l'entreprise
-        echo '<td>Phase ' . htmlspecialchars($essai["ID_phase"]) . '</td>'; // Affiche la phase de l'essai
-        echo '<td>' . htmlspecialchars($essai["description"]) . '</td>'; // Affiche la description de l'essai
-        echo '<td>' . htmlspecialchars($essai["date_debut"]) . '</td>'; // Affiche la date de début de l'essai
-        echo '<td>';
-function Affichage_content_essai_pas_demarre($essai, $medecins, $id_essai) {
+function Affichage_content_essai_pas_demarre($essai, $medecins, $id_essai, $is_med=0) {
     echo "<div class='box_essai'>";
         echo "<div class='essai_title'>".htmlspecialchars($essai["titre"])."</div>"; // Affiche le titre de l'essai
             echo "<p id='essai_description'><b>Description :</b> <br>".htmlspecialchars($essai["description"])."</p>"; // Affiche la description de l'essai
@@ -100,6 +93,11 @@ function Affichage_content_essai_pas_demarre($essai, $medecins, $id_essai) {
             echo "</p>";
             echo "<p><b>Company: </b>".htmlspecialchars($essai["nom"])."</p>"; // Affiche le nom de l'entreprise
             echo "<p>Phase ".htmlspecialchars($essai["ID_phase"])."</p>"; // Affiche la phase de l'essai
+            if ($is_med == 1){
+                echo "<p><b>Mail: </b>" . htmlspecialchars($essai["mail"]) . "</p>"; // Affiche le mail
+                echo "<p><b>Test Molecule: </b>" . htmlspecialchars($essai["molecule_test"]) . "</p>"; // Affiche la molecule test
+                echo "<p><b>Reference Molecule: </b>" . htmlspecialchars($essai["molecule_ref"]) . "</p>"; // Affiche la molecule ref
+            }
             // Colonne pour le bouton "Join"
             echo "<form action='' method='post'>";
             echo "<input type='hidden' name='id_essai' value='".htmlspecialchars($id_essai)."'>";
@@ -118,7 +116,7 @@ function Affichage_content_essai_pas_demarre($essai, $medecins, $id_essai) {
  * @param $bdd : objet de connexion à la base de données
  * @param $user : objet utilisateur (patient ou médecin)
  */
-function AfficherEssaisPasDemarré($bdd, $user, $search_query = "") {
+function AfficherEssaisPasDemarré($bdd, $user, $search_query = "", $is_med=0) {
     if (!($bdd instanceof Query) || !($user instanceof Utilisateur)) {
         AfficherErreur("Invalid argument type.");
         return;
@@ -134,7 +132,7 @@ function AfficherEssaisPasDemarré($bdd, $user, $search_query = "") {
     $is_med = 0; //On mémorise que c'est un patient qui a demandé à voir les essais non démarrés
     } else {
         // Requête pour obtenir les essais qui n'ont pas encore démarré et auxquels le médecin n'a pas postulé
-        $query_essai = "SELECT  ID_essai, nom, description, date_debut, ID_phase, mail, molecule_test, molecule_ref
+        $query_essai = "SELECT  ID_essai, titre, nom, description, date_debut, ID_phase, mail, molecule_test, molecule_ref
                         FROM essai
                         JOIN utilisateur ON essai.ID_entreprise_ref = utilisateur.ID_User
                         WHERE a_debute = 0 AND ID_essai #// On récupère les essais qui n'ont pas encore démarré
@@ -157,7 +155,9 @@ function AfficherEssaisPasDemarré($bdd, $user, $search_query = "") {
             echo "<div id='title_essai_part'>"; // div pour manipuler le titre plus facilement
                 echo "<h2 class = 'title'>New clinical trials</h2>";
             echo "</div>";
+        if ($is_med == 0){
         AfficherBarreRecherche($search_query); // Affiche la barre de recherche
+        }
         echo "<div id='new_essais'>"; // cadre pour les essais
         foreach ($essais as $essai) {
             $id_essai = $essai['ID_essai'];

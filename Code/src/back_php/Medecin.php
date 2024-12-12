@@ -36,6 +36,9 @@ class Medecin extends Utilisateur{
             ARRAY_FILTER_USE_KEY
         );
 
+        // Ajout de la clé 'is_bannis' avec la valeur associée 2 pour préciser que le médecin n'est pas encore accepté
+        $med_dict['is_bannis'] = 2;
+
         // Extraire les colonnes et leurs valeurs
         $med_columns = array_keys($med_dict); // Récupère les noms des colonnes
         $med_values = array_values($med_dict); // Récupère les valeurs à insérer
@@ -134,7 +137,7 @@ class Medecin extends Utilisateur{
      */
     public function AffichageTableau_patient($bdd, $id_user){
 
-        $query = "SELECT nom, prenom, genre, date_naissance, antecedents, mail, traitement, dose, effet_secondaire, evolution_symptome, is_patient_exclus FROM resultat JOIN utilisateur ON 
+        $query = "SELECT DISTINCT nom, prenom, genre, date_naissance, antecedents, mail, traitement, dose, effet_secondaire, evolution_symptome, is_patient_exclus FROM resultat JOIN utilisateur ON 
                     resultat.ID_patient = utilisateur.ID_User NATURAL JOIN essai
                         WHERE ID_User = :id;";
         $res1 = $bdd->getResultsAll($query, ["id" => $id_user]);
@@ -143,9 +146,9 @@ class Medecin extends Utilisateur{
             return;
         }
         //Tableau pour les infos générales
-        foreach($res1 as $res){ // affiche les lignes du tableau
+        $res_f=$res1[0]; // récupère les données du patients
         // Stocker les données du patient dans la session
-        $_SESSION['patient_infos'] = $res;
+        $_SESSION['patient_infos'] = $res_f;
         echo '<h2 class = "title">Informations about the patient</h2>';
         echo '<div id = "personnal_data">';
             echo '<table class = "styled-table" id = "table_patient">';
@@ -162,13 +165,13 @@ class Medecin extends Utilisateur{
                 echo '</thead>';
                 echo '<tbody>';
                     echo '<tr>';
-                        echo '<td>'.$res["nom"].'</td>';
-                        echo '<td>'.$res["prenom"].'</td>';  
-                        echo '<td>'.$res["date_naissance"].'</td>';
-                        echo '<td>'.$res["genre"].'</td>';
-                        echo '<td>'.$res["mail"].'</td>';
-                        echo '<td>'.$res["antecedents"].'</td>';
-                        if ($res["is_patient_exclus"]==0){
+                        echo '<td>'.$res_f["nom"].'</td>';
+                        echo '<td>'.$res_f["prenom"].'</td>';  
+                        echo '<td>'.$res_f["date_naissance"].'</td>';
+                        echo '<td>'.$res_f["genre"].'</td>';
+                        echo '<td>'.$res_f["mail"].'</td>';
+                        echo '<td>'.$res_f["antecedents"].'</td>';
+                        if ($res_f["is_patient_exclus"]==0){
                             echo '<td>No</td>';
                         }
                         else{
@@ -194,16 +197,16 @@ class Medecin extends Utilisateur{
                 echo '</thead>';
                 echo '<tbody>';
                     echo '<tr>';
-                        echo '<td>'.$res["traitement"].'</td>';
-                        echo '<td>'.$res["dose"].'</td>';
-                        echo '<td>'.$res["effet_secondaire"].'</td>';
-                        echo '<td>'.$res["evolution_symptome"].'</td>';
+                        echo '<td>'.$res_f["traitement"].'</td>';
+                        echo '<td>'.$res_f["dose"].'</td>';
+                        echo '<td>'.$res_f["effet_secondaire"].'</td>';
+                        echo '<td>'.$res_f["evolution_symptome"].'</td>';
                     echo '</tr>';
                 echo '</tbody>';
             echo '</table>';
             echo '<a href="page_modif_medecin.php" id = "edit_option">Edit infos</a>';
         echo '</div>';
-    }
+    
 }
 
     /**
