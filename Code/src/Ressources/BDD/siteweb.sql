@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : mer. 11 déc. 2024 à 19:02
+-- Généré le : jeu. 12 déc. 2024 à 09:43
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -165,24 +165,24 @@ CREATE TABLE `essai` (
 --
 
 INSERT INTO `essai` (`ID_essai`, `ID_phase`, `ID_entreprise_ref`, `date_debut`, `date_fin`, `description`, `molecule_test`, `dosage_test`, `molecule_ref`, `dosage_ref`, `placebo_nom`, `a_debute`, `titre`) VALUES
-(1, 1, 88587897994307, '2020-01-20', '2022-04-27', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'tetrahydrotriquinacene', 27.9079, 'pentabromophenol', 29.8481, NULL, 1, 'Research on a new drug in cardiology'),
-(2, 1, 46044452419621, '2021-05-02', '2023-10-12', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'Cisplatin', 38.63, 'pentabromophenol', 10.6839, NULL, 2, 'Study on a groundbreaking medication in neurology'),
-(3, 1, 38199564441828, '2020-07-11', '2022-09-05', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'anti-IL-23', 77.8717, 'tetrahydrotriquinacene', 93.7198, NULL, 2, 'Research on a novel therapy in neurology'),
+(1, 2, 88587897994307, '2020-01-20', '2022-04-27', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'tetrahydrotriquinacene', 27.9079, 'pentabromophenol', 29.8481, NULL, 1, 'Research on a new drug in cardiology'),
+(2, 2, 46044452419621, '2021-05-02', '2023-10-12', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'Cisplatin', 38.63, 'pentabromophenol', 10.6839, NULL, 2, 'Study on a groundbreaking medication in neurology'),
+(3, 2, 38199564441828, '2020-07-11', '2022-09-05', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'anti-IL-23', 77.8717, 'tetrahydrotriquinacene', 93.7198, NULL, 2, 'Research on a novel therapy in neurology'),
 (4, 1, 71543287143393, '2021-11-03', '2022-09-24', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'Ramucirumab', 77.9372, 'fast red pdc salt', 46.8688, NULL, 0, 'Investigation of a new drug for cancer patients'),
-(5, 1, 20939139236409, '2021-09-29', '2023-05-05', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'anti-IL-9', 24.8991, 'Rituximab', 57.7677, NULL, 0, 'Study on a revolutionary approach in neurology'),
-(6, 1, 89902413590508, '2020-01-07', '2023-03-22', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'Herceptin', 91.469, 'allylidenecyclohexane', 41.4085, NULL, 2, 'Investigation of a new drug for diabetes management'),
-(7, 1, 44074935985762, '2020-02-06', '2023-06-10', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'anti-IL-5', 30.5537, 'Doxorubicin', 24.9726, NULL, 0, 'Research on a groundbreaking medication for cancer patients'),
+(5, 3, 20939139236409, '2021-09-29', '2023-05-05', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'anti-IL-9', 24.8991, 'Rituximab', 57.7677, NULL, 0, 'Study on a revolutionary approach in neurology'),
+(6, 2, 89902413590508, '2020-01-07', '2023-03-22', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'Herceptin', 91.469, 'allylidenecyclohexane', 41.4085, NULL, 2, 'Investigation of a new drug for diabetes management'),
+(7, 2, 44074935985762, '2020-02-06', '2023-06-10', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'anti-IL-5', 30.5537, 'Doxorubicin', 24.9726, NULL, 0, 'Research on a groundbreaking medication for cancer patients'),
 (8, 1, 57822177088690, '2020-04-15', '2023-06-01', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'anti-IL-23', 77.2986, 'allylidenecyclohexane', 75.3836, NULL, 2, 'Clinical trial for a groundbreaking medication for chronic pain'),
-(9, 1, 93163987908060, '2021-05-21', '2023-03-27', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'Taxol', 42.9533, 'TNF-inhibitor', 33.8445, NULL, 1, 'Clinical trial for a new drug for diabetes management'),
+(9, 3, 93163987908060, '2021-05-21', '2023-03-27', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'Taxol', 42.9533, 'TNF-inhibitor', 33.8445, NULL, 1, 'Clinical trial for a new drug for diabetes management'),
 (10, 1, 83119001859253, '2021-08-11', '2022-07-10', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'Panitumumab', 65.6191, 'anti-IL-4', 35.747, NULL, 1, 'Research on a groundbreaking medication in cardiology'),
 (11, 1, 65758132415581, '2020-10-18', '2023-07-12', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'Methotrexate', 26.8403, 'fast red pdc salt', 66.6003, NULL, 1, 'Study on a groundbreaking medication for chronic pain'),
-(12, 1, 34205006026669, '2020-12-05', '2023-12-17', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'allylidenecyclohexane', 99.5273, 'Bevacizumab', 81.3087, NULL, 2, 'Evaluation of a groundbreaking medication for cancer patients'),
-(13, 1, 27187514819081, '2021-02-20', '2022-04-05', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'pentabromophenol', 30.6408, 'Methotrexate', 25.0003, NULL, 0, 'Research on an innovative treatment in cardiology'),
-(14, 1, 92620183015143, '2021-06-20', '2022-10-13', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'anti-IL-12', 52.2516, 'Methotrexate', 52.2978, NULL, 0, 'Clinical trial for a groundbreaking medication in cardiology'),
-(15, 1, 26262279736732, '2020-08-01', '2022-12-27', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'Trastuzumab', 84.1005, 'anti-IL-9', 60.6208, NULL, 1, 'Research on a groundbreaking medication for diabetes management'),
-(16, 1, 83119001859253, '2020-06-22', '2023-09-02', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'isoamyl propionate', 70.5228, 'Trastuzumab', 24.3387, NULL, 2, 'Study on a new drug in neurology'),
-(17, 1, 99182465117498, '2021-11-16', '2022-06-19', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'Taxol', 45.3734, 'anti-IL-17', 10.2991, NULL, 1, 'Research on a novel therapy for chronic pain'),
-(18, 1, 22983768197035, '2020-01-01', '2023-02-16', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'allylidenecyclohexane', 37.108, 'Pembrolizumab', 29.9656, NULL, 1, 'Study on an innovative treatment for diabetes management'),
+(12, 2, 34205006026669, '2020-12-05', '2023-12-17', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'allylidenecyclohexane', 99.5273, 'Bevacizumab', 81.3087, NULL, 2, 'Evaluation of a groundbreaking medication for cancer patients'),
+(13, 2, 27187514819081, '2021-02-20', '2022-04-05', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'pentabromophenol', 30.6408, 'Methotrexate', 25.0003, NULL, 0, 'Research on an innovative treatment in cardiology'),
+(14, 2, 92620183015143, '2021-06-20', '2022-10-13', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'anti-IL-12', 52.2516, 'Methotrexate', 52.2978, NULL, 0, 'Clinical trial for a groundbreaking medication in cardiology'),
+(15, 2, 26262279736732, '2020-08-01', '2022-12-27', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'Trastuzumab', 84.1005, 'anti-IL-9', 60.6208, NULL, 1, 'Research on a groundbreaking medication for diabetes management'),
+(16, 2, 83119001859253, '2020-06-22', '2023-09-02', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'isoamyl propionate', 70.5228, 'Trastuzumab', 24.3387, NULL, 2, 'Study on a new drug in neurology'),
+(17, 3, 99182465117498, '2021-11-16', '2022-06-19', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'Taxol', 45.3734, 'anti-IL-17', 10.2991, NULL, 1, 'Research on a novel therapy for chronic pain'),
+(18, 3, 22983768197035, '2020-01-01', '2023-02-16', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'allylidenecyclohexane', 37.108, 'Pembrolizumab', 29.9656, NULL, 1, 'Study on an innovative treatment for diabetes management'),
 (19, 1, 11159610792523, '2020-07-21', '2022-02-08', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'fluorobenzenechromium tricarbonyl', 95.1504, 'anti-IL-21', 11.5217, NULL, 2, 'Research on a new drug in cardiology'),
 (20, 1, 66419780343309, '2020-04-26', '2022-11-11', 'Lorem ipsum dolor sit amet. Et maiores amet aut enim possimus aut dignissimos unde ab maxime quia. Est Quis quia hic vitae aperiam cum temporibus porro et explicabo quia et eius velit in sapiente facilis. Ea explicabo repellendus est quisquam quis est vero enim eum consectetur aspernatur ut quasi harum. Sit repudiandae fugiat vel itaque quibusdam qui perspiciatis dolor ab repellat consequatur qui reprehenderit commodi?', 'Ramucirumab', 64.4932, 'anti-IL-10', 49.7264, NULL, 1, 'Research on a novel therapy in neurology');
 
@@ -542,42 +542,42 @@ CREATE TABLE `phase` (
 --
 
 INSERT INTO `phase` (`ID_essai`, `ID_phase`, `date_debut`, `date_fin_prevue`, `nombre_patients`) VALUES
-(1, 1, '2002-03-19', '2001-12-31', 40),
-(1, 2, '2006-04-28', '2003-12-31', 47),
+(1, 1, '2001-12-31', '2002-03-19', 40),
+(1, 2, '2003-12-31', '2006-04-28', 47),
 (1, 3, '2020-01-20', '2022-04-27', 44),
-(2, 1, '2000-11-29', '2000-11-29', 25),
+(2, 1, '2000-11-29', '2002-11-29', 25),
 (2, 2, '2021-05-02', '2023-10-12', 33),
-(3, 1, '2012-12-21', '2001-12-31', 40),
+(3, 1, '2001-12-31', '2012-12-21', 40),
 (3, 2, '2020-07-11', '2022-09-05', 35),
 (4, 1, '2021-11-03', '2022-09-24', 38),
-(5, 1, '2019-04-23', '2001-12-31', 39),
-(5, 2, '2013-10-13', '2003-12-31', 26),
+(5, 1, '2003-12-31', '2019-04-23', 39),
+(5, 2, '2003-12-31', '2013-10-13', 26),
 (5, 3, '2021-09-29', '2023-05-05', 35),
-(6, 1, '2008-11-12', '2001-12-31', 44),
+(6, 1, '2001-12-31', '2008-11-12', 44),
 (6, 2, '2020-01-07', '2023-03-22', 48),
-(7, 1, '2014-09-13', '2001-12-31', 48),
+(7, 1, '2001-12-31', '2014-09-13', 48),
 (7, 2, '2020-02-06', '2023-06-10', 50),
 (8, 1, '2020-04-15', '2023-06-01', 26),
-(9, 1, '2010-12-26', '2001-12-31', 39),
-(9, 2, '2016-08-27', '2003-12-31', 30),
+(9, 1, '2001-12-31', '2002-12-26', 39),
+(9, 2, '2002-12-31', '2003-12-31', 30),
 (9, 3, '2021-05-21', '2023-03-27', 31),
 (10, 1, '2021-08-11', '2022-07-10', 49),
 (11, 1, '2020-10-18', '2023-07-12', 48),
 (12, 1, '2005-03-03', '2001-12-31', 37),
 (12, 2, '2020-12-05', '2023-12-17', 48),
-(13, 1, '2017-05-08', '2001-12-31', 28),
+(13, 1, '2001-12-31', '2017-05-08', 28),
 (13, 2, '2021-02-20', '2022-04-05', 46),
-(14, 1, '2008-01-17', '2001-12-31', 43),
+(14, 1, '2001-12-31', '2008-01-17', 43),
 (14, 2, '2021-06-20', '2022-10-13', 34),
-(15, 1, '2004-07-20', '2001-12-31', 37),
+(15, 1, '2001-12-31', '2004-07-20', 37),
 (15, 2, '2020-08-01', '2022-12-27', 32),
-(16, 1, '2001-12-19', '2001-12-19', 38),
+(16, 1, '2001-12-19', '2005-12-19', 38),
 (16, 2, '2020-06-22', '2023-09-02', 40),
-(17, 1, '2000-07-25', '2000-07-25', 32),
-(17, 2, '2011-02-22', '2002-07-25', 46),
+(17, 1, '2000-07-25', '2002-07-24', 32),
+(17, 2, '2002-07-25', '2011-02-22', 46),
 (17, 3, '2021-11-16', '2022-06-19', 36),
-(18, 1, '2003-04-08', '2001-12-31', 21),
-(18, 2, '2015-04-20', '2003-12-31', 43),
+(18, 1, '2001-12-31', '2003-04-08', 21),
+(18, 2, '2003-12-31', '2015-04-20', 43),
 (18, 3, '2020-01-01', '2023-02-16', 38),
 (19, 1, '2020-07-21', '2022-02-08', 26),
 (20, 1, '2020-04-26', '2022-11-11', 20);
@@ -606,6 +606,7 @@ CREATE TABLE `resultat` (
 --
 
 INSERT INTO `resultat` (`ID_essai`, `ID_patient`, `is_accepte`, `is_patient_exclus`, `phase`, `traitement`, `dose`, `effet_secondaire`, `evolution_symptome`, `phase_res`) VALUES
+(1, 1, 0, 0, 1, 'tetrahydrotriquinacene', 27.9079, 'None', 'Stable', 1),
 (1, 18, 1, 0, 3, 'pentabromophenol', 85.3717, 'None', 'Stable', 3),
 (1, 62, 1, 0, 1, 'Sugar pill', 67.563, 'None', 'Worst', 1),
 (1, 81, 1, 0, 2, 'pentabromophenol', 24.3664, 'Diziness', 'Stable', 2),
@@ -730,7 +731,7 @@ INSERT INTO `resultat` (`ID_essai`, `ID_patient`, `is_accepte`, `is_patient_excl
 (3, 450, 1, 0, 3, 'Sugar pill', 74.252, 'Fatigue', 'Stable', 3),
 (3, 452, 1, 0, 1, 'Sugar pill', 84.9495, 'None', 'Stable', 1),
 (3, 468, 1, 0, 3, 'anti-IL-23', 85.4201, 'Nausea', 'Worst', 3),
-(4, 1, 2, 0, 2, 'Ramucirumab', 32.4325, 'Fatigue', 'Better', 2),
+(4, 1, 1, 0, 2, 'Ramucirumab', 32.4325, 'Fatigue', 'Better', 2),
 (4, 5, 1, 0, 2, 'Sugar pill', 17.9684, 'Fatigue', 'Worst', 2),
 (4, 19, 1, 0, 3, 'Ramucirumab', 52.0892, 'None', 'Worst', 3),
 (4, 42, 1, 0, 1, 'Sugar pill', 74.1432, 'Nausea', 'Worst', 1),
@@ -1301,7 +1302,7 @@ INSERT INTO `resultat` (`ID_essai`, `ID_patient`, `is_accepte`, `is_patient_excl
 --
 
 CREATE TABLE `utilisateur` (
-  `ID_User` bigint(20) NOT NULL,
+  `ID_User` bigint(20) NOT NULL DEFAULT current_timestamp(),
   `date_naissance` date DEFAULT NULL,
   `prenom` varchar(255) DEFAULT NULL,
   `nom` varchar(255) DEFAULT NULL,
@@ -1319,7 +1320,7 @@ CREATE TABLE `utilisateur` (
 --
 
 INSERT INTO `utilisateur` (`ID_User`, `date_naissance`, `prenom`, `nom`, `genre`, `mail`, `antecedents`, `is_bannis`, `is_admin`, `mdp`, `origine`) VALUES
-(0, '1000-01-01', "Gilles", "Bernot", "M", "giles.bernot@mail.com", "NONE", 0, 1, "$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme", "X"),
+(0, '1000-01-01', 'Gilles', 'Bernot', 'M', 'gilles.bernot@mail.com', 'NONE', 0, 1, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'X'),
 (1, '1971-07-30', 'Brigitte-Suzanne', 'Santos', 'F', 'brigitte-suzanne.santos@mail.com', 'Cardiac history', 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'Oceania'),
 (2, '1974-10-24', 'Tristan', 'Martinez-Legendre', 'M', 'tristan.martinez-legendre@mail.com', 'Food allergy', 1, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
 (3, '1986-07-19', 'Sébastien', 'Lévêque', 'F', 'sébastien.lévêque@mail.com', 'Cardiac history', 1, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
@@ -1619,9 +1620,9 @@ INSERT INTO `utilisateur` (`ID_User`, `date_naissance`, `prenom`, `nom`, `genre`
 (297, '1951-06-08', 'Victor', 'Maréchal', 'M', 'victor.maréchal@mail.com', 'Type 2 diabtes', 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
 (298, '1983-07-22', 'Noël', 'Duval', 'F', 'noël.duval@mail.com', 'NONE', 1, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
 (299, '1975-09-28', 'David', 'Ferrand', 'F', 'david.ferrand@mail.com', 'Type 1 diabetes', 1, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
-(300, '1962-02-14', 'Laurence', 'Jacquet-Grenier', 'F', 'laurence.jacquet-grenier@mail.com', 'Food allergy', 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
-(301, '2000-06-01', 'Aurélie-Valérie', 'Maillard', 'F', 'aurélie-valérie.maillard@mail.com', 'Food allergy', 1, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c');
+(300, '1962-02-14', 'Laurence', 'Jacquet-Grenier', 'F', 'laurence.jacquet-grenier@mail.com', 'Food allergy', 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c');
 INSERT INTO `utilisateur` (`ID_User`, `date_naissance`, `prenom`, `nom`, `genre`, `mail`, `antecedents`, `is_bannis`, `is_admin`, `mdp`, `origine`) VALUES
+(301, '2000-06-01', 'Aurélie-Valérie', 'Maillard', 'F', 'aurélie-valérie.maillard@mail.com', 'Food allergy', 1, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
 (302, '1971-04-18', 'Guy', 'Roussel', 'M', 'guy.roussel@mail.com', 'Hypertension', 1, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
 (303, '1954-01-24', 'Christine', 'Paris', 'F', 'christine.paris@mail.com', 'Type 2 diabtes', 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
 (304, '2001-10-21', 'Honoré', 'Nguyen', 'F', 'honoré.nguyen@mail.com', 'NONE', 1, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
@@ -1821,6 +1822,7 @@ INSERT INTO `utilisateur` (`ID_User`, `date_naissance`, `prenom`, `nom`, `genre`
 (498, '1972-08-02', 'Margaux', 'Bonnin', 'M', 'margaux.bonnin@mail.com', 'Food allergy', 1, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
 (499, '2001-07-15', 'Antoine', 'Olivier-Bourdon', 'M', 'antoine.olivier-bourdon@mail.com', 'Type 2 diabtes', 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
 (500, '1950-12-08', 'Gabrielle', 'Ramos', 'M', 'gabrielle.ramos@mail.com', 'Asthma', 1, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
+(515, '1990-01-01', 'Alice', 'Dupont', 'F', 'alice.dupont2@mail.com', 'Aucun', 0, 0, '$2y$10$ZuavE7p7X30hrU1XX2rAWeBmaqkNxtsG2E4rj1JdJvhypfzJt8doK', 'France'),
 (100001, NULL, 'Margot', 'Hardy', 'F', 'margot.hardy@hospital.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL),
 (100002, NULL, 'Thibaut', 'Carpentier', 'F', 'thibaut.carpentier@hospital.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL),
 (100003, NULL, 'Jeanne', 'Turpin', 'M', 'jeanne.turpin@hospital.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL),
@@ -1924,10 +1926,10 @@ INSERT INTO `utilisateur` (`ID_User`, `date_naissance`, `prenom`, `nom`, `genre`
 (100101, NULL, 'David-Timothée', 'Hebert', 'F', 'david-timothée.hebert@hospital.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL),
 (100102, NULL, 'Louise', 'Gilbert', 'F', 'louise.gilbert@hospital.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL),
 (100103, NULL, 'Alexandrie', 'Collin', 'F', 'alexandrie.collin@hospital.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL),
-(100104, NULL, 'Gilles-Thierry', 'Jean', 'M', 'gilles-thierry.jean@hospital.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL),
-(100105, NULL, 'Nicolas', 'Gonzalez', 'F', 'nicolas.gonzalez@hospital.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL),
-(100106, NULL, 'Sophie-Marcelle', 'Gaillard', 'M', 'sophie-marcelle.gaillard@hospital.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL);
+(100104, NULL, 'Gilles-Thierry', 'Jean', 'M', 'gilles-thierry.jean@hospital.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL);
 INSERT INTO `utilisateur` (`ID_User`, `date_naissance`, `prenom`, `nom`, `genre`, `mail`, `antecedents`, `is_bannis`, `is_admin`, `mdp`, `origine`) VALUES
+(100105, NULL, 'Nicolas', 'Gonzalez', 'F', 'nicolas.gonzalez@hospital.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL),
+(100106, NULL, 'Sophie-Marcelle', 'Gaillard', 'M', 'sophie-marcelle.gaillard@hospital.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL),
 (100107, NULL, 'Noël', 'Roux', 'M', 'noël.roux@hospital.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL),
 (100108, NULL, 'Thérèse', 'Louis', 'M', 'thérèse.louis@hospital.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL),
 (100109, NULL, 'Denis', 'Barbier', 'F', 'denis.barbier@hospital.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL),
@@ -2034,6 +2036,8 @@ INSERT INTO `utilisateur` (`ID_User`, `date_naissance`, `prenom`, `nom`, `genre`
 (16339864591003, NULL, NULL, 'Entreprise_80', NULL, 'entreprise_80@mail.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL),
 (18313254046102, NULL, NULL, 'Entreprise_66', NULL, 'entreprise_66@mail.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL),
 (19364548842507, NULL, NULL, 'Entreprise_42', NULL, 'entreprise_42@mail.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL),
+(20241211194623, '2000-01-01', 'Jean', 'DuponD', 'M', 'test@test.com', 'Aucun', 0, 0, '$2y$10$fJe3PDPzc5cCRbx.YKSydO1fnrfEDDjn0YX1NMQCZH5IW9rQlzoEG', 'France'),
+(20241211194745, '2000-01-01', 'Jean', 'SELECT * FROM utilisateur', 'M', 'test@ttest.com', 'Aucun', 0, 0, '$2y$10$rUPruQ47UnK0XRlzgpr.QOqbCFVBlvT95mx6nM3qJkhzWxj/4cyuO', 'France'),
 (20939139236409, NULL, NULL, 'Entreprise_54', NULL, 'entreprise_54@mail.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL),
 (22671782032639, NULL, NULL, 'Entreprise_99', NULL, 'entreprise_99@mail.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL),
 (22983768197035, NULL, NULL, 'Entreprise_37', NULL, 'entreprise_37@mail.com', NULL, 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', NULL),
