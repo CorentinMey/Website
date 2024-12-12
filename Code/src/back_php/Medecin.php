@@ -21,16 +21,19 @@ class Medecin extends Utilisateur{
 
 
     public function Inscription($bdd, $dict_information)
-    {
-        parent::Inscription($bdd, $dict_information); // reprend la fonction jusqu'à la création de l'objet utilisateur spécifique
+    {     $dict_info_user = array_filter($dict_information, function($key) {
+            return !in_array($key, ['numero_ordre', 'domaine', 'hopital']);
+            }, ARRAY_FILTER_USE_KEY);
+
+        parent::Inscription($bdd, $dict_info_user); // reprend la fonction jusqu'à la création de l'objet utilisateur spécifique
             
         // Construire la requête d'insertion
         $query = "INSERT INTO medecin (`numero_ordre`, `domaine`, `hopital`) VALUES (:numero_ordre, :domaine, :hopital);";
-        $query_ban = "UPDATE utilisateur SET is_bannis = 2 WHERE mail = :mail;";
+        $query_ban = "UPDATE utilisateur SET is_bannis = 2, ID_User = :numero_ordre WHERE mail = :mail;";
     
         try {
             $bdd->insertLine($query, ["numero_ordre" => $dict_information["numero_ordre"], "domaine" => $dict_information["domaine"], "hopital" => $dict_information["hopital"]]);
-            $bdd->updateLines($query_ban, ["mail" => $dict_information["mail"]]);
+            $bdd->updateLines($query_ban, ["mail" => $dict_information["mail"], "numero_ordre" => $dict_information["numero_ordre"]]);
             // Retourner le résultat ou true pour indiquer que tout s'est bien passé
             $_SESSION["result"] = 1;
             return;

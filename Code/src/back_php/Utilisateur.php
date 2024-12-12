@@ -122,20 +122,20 @@ class Utilisateur {
     public function Inscription($bdd, $dict_information) {
         // Ajouter les valeurs par défaut
         $this->ajouterValeursParDefaut($dict_information);
-
+        
         // Hasher le mot de passe
         $this->hasherPassword($dict_information);
-
+        
         // Vérifier l'âge
         if (!$this->verifierAge($dict_information)) {
             return;
         }
-
+        
         // Vérifier l'unicité de l'email
         if (isset($dict_information['mail']) && !$this->verifierEmailUnique($bdd, $dict_information['mail'])) {
             return;
         }
-
+        
         // Insérer l'utilisateur dans la base de données
         $this->insererUtilisateur($bdd, $dict_information);
     }
@@ -172,6 +172,7 @@ class Utilisateur {
     protected function verifierEmailUnique($bdd, $email) {
         if (isset($email)) {
             $query = 'SELECT mail FROM utilisateur WHERE mail = :email';
+            
             try {
                 $query_res = $bdd->getResults($query, array("email" => $email));
                 if (!empty($query_res)) {
@@ -194,7 +195,7 @@ class Utilisateur {
         $placeholders = implode(", ", array_fill(0, count($columns), "?"));
 
         $query = "INSERT INTO utilisateur ($column_names) VALUES ($placeholders)";
-
+        echo $query;
         try {
             $res = $bdd->getConnection()->prepare($query);
             $res->execute($values);
@@ -202,6 +203,7 @@ class Utilisateur {
             return true;
         } catch (PDOException $e) {
             $_SESSION["result"] = "Erreur lors de l'inscription : " . $e->getMessage();
+            echo $_SESSION["result"];
             return false;
         }
     }   
@@ -219,7 +221,7 @@ class Utilisateur {
                 exit();
                 return false;
             } elseif (!password_verify($password, $query_res["mdp"])) { // Si le mot de passe ne correspond pas
-                afficherErreur("Incorect password for".htmlspecialchars($email));
+                afficherErreur("Incorect password for ".htmlspecialchars($email));
                 exit();
                 return false;
             } else { // définir les attributs de l'objet pour les classes filles
