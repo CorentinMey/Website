@@ -100,6 +100,9 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
         echo "Inscription réussie ".$_SESSION["result"];
     else
         echo "Inscription échouée ".$_SESSION["result"];
+
+    $query = "DELETE FROM utilisateur WHERE mail = 'test@test.com';";
+    $bdd->deleteLines($query, []);
     ?>
 <h3>==============================================================================================================================================================</h3>
     <h3> Test inscription avec un mineur</h3>
@@ -119,6 +122,9 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
         echo "Inscription réussie ".$_SESSION["result"];
     else
         echo "Inscription échouée ".$_SESSION["result"];
+
+        $query = "DELETE FROM utilisateur WHERE mail = 'test@test.com2';";
+        $bdd->deleteLines($query, []);
     ?>
     
 <h3>==============================================================================================================================================================</h3>
@@ -139,6 +145,9 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
         echo "Inscription réussie ".$_SESSION["result"];
     else
         echo "Inscription échouée ".$_SESSION["result"];
+
+        $query = "DELETE FROM utilisateur WHERE mail = 'test@test.com';";
+        $bdd->deleteLines($query, []);
     ?>
 <h3>==============================================================================================================================================================</h3>
     <h3> Test injection de code SQL</h3>
@@ -150,7 +159,7 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
         "genre" => "M",
         "origine" => "France",
         "antecedents" => "Aucun",
-        "mail" => "test@ttest.com",
+        "mail" => "test@test.com",
         "mdp" => "nouveau_mdp",
         "date_naissance" => "2000-01-01"
         ]);
@@ -159,6 +168,10 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
         echo "Inscription réussie ".$_SESSION["result"];
     else
         echo "Inscription échouée ".$_SESSION["result"];
+
+
+    $query = "DELETE FROM utilisateur WHERE mail = 'test@test.com';";
+    $bdd->deleteLines($query, []);
 
     ?>
 <h3>==============================================================================================================================================================</h3>
@@ -188,7 +201,7 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
     ?>
     <p>Si l'utilisateur participe à des essais</p>
     <?php
-        $patien3 = new Patient(mdp : "1234", email : "brigitte-suzanne.santos@mail.com");
+        $patien3 = new Patient(mdp : "123456789!@", email : "brigitte-suzanne.santos@mail.com");
         $patien3->Connexion($patien3->getEmail(), $patien3->getMdp(), $bdd);
         $patien3->AfficheEssais($bdd);
     ?>
@@ -234,7 +247,7 @@ $patient = new Patient($mdp, $mail, $id_patient, $nom, $is_bannis, $is_admin, $p
     <h2> Test de la fonction Connexion</h2>
     <h3>Ici le patient se connecte grâce à son mail et à son mdp et obtient ses infos au complet</h3>
     <?php
-    $patient2 = new Patient(mdp : "1234", email : "brigitte-suzanne.santos@mail.com");
+    $patient2 = new Patient(mdp : "123456789!@", email : "brigitte-suzanne.santos@mail.com");
     $patient2->Connexion($patient2->getEmail(), $patient2->getMdp(), $bdd);
     // Affiche le patient avec ses nouvelles infos au complet
     echo "Nom : " . $patient2->getLast_name() . "<br>";
