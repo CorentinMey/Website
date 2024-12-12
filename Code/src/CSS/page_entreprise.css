@@ -506,6 +506,25 @@ ul {
     background-color: #0056b3;
 }
 
+.buttonAccepter {
+    padding: 10px 20px;
+    background-color: #37ff00;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.buttonRefuser {
+    padding: 10px 20px;
+    background-color: #ff0000;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
 /* Conteneur pour les médecins référents, avec le même style que les autres informations */
 .details p.medecins-referents {
     font-size: 1.2em;

@@ -252,5 +252,19 @@ function startPhase($bdd, $idEssai) {
     }
 }
 
+public function acceptMedecin($bdd, $idMedecin, $idEssai) {
+    try {
+        $queryUpdate = "UPDATE essai_medecin SET is_accepte = 1 WHERE ID_medecin = :idMedecin AND ID_essai = :idEssai";
+        $argsUpdate = [
+            ':idMedecin' => $idMedecin,
+            ':idEssai' => $idEssai
+        ];
+        $bdd->UpdateLines($queryUpdate, $argsUpdate);
+    } catch (Exception $e) {
+        // Gérer les erreurs
+        AfficherErreur("Erreur lors de l'acceptation du médecin : " . $e->getMessage());
+        throw $e;
+    }
+}
 }
 ?>
