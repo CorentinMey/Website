@@ -7,6 +7,7 @@ include_once("Query.php");
 // Vérifier si une action a été envoyée
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'],$_POST['LID'])) {
     $userId = $_POST['LID'];  // ID de l'utilisateur envoyé par le formulaire
+    $userId = (int) $userId;
     $action = $_POST['action'];  // L'action choisie (ban, unban, etc.)
     $context = isset($_POST['context']) ? $_POST['context'] : null;
     // Connexion à la base de données (ajuste selon ta configuration)
@@ -16,12 +17,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'],$_POST['LID'
     switch ($action) {
         case 'ban':
             // Appeler la fonction ban
-            banUser($userId, $dbConnection, $context);
+            banUser($userId, $dbConnection, $context, $limit=null);
             break;
 
         case 'unban':
             // Appeler la fonction unban
-            unbanUser($userId, $dbConnection, $context);
+            unbanUser($userId, $dbConnection, $context, $limit=null);
             break;
 
         case 'accept':

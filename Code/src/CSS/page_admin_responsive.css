@@ -22,6 +22,7 @@ body {
 /* #################################### style du bandeau au top ######################################## */
 /* Style du conteneur */
 #bandeau_top {
+    box-sizing: border-box;
     box-shadow: 0 2vh 4vh rgba(0, 0, 0, 0.2); /* Ombre pour un effet élégant */
     background-color: rgba(0, 0, 0, 0.5); /* Couleur de fond semi-transparente */
     padding: 1em; /* Espacement interne pour éviter que les boutons touchent les bords */
@@ -43,6 +44,7 @@ h1 {
     color: #ffffff; /* Texte blanc */
     font-size: 3em; /* Taille proportionnelle */
     margin-left: 10%; /* Réinitialise toutes les marges */
+
 }
 
 /* Style pour l'image */
@@ -180,6 +182,11 @@ h2{
     font-size: 5em;
 }
 
+h4{
+    margin-top:10%;
+    font-size: 2em;
+}
+
 .LALIST {
     color: white; /* Définir la couleur du texte en blanc */
     background-color: rgba(0, 0, 0, 0.5); /* Optionnel : fond semi-transparent pour améliorer la lisibilité */
@@ -223,6 +230,7 @@ h2{
     align-items: center; /* Centre les éléments sur l'axe vertical */
     padding: 1em;
     margin: 10px 0;
+    margin-bottom: 5%;
     border: 1px solid #e7dcdc;
     border-radius: 5px;
     background-color: rgba(0, 0, 0, 0.5);
@@ -511,4 +519,35 @@ h2{
 
 .dropdown_button:hover {
     background-color: #fffdfd47; /* Couleur de survol */
+}
+
+/* ################### version du home pour le profil ####################### */
+/* Centrage et espacement du bouton Home */
+
+
+/* Style pour le bouton */
+#bouton_home_in_profile{
+    display: inline-block;
+    background-color: #e9890c; /* Bleu */
+    color: #fff; /* Texte blanc */
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Effet de survol */
+#bouton_home_in_profile :hover {
+    background-color: #0056b3; /* Bleu plus foncé */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+#home_profil_box{
+    display: flex;
+    justify-content:center; /* Centre horizontalement le bouton */
+    margin-top: 20px; /* Ajoute un espace au-dessus du bouton */
+    width: 100%;
 }
