@@ -195,7 +195,7 @@ function registerNewDoctor() {
                 exit;
             }
         } else {
-            AfficherErreur("Passwords do not match");
+            AfficherErreur("Passwords do not match or are not strong enough");
         }
     } else {
         AfficherErreur("Please fill all the fields");

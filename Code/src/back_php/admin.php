@@ -1,7 +1,7 @@
 <?php
 
-include_once("Query.php")
-$BDD= new Query("siteweb")
+include_once("Query.php");
+$BDD= new Query("siteweb");
 
 
 

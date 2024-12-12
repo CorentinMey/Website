@@ -32,18 +32,18 @@ session_start();
 
                         <div class="input_info">
                             <label for="mail">Email</label>
-                            <input type="text" id="mail" name="mail" required/>
+                            <input type="text" id="mail" name="mail"/>
                         </div>
 
                         <div class="input_info">
                             <label for="mdp">Password</label>
-                            <input type="password" id="mdp" name="mdp" required/>
+                            <input type="password" id="mdp" name="mdp"/>
                             <a href="https://youtu.be/dQw4w9WgXcQ?si=AQVw_SuShPwkfGUW" id="forgot_password">Forgot your password?</a>
                         </div>
 
                         <div class="buttons">
-                            <button class = button id = "button_login" type="submit">Connect</button>
-                            <button class = button id = "button_login" type="button">Back</button>
+                            <button class = button name="Action" id = "button_login" value="login" type="submit">Connect</button>
+                            <button class = button name="Action" id = "button_login" value="back" type="submit">Back</button>
                         </div>
 
                     <?php
@@ -59,10 +59,63 @@ session_start();
                             // Inclure le fichier de connexion à la base de données
                             $bdd = new Query("siteweb");
                             $account_type = VerifyAccountType($_POST["mail"], $bdd);
-
-                            if (checkStatus($_POST["mail"], $bdd) == false) {
-                                header("Location: page_ban.html");
-                                exit;
+                            switch ($_POST["Action"]){
+                                case 'back':
+                                    header("Location: page_accueil.php");
+                                    break;
+                                
+                                case 'login':
+                                    if (checkStatus($_POST["mail"], $bdd) == false) {
+                                        header("Location: page_ban.html");
+                                        exit;
+                                    }
+        
+                                    if ($account_type == "medecin") {
+                                        header("Location: page_medecin.php");
+                                        exit;
+                                    } else if ($account_type == "entreprise") {
+                                        $user = new Entreprise(
+                                            iduser: null,
+                                            mdp: $_POST["mdp"],
+                                            email: $_POST["mail"],
+                                            last_name: null,
+                                            is_banned: null,
+                                            is_admin: null,
+                                            first_name: null,
+                                            birthdate: null,
+                                            gender: null,
+                                            antecedent: null,
+                                            origins: null,
+                                            ville : null,
+                                            siret : null
+                                            );
+                                        $user->Connexion($_POST["mail"], $_POST["mdp"], $bdd);
+                                        $_SESSION["entreprise"] = $user;
+                                        header("Location: page_entreprise.php");
+                                        exit;
+                                    } else if ($account_type == "admin") {
+                                        header("Location: page_admin.php");
+                                        exit;
+                                    } else if ($account_type == "patient") {
+                                        $user = new Patient(
+                                            iduser: null,
+                                            mdp: $_POST["mdp"],
+                                            email: $_POST["mail"],
+                                            last_name: null,
+                                            is_banned: null,
+                                            is_admin: null,
+                                            first_name: null,
+                                            birthdate: null,
+                                            gender: null,
+                                            antecedent: null,
+                                            origins: null
+                                        );
+                                        $user->Connexion($_POST["mail"], $_POST["mdp"], $bdd);
+                                        $_SESSION["patient"] = $user;
+                                        header("Location: page_patient.php");
+                                    } else
+                                        echo "Error while loging in. User not found.";
+                                    break;
                             }
 
                             if ($account_type == "medecin") {
