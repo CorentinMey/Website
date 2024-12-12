@@ -98,7 +98,9 @@ $medecin = new Medecin($mdp, $mail, $id_medecin, $nom, $is_bannis, $is_admin, $p
         "mail" => "test@test.com",
         "mdp" => "nouveau_mdp",
         "date_naissance" => "2000-01-01",
-        "numero_ordre" => "1000156"
+        "numero_ordre" => "1000156",
+        "domaine" => "chirurgie",
+        "hopital" => "Hautepierre"
         ]);
     if ($_SESSION["result"] == 1)
         echo "Inscription réussie ".$_SESSION["result"];
@@ -117,7 +119,9 @@ $medecin = new Medecin($mdp, $mail, $id_medecin, $nom, $is_bannis, $is_admin, $p
         "mail" => "test@test.com2",
         "mdp" => "nouveau_mdp",
         "date_naissance" => "2010-01-01",
-        "numero_ordre" => "1000155"
+        "numero_ordre" => "1000155",
+        "domaine" => "chirurgie",
+        "hopital" => "Hautepierre"
         ]);
 
     if ($_SESSION["result"] == 1)
@@ -138,7 +142,9 @@ $medecin = new Medecin($mdp, $mail, $id_medecin, $nom, $is_bannis, $is_admin, $p
         "mail" => "test@test.com",
         "mdp" => "nouveau_mdp",
         "date_naissance" => "2000-01-01",
-        "numero_ordre" => "1000153"
+        "numero_ordre" => "1000153",
+        "domaine" => "chirurgie",
+        "hopital" => "Hautepierre"
         ]);
 
     if ($_SESSION["result"] == 1)
@@ -159,7 +165,9 @@ $medecin = new Medecin($mdp, $mail, $id_medecin, $nom, $is_bannis, $is_admin, $p
         "mail" => "test@ttest.com",
         "mdp" => "nouveau_mdp",
         "date_naissance" => "2000-01-01",
-        "numero_ordre" => "1000154"
+        "numero_ordre" => "1000154",
+        "domaine" => "chirurgie",
+        "hopital" => "Hautepierre"
         ]);
 
     if ($_SESSION["result"] == 1)
@@ -185,8 +193,9 @@ $medecin = new Medecin($mdp, $mail, $id_medecin, $nom, $is_bannis, $is_admin, $p
     <p>Il n'est pas nécessaire de tester la fonction avec $bdd défaillant car la classe Query empêche toutes execution de code si son output n'est pas conforme</p>
     <p>Si l'utilisateur ne participe à aucun essai</p>
     <?php
-        $patien3 = new medecin(mdp : "1234", email : "thibaut.carpentier@hospital.com");
+        $patien3 = new Medecin(mdp : "1234", email : "jeanne.turpin@hospital.com");
         $patien3->Connexion($patien3->getEmail(), $patien3->getMdp(), $bdd);
+        $bdd = new Query("siteweb");
         $patien3->AfficheEssais($bdd);
     ?>
     <p>Si l'utilisateur participe à des essais</p>
@@ -198,21 +207,12 @@ $medecin = new Medecin($mdp, $mail, $id_medecin, $nom, $is_bannis, $is_admin, $p
 <h3>==============================================================================================================================================================</h3>
     <h3> Test de la fonctionNombreNotif()</h3>
     <?php
-        echo "medecin avec notification : ".$medecin->getEmail()." : ". $medecin->NombreNotif($bdd)."<br>";
-        echo "medecin sans notification : ".$patien3->getEmail()." : ". $patien3->NombreNotif($bdd)."<br>";
-    ?>
-<h3>==============================================================================================================================================================</h3>
-    <h3>Test de la fonction AfficheNotif</h3>
-    <?php
-        echo "Medecin avec notification (aucune pop up): <br>";
-        $medecin->AfficheNotif($bdd);
-        echo "medecin sans notification : <br>";
-        $patien3->AfficheNotif($bdd);
+        echo "Nombre de notification de jeanne turpin : ".$medecin->getEmail()." : ". $medecin->NombreNotif($bdd)."<br>";
     ?>
 <h3>==============================================================================================================================================================</h3>
     <h3>Test de la fonction Rejoindre (medecin qui demande à participer à un essai)</h3>
     <?php
-        $medecin->Rejoindre($bdd, 4);
+        $medecin->Rejoindre($bdd, 5);
     ?>
 
     <?php
@@ -242,8 +242,8 @@ $medecin = new Medecin($mdp, $mail, $id_medecin, $nom, $is_bannis, $is_admin, $p
     ?>
 <h3>==============================================================================================================================================================</h3>
     <h3> Test de la fonction connexion avec un mail qui n'existe pas</h3>
-    <p>Le fichier va arreter de s'éxécuter par sécurité. Il faut commenter le code ligne 249-266 pour voir la suite. Cela sera aussi le cas pour les test suivants</p>
     <?php
+    $bdd = new Query("siteweb");
     $medecin2->Connexion("zefzefzef", "1234", $bdd);
     // Affiche le medecin avec ses nouvelles infos au complet
     echo "Nom : " . $medecin2->getLast_name() . "<br>";
