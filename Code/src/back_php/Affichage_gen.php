@@ -236,7 +236,7 @@ function AfficherEssaisRecherche($bdd, $user, $search_query) {
             // Récupérer les médecins référents pour chaque essai
             $query_medecins = "SELECT nom FROM utilisateur 
                                 JOIN essai_medecin ON essai_medecin.ID_medecin = utilisateur.ID_User 
-                                WHERE ID_essai = :id AND is_accepte = 1;";
+                                WHERE ID_essai = :id AND is_accepte = 1 AND is_bannis = 0;";
             $medecins = $bdd->getResultsAll($query_medecins, array(":id" => $id_essai));
             Affichage_content_essai_pas_demarre($essai, $medecins, $id_essai);
         }

@@ -57,6 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../CSS/page_patient.css">
     <link rel="stylesheet" type="text/css" href="../CSS/global.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/page_medecin.css">
+
 </head>
 
 <body>

@@ -71,8 +71,24 @@ session_start();
                                     }
         
                                     if ($account_type == "medecin") {
-                                        header("Location: page_medecin.php");
-                                        exit;
+                                        if ($account_type == "medecin") {
+                                            $user = new Medecin(
+                                                iduser: null,
+                                                mdp: $_POST["mdp"],
+                                                email: $_POST["mail"],
+                                                last_name: null,
+                                                is_banned: null,
+                                                is_admin: null,
+                                                first_name: null,
+                                                birthdate: null,
+                                                gender: null,
+                                                antecedent: null,
+                                                origins: null
+                                            );
+                                            $user->Connexion($_POST["mail"], $_POST["mdp"], $bdd);
+                                            $_SESSION["medecin"] = $user;
+                                            header("Location: page_medecin.php");
+                                        }
                                     } else if ($account_type == "entreprise") {
                                         $user = new Entreprise(
                                             iduser: null,
