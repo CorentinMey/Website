@@ -60,7 +60,14 @@ class Entreprise extends Utilisateur {
 
     public function Connexion($email, $password, $bdd)
     {
-        parent::Connexion($email, $password, $bdd); // Appelle la méthode de la classe parent pour les bases
+        // Appeler la méthode de la classe parent
+        parent::Connexion($email, $password, $bdd); 
+    
+        // Vérifier si l'ID de l'utilisateur est bien défini après la connexion parent
+        if (!$this->iduser) {
+            AfficherErreur("Utilisateur non trouvé.");
+            return;
+        }
     
         $data = ["id_user" => $this->iduser];
         $query = "
@@ -70,9 +77,13 @@ class Entreprise extends Utilisateur {
             LEFT JOIN entreprise e ON u.ID_User = e.siret
             WHERE u.ID_User = :id_user;
         ";
+    
+        // Exécution de la requête SQL
         $res = $bdd->getResults($query, $data);
     
-        if ($res != []) {
+        // Vérifier si des données ont été récupérées
+        if ($res) {
+            // Remplir les attributs de l'objet avec les données récupérées
             $this->birthdate = $res["date_naissance"];
             $this->first_name = $res["prenom"];
             $this->last_name = $res["nom"];
@@ -81,13 +92,15 @@ class Entreprise extends Utilisateur {
             $this->gender = $res["genre"];
             $this->antecedent = $res["antecedents"];
             $this->email = $res["mail"];
-    
             $this->siret = $res["siret"];
             $this->ville = $res["ville"];
+        } else {
+            AfficherErreur("Erreur lors de la récupération des informations de l'utilisateur.");
         }
     
-        $bdd->closeBD();
+        $bdd->closeBD(); // Fermer la connexion à la base de données
     }
+    
 
     public function Inscription($bdd, $dict_information) {
         // Appeler la méthode Inscription de la classe Utilisateur
@@ -145,8 +158,8 @@ class Entreprise extends Utilisateur {
             $sql = "INSERT INTO ESSAI_MEDECIN (ID_medecin, ID_essai, is_accepte, est_de_company) 
                     VALUES (:id_medecin, :id_essai, :is_accepte, :est_de_company)";
             
-            // Appel de la méthode `insertLines` pour exécuter l'insertion
-            $bdd->insertLines($sql, [
+            // Appel de la méthode `insertLine` pour exécuter l'insertion
+            $bdd->insertLine($sql, [
                 ':id_medecin' => $id_medecin,
                 ':id_essai' => $id_essai,
                 ':is_accepte' => false,  // valeur booléenne
@@ -170,15 +183,15 @@ class Entreprise extends Utilisateur {
      * @param int $id_phase L'ID de la phase. Défaut : 1.
      */
     public function NewPhase($bdd, $data, $id_phase = 1) {
-        try {    
-            // Requête pour insérer un nouvel essai clinique
+        try {
+            // Requête pour insérer un nouvel essai clinique sans spécifier l'ID auto-incrémenté
             $sqlEssai = "
                 INSERT INTO ESSAI (
                     ID_entreprise_ref, ID_phase, date_debut, date_fin,
                     description, molecule_test, dosage_test, molecule_ref, dosage_ref,
                     placebo_nom, a_debute
                 ) VALUES (
-                    :id_entreprise_ref,:ID_phase, :date_debut, :date_fin,
+                    :id_entreprise_ref, :ID_phase, :date_debut, :date_fin,
                     :description, :molecule_test, :dosage_test, :molecule_ref, :dosage_ref,
                     :placebo_nom, :a_debute
                 );
@@ -187,7 +200,7 @@ class Entreprise extends Utilisateur {
             // Préparation des paramètres pour la table ESSAI
             $paramsEssai = [
                 ':id_entreprise_ref' => $this->iduser,
-                ':ID_phase' => $data['ID_phase'],
+                ':ID_phase' => $id_phase,
                 ':date_debut' => $data['date_debut'],
                 ':date_fin' => $data['date_fin'],
                 ':description' => $data['description'],
@@ -196,14 +209,19 @@ class Entreprise extends Utilisateur {
                 ':molecule_ref' => $data['molecule_ref'],
                 ':dosage_ref' => $data['dosage_ref'],
                 ':placebo_nom' => $data['placebo_nom'],
-                ':a_debute' => false, // Par défaut, l'essai n'a pas commencé
+                ':a_debute' => 0, // Par défaut, l'essai n'a pas commencé
             ];
     
             // Exécution de l'insertion pour ESSAI
-            $bdd->insertLines($sqlEssai, $paramsEssai);
+            $bdd->insertLine($sqlEssai, $paramsEssai);
     
             // Récupération de l'ID du dernier essai inséré
             $idEssai = $bdd->getLastInsertId();
+    
+            // Vérifiez si l'ID de l'essai est valide (il ne doit pas être 0 ou vide)
+            if (empty($idEssai)) {
+                throw new Exception("Erreur: L'ID de l'essai est invalide.");
+            }
     
             // Requête pour insérer une phase initiale
             $sqlPhase = "
@@ -224,33 +242,61 @@ class Entreprise extends Utilisateur {
             ];
     
             // Exécution de l'insertion pour PHASE
-            $bdd->insertLines($sqlPhase, $paramsPhase);
-    } catch (PDOException $e) {
-        // Message d'erreur en cas de problème
-        echo '<p style="color: red;">Erreur lors de la création de l essai: ' . htmlspecialchars($e->getMessage()) . '</p>';
+            $bdd->insertLine($sqlPhase, $paramsPhase);
+    
+        } catch (PDOException $e) {
+            // Message d'erreur en cas de problème
+            echo '<p style="color: red;">Erreur lors de la création de l\'essai: ' . htmlspecialchars($e->getMessage()) . '</p>';
+        } catch (Exception $e) {
+            // Gestion des erreurs supplémentaires
+            echo '<p style="color: red;">' . htmlspecialchars($e->getMessage()) . '</p>';
+        }
     }
-}
+    
 
-function startPhase($bdd, $idEssai) {
-    try {
-        // Requête pour mettre à jour la colonne a_debute
-        $query = "UPDATE ESSAI 
-                  SET a_debute = :aDebute 
-                  WHERE ID_essai = :idEssai";
-
-        // Exécution de la requête avec les paramètres
-        $bdd->UpdateLines($query, [
-            ':aDebute' => true,
-            ':idEssai' => $idEssai
-        ]);
-
-        // Message de confirmation
-        echo '<p style="color: green;">Votre essai a bien commencé.</p>';
-    } catch (PDOException $e) {
-        // Message d'erreur en cas de problème
-        echo '<p style="color: red;">Erreur lors du démarrage de l\'essai : ' . htmlspecialchars($e->getMessage()) . '</p>';
+    function startPhase($bdd, $idEssai, $id_phase) {
+        try {
+            // Requête pour mettre à jour la colonne a_debute
+            $query = "UPDATE ESSAI 
+                      SET a_debute = :aDebute 
+                      WHERE ID_essai = :idEssai AND ID_phase = :idPhase"; 
+    
+            // Exécution de la requête avec les paramètres
+            $bdd->UpdateLines($query, [
+                ':aDebute' => 1,
+                ':idEssai' => $idEssai,
+                ':idPhase' => $id_phase   
+            ]);
+    
+            // Message de confirmation
+            echo '<p style="color: green;">Votre essai a bien commencé.</p>';
+        } catch (PDOException $e) {
+            // Message d'erreur en cas de problème
+            echo '<p style="color: red;">Erreur lors du démarrage de l\'essai : ' . htmlspecialchars($e->getMessage()) . '</p>';
+        }
     }
-}
+
+    function terminerPhase($bdd, $idEssai, $id_phase) {
+        try {
+            // Requête pour mettre à jour la colonne a_debute à 2 (terminé)
+            $query = "UPDATE ESSAI 
+                      SET a_debute = :aDebute 
+                      WHERE ID_essai = :idEssai AND ID_phase = :idPhase";
+    
+            // Exécution de la requête avec les paramètres
+            $bdd->UpdateLines($query, [
+                ':aDebute' => 2,    // L'essai est terminé
+                ':idEssai' => $idEssai,
+                ':idPhase' => $id_phase   
+            ]);
+    
+            echo '<p style="color: green;">La phase a été marquée comme terminée.</p>';
+        } catch (PDOException $e) {
+            // Gestion des erreurs en cas de problème avec la mise à jour
+            echo '<p style="color: red;">Erreur lors de la mise à jour de la phase : ' . htmlspecialchars($e->getMessage()) . '</p>';
+        }
+    }
+    
 
 public function acceptMedecin($bdd, $idMedecin, $idEssai) {
     try {
