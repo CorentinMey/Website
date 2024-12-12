@@ -53,14 +53,15 @@ session_start();
                     include_once("../back_php/Securite.php");
                     include_once("../back_php/Entreprise.php");
 
-                        
-                        # Est-ce que l'utilisateur a remplie le formulaire ?
+                    
+                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                        # Est-ce que l'utilisateur a remplie les champs ?
                         if (isset($_POST["mail"]) && isset($_POST["mdp"])) {
                             // Inclure le fichier de connexion à la base de données
                             $bdd = new Query("siteweb");
                             $account_type = VerifyAccountType($_POST["mail"], $bdd);
                             switch ($_POST["Action"]){
-                                case 'back':
+                                case 'back': // bouton pour revenir en arrière
                                     header("Location: page_accueil.php");
                                     break;
                                 
@@ -132,71 +133,9 @@ session_start();
                                     } else
                                         echo "Error while loging in. User not found.";
                                     break;
-                            }
-
-                            if ($account_type == "medecin") {
-                                $user = new Medecin(
-                                    iduser: null,
-                                    mdp: $_POST["mdp"],
-                                    email: $_POST["mail"],
-                                    last_name: null,
-                                    is_banned: null,
-                                    is_admin: null,
-                                    first_name: null,
-                                    birthdate: null,
-                                    gender: null,
-                                    antecedent: null,
-                                    origins: null
-                                );
-                                $user->Connexion($_POST["mail"], $_POST["mdp"], $bdd);
-                                $_SESSION["medecin"] = $user;
-                                header("Location: page_medecin.php");
-                            } else if ($account_type == "entreprise") {
-                                $user = new Entreprise(
-                                    iduser: null,
-                                    mdp: $_POST["mdp"],
-                                    email: $_POST["mail"],
-                                    last_name: null,
-                                    is_banned: null,
-                                    is_admin: null,
-                                    first_name: null,
-                                    birthdate: null,
-                                    gender: null,
-                                    antecedent: null,
-                                    origins: null,
-                                    ville : null,
-                                    siret : null
-                                    );
-                                $user->Connexion($_POST["mail"], $_POST["mdp"], $bdd);
-                                $_SESSION["entreprise"] = $user;
-                                header("Location: page_entreprise.php");
-                                exit;
-                            } else if ($account_type == "admin") {
-                                header("Location: page_admin.php");
-                                exit;
-                            } else if ($account_type == "patient") {
-                                $user = new Patient(
-                                    iduser: null,
-                                    mdp: $_POST["mdp"],
-                                    email: $_POST["mail"],
-                                    last_name: null,
-                                    is_banned: null,
-                                    is_admin: null,
-                                    first_name: null,
-                                    birthdate: null,
-                                    gender: null,
-                                    antecedent: null,
-                                    origins: null
-                                );
-                                $user->Connexion($_POST["mail"], $_POST["mdp"], $bdd);
-                                $_SESSION["patient"] = $user;
-                                header("Location: page_patient.php");
-                            } else
-                                echo "Erreur lors de la connexion : type de compte inconnu";
-                            // $bdd_connect = $bdd->getConnection();
-                            // $user = new Utilisateur(iduser:"temporary", mdp:$_POST["mdp"],email:$_POST["mail"],last_name:"temporary",is_banned:0,is_admin:0);
-                            // // Appeler la fonction connexion de la classe utilisateur
-                            // $result = $user->Connexion($_POST["mail"], $_POST["mdp"], $bdd_connect);
+                                }
+                                } else
+                                    AfficherErreur("Please fill all the fields.");
                         }
                     ?>
 
