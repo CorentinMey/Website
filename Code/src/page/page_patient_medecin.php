@@ -23,36 +23,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 
-// Si le médecin a modifié les informations du patient
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['ban_user'])) { // Vérification de s'il y a eu demande de modification des informations
-        // Convertion de ban_user en numérique
-        $ban_user = $_POST['ban_user'];
-        if ($ban_user == "1") {
-            $ban = 1;
-        } else {
-            $ban = 0;
-        }
-        // Récupération des informations du formulaire
-        $form_data = [
-            'prenom' => $_POST['prenom'],
-            'nom' => $_POST['nom'],
-            'genre' => $_POST['genre'],
-            'date_naissance' => $_POST['date_naissance'],
-            'antecedents' => $_POST['antecedents'],
-            'traitement' => $_POST['traitement'],
-            'dose' => $_POST['dose'],
-            'effet_secondaire' => $_POST['effet_secondaire'],
-            'evolution_symptome' => $_POST['evolution_symptome'],
-            'ban_user' => $ban
-        ];
-        $medecin->ChangeInfo_patient($bdd, $_SESSION["ID_User"], $_SESSION["ID_essai"], $form_data);
-        AfficherInfo("Modifications on user " . $_POST['prenom'] . " " . $_POST['nom'] . " have been saved.", 0, 0, False);
-        if ($_POST["ban_user"]==1){
-            AfficherInfo("User " . $_POST['prenom'] . " " . $_POST['nom'] . " have been excluded from the trial.", 0, 0, False);
-        }
-    }
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['Action'])) {
@@ -136,6 +106,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
  
 
     <?php
+    // Si le médecin a modifié les informations du patient
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST['ban_user'])) { // Vérification de s'il y a eu demande de modification des informations
+            // Convertion de ban_user en numérique
+            $ban_user = $_POST['ban_user'];
+            if ($ban_user == "1") {
+                $ban = 1;
+            } else {
+                $ban = 0;
+            }
+            // Récupération des informations du formulaire
+            $form_data = [
+                'prenom' => $_POST['prenom'],
+                'nom' => $_POST['nom'],
+                'genre' => $_POST['genre'],
+                'date_naissance' => $_POST['date_naissance'],
+                'antecedents' => $_POST['antecedents'],
+                'traitement' => $_POST['traitement'],
+                'dose' => $_POST['dose'],
+                'effet_secondaire' => $_POST['effet_secondaire'],
+                'evolution_symptome' => $_POST['evolution_symptome'],
+                'ban_user' => $ban
+            ];
+            $medecin->ChangeInfo_patient($bdd, $_SESSION["ID_User"], $_SESSION["ID_essai"], $form_data);
+            AfficherInfo("Modifications on user " . $_POST['prenom'] . " " . $_POST['nom'] . " have been saved.", 0, 0, False);
+            if ($_POST["ban_user"]==1){
+                AfficherInfo("User " . $_POST['prenom'] . " " . $_POST['nom'] . " have been excluded from the trial.", 0, 0, False);
+        }
+    }
+}
+
     
     $medecin->AffichageTableau_patient($bdd, $_SESSION["ID_User"]);
 

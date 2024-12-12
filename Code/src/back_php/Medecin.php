@@ -222,7 +222,8 @@ class Medecin extends Utilisateur{
                         WHERE ID_essai = :id;";
         // requete pour avoir le nom des medecins referents
         $query3 = "SELECT nom FROM utilisateur JOIN essai_medecin ON essai_medecin.ID_medecin = utilisateur.ID_User 
-                        WHERE ID_essai = :id;"; 
+                        WHERE ID_essai = :id 
+                        AND is_bannis = 0;"; 
     
         $res = $bdd->getResultsAll($query, ["id" => $this->getIduser()]);
         if ($res == []) {
@@ -298,12 +299,14 @@ class Medecin extends Utilisateur{
         $query = "SELECT ID_User, nom, prenom, genre, date_naissance, antecedents, is_accepte, a_debute FROM resultat JOIN utilisateur ON 
                     resultat.ID_patient = utilisateur.ID_User NATURAL JOIN essai
                         WHERE ID_essai = :id 
-                        AND is_accepte != 0;";
+                        AND is_accepte != 0
+                        AND is_bannis = 0;";
         // requete pour avoir les patients en attente d'admission
         $query2 = "SELECT ID_User, nom, prenom, genre, date_naissance, antecedents, is_accepte FROM resultat JOIN utilisateur ON 
                     resultat.ID_patient = utilisateur.ID_User NATURAL JOIN essai
                         WHERE ID_essai = :id 
-                        AND is_accepte = 0;";
+                        AND is_accepte = 0
+                        AND is_bannis = 0;";
     
         $res = $bdd->getResultsAll($query, ["id" => $id_essai]);
         if ($res == []) {
@@ -444,7 +447,7 @@ public function ChangeInfo_patient($bdd, $id_user, $id_essai, $data) {
     */
     public function AffichageResultats($bdd, $id_essai){
         // requete pour avoir les patients admis
-        $query = "SELECT ID_User, genre, date_naissance, antecedents, traitement, dose, effet_secondaire, evolution_symptome FROM resultat JOIN utilisateur ON 
+        $query = "SELECT ID_User, ID_phase, genre, date_naissance, antecedents, traitement, dose, effet_secondaire, evolution_symptome FROM resultat JOIN utilisateur ON 
                     resultat.ID_patient = utilisateur.ID_User NATURAL JOIN essai
                         WHERE ID_essai = :id 
                         AND a_debute = 2
@@ -466,13 +469,14 @@ public function ChangeInfo_patient($bdd, $id_user, $id_essai, $data) {
         foreach($res as $result){ // affiche les lignes du tableau
             Affichage_content_resultats($result, $id_essai, $x);
             $x= $x + 1;
+            $phase_actuel = $result["ID_phase"];
         }         
             
             echo '</tbody>'; // fermeture du tableau et de la div qui le contient
             echo '</table>';
             echo '</div>';
-            // TODO mettre le numéro de la phase ici à la place du 1
-            afficherGraphiques($bdd, $id_essai, 1);
+            
+            afficherGraphiques($bdd, $id_essai, $phase_actuel);
 
     }
 

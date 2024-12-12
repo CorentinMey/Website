@@ -177,7 +177,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 break;
             case "Results":
-                $medecin->AffichageResultats($bdd, $_SESSION["id_essai"]);
+                if ($_SESSION["is_accepte"]==1){
+                    $medecin->AffichageResultats($bdd, $_SESSION["id_essai"]);
+                }
+                else{
+                    AfficherErreur("Vous n'êtes pas encore responsable de cet essai, les résultats ne sont donc pas accessibles");
+                } 
                 break;
         }
     } else {
