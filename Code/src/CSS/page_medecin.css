@@ -16,3 +16,27 @@
     max-width: 100%;
     height: auto;
 }
+
+
+#full_info{
+    width : 100%;
+}
+
+#table_full{
+    margin-top : 2em;
+    border-collapse: separate; /* Utilisez 'separate' pour permettre l'arrondissement des angles */
+    border-radius: 1em; /* Arrondit les angles du tableau */
+    overflow: hidden; /* Assure que les coins arrondis sont appliqués */
+    margin-left : 3%;
+}
+
+#table_full thead tr{
+    font-size : 1.5em;
+}
+
+
+#table_full tbody{
+    font-size : 1.2em;
+    text-align: center;
+}
+

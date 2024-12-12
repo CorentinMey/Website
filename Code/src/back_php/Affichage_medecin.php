@@ -34,8 +34,8 @@ function Affichage_entete_tableau_essai_med(){
 function Affichage_entete_tableau_essai_med2($demande, $acces){
 
     echo '<h2 class="title">General informations about the trial</h2>';
-        echo '<div id="essai_clinique">';
-            echo '<table class="styled-table" id="table_essai">';
+        echo '<div id="full_info">';
+            echo '<table class="styled-table" id="table_full">';
                 echo '<thead>';
                     echo '<tr>';
                         echo '<th>Company</th>';
@@ -244,7 +244,7 @@ function Affichage_entete_tableau_resultats(){
 function Affichage_content_resultats($results, $id_essai, $count){
     echo '<tr>';
         echo '<td>'.$count.'</td>';
-        echo '<td>'.$results["ID_phase"].'</td>';
+        echo '<td>'.$results["phase"].'</td>';
         echo '<td>'.$results["genre"].'</td>'; // affiche le contenu des colonnes simples
         echo '<td>'.$results["date_naissance"].'</td>';
         echo '<td>'.$results["antecedents"].'</td>';

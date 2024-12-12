@@ -200,7 +200,9 @@ class Patient extends Utilisateur{
                     echo '</tr>';
                 echo '</tbody>';
             echo '</table>';
-            echo '<a href="page_signin.php" id = "edit_option">Edit my infos</a>';
+            echo '<div id = "edit_container">';
+                echo '<a href="page_signin.php" id = "edit_option">Edit my infos</a>';
+            echo '</div>';
         echo '</div>';
     }
 

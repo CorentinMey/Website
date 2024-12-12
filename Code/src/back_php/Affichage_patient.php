@@ -6,7 +6,7 @@ include_once("Affichage_gen.php"); // pour la fonction Affiche_medecin
 /**
  * Fonction pour tester les arguments de la fonction Affichage_content_essai
  */
-function Test_Argument($entreprise, $essai, $medecins, $id_essai){
+function Test_Argument($entreprise, $essai, $medecins){
     if (!is_array($entreprise) || !isset($entreprise['nom']) || !isset($entreprise['a_debute'])) {
         AfficherErreur("Beware, there is a problem with the argument type entreprise", E_USER_WARNING);
         return false;
@@ -29,6 +29,7 @@ function Test_Argument($entreprise, $essai, $medecins, $id_essai){
             return false;
         }
     }
+    return true;
 
 }
 
@@ -70,8 +71,9 @@ function Affichage_entete_tableau_essai(){
  * @param Int $id_essai : id de l'essai
  */
 function Affichage_content_essai($entreprise, $essai, $medecins, $id_essai){
-        $test = Test_Argument($entreprise, $essai, $medecins, $id_essai); // test les arguments
-        if(!$test) return; // si un argument est invalide, on arrête la fonction
+        $test = Test_Argument($entreprise, $essai, $medecins); // test les arguments
+        if(!$test) 
+            return; // si un argument est invalide, on arrête la fonction
         echo '<tr>';
             echo '<td>'.$entreprise["nom"].'</td>'; // affiche le contenu des colonnes simples
             echo '<td>Phase '.$essai["phase_res"].'</td>';
