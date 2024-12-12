@@ -321,7 +321,6 @@ class Medecin extends Utilisateur{
 // Fonction pour accepter un utilisateur dans un essai
 public function AccepterPatient($bdd, $id_essai, $id_patient){
     $query = "UPDATE resultat SET is_accepte = 1 WHERE ID_patient = :id AND ID_essai = :id_essai;";
-    $bdd->updateLines($query, ["id" => $id_patient, "id_essai" => $id_essai]);
     try {
         $bdd->updateLines($query, ["id" => $id_patient, "id_essai" => $id_essai]);
         return "Le patient a été accepté avec succès.";

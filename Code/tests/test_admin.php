@@ -11,7 +11,6 @@ include_once("../src/back_php/Query.php");
     <title>Tests Admin</title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="../src/CSS/global.css">
-    <link rel="stylesheet" type="text/css" href="../src/CSS/page_admin.css">
 </head>
 <body>
     <h1>Tests d'affichage des differentes listes et profils</h1>
