@@ -260,14 +260,14 @@ function Affichage_content_resultats($results, $id_essai, $count){
  * @param $id_essai : id de l'essai clinique
  * @param $nb_phase : numéro de phases de l'essai clinique
  */
-function afficherGraphiques($bdd, $id_essai, $nb_phase) {
+function afficherGraphiques($bdd, $id_essai, $nb_phase, $barplot_traitement_title = "", $histogram_title = "", $boxplot_sideeffect_title = "", $boxplot_traitement_title = "") {
 
     echo '<div class="graphique-container">';
 
         // Histogramme de la distribution des âges
         echo '<h2 class="title">Histogram of the age distribution</h2>';
         $datahisto = getDataHistogram($bdd, $id_essai, $nb_phase);
-        Histogramme($datahisto);
+        Histogramme($datahisto, title : $histogram_title);
 
         // BoxPlot de la distribution des âges selon les traitements
         echo "<h2 class='title'>BoxPlot of the age distribution according to treatments</h2>";
@@ -278,7 +278,7 @@ function afficherGraphiques($bdd, $id_essai, $nb_phase) {
         array_unshift($categories, " ");
         $boxplot_dict = TransformDataBoxPlot($boxplotData);
         // Générer le boxplot
-        boxplot($boxplot_dict, $categories);
+        boxplot($boxplot_dict, $categories, title : $boxplot_traitement_title);
 
         // BoxPlot de la distribution des âges selon les effets secondaires
         echo "<h2 class='title'>BoxPlot of the age distribution according to side effects</h2>";
@@ -287,14 +287,14 @@ function afficherGraphiques($bdd, $id_essai, $nb_phase) {
         array_push($categories, " ");
         array_unshift($categories, " ");
         $boxplot_dict = TransformDataBoxPlot($boxplotData);
-        boxplot($boxplot_dict, $categories, "red");
+        boxplot($boxplot_dict, $categories, title : $boxplot_sideeffect_title, color :"red");
 
         // Barplot de l'évolution de la santé selon le traitement
         echo "<h2 class='title'>Barplot of the health evolution according to the treatment</h2>";
         $barplotData = getDataBarplot($bdd, $id_essai, $nb_phase);
         $categories = $barplotData['categories'];
         $data = $barplotData['data'];
-        barplot($data, $categories, "Grouped barplot", "Health evolution", "Number of patients");
+        barplot($data, $categories, $barplot_traitement_title, "Health evolution", "Number of patients");
 
     echo '</div>';
 }

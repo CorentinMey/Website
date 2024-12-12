@@ -41,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Page du médecin</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../CSS/page_patient.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/page_medecin.css">
     <link rel="stylesheet" type="text/css" href="../CSS/global.css">
 
 

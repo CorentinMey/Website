@@ -163,7 +163,7 @@ function Histogramme($data, $title = "Age histogram", $xlabel = "Age slices", $y
 function getDataHistogram($bdd, $id_essai, $nb_phase){
     $query = "SELECT date_naissance FROM `resultat` 
                     JOIN utilisateur ON utilisateur.ID_User = resultat.ID_patient
-                        WHERE ID_essai = :id_essai AND phase_res = :nb_phase AND is_patient_exclus = 0;";
+                        WHERE ID_essai = :id_essai AND phase_res = :nb_phase AND is_patient_exclus = 0 AND is_bannis =0;";
 
     $param = ["id_essai" => $id_essai, "nb_phase" => $nb_phase];
     $data = $bdd->getResultsAll($query, $param);
@@ -187,13 +187,12 @@ function getDataHistogram($bdd, $id_essai, $nb_phase){
  * @return array Résultats de la requête
  */
 function executeBarPlotQuery($bdd, $id_essai, $nb_phase){
-    $query =  "
-        SELECT evolution_symptome, traitement, COUNT(*) AS nombre_personnes
-        FROM `resultat`
-        JOIN utilisateur ON utilisateur.ID_User = resultat.ID_patient
-        WHERE ID_essai = :id_essai AND phase_res = :id_phase AND is_patient_exclus = 0
-        GROUP BY evolution_symptome, traitement
-        ORDER BY evolution_symptome, traitement;
+    $query =  "SELECT evolution_symptome, traitement, COUNT(*) AS nombre_personnes
+                    FROM `resultat`
+                    JOIN utilisateur ON utilisateur.ID_User = resultat.ID_patient
+                    WHERE ID_essai = :id_essai AND phase_res = :id_phase AND is_patient_exclus = 0 AND is_bannis = 0
+                    GROUP BY evolution_symptome, traitement
+                    ORDER BY evolution_symptome, traitement;
     ";
     
     $param = ["id_essai" => $id_essai, "id_phase" => $nb_phase];
@@ -279,7 +278,7 @@ function getDataBarPlot($bdd, $id_essai, $nb_phase){
 function getDataBoxPlotTraitement($bdd, $id_essai, $nb_phase){
     $query = "SELECT traitement, FLOOR(DATEDIFF(CURDATE(), utilisateur.date_naissance) / 365.25) AS age
                     FROM resultat JOIN utilisateur ON utilisateur.ID_User = resultat.ID_patient
-                        WHERE ID_essai = :id_essai AND phase_res = :nb_phase AND is_patient_exclus = 0;";
+                        WHERE ID_essai = :id_essai AND phase_res = :nb_phase AND is_patient_exclus = 0 AND is_bannis =0;";
     $dict = [];
     $param = ["id_essai" => $id_essai, "nb_phase" => $nb_phase];
     $rows = $bdd->getResultsAll($query, $param);
@@ -300,7 +299,7 @@ function getDataBoxPlotTraitement($bdd, $id_essai, $nb_phase){
 function getDataBoxPlotSideEffect($bdd, $id_essai, $nb_phase){
     $query = "SELECT effet_secondaire, evolution_symptome, FLOOR(DATEDIFF(CURDATE(), utilisateur.date_naissance) / 365.25) AS age
                     FROM resultat JOIN utilisateur ON utilisateur.ID_User = resultat.ID_patient
-                        WHERE ID_essai = :id_essai AND phase_res = :nb_phase AND is_patient_exclus = 0;";
+                        WHERE ID_essai = :id_essai AND phase_res = :nb_phase AND is_patient_exclus = 0 AND is_bannis = 0;";
     $dict = [];
     $param = ["id_essai" => $id_essai, "nb_phase" => $nb_phase];
     $rows = $bdd->getResultsAll($query, $param);
