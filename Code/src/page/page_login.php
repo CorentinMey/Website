@@ -112,8 +112,23 @@ session_start();
                                         header("Location: page_entreprise.php");
                                         exit;
                                     } else if ($account_type == "admin") {
+                                        $user = new Patient(
+                                            iduser: null,
+                                            mdp: $_POST["mdp"],
+                                            email: $_POST["mail"],
+                                            last_name: null,
+                                            is_banned: null,
+                                            is_admin: 1,
+                                            first_name: null,
+                                            birthdate: null,
+                                            gender: null,
+                                            antecedent: null,
+                                            origins: null
+                                        );
+                                        $user->Connexion($_POST["mail"], $_POST["mdp"], $bdd);
+                                        $_SESSION["admin"] = $user;
                                         header("Location: page_admin.php");
-                                        exit;
+
                                     } else if ($account_type == "patient") {
                                         $user = new Patient(
                                             iduser: null,
