@@ -36,9 +36,6 @@ class Medecin extends Utilisateur{
             ARRAY_FILTER_USE_KEY
         );
 
-        // Ajout de la clé 'is_bannis' avec la valeur associée 2 pour préciser que le médecin n'est pas encore accepté
-        $med_dict['is_bannis'] = 2;
-
         // Extraire les colonnes et leurs valeurs
         $med_columns = array_keys($med_dict); // Récupère les noms des colonnes
         $med_values = array_values($med_dict); // Récupère les valeurs à insérer
@@ -49,6 +46,7 @@ class Medecin extends Utilisateur{
 
         // Construire la requête d'insertion
         $query = "INSERT INTO medecin ($med_column_names) VALUES ($med_placeholders)";
+        $query2 = "UPDATE utilisateur SET is_bannis = 2 WHERE mail = :id;";
     
         try {
             // Préparer la requête
@@ -56,6 +54,7 @@ class Medecin extends Utilisateur{
     
             // Exécuter la requête avec les valeurs
             $res->execute($med_values);
+            $bdd->updateLines($query2, ["id" => $this->email]);
             
             // Retourner le résultat ou true pour indiquer que tout s'est bien passé
             $_SESSION["result"] = 1;
@@ -348,7 +347,6 @@ class Medecin extends Utilisateur{
 // Fonction pour accepter un utilisateur dans un essai
 public function AccepterPatient($bdd, $id_essai, $id_patient){
     $query = "UPDATE resultat SET is_accepte = 1 WHERE ID_patient = :id AND ID_essai = :id_essai;";
-    $bdd->updateLines($query, ["id" => $id_patient, "id_essai" => $id_essai]);
     try {
         $bdd->updateLines($query, ["id" => $id_patient, "id_essai" => $id_essai]);
         return "Le patient a été accepté avec succès.";
