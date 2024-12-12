@@ -202,11 +202,12 @@ function registerNewCompany() {
             $bdd_dict = [
                 "mail" => $_POST["identifiant"],
                 "mdp" => $_POST["mdp"],
-                "siret" => $_POST["siret"],
-                "nom_entreprise" => $_POST["nom_entreprise"],
-                "ville" => $_POST["ville"]
+                "ID_User" => $_POST["siret"],
+                "nom" => $_POST["nom_entreprise"]
+                // "ville" => $_POST["ville"]
             ];
             // Inscrire l'entreprise
+            $_SESSION["ville"] = $_POST["ville"];
             $company->Inscription($bdd, $bdd_dict);
             
             if ($_SESSION["result"] == 1) {

@@ -102,15 +102,13 @@ class Entreprise extends Utilisateur {
     private function insererCompany($dict_information) {
         try {
             // Récupérer l'email de l'utilisateur ajouté
+            $bdd = new Query("siteweb");
             $mail = $dict_information['mail'];
+            $ville = $_SESSION['ville'];
     
             // Récupérer l'ID de l'utilisateur ajouté
             $querySelect = "SELECT ID_User FROM utilisateur WHERE mail = :mail";
-            $argsSelect = [':mail' => $mail];
-            $query = $this->connection->prepare($querySelect);
-            $query->execute($argsSelect);
-            $result = $query->fetch(PDO::FETCH_ASSOC);
-            $this->closeStatement($query);
+            $result = $bdd->getResults($querySelect, [':mail' => $mail]);
     
             if ($result) {
                 $idUser = $result['ID_User'];
@@ -118,24 +116,17 @@ class Entreprise extends Utilisateur {
                 // Ajouter le SIRET et la ville à la table entreprise
                 $queryInsert = "INSERT INTO entreprise (siret, ville) VALUES (:siret, :ville)";
                 $argsInsert = [
-                    ':siret' => $dict_information['siret'],
-                    ':ville' => $dict_information['ville']
+                    ':siret' => $idUser,
+                    ':ville' => $ville
                 ];
-                $this->insertLine($queryInsert, $argsInsert);
-    
-                // Remplacer l'ID_User par le SIRET dans la table utilisateur
-                $queryUpdate = "UPDATE utilisateur SET ID_User = :siret WHERE ID_User = :idUser";
-                $argsUpdate = [
-                    ':siret' => $dict_information['siret'],
-                    ':idUser' => $idUser
-                ];
-                $this->UpdateLines($queryUpdate, $argsUpdate);
+                $bdd->insertLine($queryInsert, $argsInsert);
+  
             } else {
-                throw new Exception("Utilisateur non trouvé avec l'email fourni.");
+                AfficherErreur("Utilisateur non trouvé avec l'email fourni.");
             }
         } catch (Exception $e) {
             // Gérer les erreurs
-            error_log("Erreur lors de l'insertion de l'entreprise : " . $e->getMessage());
+            AfficherErreur("Erreur lors de l'insertion de l'entreprise : " . $e->getMessage());
             throw $e;
         }
     }
