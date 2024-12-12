@@ -226,6 +226,7 @@ function Affichage_entete_tableau_resultats(){
                 echo '<thead>';
                     echo '<tr>';
                         echo '<th>Individual number</th>';
+                        echo '<th>Results phase</th>';
                         echo '<th>Gender</th>';
                         echo '<th>Birthdate</th>';
                         echo '<th>Medical Background</th>';
@@ -243,6 +244,7 @@ function Affichage_entete_tableau_resultats(){
 function Affichage_content_resultats($results, $id_essai, $count){
     echo '<tr>';
         echo '<td>'.$count.'</td>';
+        echo '<td>'.$results["ID_phase"].'</td>';
         echo '<td>'.$results["genre"].'</td>'; // affiche le contenu des colonnes simples
         echo '<td>'.$results["date_naissance"].'</td>';
         echo '<td>'.$results["antecedents"].'</td>';
