@@ -211,17 +211,14 @@ body {
 
 /* div pour contenir tous les élements et les mettre en colonne */
 #personnal_data {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; /* Centre la table horizontalement */
+    width: 100%;
 }
-
 /* style pour le tableau récap */
 #table_patient {
     margin-top : 2em;
+    margin-left : 10%;
     margin-bottom : 0em;
-    width : 75%;   
+    max-width: 100%;   /* Empêche le tableau de dépasser la largeur du conteneur */
     border-collapse: separate; /* Utilisez 'separate' pour permettre l'arrondissement des angles */
     border-radius: 1em; /* Arrondit les angles du tableau */
     overflow: hidden; /* Assure que les coins arrondis sont appliqués */
@@ -237,11 +234,15 @@ body {
     text-align: center;
 }
 
-
-#edit_option{
+#edit_container {
+    width: 90%; /* Même largeur que le conteneur du tableau */
+    display: flex;
+    justify-content: flex-end; /* Aligne le lien à droite */
     margin-top: 1em;
     margin-bottom: 3em;
-    margin-left: 67%;
+}
+
+#edit_option{
     font-size: 1em;
     text-decoration: none;
     color : #223e69;
@@ -305,16 +306,15 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center; /* Centre la table horizontalement */
-    width : 80%;
-    margin-left : 10%;
+    width : 100%;
 }
 
 #table_essai {
     margin-top : 2em;
-    width : 75%;   
     border-collapse: separate; /* Utilisez 'separate' pour permettre l'arrondissement des angles */
     border-radius: 1em; /* Arrondit les angles du tableau */
     overflow: hidden; /* Assure que les coins arrondis sont appliqués */
+    margin-left : 0%;
 }
 
 
