@@ -43,6 +43,7 @@ class Patient extends Utilisateur{
 
     private function insererPatient($bdd) {
         $id_patient = $this->getLastIdPatient();
+        echo $id_patient;
         $query = "UPDATE utilisateur SET ID_User = :id_patient WHERE mail = :mail_user;";
         $params = [":id_patient" => $id_patient, ":mail_user" => $this->getEmail()];
         $bdd->updateLines($query, $params);

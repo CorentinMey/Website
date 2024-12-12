@@ -195,7 +195,6 @@ class Utilisateur {
         $placeholders = implode(", ", array_fill(0, count($columns), "?"));
 
         $query = "INSERT INTO utilisateur ($column_names) VALUES ($placeholders)";
-        echo $query;
         try {
             $res = $bdd->getConnection()->prepare($query);
             $res->execute($values);
