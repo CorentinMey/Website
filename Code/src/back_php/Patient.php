@@ -118,7 +118,7 @@ class Patient extends Utilisateur{
                                      genre = :gender, 
                                      origine = :origins, 
                                      antecedents = :antecedent, 
-                                     mdp = :mdp #TODO hasher le mot de passe avant
+                                     mdp = :mdp
                             WHERE ID_User = :iduser";
         $params = [
             ':first_name' => $this->first_name,
