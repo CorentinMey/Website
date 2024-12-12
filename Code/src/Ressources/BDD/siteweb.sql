@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : jeu. 12 déc. 2024 à 09:43
+-- Généré le : jeu. 12 déc. 2024 à 10:04
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -1323,7 +1323,7 @@ INSERT INTO `utilisateur` (`ID_User`, `date_naissance`, `prenom`, `nom`, `genre`
 (0, '1000-01-01', 'Gilles', 'Bernot', 'M', 'gilles.bernot@mail.com', 'NONE', 0, 1, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'X'),
 (1, '1971-07-30', 'Brigitte-Suzanne', 'Santos', 'F', 'brigitte-suzanne.santos@mail.com', 'Cardiac history', 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'Oceania'),
 (2, '1974-10-24', 'Tristan', 'Martinez-Legendre', 'M', 'tristan.martinez-legendre@mail.com', 'Food allergy', 1, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
-(3, '1986-07-19', 'Sébastien', 'Lévêque', 'F', 'sébastien.lévêque@mail.com', 'Cardiac history', 1, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
+(3, '1986-07-19', 'Sébastien', 'Lévêque', 'F', 'sébastien.lévêque@mail.com', 'Cardiac history', 2, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
 (4, '1971-08-13', 'Agathe', 'Leconte', 'M', 'agathe.leconte@mail.com', 'Asthma', 1, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
 (5, '1983-04-29', 'Anne', 'Lecoq', 'F', 'anne.lecoq@mail.com', 'NONE', 1, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
 (6, '1988-06-11', 'Hortense', 'Gilles-Chevallier', 'M', 'hortense.gilles-chevallier@mail.com', 'NONE', 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
@@ -1331,7 +1331,7 @@ INSERT INTO `utilisateur` (`ID_User`, `date_naissance`, `prenom`, `nom`, `genre`
 (8, '1977-10-29', 'Cécile', 'Lévy', 'F', 'cécile.lévy@mail.com', 'NONE', 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
 (9, '1965-11-14', 'Arthur', 'Coulon', 'F', 'arthur.coulon@mail.com', 'Type 2 diabtes', 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
 (10, '1987-02-20', 'Benoît', 'Godard', 'F', 'benoît.godard@mail.com', 'Asthma', 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
-(11, '1950-08-25', 'Claudine', 'Lejeune', 'M', 'claudine.lejeune@mail.com', 'Type 2 diabtes', 1, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
+(11, '1950-08-25', 'Claudine', 'Lejeune', 'M', 'claudine.lejeune@mail.com', 'Type 2 diabtes', 2, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
 (12, '1978-12-18', 'Michelle', 'Robin', 'M', 'michelle.robin@mail.com', 'Type 2 diabtes', 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
 (13, '1984-07-12', 'Émilie', 'Boulay', 'M', 'émilie.boulay@mail.com', 'NONE', 0, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
 (14, '1992-11-26', 'Juliette', 'Maury', 'M', 'juliette.maury@mail.com', 'Food allergy', 1, 0, '$2y$10$8cgugLGYN2h2IsEvrW/fXucSeqOKciQQ37o4I2XLSiTeX/iv9ygme', 'c'),
