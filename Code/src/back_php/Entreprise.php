@@ -156,8 +156,8 @@ class Entreprise extends Utilisateur {
             echo "<p>Le médecin a été notifié de votre demande !</p>";
         } catch (PDOException $e) {
             // Gestion des erreurs avec un message d'erreur dans les logs
-            error_log("Erreur lors de l'insertion dans ESSAI_MEDECIN : " . $e->getMessage());
-            echo "<p>Une erreur est survenue lors de la demande. Veuillez réessayer plus tard.</p>";
+            AfficherErreur("Erreur lors de l'insertion dans ESSAI_MEDECIN : " . $e->getMessage());
+            AfficherErreur("<p>Une erreur est survenue lors de la demande. Veuillez réessayer plus tard");
         }
     }
     
