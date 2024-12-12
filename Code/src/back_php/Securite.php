@@ -94,7 +94,10 @@ function validatePassword($password) {
 function checkStatus($mail, $bdd) {
     $query_ban = "SELECT is_bannis FROM utilisateur WHERE mail = :email";
     $res = $bdd->getResults($query_ban, array("email" => $mail));
-    if ($res["is_bannis"] == 1) 
+    if ($res === []){
+        AfficherErreur("No data for this user ".htmlspecialchars($mail).".");
+        exit;
+    } elseif ($res["is_bannis"] == 1) 
         return false;
     return true;
 }

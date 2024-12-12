@@ -33,8 +33,7 @@ function AfficherEssaisFinis($bdd, $param) {
     $query_medecins = "SELECT nom
                         FROM utilisateur
                         JOIN essai_medecin ON essai_medecin.ID_medecin = utilisateur.ID_User
-                        WHERE ID_essai = :id AND is_accepte = 1;"; // TODO voir s'il faut retirer ce OR ou non (avec OR is_from_company = 1)
-
+                        WHERE ID_essai = :id AND is_accepte = 1;";
     $essai = $bdd->getResults($query_essai, ["id_essai" => $param["ID_essai"]]); // On récupère l"essai en question
     if (empty($essai)){
         AfficherErreur("No data for this trial ".htmlspecialchars($param["ID_essai"]).".");

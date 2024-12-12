@@ -6,10 +6,17 @@ include_once("../back_php/Affichage_gen.php");
 session_start();
 
 // TODO ajouter les autres utilisateurs
-// if (!isset($_SESSION["patient"])) { // si quelqu'un essaie d'accéder à la page sans être connecté on le redirige vers la page de connexion
-//     header("Location: page_login.php");
-//     exit;
-// }
+if (!isset($_SESSION["patient"])) { // si quelqu'un essaie d'accéder à la page sans être connecté on le redirige vers la page de connexion
+    header("Location: page_login.php");
+    exit;
+} elseif (!isset($_SESSION["entreprise"])) {
+    header("Location: page_login.php");
+    exit;
+} elseif(!isset($_SESSION["medecin"])) {
+    header("Location: page_login.php");
+    exit;
+}
+
 
 $bdd = new Query("siteweb");
 $search_query = '';
@@ -26,7 +33,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header("Location: page_login.php");
                 exit;
             case 'RevenirAccueil':
-                // Retourne à la page d'accueil
+                if (isset($_SESSION["patient"])) {
+                    header("Location: page_patient.php");
+                    exit;
+                } elseif (isset($_SESSION["entreprise"])) {
+                    header("Location: page_entreprise.php");
+                    exit;
+                } elseif (isset($_SESSION["medecin"])) {
+                    header("Location: page_medecin.php");
+                    exit;
+                }
                 break;
             case 'Historic':
                 // Redirige vers la page de l'historique
