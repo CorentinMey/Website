@@ -33,7 +33,8 @@ function AfficherEssaisFinis($bdd, $param) {
     $query_medecins = "SELECT nom
                         FROM utilisateur
                         JOIN essai_medecin ON essai_medecin.ID_medecin = utilisateur.ID_User
-                        WHERE ID_essai = :id AND is_accepte = 1;";
+                        WHERE ID_essai = :id AND is_accepte = 1;"; // TODO voir s'il faut retirer ce OR ou non (avec OR is_from_company = 1)
+
     $essai = $bdd->getResults($query_essai, ["id_essai" => $param["ID_essai"]]); // On récupère l"essai en question
     if (empty($essai)){
         AfficherErreur("No data for this trial ".htmlspecialchars($param["ID_essai"]).".");
@@ -53,7 +54,7 @@ function AfficherEssaisFinis($bdd, $param) {
  */
 function Affichage_content_essais_finis($essai, $medecins, $id_phase) {
     echo "<div class='box_essai'>";
-        echo "<div class='essai_title'>".htmlspecialchars($essai["titre"])."</div>"; // Affiche le titre de l'essai
+        echo "<div class='essai_title'><b>".htmlspecialchars($essai["titre"])."</b></div>"; // Affiche le titre de l'essai
         echo "<p id='essai_description'><b>Description :</b> <br>".htmlspecialchars($essai["description"])."</p>"; // Affiche la description de l'essai
         echo "<p><b>Concerned Phase : </b>".htmlspecialchars($id_phase)."</p>"; // Affiche la phase de l'essai
         echo "<p><b>Phase start date : </b>".htmlspecialchars($essai["date_debut"])."</p>"; // Affiche la date de début de l'essai
