@@ -13,12 +13,37 @@
 // Inclure la classe Query
 include_once("Query.php");
 
-// Fonction pour afficher la liste des utilisateurs
 /**
  * @param Query $query
  */
-function afficherListeUtilisateurs($query, $message = null) {
-    $users = $query->getResultsAll("SELECT ID_User, prenom, mail, nom, genre, is_bannis FROM utilisateur WHERE is_bannis!=2 AND is_admin=0", []);
+// Fonction pour afficher la liste des utilisateurs
+function afficherListeUtilisateurs($query, $message = null,  $limit = null) {
+
+    try {
+        if (is_null($query)) {
+            throw new Exception("The query object is null. Please provide a valid query object.");
+        }
+
+        if (!is_null($limit)) {
+            if (!is_int($limit) || $limit <= 0) {
+                throw new Exception("The limit must be a positive integer.");
+            }
+        }
+
+        if (!method_exists($query, 'getResultsAll')) {
+            throw new Exception("The query object does not support the required method 'getResultsAll'.");
+        }
+
+    $sql = "SELECT ID_User, prenom, mail, nom, genre, is_bannis FROM utilisateur WHERE is_bannis!=2 AND is_admin=0";
+    $params = [];
+    //$users = $query->getResultsAll("SELECT ID_User, prenom, mail, nom, genre, is_bannis FROM utilisateur WHERE is_bannis!=2 AND is_admin=0", []);
+
+    if ($limit !== null) {
+        $limit = (int)$limit; // Forcer la conversion en entier
+        $sql .= " LIMIT " . $limit; // Concaténation sécurisée
+    }
+
+    $users = $query->getResultsAll($sql, []);
     
     echo '<div class="content-wrapper">';
     echo '<div class="titles">';
@@ -53,12 +78,30 @@ function afficherListeUtilisateurs($query, $message = null) {
         }
         echo "</ul>";
     } else {
-        echo "<p>No users found.</p>";
+        echo "<p>No users are in the database right now.</p>";
+    }
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage() . "<br>";
     }
 }
 
-// Fonction pour afficher la liste des médecins
-function afficherListeMedecins($query, $message = null) {
+// Fonction pour afficher la liste des médecins:
+function afficherListeMedecins($query, $message = null,  $limit = null) {
+    try {
+        if (is_null($query)) {
+            throw new Exception("The query object is null. Please provide a valid query object.");
+        }
+
+        if (!is_null($limit)) {
+            if (!is_int($limit) || $limit <= 0) {
+                throw new Exception("The limit must be a positive integer.");
+            }
+        }
+
+        if (!method_exists($query, 'getResultsAll')) {
+            throw new Exception("The query object does not support the required method 'getResultsAll'.");
+        }
+
     echo '<div class="content-wrapper">';
     echo '<div class="titles">';
     echo '<div class="back-btn2-container">';
@@ -69,12 +112,18 @@ function afficherListeMedecins($query, $message = null) {
     if ($message) {
         echo '<div class="information_move">' . htmlspecialchars($message) . '</div>';
     }
+    $sql = "SELECT ID_User, nom, prenom, genre, mail, is_bannis, hopital, domaine FROM utilisateur INNER JOIN medecin WHERE ID_USER = numero_ordre AND is_bannis!=2";
+    $params = [];
+    //$users = $query->getResultsAll("SELECT ID_User, prenom, mail, nom, genre, is_bannis FROM utilisateur WHERE is_bannis!=2 AND is_admin=0", []);
 
+    if ($limit !== null) {
+        $limit = (int)$limit; // Forcer la conversion en entier
+        $sql .= " LIMIT " . $limit; // Concaténation sécurisée
+    }
+
+    $doctors = $query->getResultsAll($sql, []);
     // Affichage de la liste des médecins
-    $doctors = $query->getResultsAll(
-        "SELECT ID_User, nom, prenom, genre, mail, is_bannis, hopital, domaine FROM utilisateur INNER JOIN medecin WHERE ID_USER = numero_ordre AND is_bannis!=2",
-        []
-    );
+
     
     if (!empty($doctors)) {
         echo "<ul>";
@@ -103,17 +152,34 @@ function afficherListeMedecins($query, $message = null) {
         }
         echo "</ul>";
     } else {
-        echo "<p>No doctors found.</p>";
+        echo "<p>No doctors are in the database right now.</p>";
     }
 
     // Si un ID est passé dans l'URL, afficher le profil du médecin
     if (isset($_GET['id'])) {
         afficherProfilMedecin($query, $_GET['id']);
     }
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage() . "<br>";
+    }
 }
 
-// Fonction pour afficher la liste des entreprises
-function afficherListeEntreprises($query, $message=null) {
+// Fonction pour afficher la liste des entreprises:
+function afficherListeEntreprises($query, $message=null,  $limit = null) {
+    try {
+        if (is_null($query)) {
+            throw new Exception("The query object is null. Please provide a valid query object.");
+        }
+
+        if (!is_null($limit)) {
+            if (!is_int($limit) || $limit <= 0) {
+                throw new Exception("The limit must be a positive integer.");
+            }
+        }
+
+        if (!method_exists($query, 'getResultsAll')) {
+            throw new Exception("The query object does not support the required method 'getResultsAll'.");
+        }
     echo '<div class="content-wrapper">';
     echo '<div class="titles">';
     echo '<div class="back-btn2-container">';
@@ -124,9 +190,20 @@ function afficherListeEntreprises($query, $message=null) {
     if ($message) {
         echo '<div class="information_move">' . htmlspecialchars($message) . '</div>';
     }
-    $companies = $query->getResultsAll(
-        "SELECT ID_User, siret, ville, is_bannis FROM entreprise INNER JOIN utilisateur ON utilisateur.ID_User = entreprise.siret AND is_bannis!=2", []
-    );
+
+    $sql = "SELECT utilisateur.ID_User, entreprise.siret, entreprise.ville, utilisateur.is_bannis 
+        FROM entreprise 
+        INNER JOIN utilisateur 
+        ON utilisateur.ID_User = entreprise.siret WHERE utilisateur.is_bannis != 2";
+    $params = [];
+
+    if ($limit !== null) {
+        $limit = (int)$limit; // Forcer la conversion en entier
+        $sql .= " LIMIT " . $limit; // Concaténation sécurisée
+    }
+
+    $companies = $query->getResultsAll($sql, []);
+
     if (!empty($companies)) {
         echo "<ul>";
         foreach ($companies as $company) {
@@ -151,12 +228,30 @@ function afficherListeEntreprises($query, $message=null) {
         }
         echo "</ul>";
     } else {
-        echo "<p>No companies found.</p>";
+        echo "<p>No compagnies are in the database right now.</p>";
+    }
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage() . "<br>";
     }
 }
 
-// Fonction pour afficher la liste des essais cliniques
-function afficherListeEssaisCliniques($query) {
+// Fonction pour afficher la liste des essais cliniques:
+function afficherListeEssaisCliniques($query,  $limit = null) {
+    try {
+        if (is_null($query)) {
+            throw new Exception("The query object is null. Please provide a valid query object.");
+        }
+
+        if (!is_null($limit)) {
+            if (!is_int($limit) || $limit <= 0) {
+                throw new Exception("The limit must be a positive integer.");
+            }
+        }
+
+        if (!method_exists($query, 'getResultsAll')) {
+            throw new Exception("The query object does not support the required method 'getResultsAll'.");
+        }
+
     echo '<div class="content-wrapper">';
     echo '<div class="titles">';
     echo '<div class="back-btn2-container">';
@@ -165,9 +260,15 @@ function afficherListeEssaisCliniques($query) {
     echo "<h2>CLINICAL ASSAY LIST</h2>";
     echo '</div>';
     
-    $assays = $query->getResultsAll(
-        "SELECT essai.description, essai.date_debut, essai.date_fin, molecule_test, molecule_ref, a_debute, utilisateur.nom AS nom_entreprise FROM essai INNER JOIN utilisateur ON utilisateur.ID_User = essai.ID_entreprise_ref", []
-    );
+    $sql = "SELECT essai.description, essai.date_debut, essai.date_fin, molecule_test, molecule_ref, a_debute, utilisateur.nom AS nom_entreprise FROM essai INNER JOIN utilisateur ON utilisateur.ID_User = essai.ID_entreprise_ref";
+    $params = [];
+
+    if ($limit !== null) {
+        $limit = (int)$limit; // Forcer la conversion en entier
+        $sql .= " LIMIT " . $limit; // Concaténation sécurisée
+    }
+    $assays = $query->getResultsAll($sql, []);
+
     if (!empty($assays)) {
         echo "<ul>";
         foreach ($assays as $assay) {
@@ -185,12 +286,29 @@ function afficherListeEssaisCliniques($query) {
         }
         echo "</ul>";
     } else {
-        echo "<p>No assays found.</p>";
+        echo "<p>No clinical assays are in the database right now.</p>";
+    }
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage() . "<br>";
     }
 }
 
-// Fonction pour afficher les confirmations en attente
-function afficherConfirmationsEnAttente($query, $message=null) {
+// Fonction pour afficher les confirmations en attente:
+function afficherConfirmationsEnAttente($query, $message=null,  $limit = null) {
+    try {
+        if (is_null($query)) {
+            throw new Exception("The query object is null. Please provide a valid query object.");
+        }
+
+        if (!is_null($limit)) {
+            if (!is_int($limit) || $limit <= 0) {
+                throw new Exception("The limit must be a positive integer.");
+            }
+        }
+
+        if (!method_exists($query, 'getResultsAll')) {
+            throw new Exception("The query object does not support the required method 'getResultsAll'.");
+        }
     echo '<div class="content-wrapper">';
     echo '<div class="titles">';
     echo '<div class="back-btn2-container">';
@@ -201,9 +319,17 @@ function afficherConfirmationsEnAttente($query, $message=null) {
     if ($message) {
         echo '<div class="information_move">' . htmlspecialchars($message) . '</div>';
     }
-    $pendingConfirmations = $query->getResultsAll(
-        "SELECT ID_User, prenom, nom, mail, genre FROM utilisateur WHERE is_bannis = 2", []
-    );
+
+    $sql = "SELECT ID_User, prenom, nom, mail, genre FROM utilisateur WHERE is_bannis = 2";
+    $params = [];
+
+    if ($limit !== null) {
+        $limit = (int)$limit; // Forcer la conversion en entier
+        $sql .= " LIMIT " . $limit; // Concaténation sécurisée
+    }
+
+    $pendingConfirmations = $query->getResultsAll($sql, []);
+    
     if (!empty($pendingConfirmations)) {
         echo "<ul>";
         foreach ($pendingConfirmations as $user) {
@@ -228,9 +354,17 @@ function afficherConfirmationsEnAttente($query, $message=null) {
         echo "<h4>No pending confirmations.</h4>";
     }
     echo '</div>';
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage() . "<br>";
+    }
 }
 
-function afficherInfoAdmin($mail, $query) {
+// Fonction pour afficher le profil de l'admin qui utilise le site:
+function afficherInfoAdmin($query, $mail) {
+    
+    if ($query === null) {
+        throw new Exception("The query object is null. Please provide a valid query object.");
+    }
     // Requête SQL pour récupérer les informations de l'admin
     $sql = "SELECT nom, prenom, mail, genre, date_naissance, origine FROM utilisateur WHERE mail = :mail";
     $params = [
@@ -252,9 +386,12 @@ function afficherInfoAdmin($mail, $query) {
         echo '<p><strong>Birthdate :</strong> ' . htmlspecialchars($result['date_naissance']) . '</p>';
         echo '<p><strong>Origin :</strong> ' . htmlspecialchars($result['origine']) . '</p>';
         echo '<h3>Unfortunately, Admin information cannot be changed</h3>';
+        echo '   <div class="back-btn2-container" id="home_profil_box">';
+        echo '<a href="/PROJET_SITH_WEB/Website/Code/src/page/page_admin.php"><button class="back-btn2" id="bouton_home_in_profile">Home</button></a>';
+        echo '</div>';
         echo '</div>';
     } else {
-        echo '<p>Aucun admin trouvé avec ces informations.</p>';
+        echo '<p>Aucun admin trouvé avec ces informations. Le post des informations ne fonctionne pas ou la session ne se lance pas correctement</p>';
     }
 }
 

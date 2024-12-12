@@ -520,3 +520,34 @@ h4{
 .dropdown_button:hover {
     background-color: #fffdfd47; /* Couleur de survol */
 }
+
+/* ################### version du home pour le profil ####################### */
+/* Centrage et espacement du bouton Home */
+
+
+/* Style pour le bouton */
+#bouton_home_in_profile{
+    display: inline-block;
+    background-color: #e9890c; /* Bleu */
+    color: #fff; /* Texte blanc */
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Effet de survol */
+#bouton_home_in_profile :hover {
+    background-color: #0056b3; /* Bleu plus foncé */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+#home_profil_box{
+    display: flex;
+    justify-content:center; /* Centre horizontalement le bouton */
+    margin-top: 20px; /* Ajoute un espace au-dessus du bouton */
+    width: 100%;
+}

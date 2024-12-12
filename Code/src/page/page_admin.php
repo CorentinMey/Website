@@ -97,7 +97,7 @@ if (isset($_SESSION["admin"])) {
             echo '</div>';
         } elseif(isset($_POST['profile_admin'])){
             echo '<div class="LALIST">';
-            afficherInfoAdmin($mail_entre,$query);
+            afficherInfoAdmin($query,$mail_entre);
             echo '</div>';
         } elseif(isset($_POST['deco'])){
             $_SESSION = array();
