@@ -52,6 +52,7 @@ session_start();
                     include_once("../back_php/Query.php");
                     include_once("../back_php/Securite.php");
                     include_once("../back_php/Entreprise.php");
+                    include_once("../back_php/Medecin.php");
 
                     
                     if ($_SERVER["REQUEST_METHOD"] == "POST") {

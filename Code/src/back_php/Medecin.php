@@ -239,8 +239,6 @@ class Medecin extends Utilisateur{
             AfficherErreur("No clinical trials found yet. Please subscribe to some trials.");
             return;
         }
-        
-    
         $essai = $res[0]; // stock les lignes du tableau
         if($essai["est_de_company"]==1){ //On vérifie si la demande vient du médecin ou de l'entreprise
             $demande = 1; 
@@ -248,8 +246,6 @@ class Medecin extends Utilisateur{
         else{
             $demande = 0;
         }
-
-
         #Affichage d'un premier tableau
         Affichage_entete_tableau_essai_med2($demande, $essai["is_accepte"]); // affiche l'en-tête du tableau
 
@@ -420,12 +416,13 @@ public function ChangeInfo_patient($bdd, $id_user, $id_essai, $data) {
     */
     public function AffichageResultats($bdd, $id_essai){
         // requete pour avoir les patients admis
-        $query = "SELECT ID_User, ID_phase, genre, date_naissance, antecedents, traitement, dose, effet_secondaire, evolution_symptome FROM resultat JOIN utilisateur ON 
+        $query = "SELECT ID_User, phase, genre, date_naissance, antecedents, traitement, dose, effet_secondaire, evolution_symptome FROM resultat JOIN utilisateur ON 
                     resultat.ID_patient = utilisateur.ID_User NATURAL JOIN essai
                         WHERE ID_essai = :id 
                         AND a_debute = 2 #On ne prend que les résultats si l'essai est fini
                         AND is_bannis = 0
-                        AND is_accepte != 0;"; 
+                        AND is_accepte != 0
+                    ORDER BY phase ASC;"; 
     
         $res = $bdd->getResultsAll($query, ["id" => $id_essai]);
         if ($res == []) {
@@ -438,17 +435,27 @@ public function ChangeInfo_patient($bdd, $id_user, $id_essai, $data) {
         
         //Initialisation d'une variable compteur
         $x=1;
+        $number_phase = [];
         foreach($res as $result){ // affiche les lignes du tableau
             Affichage_content_resultats($result, $id_essai, $x);
             $x= $x + 1;
-            $phase_actuel = $result["ID_phase"];
+            if (!in_array($result["phase"], $number_phase)){
+                array_push($number_phase, $result["phase"]);
+            }
+            //trie les phases pour les graphiques
+            sort($number_phase);
         }         
-            
-            echo '</tbody>'; // fermeture du tableau et de la div qui le contient
-            echo '</table>';
-            echo '</div>';
-            
-            afficherGraphiques($bdd, $id_essai, $phase_actuel);
+        
+        echo '</tbody>'; // fermeture du tableau et de la div qui le contient
+        echo '</table>';
+        echo '</div>';
+        foreach($number_phase as $phase_actuel){
+            afficherGraphiques($bdd, $id_essai, $phase_actuel, 
+                            barplot_traitement_title : "Phase ".$phase_actuel,
+                            histogram_title: "Phase ".$phase_actuel,
+                            boxplot_sideeffect_title: "Phase ".$phase_actuel,
+                            boxplot_traitement_title: "Phase ".$phase_actuel);
+        }
 
     }
 
