@@ -1,0 +1,540 @@
+/* insérer une image de fond sur toutes la page */
+body {
+    background-image: url(../Ressources/Images/background_patient.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    margin: 0; /* Supprime les marges par défaut */
+    padding: 0; /* Supprime les espacements internes par défaut */
+    overflow-x: auto; /* Permet le défilement horizontal si nécessaire */
+}
+
+#en-tete {
+    margin-left: 40%;
+    width:50%;
+    height : 10%;
+    display: flex;
+    flex-direction: row;
+}
+
+#logo_page{
+    width : 6em;
+    height : 4em;
+}
+
+#en-tete_text{
+    margin-left: 2%;
+    font-size: 1em;
+    width : 100%;
+}
+
+#en-tete_text h1,
+#en-tete_text h2 {
+    margin: 0; /* Supprime les marges par défaut */
+    padding: 0; /* Supprime les espacements internes par défaut */
+}
+
+#en-tete_text h2{
+    margin-left: 3%;
+}
+
+/*CSS pour la banderolle avec les icones*/
+#banderolle {
+    background-color: #f5eded;
+    height: 8%;
+    width: 100%;
+    border : solid 0.1em black;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/*CSS pour l'image de banderolle*/
+#banderolle_img{
+    width: 100%;
+    height : 30em;
+}
+
+#logo_container_hist {
+    position: relative; /* Nécessaire pour positionner la boîte de texte par rapport au conteneur */
+    display: inline-block;
+}
+
+#logo_historic{
+    width: 5em;
+    height: 4em;
+    margin-left : 2em;
+    cursor: pointer;
+    border : 0.3em solid black;
+    border-radius: 50%;
+}
+
+#logo_container {
+    position: relative; /* Nécessaire pour positionner la boîte de texte par rapport au conteneur */
+    display: inline-block;
+}
+
+#logo_account {
+    width: 4em;
+    height: 4em;
+    cursor: pointer; /* Change le curseur pour indiquer que c'est cliquable */
+    margin-left: -7em; /* Décale le logo vers la gauche */
+}
+
+#tooltip {
+    visibility: hidden; /* Cache la boîte de texte par défaut */
+    width: 10em; /* Utilisation d'une mesure relative */
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 0.5em;
+    padding: 0.5em 0;
+    position: absolute;
+    z-index: 1;
+    top: 110%; /* Positionne la boîte de texte en dessous du logo */
+    left: 50%;
+    transform: translateX(-100%);
+    opacity: 0; /* Cache la boîte de texte par défaut */
+    transition: opacity 0.3s; /* Transition pour l'effet de fondu */
+}
+
+#tooltip::after {
+    content: "";
+    position: absolute;
+    top: -0.5em; /* En haut de la boîte de texte */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0.5em;
+    border-style: solid;
+    border-color: black transparent transparent transparent; /* Triangle pointant vers le logo */
+}
+
+#logo_container:hover #tooltip {
+    visibility: visible; /* Affiche la boîte de texte au survol */
+    opacity: 1; /* Rend la boîte de texte visible */
+}
+
+#tooltip_hist {
+    visibility: hidden; /* Cache la boîte de texte par défaut */
+    width: 10em; /* Utilisation d'une mesure relative */
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 0.5em;
+    padding: 0.5em 0;
+    position: absolute;
+    z-index: 1;
+    top: 110%; /* Positionne la boîte de texte en dessous du logo */
+    left: 50%;
+    transform: translateX(-40%);
+    opacity: 0; /* Cache la boîte de texte par défaut */
+    transition: opacity 0.3s; /* Transition pour l'effet de fondu */
+}
+
+#tooltip_hist::after {
+    content: "";
+    position: absolute;
+    top: -0.5em; /* En haut de la boîte de texte */
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0.5em;
+    border-style: solid;
+    border-color: black transparent transparent transparent; /* Triangle pointant vers le logo */
+}
+
+#logo_container_hist:hover #tooltip_hist {
+    visibility: visible; /* Affiche la boîte de texte au survol */
+    opacity: 1; /* Rend la boîte de texte visible */
+}
+
+.title{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around; /*Centre le texte*/
+    align-items: center;
+    margin-bottom: 0em;
+    margin-left : 1em;
+}
+
+#titre_bouton_principal::before,
+#titre_bouton_principal::after {
+    content: "";
+    top: 50%;
+    width: 40%;
+    height: 0.01em;
+    background-color: #969494;
+}
+
+#titre_bouton_principal::before {
+    left: 0;
+}
+
+#titre_bouton_principal h2::after {
+    right: 0;
+}
+
+#redirect_buttons{
+    display : flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 3em;
+}
+
+#button_enterprise{
+    height: 4em ;
+    width: 12em;
+    font-size: 1.5em;
+}
+
+.ListeEssai {
+    color: black; /* Définir la couleur du texte en blanc */
+    background-color: rgba(255, 255, 255, 0.66); /* Optionnel : fond semi-transparent pour améliorer la lisibilité */
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+.Tableau {
+    color: black;
+    margin: 20px auto; /* Centrer le conteneur avec marges */
+    background-color: rgba(255, 255, 255, 0.9); /* Fond blanc avec légère transparence */
+    border-radius: 10px; /* Coins arrondis */
+    max-width: 800px; /* Largeur maximale */
+    width: 90%; /* Adapte la largeur à l'écran */
+    padding: 10px; /* Ajoute de l'espace intérieur */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre légère pour effet de profondeur */
+}
+
+
+#logo_container_hist {
+    position: relative;
+    display: inline-block;
+}
+
+#logo_historic {
+    width: 5em;
+    height: 4em;
+    margin-left: 2em;
+    cursor: pointer;
+    border: 0.3em solid black;
+    border-radius: 50%;
+}
+
+#logo_container {
+    position: relative;
+    display: inline-block;
+}
+
+#logo_account {
+    width: 4em;
+    height: 4em;
+    cursor: pointer;
+    margin-left: -7em;
+}
+
+/* Menu déroulant pour les boutons deconnexion et home */
+#dropdown_menu {
+    display: none; /* Masqué par défaut */
+    position: absolute;
+    top: 90%; /* Positionne le menu juste en dessous du logo */
+    left: 50%;
+    transform: translateX(-97%); /* Centré par rapport au logo */
+    background-color: black;
+    border-radius: 0.5em;
+    padding: 0.5 em 0;
+    z-index: 1;
+    width: 11em; /* Largeur fixe pour éviter que le menu dépasse */
+    overflow: hidden; /* Empêche le débordement du menu */
+}
+
+.dropdown_button {
+    background-color:black ;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1em;
+    text-align: center;
+    cursor: pointer;
+    width: 100%; /* Largeur du bouton qui prend toute la largeur du menu */
+    border-radius: 5px;
+    box-sizing: border-box; /* Prend toute la largeur du conteneur */
+}
+
+.dropdown_button:hover {
+    background-color: #f0f0f047; /* Couleur de survol */
+}
+
+/* Affiche le menu au survol du logo */
+#logo_container:hover #dropdown_menu {
+    display: block; /* Affiche le menu */
+}
+
+#dropdown_menu_hist {
+    display: none; /* Masqué par défaut */
+    position: absolute;
+    top: 90%; /* Positionne le menu juste en dessous du logo */
+    left: 50%;
+    transform: translateX(-40%); /* Centré par rapport au logo */
+    background-color: black;
+    border-radius: 0.5em;
+    padding: 0.5 em 0;
+    z-index: 1;
+    width: 11em; /* Largeur fixe pour éviter que le menu dépasse */
+    overflow: hidden; /* Empêche le débordement du menu */
+}
+
+#logo_container_hist:hover #dropdown_menu_hist {
+    display: block; /* Affiche le menu */
+}
+
+#tooltip_hist {
+    visibility: hidden;
+    width: 10em;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 0.5em;
+    padding: 0.5em 0;
+    position: absolute;
+    z-index: 1;
+    top: 110%;
+    left: 50%;
+    transform: translateX(-40%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+#tooltip_hist::after {
+    content: "";
+    position: absolute;
+    top: -0.5em;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0.5em;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+
+#logo_container_hist:hover #tooltip_hist {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+/*******************************CSS Pour le forme de nouvel essai *****************************************************/
+
+.form-nouvelle-phase {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-nouvelle-phase label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-nouvelle-phase input, 
+.form-nouvelle-phase textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-nouvelle-phase button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-nouvelle-phase button:hover {
+    background-color: #45a049;
+}
+
+/**************************** CSS pour les listes des essais *************************/
+
+/* Conteneur principal de la liste */
+.Tableau {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 800px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Titres des sections */
+.Tableau h3 {
+    font-size: 1.8em;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    color: #333;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+}
+
+/* Conteneur pour chaque essai */
+.box_list {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.box_list:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Informations de l'essai */
+.assay-info p {
+    margin: 5px 0;
+    font-size: 1.2em;
+    line-height: 1.5;
+    color:black;
+}
+
+/* Bouton ou texte d'action */
+.assay-actions {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.assay-actions h3 {
+    display: inline-block;
+    font-size: 1.1em;
+    color: #007BFF;
+    cursor: pointer;
+    margin: 0;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.assay-actions h3:hover {
+    color: #0056b3;
+}
+
+/* Style pour différencier les sections */
+.Tableau h3:first-of-type {
+    color: #4CAF50; /* Couleur verte pour "Essais démarrés" */
+}
+
+.Tableau h3:last-of-type {
+    color: #FF5733; /* Couleur orange pour "Essais non démarrés" */
+}
+
+/* Ajustement des marges entre les essais */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.buttonVoirdetail {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/**************************** CSS pour les détails de l'essai *************************/
+
+/* Conteneur principal pour les détails de l'essai */
+.details {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 800px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre des détails */
+.details h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+}
+
+/* Informations des détails (similaire à celles des essais) */
+.details p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Met en valeur les étiquettes */
+.details p strong {
+    color: #007BFF; /* Couleur bleue pour les labels */
+}
+
+/* Bouton pour retourner ou voir les autres essais (si nécessaire) */
+.details .buttonVoirdetail {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.details .buttonVoirdetail:hover {
+    background-color: #0056b3;
+}
+
+.buttonAccepter {
+    padding: 10px 20px;
+    background-color: #37ff00;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.buttonRefuser {
+    padding: 10px 20px;
+    background-color: #ff0000;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+/* Conteneur pour les médecins référents, avec le même style que les autres informations */
+.details p.medecins-referents {
+    font-size: 1.2em;
+    line-height: 1.5;
+    margin-top: 15px;
+    color: black;
+}
+
+/* Si aucun médecin référent n'est trouvé */
+.details p.medecins-referents::before {
+    content: "Aucun médecin référent trouvé.";
+    color: #FF5733; /* Orange pour attirer l'attention */
+}

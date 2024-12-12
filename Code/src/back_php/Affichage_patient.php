@@ -30,14 +30,8 @@ function Test_Argument($entreprise, $essai, $medecins, $id_essai){
         }
     }
 
-    // Vérification de $id_essai
-    if (!is_int($id_essai)) {
-        AfficherErreur("Beware, there is a problem with the argument type id_essai", E_USER_WARNING);
-        return false;
-    } else {
-        return true;
-    }
 }
+
 
 
 

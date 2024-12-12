@@ -2,6 +2,7 @@
 include_once("Utilisateur.php");
 include_once("Securite.php");
 include_once("Affichage_patient.php");
+include_once("Affichage_gen.php");
 class Patient extends Utilisateur{
 
     public function __construct($mdp,
@@ -42,7 +43,6 @@ class Patient extends Utilisateur{
 
     private function insererPatient($bdd) {
         $id_patient = $this->getLastIdPatient();
-        echo "test";
         $query = "UPDATE utilisateur SET ID_User = :id_patient WHERE mail = :mail_user;";
         $params = [":id_patient" => $id_patient, ":mail_user" => $this->getEmail()];
         $bdd->updateLines($query, $params);
@@ -118,7 +118,7 @@ class Patient extends Utilisateur{
                                      genre = :gender, 
                                      origine = :origins, 
                                      antecedents = :antecedent, 
-                                     mdp = :mdp #TODO hasher le mot de passe avant
+                                     mdp = :mdp
                             WHERE ID_User = :iduser";
         $params = [
             ':first_name' => $this->first_name,
@@ -410,12 +410,17 @@ class Patient extends Utilisateur{
      */
     public function Rejoindre($bdd, $id_essai){
         $query_phase = "SELECT ID_phase, molecule_test, molecule_ref, dosage_test, dosage_ref, placebo_nom FROM essai WHERE ID_essai = :id_essai;";
+        //test si le patient est déjà inscrit à l'essai
+        $query_patient = "SELECT * FROM resultat WHERE ID_patient = :id AND ID_essai = :id_essai;";
         $query = "INSERT INTO resultat (ID_patient, ID_essai, is_accepte, is_patient_exclus, phase_res, traitement, dose) 
                   VALUES (:id, :id_essai, 0, 0, :phase_res, :traitement, :dose);";
 
         $res = $bdd->getResults($query_phase, ["id_essai" => $id_essai]);
         if ($res === []){
             AfficherErreur("Error while joining the trial. Trial unkown.");
+            return;
+        } elseif ($bdd->getResults($query_patient, ["id" => $this->getIduser(), "id_essai" => $id_essai]) != []){
+            AfficherErreur("You are already in this trial.");
             return;
         }
         $attribution = $this->AttributeTreatment($res["molecule_test"], $res["molecule_ref"], $res["dosage_test"], $res["dosage_ref"], $res["placebo_nom"]);

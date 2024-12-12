@@ -189,7 +189,7 @@ echo "<h1>======================================================================
 echo "<h2> Tests unitaires pour AfficherEssaisPAsdemarré (et Affichage_content_essai_pas_demarre)</h2><br>";
     echo "<h3> Si tous les arguments sont bons, la fonction devrait afficher les essais non démarrés</h3>";
     $bdd = new Query("siteweb");
-    $patien3 = new Patient(mdp : "1234", email : "jacques.perrin@mail.com");
+    $patien3 = new Patient(mdp : "1234", email : "brigitte-suzanne.santos@mail.com");
     $patien3->Connexion($patien3->getEmail(), $patien3->getMdp(), $bdd);
     AfficherEssaisPasDemarré($bdd, $patien3);
 
@@ -199,8 +199,8 @@ echo "<h2> Tests unitaires pour AfficherEssaisPAsdemarré (et Affichage_content_
 echo "<h3>==============================================================================================================================================================</h3>";
 echo '<h2>Tests unitaires AfficherEssaisRecherche (idem avant mais avec un paramètre de recherche)</h2>;';
     echo "<h3> Si tous les arguments sont bons, la fonction devrait afficher les essais recherchés</h3>";
-    echo "Mot recherché : Virtual<br>";
-    AfficherEssaisRecherche($bdd, $patien3, "Virtual");
+    echo "Mot recherché : 5<br>";
+    AfficherEssaisRecherche($bdd, $patien3, "5");
 
     // test avec un mot sans sens
     echo "Mot recherché : 75<br>";

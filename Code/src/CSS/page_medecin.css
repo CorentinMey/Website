@@ -1,0 +1,18 @@
+/* CSS pour centrer et rendre les graphiques responsives */
+.graphique-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2em 0;
+}
+
+.graphique-container .title {
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+.graphique-container canvas,
+.graphique-container img {
+    max-width: 100%;
+    height: auto;
+}

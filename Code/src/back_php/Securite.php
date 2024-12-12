@@ -4,7 +4,7 @@ include_once("Query.php");
 include_once("Affichage_gen.php");
 include_once("Patient.php");
 include_once("Medecin.php");
-// include_once("Entreprise.php");
+include_once("Entreprise.php");
 
 
 
@@ -85,6 +85,27 @@ function validatePassword($password) {
     return true;
 }
 
+/**
+ * Vérifie si un utilisateur est banni.
+ * @param string $mail L'adresse mail de l'utilisateur.
+ * @param Query $bdd L'objet de connexion à la base de données.
+ * @return bool True si l'utilisateur n'est pas banni, False sinon.
+ */
+function checkStatus($mail, $bdd) {
+    $query_ban = "SELECT is_bannis FROM utilisateur WHERE mail = :email";
+    $res = $bdd->getResults($query_ban, array("email" => $mail));
+    if ($res === []){ // test si l'email est dans la base de données
+        AfficherErreur("No data for this user ".htmlspecialchars($mail).".");
+        exit;
+    } elseif ($res["is_bannis"] == 1)  // test si l'utilisateur est banni
+        return false;
+    elseif($res["is_bannis"] == 2){ // test si l'utilisateur est en attente de validation
+        AfficherErreur("Please wait for the admin validation");
+        exit;
+    }
+    return true;
+}
+
 /** Vérifie si le mot de passe et sa confirmation sont identiques ET s'il est assez puissant.
  * 
  */
@@ -153,9 +174,13 @@ function registerNewDoctor() {
             $bdd_dict = [
                 "mail" => $_POST["identifiant"],
                 "mdp" => $_POST["mdp"],
+                "nom" => $_POST["Nom"],
+                "prenom" => $_POST["prénom"],
+                "genre" => $_POST["genre"],
+                "date_naissance" => $_POST["date_naissance"],
                 "numero_ordre" => $_POST["num_ordre"],
                 "hopital" => $_POST["hopital"],
-                "specialite" => $_POST["specialite"]
+                "domaine" => $_POST["specialite"]
             ];
             // Inscrire le médecin
             $doctor->Inscription($bdd, $bdd_dict);
@@ -170,7 +195,7 @@ function registerNewDoctor() {
                 exit;
             }
         } else {
-            AfficherErreur("Passwords do not match");
+            AfficherErreur("Passwords do not match or are not strong enough");
         }
     } else {
         AfficherErreur("Please fill all the fields");
@@ -186,13 +211,18 @@ function registerNewCompany() {
             // Créer un nouvel objet entreprise
             $company = new Entreprise($_POST["mdp"], $_POST["identifiant"]);
             $bdd_dict = [
+                "nom" => $_POST["Nom"],
+                "prenom" => $_POST["prénom"],
+                "genre" => $_POST["genre"],
+                "date_naissance" => $_POST["date_naissance"],
                 "mail" => $_POST["identifiant"],
                 "mdp" => $_POST["mdp"],
-                "siret" => $_POST["siret"],
-                "nom_entreprise" => $_POST["nom_entreprise"],
-                "ville" => $_POST["ville"]
+                "ID_User" => $_POST["siret"],
+                "nom" => $_POST["nom_entreprise"]
+                // "ville" => $_POST["ville"]
             ];
             // Inscrire l'entreprise
+            $_SESSION["ville"] = $_POST["ville"];
             $company->Inscription($bdd, $bdd_dict);
             
             if ($_SESSION["result"] == 1) {
