@@ -88,6 +88,49 @@ class Entreprise extends Utilisateur {
     
         $bdd->closeBD();
     }
+
+    public function Inscription($bdd, $dict_information) {
+        // Appeler la méthode Inscription de la classe Utilisateur
+        parent::Inscription($bdd, $dict_information);
+        // Vérifier si l'inscription de l'utilisateur a réussi
+        if ($_SESSION["result"] === 1) {
+            // Insérer les informations spécifiques au patient
+            $this->insererCompany($dict_information);
+        }
+    }
+    
+    private function insererCompany($dict_information) {
+        try {
+            // Récupérer l'email de l'utilisateur ajouté
+            $bdd = new Query("siteweb");
+            $mail = $dict_information['mail'];
+            $ville = $_SESSION['ville'];
+    
+            // Récupérer l'ID de l'utilisateur ajouté
+            $querySelect = "SELECT ID_User FROM utilisateur WHERE mail = :mail";
+            $result = $bdd->getResults($querySelect, [':mail' => $mail]);
+    
+            if ($result) {
+                $idUser = $result['ID_User'];
+    
+                // Ajouter le SIRET et la ville à la table entreprise
+                $queryInsert = "INSERT INTO entreprise (siret, ville) VALUES (:siret, :ville)";
+                $argsInsert = [
+                    ':siret' => $idUser,
+                    ':ville' => $ville
+                ];
+                $bdd->insertLine($queryInsert, $argsInsert);
+  
+            } else {
+                AfficherErreur("Utilisateur non trouvé avec l'email fourni.");
+            }
+        } catch (Exception $e) {
+            // Gérer les erreurs
+            AfficherErreur("Erreur lors de l'insertion de l'entreprise : " . $e->getMessage());
+            throw $e;
+        }
+    }
+    
     
     /**
      * Ajoute une demande de médecin à un essai clinique dans la base de données.
@@ -113,8 +156,8 @@ class Entreprise extends Utilisateur {
             echo "<p>Le médecin a été notifié de votre demande !</p>";
         } catch (PDOException $e) {
             // Gestion des erreurs avec un message d'erreur dans les logs
-            error_log("Erreur lors de l'insertion dans ESSAI_MEDECIN : " . $e->getMessage());
-            echo "<p>Une erreur est survenue lors de la demande. Veuillez réessayer plus tard.</p>";
+            AfficherErreur("Erreur lors de l'insertion dans ESSAI_MEDECIN : " . $e->getMessage());
+            AfficherErreur("<p>Une erreur est survenue lors de la demande. Veuillez réessayer plus tard");
         }
     }
     

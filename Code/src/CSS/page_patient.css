@@ -225,6 +225,7 @@ body {
     border-collapse: separate; /* Utilisez 'separate' pour permettre l'arrondissement des angles */
     border-radius: 1em; /* Arrondit les angles du tableau */
     overflow: hidden; /* Assure que les coins arrondis sont appliqués */
+
 }
 
 #table_patient thead tr{

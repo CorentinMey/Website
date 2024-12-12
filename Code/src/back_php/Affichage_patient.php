@@ -30,8 +30,8 @@ function Test_Argument($entreprise, $essai, $medecins, $id_essai){
         }
     }
 
-    return true;
 }
+
 
 
 

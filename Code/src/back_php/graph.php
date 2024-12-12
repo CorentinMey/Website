@@ -298,7 +298,7 @@ function getDataBoxPlotTraitement($bdd, $id_essai, $nb_phase){
  * Idem mais en fonction des effets secondaire cetet fois ci
  */
 function getDataBoxPlotSideEffect($bdd, $id_essai, $nb_phase){
-    $query = "SELECT effet_secondaire, FLOOR(DATEDIFF(CURDATE(), utilisateur.date_naissance) / 365.25) AS age
+    $query = "SELECT effet_secondaire, evolution_symptome, FLOOR(DATEDIFF(CURDATE(), utilisateur.date_naissance) / 365.25) AS age
                     FROM resultat JOIN utilisateur ON utilisateur.ID_User = resultat.ID_patient
                         WHERE ID_essai = :id_essai AND phase_res = :nb_phase AND is_patient_exclus = 0;";
     $dict = [];

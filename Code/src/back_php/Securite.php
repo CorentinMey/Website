@@ -4,7 +4,7 @@ include_once("Query.php");
 include_once("Affichage_gen.php");
 include_once("Patient.php");
 include_once("Medecin.php");
-// include_once("Entreprise.php");
+include_once("Entreprise.php");
 
 
 
@@ -132,7 +132,7 @@ function registerNewPatient() {
                 "nom" => $_POST["Nom"],
                 "prenom" => $_POST["prénom"],
                 "genre" => $_POST["genre"],
-                "origine" => $_POST["origin"],
+                "origine" => $_POST["origins"],
                 "antecedents" => $_POST["medical"],
                 "mail" => $_POST["identifiant"],
                 "mdp" => $_POST["mdp"],
@@ -174,9 +174,13 @@ function registerNewDoctor() {
             $bdd_dict = [
                 "mail" => $_POST["identifiant"],
                 "mdp" => $_POST["mdp"],
+                "nom" => $_POST["Nom"],
+                "prenom" => $_POST["prénom"],
+                "genre" => $_POST["genre"],
+                "date_naissance" => $_POST["date_naissance"],
                 "numero_ordre" => $_POST["num_ordre"],
                 "hopital" => $_POST["hopital"],
-                "specialite" => $_POST["specialite"]
+                "domaine" => $_POST["specialite"]
             ];
             // Inscrire le médecin
             $doctor->Inscription($bdd, $bdd_dict);
@@ -207,13 +211,18 @@ function registerNewCompany() {
             // Créer un nouvel objet entreprise
             $company = new Entreprise($_POST["mdp"], $_POST["identifiant"]);
             $bdd_dict = [
+                "nom" => $_POST["Nom"],
+                "prenom" => $_POST["prénom"],
+                "genre" => $_POST["genre"],
+                "date_naissance" => $_POST["date_naissance"],
                 "mail" => $_POST["identifiant"],
                 "mdp" => $_POST["mdp"],
-                "siret" => $_POST["siret"],
-                "nom_entreprise" => $_POST["nom_entreprise"],
-                "ville" => $_POST["ville"]
+                "ID_User" => $_POST["siret"],
+                "nom" => $_POST["nom_entreprise"]
+                // "ville" => $_POST["ville"]
             ];
             // Inscrire l'entreprise
+            $_SESSION["ville"] = $_POST["ville"];
             $company->Inscription($bdd, $bdd_dict);
             
             if ($_SESSION["result"] == 1) {
