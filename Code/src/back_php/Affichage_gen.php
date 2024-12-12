@@ -83,6 +83,13 @@ function AfficherBarreRecherche($search_query) {
  * @param $medecins : dictionnaire contenant les médecins référents
  * @param $id_essai : id de l'essai
  */
+function Affichage_content_essai_pas_demarre($essai, $medecins, $id_essai, $is_med) {
+    echo '<tr>';
+        echo '<td>' . htmlspecialchars($essai["nom"]) . '</td>'; // Affiche le nom de l'entreprise
+        echo '<td>Phase ' . htmlspecialchars($essai["ID_phase"]) . '</td>'; // Affiche la phase de l'essai
+        echo '<td>' . htmlspecialchars($essai["description"]) . '</td>'; // Affiche la description de l'essai
+        echo '<td>' . htmlspecialchars($essai["date_debut"]) . '</td>'; // Affiche la date de début de l'essai
+        echo '<td>';
 function Affichage_content_essai_pas_demarre($essai, $medecins, $id_essai) {
     echo "<div class='box_essai'>";
         echo "<div class='essai_title'>".htmlspecialchars($essai["titre"])."</div>"; // Affiche le titre de l'essai
@@ -124,9 +131,16 @@ function AfficherEssaisPasDemarré($bdd, $user, $search_query = "") {
                         WHERE a_debute = 0 AND ID_essai #// On récupère les essais qui n'ont pas encore démarré
                         NOT IN  
                         (SELECT ID_essai FROM resultat WHERE ID_patient = :id_patient);"; // enlève les essais où le patient a déjà postulé (empĉhe aussi qu'un patient postule à plusieurs phases)
+    $is_med = 0; //On mémorise que c'est un patient qui a demandé à voir les essais non démarrés
     } else {
         // Requête pour obtenir les essais qui n'ont pas encore démarré et auxquels le médecin n'a pas postulé
-        #// TODO : à modifier pour les médecins
+        $query_essai = "SELECT  ID_essai, nom, description, date_debut, ID_phase, mail, molecule_test, molecule_ref
+                        FROM essai
+                        JOIN utilisateur ON essai.ID_entreprise_ref = utilisateur.ID_User
+                        WHERE a_debute = 0 AND ID_essai #// On récupère les essais qui n'ont pas encore démarré
+                        NOT IN 
+                        (SELECT ID_essai FROM essai_medecin WHERE ID_medecin = :id_patient);"; // enlève les essais où le médecin a déjà postulé 
+        $is_med = 1; //On mémorise que c'est un médecin qui a demandé à voir les essais non démarrés
     }
     // Requête pour obtenir les médecins référents pour chaque essai
     $query_medecins = "SELECT nom
