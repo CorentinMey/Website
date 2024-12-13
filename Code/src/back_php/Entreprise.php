@@ -128,11 +128,13 @@ class Entreprise extends Utilisateur {
     
                 // Ajouter le SIRET et la ville à la table entreprise
                 $queryInsert = "INSERT INTO entreprise (siret, ville) VALUES (:siret, :ville)";
+                $queryupdate = "UPDATE utilisateur SET is_bannis = 2 WHERE ID_User = :id";
                 $argsInsert = [
                     ':siret' => $idUser,
                     ':ville' => $ville
                 ];
                 $bdd->insertLine($queryInsert, $argsInsert);
+                $bdd->UpdateLines($queryupdate, [':id' => $idUser]);
   
             } else {
                 AfficherErreur("Utilisateur non trouvé avec l'email fourni.");
