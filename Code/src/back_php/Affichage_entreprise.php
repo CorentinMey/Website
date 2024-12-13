@@ -208,7 +208,7 @@ function afficherDetailsEssai($bdd, $idEssai) {
 
         // Récupération et affichage du nombre de patients actuels pour la phase
         $queryPhase = "SELECT nombre_patients 
-                       FROM PHASE 
+                       FROM phase 
                        WHERE ID_essai = :idEssai AND ID_phase = :idPhase";
         $phase = $bdd->getResults($queryPhase, [
             ":idEssai" => $essai['ID_essai'],
