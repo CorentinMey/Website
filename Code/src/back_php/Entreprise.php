@@ -155,21 +155,21 @@ class Entreprise extends Utilisateur {
     public function DemandMedecin($id_medecin, Query $bdd, $id_essai) {
         try {
             // Requête SQL pour insérer un lien entre un essai et un médecin
-            $sql = "INSERT INTO essai_MEDECIN (ID_medecin, ID_essai, is_accepte, est_de_company) 
+            $sql = "INSERT INTO essai_medecin (ID_medecin, ID_essai, is_accepte, est_de_company) 
                     VALUES (:id_medecin, :id_essai, :is_accepte, :est_de_company)";
             
             // Appel de la méthode `insertLine` pour exécuter l'insertion
             $bdd->insertLine($sql, [
                 ':id_medecin' => $id_medecin,
                 ':id_essai' => $id_essai,
-                ':is_accepte' => false,  // valeur booléenne
-                ':est_de_company' => true // valeur booléenne
+                ':is_accepte' => 0,  // valeur booléenne
+                ':est_de_company' => 1 // valeur booléenne
             ]);
     
             echo "<p>Le médecin a été notifié de votre demande !</p>";
         } catch (PDOException $e) {
             // Gestion des erreurs avec un message d'erreur dans les logs
-            AfficherErreur("Erreur lors de l'insertion dans essai_MEDECIN : " . $e->getMessage());
+            AfficherErreur("Erreur lors de l'insertion dans essai_medecin : " . $e->getMessage());
             AfficherErreur("<p>Une erreur est survenue lors de la demande. Veuillez réessayer plus tard");
         }
     }
@@ -188,11 +188,11 @@ class Entreprise extends Utilisateur {
             $sqlEssai = "
                 INSERT INTO essai (
                     ID_entreprise_ref, ID_phase, date_debut, date_fin,
-                    description, molecule_test, dosage_test, molecule_ref, dosage_ref,
+                    description, titre, molecule_test, dosage_test, molecule_ref, dosage_ref,
                     placebo_nom, a_debute
                 ) VALUES (
                     :id_entreprise_ref, :ID_phase, :date_debut, :date_fin,
-                    :description, :molecule_test, :dosage_test, :molecule_ref, :dosage_ref,
+                    :description, :titre, :molecule_test, :dosage_test, :molecule_ref, :dosage_ref,
                     :placebo_nom, :a_debute
                 );
             ";
@@ -204,6 +204,7 @@ class Entreprise extends Utilisateur {
                 ':date_debut' => $data['date_debut'],
                 ':date_fin' => $data['date_fin'],
                 ':description' => $data['description'],
+                ':titre' => "Titre par défaut",
                 ':molecule_test' => $data['molecule_test'],
                 ':dosage_test' => $data['dosage_test'],
                 ':molecule_ref' => $data['molecule_ref'],
@@ -225,7 +226,7 @@ class Entreprise extends Utilisateur {
     
             // Requête pour insérer une phase initiale
             $sqlPhase = "
-                INSERT INTO PHASE (
+                INSERT INTO phase (
                     ID_essai, ID_phase, date_debut, date_fin_prevue, nombre_patients
                 ) VALUES (
                     :id_essai, :id_phase, :date_debut, :date_fin_prevue, :nombre_patients

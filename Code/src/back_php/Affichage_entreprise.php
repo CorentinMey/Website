@@ -330,14 +330,14 @@ function afficherDetailsEssai($bdd, $idEssai) {
 function afficherFormulaireChoixMedecin($bdd, $idEssai) {
     // Requête pour récupérer les médecins avec leurs spécialités
     $query = "SELECT 
-                MEDECIN.numero_ordre, 
-                MEDECIN.domaine, 
-                MEDECIN.hopital, 
-                UTILISATEUR.prenom, 
-                UTILISATEUR.nom 
-              FROM MEDECIN 
-              INNER JOIN UTILISATEUR ON MEDECIN.numero_ordre = UTILISATEUR.ID_User
-              WHERE UTILISATEUR.is_bannis = 0"; // Exclure les médecins bannis
+                medecin.numero_ordre, 
+                medecin.domaine, 
+                medecin.hopital, 
+                utilisateur.prenom, 
+                utilisateur.nom 
+              FROM medecin 
+              INNER JOIN utilisateur ON medecin.numero_ordre = utilisateur.ID_User
+              WHERE utilisateur.is_bannis = 0"; // Exclure les médecins bannis
 
     // Appel de la méthode getResultsAll avec un tableau vide comme deuxième argument
     $medecins = $bdd->getResultsAll($query, []);
