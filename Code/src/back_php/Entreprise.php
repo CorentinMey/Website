@@ -155,7 +155,7 @@ class Entreprise extends Utilisateur {
     public function DemandMedecin($id_medecin, Query $bdd, $id_essai) {
         try {
             // Requête SQL pour insérer un lien entre un essai et un médecin
-            $sql = "INSERT INTO ESSAI_MEDECIN (ID_medecin, ID_essai, is_accepte, est_de_company) 
+            $sql = "INSERT INTO essai_MEDECIN (ID_medecin, ID_essai, is_accepte, est_de_company) 
                     VALUES (:id_medecin, :id_essai, :is_accepte, :est_de_company)";
             
             // Appel de la méthode `insertLine` pour exécuter l'insertion
@@ -169,7 +169,7 @@ class Entreprise extends Utilisateur {
             echo "<p>Le médecin a été notifié de votre demande !</p>";
         } catch (PDOException $e) {
             // Gestion des erreurs avec un message d'erreur dans les logs
-            AfficherErreur("Erreur lors de l'insertion dans ESSAI_MEDECIN : " . $e->getMessage());
+            AfficherErreur("Erreur lors de l'insertion dans essai_MEDECIN : " . $e->getMessage());
             AfficherErreur("<p>Une erreur est survenue lors de la demande. Veuillez réessayer plus tard");
         }
     }
@@ -186,7 +186,7 @@ class Entreprise extends Utilisateur {
         try {
             // Requête pour insérer un nouvel essai clinique sans spécifier l'ID auto-incrémenté
             $sqlEssai = "
-                INSERT INTO ESSAI (
+                INSERT INTO essai (
                     ID_entreprise_ref, ID_phase, date_debut, date_fin,
                     description, molecule_test, dosage_test, molecule_ref, dosage_ref,
                     placebo_nom, a_debute
@@ -197,7 +197,7 @@ class Entreprise extends Utilisateur {
                 );
             ";
     
-            // Préparation des paramètres pour la table ESSAI
+            // Préparation des paramètres pour la table essai
             $paramsEssai = [
                 ':id_entreprise_ref' => $this->iduser,
                 ':ID_phase' => $id_phase,
@@ -212,7 +212,7 @@ class Entreprise extends Utilisateur {
                 ':a_debute' => 0, // Par défaut, l'essai n'a pas commencé
             ];
     
-            // Exécution de l'insertion pour ESSAI
+            // Exécution de l'insertion pour essai
             $bdd->insertLine($sqlEssai, $paramsEssai);
     
             // Récupération de l'ID du dernier essai inséré
@@ -257,7 +257,7 @@ class Entreprise extends Utilisateur {
     function startPhase($bdd, $idEssai, $id_phase) {
         try {
             // Requête pour mettre à jour la colonne a_debute
-            $query = "UPDATE ESSAI 
+            $query = "UPDATE essai 
                       SET a_debute = :aDebute 
                       WHERE ID_essai = :idEssai AND ID_phase = :idPhase"; 
     
@@ -279,7 +279,7 @@ class Entreprise extends Utilisateur {
     function terminerPhase($bdd, $idEssai, $id_phase) {
         try {
             // Requête pour mettre à jour la colonne a_debute à 2 (terminé)
-            $query = "UPDATE ESSAI 
+            $query = "UPDATE essai 
                       SET a_debute = :aDebute 
                       WHERE ID_essai = :idEssai AND ID_phase = :idPhase";
     
