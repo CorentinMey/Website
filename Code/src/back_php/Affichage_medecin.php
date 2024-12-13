@@ -244,7 +244,7 @@ function Affichage_entete_tableau_resultats(){
 function Affichage_content_resultats($results, $id_essai, $count){
     echo '<tr>';
         echo '<td>'.$count.'</td>';
-        echo '<td>'.$results["phase"].'</td>';
+        echo '<td>'.$results["phase_res"].'</td>';
         echo '<td>'.$results["genre"].'</td>'; // affiche le contenu des colonnes simples
         echo '<td>'.$results["date_naissance"].'</td>';
         echo '<td>'.$results["antecedents"].'</td>';

@@ -419,13 +419,13 @@ public function ChangeInfo_patient($bdd, $id_user, $id_essai, $data) {
     */
     public function AffichageResultats($bdd, $id_essai){
         // requete pour avoir les patients admis
-        $query = "SELECT ID_User, phase, genre, date_naissance, antecedents, traitement, dose, effet_secondaire, evolution_symptome FROM resultat JOIN utilisateur ON 
+        $query = "SELECT ID_User, phase_res, genre, date_naissance, antecedents, traitement, dose, effet_secondaire, evolution_symptome FROM resultat JOIN utilisateur ON 
                     resultat.ID_patient = utilisateur.ID_User NATURAL JOIN essai
                         WHERE ID_essai = :id 
                         AND a_debute = 2 #On ne prend que les résultats si l'essai est fini
                         AND is_bannis = 0
                         AND is_accepte != 0
-                    ORDER BY phase ASC;"; 
+                    ORDER BY phase_res ASC;"; 
     
         $res = $bdd->getResultsAll($query, ["id" => $id_essai]);
         if ($res == []) {
@@ -442,8 +442,8 @@ public function ChangeInfo_patient($bdd, $id_user, $id_essai, $data) {
         foreach($res as $result){ // affiche les lignes du tableau
             Affichage_content_resultats($result, $id_essai, $x);
             $x= $x + 1;
-            if (!in_array($result["phase"], $number_phase)){
-                array_push($number_phase, $result["phase"]);
+            if (!in_array($result["phase_res"], $number_phase)){
+                array_push($number_phase, $result["phase_res"]);
             }
             //trie les phases pour les graphiques
             sort($number_phase);
