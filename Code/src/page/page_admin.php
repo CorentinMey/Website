@@ -85,7 +85,7 @@ if (isset($_SESSION["admin"])) {
             echo '</div>';
         } elseif(isset($_POST['deco'])){
             $_SESSION = array();
-            header("Location: /PROJET_SITH_WEB/Website/Code/src/page/page_accueil.php");
+            header("Location: page_accueil.php");
             session_destroy();
             exit;
         }

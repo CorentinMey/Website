@@ -51,7 +51,7 @@ function afficherListeUtilisateurs($query, $message = null,  $limit = null) {
     echo '<div class="content-wrapper">';
     echo '<div class="titles">';
     echo '<div class="back-btn2-container">';
-    echo '<a href="/PROJET_SITH_WEB/Website/Code/src/page/page_admin.php"><button class="back-btn2">Home</button></a>';
+    echo '<a href="../page/page_admin.php"><button class="back-btn2">Home</button></a>';
     echo '</div>';
     echo "<h2>USER LIST</h2>";
     echo '</div>';
@@ -113,7 +113,7 @@ function afficherListeMedecins($query, $message = null,  $limit = null) {
     echo '<div class="content-wrapper">';
     echo '<div class="titles">';
     echo '<div class="back-btn2-container">';
-    echo '<a href="/PROJET_SITH_WEB/Website/Code/src/page/page_admin.php"><button class="back-btn2">Home</button></a>';
+    echo '<a href="page_admin.php"><button class="back-btn2">Home</button></a>';
     echo '</div>';
     echo "<h2>DOCTOR LIST</h2>";
     echo '</div>';
@@ -197,7 +197,7 @@ function afficherListeEntreprises($query, $message=null,  $limit = null) {
     echo '<div class="content-wrapper">';
     echo '<div class="titles">';
     echo '<div class="back-btn2-container">';
-    echo '<a href="/PROJET_SITH_WEB/Website/Code/src/page/page_admin.php"><button class="back-btn2">Home</button></a>';
+    echo '<a href="page_admin.php"><button class="back-btn2">Home</button></a>';
     echo '</div>';
     echo "<h2>COMPANY LIST</h2>";
     echo '</div>';
@@ -275,7 +275,7 @@ function afficherListeEssaisCliniques($query,  $limit = null) {
     echo '<div class="content-wrapper">';
     echo '<div class="titles">';
     echo '<div class="back-btn2-container">';
-    echo '<a href="/PROJET_SITH_WEB/Website/Code/src/page/page_admin.php"><button class="back-btn2">Home</button></a>';
+    echo '<a href="page_admin.php"><button class="back-btn2">Home</button></a>';
     echo '</div>';
     echo "<h2>CLINICAL ASSAY LIST</h2>";
     echo '</div>';
@@ -338,7 +338,7 @@ function afficherConfirmationsEnAttente($query, $message=null,  $limit = null) {
     echo '<div class="content-wrapper">';
     echo '<div class="titles">';
     echo '<div class="back-btn2-container">';
-    echo '<a href="/PROJET_SITH_WEB/Website/Code/src/page/page_admin.php"><button class="back-btn2">Home</button></a>';
+    echo '<a href="../page/page_admin.php"><button class="back-btn2">Home</button></a>';
     echo '</div>';
     echo "<h2>Pending Confirmations</h2>";
     echo '</div>';
@@ -418,7 +418,7 @@ function afficherInfoAdmin($query, $mail) {
         echo '<p><strong>Origin :</strong> ' . htmlspecialchars($result['origine']) . '</p>';
         echo '<h3>Unfortunately, Admin information cannot be changed</h3>';
         echo '   <div class="back-btn2-container" id="home_profil_box">';
-        echo '<a href="/PROJET_SITH_WEB/Website/Code/src/page/page_admin.php"><button class="back-btn2" id="bouton_home_in_profile">Home</button></a>';
+        echo '<a href="page_admin.php"><button class="back-btn2" id="bouton_home_in_profile">Home</button></a>';
         echo '</div>';
         echo '</div>';
     } else {
