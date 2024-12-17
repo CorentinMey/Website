@@ -151,6 +151,7 @@ class Patient extends Utilisateur{
             $this->setOrigins($_POST["origin"]);
             $this->setAntecedent($_POST["medical"]);
             $this->setMdp(password_hash($_POST["mdp"], PASSWORD_BCRYPT));
+            $this->setBirthdate($_POST["date_naissance"]);
             // Mettre à jour la base de données
             $this->ChangeInfo($bdd);
             // Mettre à jour l'objet en session
@@ -159,7 +160,7 @@ class Patient extends Utilisateur{
             header("Location: page_patient.php");
             exit;
         } else {
-            AfficherErreur("Passwords do not match");
+            AfficherErreur("Passwords do not match or are not strong enough");
         }
     } else {
         AfficherErreur("Please fill all the fields");
