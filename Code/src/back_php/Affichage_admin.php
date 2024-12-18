@@ -346,8 +346,11 @@ function afficherConfirmationsEnAttente($query, $message=null,  $limit = null) {
         echo '<div class="information_move">' . htmlspecialchars($message) . '</div>';
     }
 
-    $sql = "SELECT ID_User, prenom, nom, mail, genre FROM utilisateur WHERE is_bannis = 2";
-    $params = [];
+    $sql = "SELECT ID_User, prenom, nom, mail, genre, ville, domaine, hopital 
+            FROM utilisateur 
+            LEFT JOIN entreprise ON entreprise.siret = utilisateur.ID_User 
+            LEFT JOIN medecin ON medecin.numero_ordre = utilisateur.ID_User
+            WHERE is_bannis = 2;";
 
     if ($limit !== null) {
         $limit = (int)$limit; // Forcer la conversion en entier
@@ -361,10 +364,18 @@ function afficherConfirmationsEnAttente($query, $message=null,  $limit = null) {
         foreach ($pendingConfirmations as $user) {
             echo '<div class="box_list">';
             echo '    <div class="user-info">';
-            echo '        <p><strong>Prénom:</strong> ' . htmlspecialchars($user['prenom']) . '</p>';
+            if (!empty($user["prenom"]))
+                echo '        <p><strong>Prénom:</strong> ' . htmlspecialchars($user['prenom']) . '</p>';
             echo '        <p><strong>Nom:</strong> ' . htmlspecialchars($user['nom']) . '</p>';
             echo '        <p><strong>Email:</strong> ' . htmlspecialchars($user['mail']) . '</p>';
-            echo '        <p><strong>Genre:</strong> ' . htmlspecialchars($user['genre']) . '</p>';
+            if (!empty($user["ville"]))
+                echo '        <p><strong>Ville:</strong> ' . htmlspecialchars($user['ville']) . '</p>';
+            if (!empty($user["domaine"]))
+                echo '        <p><strong>Domaine:</strong> ' . htmlspecialchars($user['domaine']) . '</p>';
+            if (!empty($user["hopital"]))
+                echo '        <p><strong>Hôpital:</strong> ' . htmlspecialchars($user['hopital']) . '</p>';
+            if (!empty($user["genre"]))
+                echo '        <p><strong>Genre:</strong> ' . htmlspecialchars($user['genre']) . '</p>';
             echo '    </div>';
             echo '    <div class="user-controls">';
             echo '        <form method="POST" action="../back_php/manage_user.php" class="action-form">';
