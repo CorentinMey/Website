@@ -70,8 +70,11 @@ class Patient extends Utilisateur{
         if ($fh) {
             fwrite($fh, $id_patient);
             fclose($fh);
+            return $id_patient;
+        } else {
+            AfficherErreur("Error while attributing an ID to the patient +1");
+            exit();
         }
-        return $id_patient;
     }
 
     /**
