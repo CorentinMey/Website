@@ -65,8 +65,10 @@ function afficherListeUtilisateurs($query, $message = null,  $limit = null) {
             echo '<div class="' . htmlspecialchars($boxClass) . '">';
             echo '    <div class="user-info">';
             echo '        <p><strong>Nom:</strong> ' . htmlspecialchars($user['nom']) . '</p>';
-            echo '        <p><strong>Prénom:</strong> ' . htmlspecialchars($user['prenom']) . '</p>';
-            echo '        <p><strong>Genre:</strong> ' . htmlspecialchars($user['genre']) . '</p>';
+            if (!empty($user["prenom"]))
+                echo '        <p><strong>Prénom:</strong> ' . htmlspecialchars($user['prenom']) . '</p>';
+            if (!empty($user["genre"]))
+                echo '        <p><strong>Genre:</strong> ' . htmlspecialchars($user['genre']) . '</p>';
             echo '        <p><strong>e-mail:</strong> ' . htmlspecialchars($user['mail']) . '</p>';
             echo '    </div>';
             echo '    <div class="user-controls">';
@@ -113,7 +115,7 @@ function afficherListeMedecins($query, $message = null,  $limit = null) {
     echo '<div class="content-wrapper">';
     echo '<div class="titles">';
     echo '<div class="back-btn2-container">';
-    echo '<a href="page_admin.php"><button class="back-btn2">Home</button></a>';
+    echo '<a href="../page/page_admin.php"><button class="back-btn2">Home</button></a>';
     echo '</div>';
     echo "<h2>DOCTOR LIST</h2>";
     echo '</div>';
@@ -205,7 +207,7 @@ function afficherListeEntreprises($query, $message=null,  $limit = null) {
         echo '<div class="information_move">' . htmlspecialchars($message) . '</div>';
     }
 
-    $sql = "SELECT utilisateur.ID_User, entreprise.siret, entreprise.ville, utilisateur.is_bannis 
+    $sql = "SELECT utilisateur.ID_User, entreprise.siret, entreprise.ville, utilisateur.is_bannis, utilisateur.nom, utilisateur.mail 
         FROM entreprise 
         INNER JOIN utilisateur 
         ON utilisateur.ID_User = entreprise.siret WHERE utilisateur.is_bannis != 2";
@@ -224,6 +226,8 @@ function afficherListeEntreprises($query, $message=null,  $limit = null) {
             $boxClass = $company['is_bannis'] == 1 ? 'box_list banned' : 'box_list';
             echo '<div class="' . htmlspecialchars($boxClass) . '">';
             echo '    <div class="company-info">';
+            echo '        <p><strong>Nom:</strong> ' . htmlspecialchars($company['nom']) . '</p>';
+            echo '        <p><strong>Mail:</strong> ' . htmlspecialchars($company['mail']) . '</p>';
             echo '        <p><strong>Siret:</strong> ' . htmlspecialchars($company['siret']) . '</p>';
             echo '        <p><strong>Ville:</strong> ' . htmlspecialchars($company['ville']) . '</p>';
             echo '    </div>';
