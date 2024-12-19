@@ -1,67 +1,91 @@
-# Projet site web : création d'une plateforme d'essais cliniques
+# Projet Site Web : Création d'une Plateforme d'Essais Cliniques
 
 ## Description du Projet
 
-Le projet vise à créer une plateforme d'essais cliniques permettant la gestion des essais pour les médecins, les patients, les entreprises pharmaceutiques, et les administrateurs.
+Ce projet vise à développer une plateforme dédiée à la gestion des essais cliniques. L'outil est conçu pour répondre aux besoins de quatre types d'utilisateurs : patients, médecins, entreprises pharmaceutiques, et administrateurs.  
 
-Voici le récapitulatif des fonctionnalités dont dispose chaque type d'utilisateur sur le site web crée :
+### Fonctionnalités par Type d'Utilisateur  
 
-Patient :
-  -Peut modifier ses informations personnelles depuis une interface intuitive
-  -Peut consulter la liste des essais en phase de recrutement (ceux auxquels il a déjà participé par les passé sont cachés)
-  -Peut faire une demande de participation à un essai en phase de recrutement
-  -Peut consulter les informations des essais auxquels il est inscrit et donner ses impressions
-  -Peut consulter l’historique global du site web depuis le menu dédié
-  -Peut se déconnecter facilement depuis l’interface
-Médecin :
-  -Peut visualiser ses informations personnelles 
-  -Peut consulter la liste des essais en phase de recrutement (ceux auxquels il a déjà participé par les passé sont cachés)
-  -Peut faire une demande de participation à un essai en phase de recrutement
-  -Peut consulter les informations générales des essais auxquels il est inscrit/en attente d’inscription
-  -Peut consulter les informations patients des essais auxquels il est inscrit + les résultats si l’essai est fini
-  -Peut modifier les informations des patients inscrit à un de ses essais
-  -Peut consulter l’historique global du site web depuis le menu dédié
-  -Peut se déconnecter facilement depuis l’interface
-Entreprise :
-  -Peut créer un essai
-  -Peut regarder la liste de ses essais
-  -Peut voir les détails d’un essai
-  -Peut demander un médecin référent en fonction de sa spécialité
-  -Peut accepter la demande d’un médecin référent ou le laisser en attente
-  -Peut démarrer un essai que si il y a au moins un médecin référent et un patient minimum
-  -Peut terminer un essai
-  -Peut changer de phase 
-  -Peut se déconnecter facilement depuis l’interface
-Administrateur :
-  -Peut visualiser ses informations personnelles mais ne peut les modifier 
-  -Peut consulter la liste des essais quelque soit leur phases.
-  -Peut accéder à la liste complète des utilisateurs du site
-  -Peut accéder à une liste exhaustive des comptes médecins inscrits. 
-  -Peut accéder à une liste exhaustive des comptes entreprises inscrits. 
-  -Peut également Ban/Unban les utilisateurs à partir de ces différentes listes. 
-  -Est responsable des demandes de validations de comptes.
-  -Peut depuis cette liste de demandes en rejeter ou accepter. 
-  -Peut se déconnecter facilement depuis l’interface
+#### **Patient**
+- Modifier ses informations personnelles via une interface intuitive.  
+- Consulter la liste des essais en phase de recrutement (les essais auxquels il a participé par le passé sont masqués).  
+- Faire une demande de participation à un essai en phase de recrutement.  
+- Consulter les informations des essais auxquels il est inscrit et partager ses impressions.  
+- Accéder à l’historique global du site via un menu dédié.  
+- Se déconnecter facilement depuis l’interface.  
 
-## Structure du projet
+#### **Médecin**
+- Visualiser ses informations personnelles.  
+- Consulter la liste des essais en phase de recrutement (les essais auxquels il a participé par le passé sont masqués).  
+- Faire une demande de participation à un essai en phase de recrutement.  
+- Consulter les informations générales des essais auxquels il est inscrit ou en attente d’inscription.  
+- Consulter les informations des patients associés à ses essais ainsi que les résultats si l’essai est terminé.  
+- Modifier les informations des patients inscrits à un de ses essais.  
+- Accéder à l’historique global du site via un menu dédié.  
+- Se déconnecter facilement depuis l’interface.  
 
-Les utilisateurs sont représentés sous forme d’objet (Patient, Medecin, Entreprise) --> Meilleure manipulation des variables et meilleur contrôle des méthodes
+#### **Entreprise**
+- Créer un essai.  
+- Consulter la liste de ses essais.  
+- Voir les détails d’un essai.  
+- Demander un médecin référent en fonction de sa spécialité.  
+- Accepter ou laisser en attente une demande d’un médecin référent.  
+- Démarrer un essai si au moins un médecin référent et un patient minimum sont assignés.  
+- Terminer un essai.  
+- Changer la phase d’un essai.  
+- Se déconnecter facilement depuis l’interface.  
 
-1 page html principale  + un fichier de fonction d’affichage  + le fichier de la classe  par utilisateur
+#### **Administrateur**
+- Visualiser ses informations personnelles (non modifiables).  
+- Consulter la liste des essais, quelle que soit leur phase.  
+- Accéder à la liste complète des utilisateurs du site.  
+- Visualiser des listes exhaustives des comptes médecins et entreprises inscrits.  
+- Bannir ou débannir les utilisateurs via ces listes.  
+- Gérer les demandes de validation de comptes : accepter ou rejeter ces demandes.  
+- Se déconnecter facilement depuis l’interface.  
 
-Fichiers communs d’affichage ou de gestion de sécurité pour tous les utilisateurs + fichier de la classe Utilisateur pour les méthodes communes (connexion, inscription, déconnexion...)
-Total : 30 fichiers php + 10 fichiers CSS.
+---
 
-## Utilisation du site web
+## Structure du Projet
 
-- Les mots de passe dans la base de données remplies sont par défaut égaux à "1234" ou à "123456789!@".
+- Les utilisateurs sont modélisés sous forme d'objets (Patient, Médecin, Entreprise) pour faciliter la gestion des variables et des méthodes.  
+- La structure des fichiers inclut :
+  - Une page HTML principale.  
+  - Un fichier de fonctions d’affichage par utilisateur.  
+  - Un fichier de classe par type d’utilisateur.  
+  - Des fichiers communs pour l’affichage ou la gestion de sécurité (classe utilisateur pour les méthodes communes comme connexion, inscription, déconnexion).  
+- Nombre total de fichiers :  
+  - 30 fichiers PHP.  
+  - 10 fichiers CSS.  
 
-- Le fichier id_patient_count.txt peut refuser de s'ouvrir (erreur dans le script). Un chmod 777 a été réalisé mais le statut semble se réinitialiser parfois, il sera peut être nécessaire de le refaire.
+---
 
-- Pour une raison inconnue, le fichier de BDD vide ne garde pas en mémoire, lors de l'export, l'auto-incrémentation pour ID_essai (table_essai) et la valeur par défaut CURRENT_TIME_STAMP pour ID_User (table utilisateur). Les ajouter depuis l'interface de phpmyadmin est une bonne option.
+## Utilisation du Site Web
 
-- Il est conseillé d'ouvrir une session en local (localhost) du site web via XAMPP pour tester les fonctionnalités du site web.
+1. **Mots de passe par défaut** :  
+   - Les mots de passe dans la base de données initiale sont définis à :  
+     - `"1234"`  
+     - ou `"123456789!@"`.  
+
+2. **Problème d'ouverture du fichier `id_patient_count.txt`** :  
+   - Si une erreur survient, il peut être nécessaire de refaire un `chmod 777`. Le statut semble parfois se réinitialiser.  
+
+3. **Problème de configuration de la base de données** :  
+   - Le fichier de base de données vide ne conserve pas certaines configurations lors de l’export :  
+     - L’auto-incrémentation pour `ID_essai` (table `table_essai`).  
+     - La valeur par défaut `CURRENT_TIME_STAMP` pour `ID_User` (table `utilisateur`).  
+   - Ces paramètres peuvent être corrigés via l’interface de phpMyAdmin.  
+
+4. **Conseils pour tester le site web** :  
+   - Utilisez un serveur local (ex. : XAMPP) pour ouvrir le site en local (`localhost`).  
+
+---
 
 ## Auteurs
 
-Le projet à été réalisé à 4 : Simon Rouget, Simon De Montardy, Edmond Berne, Corentin Meyvaert
+Ce projet a été réalisé par une équipe de quatre personnes :  
+- **Simon Rouget**  
+- **Simon De Montardy**  
+- **Edmond Berne**  
+- **Corentin Meyvaert**
+
